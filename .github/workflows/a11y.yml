@@ -1,0 +1,74 @@
+name: a11y
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+# WCAG 2.2 Level AAA regression guard for the open Standard hub. pa11y-ci boots a
+# headless browser, walks every built page, and asserts every WCAG2AAA rule from
+# .pa11yci.json except the two documented carve-outs (3.1.5 Reading Level + 3.1.3
+# Unusual Words — unmeetable without harming legal text). PR-only + browser-heavy.
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+env:
+  LEXGRADE_REPO_URL: https://github.com/LexGrade/standard
+
+jobs:
+  pa11y:
+    name: pa11y-ci (WCAG2AAA)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    # Headless audits can be flaky on shared runners; don't block merges while
+    # the workflow stabilizes. Flip to false after ~10 green runs.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund || npm install --no-audit --no-fund
+      - name: Cache Puppeteer Chrome
+        uses: actions/cache@v5
+        with:
+          path: ~/.cache/puppeteer
+          key: ${{ runner.os }}-puppeteer-${{ hashFiles('package-lock.json') }}
+          restore-keys: ${{ runner.os }}-puppeteer-
+      - name: Install Chrome for Puppeteer
+        run: npx puppeteer browsers install chrome
+      - name: Offline static build
+        run: npm run build
+      - name: Serve dist/ on :8080
+        run: PORT=8080 node sites/lexgrade.org/serve.mjs &> /tmp/serve.log &
+      - name: Wait for the static server
+        run: |
+          for i in {1..30}; do
+            curl -fsS http://localhost:8080/ > /dev/null && exit 0
+            sleep 1
+          done
+          echo "Static server failed to start"; cat /tmp/serve.log; exit 1
+      - name: Sanity-check audited URLs return 200
+        run: |
+          set -e
+          # Derive the paths from .pa11yci.json (the single source) so this check
+          # can never drift from the pages pa11y actually audits.
+          node -e "JSON.parse(require('fs').readFileSync('sites/lexgrade.org/.pa11yci.json','utf8')).urls.forEach((u) => console.log(new URL(u).pathname))" \
+          | while read -r path; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" "http://localhost:8080${path}")
+            echo "  ${code}  ${path}"
+            [ "${code}" = "200" ] || { echo "Non-200 from ${path} — bailing before pa11y."; cat /tmp/serve.log; exit 1; }
+          done
+      - name: Run pa11y-ci (WCAG2AAA)
+        shell: bash
+        run: |
+          set -o pipefail
+          npm run a11y 2>&1 | tee /tmp/pa11y-output.log
+      - name: Dump diagnostics on failure
+        if: failure()
+        run: |
+          echo "===== pa11y output ====="; cat /tmp/pa11y-output.log 2>/dev/null || true
+          echo "===== serve log ====="; cat /tmp/serve.log 2>/dev/null || true

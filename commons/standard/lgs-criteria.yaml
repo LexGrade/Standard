@@ -1,0 +1,623 @@
+# LexGrade Standard (LGS) — Machine-Readable Criteria Catalog
+#
+# NOT LEGAL ADVICE; NO AUTHORITY. LexGrade is an open standard, independently
+# maintained — not promulgated by any court, bar, or government body, and it
+# confers no authority. Nothing here is legal advice. Every legal citation in any
+# LexGrade output must be independently verified against the official reporter
+# before filing.
+#
+# License: CC-BY-SA 4.0
+# © 2026 LexGrade
+# Cite as: "LexGrade Standard v1.0, LexGrade (lexgrade.org), CC-BY-SA 4.0."
+#
+# This file is the canonical structured form of the LexGrade Standard.
+# It is transcribed faithfully from commons/standard/LexGrade_Standard_v1.0.md.
+# The markdown is the human-readable source of truth; this YAML is the
+# machine-readable derivative — every LGS N.N criterion ID here must match the
+# set in the markdown; they cannot silently diverge.
+#
+# Consumers (the site build, the MCP server, and any downstream implementation)
+# read this file as DATA ONLY. It is published under CC-BY-SA 4.0, so anyone may
+# build against it.
+
+standard: "LexGrade Standard"
+version: "1.0"
+license: "CC-BY-SA-4.0"
+scope: "New York State Supreme Court motion practice"
+
+principles:
+  - id: P1
+    title: "Procedural Integrity"
+    role: precondition
+    weight: 0
+    source: "§I Threshold Compliance"
+    note: >
+      Precondition the filer must satisfy independently against the filing
+      court's rules. LGS does not score it. Scored criterion IDs begin at
+      LGS 2.1.
+
+  - id: P2
+    title: "Problem Diagnosis"
+    role: weighted
+    weight: 10
+    source: "§II-A Problem Diagnosis"
+
+  - id: P3
+    title: "Legal Authority"
+    role: weighted
+    weight: 20
+    source: "§II-B Legal Analysis & Authority"
+
+  - id: P4
+    title: "Factual Foundation"
+    role: weighted
+    weight: 18
+    source: "§III Factual Presentation & Evidentiary Support"
+
+  - id: P5
+    title: "Writing and Organization"
+    role: weighted
+    weight: 12
+    source: "§IV Writing & Organization"
+
+  - id: P6
+    title: "Strategic Sophistication"
+    role: weighted
+    weight: 10
+    source: "§V Strategic Sophistication"
+
+  - id: P7
+    title: "Ethics and Candor"
+    role: gate
+    weight: 0
+    source: "§VI Ethical Compliance"
+    note: >
+      Pass/fail gate with graduated deductions. Deductions subtract from
+      the composite. Any hallucinated citation forces Deficient regardless
+      of composite score.
+
+  - id: P8
+    title: "Self-Assessment"
+    role: weighted
+    weight: 10
+    source: "§VII Self-Assessment & Reflective Practice"
+
+criteria:
+  # --- Principle 2: Problem Diagnosis (10%) ---
+  - id: "LGS 2.1"
+    principle: P2
+    title: "Question Characterization"
+    requirement: >
+      The motion correctly characterizes the dispute as a question of law,
+      fact, or mixed — and explains why.
+    source: "§II-A, A+ descriptor"
+
+  - id: "LGS 2.2"
+    principle: P2
+    title: "Vehicle Selection"
+    requirement: >
+      The selected procedural vehicle is the one that secures the relief sought
+      on the available record; the motion states the vehicle's elements and
+      shows the facts meet each.
+    source: "§II-A, A+ descriptor"
+
+  - id: "LGS 2.3"
+    principle: P2
+    title: "Alternative Vehicle Analysis"
+    requirement: >
+      The motion explains why alternative procedural vehicles were considered
+      and rejected.
+    source: "§II-A, A+ descriptor"
+
+  - id: "LGS 2.4"
+    principle: P2
+    title: "Diagnosis-to-Strategy Linkage"
+    requirement: >
+      The motion shows how the problem characterization drives downstream
+      analytical and strategic choices.
+    source: "§II-A, A+ descriptor"
+
+  # --- Principle 3: Legal Authority (20%) ---
+  - id: "LGS 3.1"
+    principle: P3
+    title: "Statutory Text"
+    requirement: >
+      For each legal argument, the governing statute is cited with operative
+      language quoted.
+    source: "§II-B, Authority Hierarchy (a)"
+
+  - id: "LGS 3.2"
+    principle: P3
+    title: "Binding Authority"
+    requirement: >
+      At least one binding decision on analogous facts is cited for each
+      argument.
+    source: "§II-B, Authority Hierarchy (b)"
+
+  - id: "LGS 3.3"
+    principle: P3
+    title: "Persuasive Authority"
+    requirement: >
+      Persuasive authority (other departments, federal courts, treatises)
+      supplements binding authority where appropriate.
+    source: "§II-B, Authority Hierarchy (c)"
+
+  - id: "LGS 3.4"
+    principle: P3
+    title: "Administrative and Practice Sources"
+    requirement: >
+      Applicable administrative orders, Uniform Rules, OCA forms, or practice
+      guides are identified.
+    source: "§II-B, Authority Hierarchy (d)"
+
+  - id: "LGS 3.5"
+    principle: P3
+    title: "Adverse Authority"
+    requirement: >
+      The strongest contrary authority is disclosed and distinguished with
+      specificity.
+    source: "§II-B, Authority Hierarchy (e); NY RPC 3.3(a)(2)"
+
+  - id: "LGS 3.6"
+    principle: P3
+    title: "Burden of Proof"
+    requirement: >
+      The burden of proof is correctly identified, including which party bears
+      it at each stage.
+    source: "§II-B, Specific Evaluation Criteria"
+
+  - id: "LGS 3.7"
+    principle: P3
+    title: "Statutory-Interpretation Methodology"
+    requirement: >
+      Interpretation proceeds from text to legislative history to policy
+      purpose, not bare assertion.
+    source: "§II-B, Specific Evaluation Criteria; Gluck"
+
+  - id: "LGS 3.8"
+    principle: P3
+    title: "Analogical Reasoning"
+    requirement: >
+      Analogical reasoning is deployed as an affirmative skill, distinct from
+      distinguishing adverse cases.
+    source: "§II-B, Specific Evaluation Criteria; Sherwin"
+
+  - id: "LGS 3.9"
+    principle: P3
+    title: "Policy Rationale"
+    requirement: >
+      The motion engages the policy purpose of the governing statute, not
+      only its text.
+    source: "§II-B, Specific Evaluation Criteria; Gluck"
+
+  # --- Principle 4: Factual Foundation (18%) ---
+  - id: "LGS 4.1"
+    principle: P4
+    title: "Personal Knowledge"
+    requirement: >
+      Affirmations rest on personal knowledge (the standard the CPLR sets
+      for attorney affirmations and party affidavits).
+    source: "§III, Specific Evaluation Criteria"
+
+  - id: "LGS 4.2"
+    principle: P4
+    title: "Evidentiary Foundation"
+    requirement: >
+      Where business records or other documentary evidence are relied upon,
+      the foundation the rules of evidence require is laid.
+    source: "§III, Specific Evaluation Criteria"
+
+  - id: "LGS 4.3"
+    principle: P4
+    title: "Pinpoint Exhibit Citation"
+    requirement: >
+      Every material assertion is tied to a specific exhibit, identified by
+      exhibit letter/number and page or paragraph.
+    source: "§III, Specific Evaluation Criteria"
+
+  - id: "LGS 4.4"
+    principle: P4
+    title: "Exhibit List Completeness"
+    requirement: >
+      Every exhibit referenced in the affirmation appears on the exhibit
+      list, and every item on the list is referenced in the affirmation.
+    source: "§III, Specific Evaluation Criteria"
+
+  - id: "LGS 4.5"
+    principle: P4
+    title: "Evidentiary Honesty"
+    requirement: >
+      The motion acknowledges what the record does and does not show, without
+      conceding the legal position.
+    source: "§III, A+ descriptor; Sherwin"
+
+  # --- Principle 5: Writing and Organization (12%) ---
+  - id: "LGS 5.1"
+    principle: P5
+    title: "Argumentative Point Headings"
+    requirement: >
+      Point headings are argumentative and substantive, not descriptive.
+    source: "§IV, Specific Evaluation Criteria; Commercial Division Rule 17"
+
+  - id: "LGS 5.2"
+    principle: P5
+    title: "Tone"
+    requirement: >
+      Forceful through evidence rather than rhetoric; respectful toward the
+      court and opposing counsel.
+    source: "§IV, Specific Evaluation Criteria"
+
+  - id: "LGS 5.3"
+    principle: P5
+    title: "Economy"
+    requirement: >
+      Every paragraph advances the argument; unnecessary recitation is
+      omitted.
+    source: "§IV, Specific Evaluation Criteria"
+
+  - id: "LGS 5.4"
+    principle: P5
+    title: "Citation Structure"
+    requirement: >
+      Authority is presented statute-before-case-law, binding-before-
+      persuasive, application-before-rebuttal.
+    source: "§IV, Specific Evaluation Criteria"
+
+  - id: "LGS 5.5"
+    principle: P5
+    title: "Audience Calibration"
+    requirement: >
+      The motion is calibrated to the assigned justice's known preferences,
+      the court's local practice, and the procedural posture.
+    source: "§IV, Specific Evaluation Criteria; Wizner"
+
+  # --- Principle 6: Strategic Sophistication (10%) ---
+  - id: "LGS 6.1"
+    principle: P6
+    title: "Proposed Order Quality"
+    requirement: >
+      The proposed order recites the supporting papers (per CPLR 2219); each
+      ORDERED paragraph tracks one relief item; a service provision and
+      compliance deadline are included; it is ready for signature without
+      modification.
+    source: "§V, Specific Evaluation Criteria; Clermont"
+
+  - id: "LGS 6.2"
+    principle: P6
+    title: "Appellate Posture"
+    requirement: >
+      The motion creates a clean appellate record, preserves arguments, and
+      avoids unnecessary concessions.
+    source: "§V, Specific Evaluation Criteria; Clermont"
+
+  - id: "LGS 6.3"
+    principle: P6
+    title: "Multi-Motion Strategy"
+    requirement: >
+      Where the motion is part of a sequence, the timing, sequencing, and
+      interaction with other pending motions is evident.
+    source: "§V, Specific Evaluation Criteria"
+
+  - id: "LGS 6.4"
+    principle: P6
+    title: "Interdisciplinary Command"
+    requirement: >
+      Relevant non-legal domain knowledge (financial analysis, medical
+      records, technology) is demonstrated where applicable.
+    source: "§V, Specific Evaluation Criteria; Rakoff"
+
+  - id: "LGS 6.5"
+    principle: P6
+    title: "Access-to-Justice Calibration"
+    requirement: >
+      The motion considers the impact on unrepresented or under-resourced
+      parties where relevant.
+    source: "§V, Specific Evaluation Criteria; Wizner"
+
+  # --- Principle 7: Ethics and Candor (Gate + Graduated Deductions) ---
+  - id: "LGS 7.1"
+    principle: P7
+    title: "No Fabricated Citations"
+    requirement: >
+      No citation refers to a case that does not exist.
+    deduction: -20
+    deduction_note: "-20 per instance; also forces Deficient conformance level"
+    source: "NY RPC 3.3; 22 NYCRR 130-1.1; Mata v. Avianca"
+
+  - id: "LGS 7.2"
+    principle: P7
+    title: "No Fabricated Holdings"
+    requirement: >
+      No case holding is misquoted or fabricated.
+    deduction: -15
+    source: "NY RPC 3.3(a)(1)"
+
+  - id: "LGS 7.3"
+    principle: P7
+    title: "Adverse Authority Disclosed"
+    requirement: >
+      All directly adverse controlling authority is disclosed.
+    deduction: -15
+    source: "NY RPC 3.3(a)(2)"
+
+  - id: "LGS 7.4"
+    principle: P7
+    title: "No False Statements of Fact"
+    requirement: >
+      No material statement of fact is false.
+    deduction: -15
+    source: "NY RPC 3.3(a)(1); 22 NYCRR 130-1.1"
+
+  - id: "LGS 7.5"
+    principle: P7
+    title: "Correct Procedural Vehicle"
+    requirement: >
+      The chosen vehicle matches the relief sought.
+    deduction: -10
+    source: "Rakoff; CPLR 3211 vs. 3212"
+
+  - id: "LGS 7.6"
+    principle: P7
+    title: "Controlling Authority Cited"
+    requirement: >
+      The motion cites the controlling authority for each legal argument.
+    deduction: -10
+    source: "ABA Standards; NY RPC 1.1"
+
+  - id: "LGS 7.7"
+    principle: P7
+    title: "No Ad Hominem"
+    requirement: >
+      No ad hominem attack on opposing counsel or a party.
+    deduction: -10
+    source: "22 NYCRR 130-1.1(c)"
+
+  - id: "LGS 7.8"
+    principle: P7
+    title: "No Trial Decision as Binding"
+    requirement: >
+      No trial-level decision is cited as binding authority.
+    deduction: -5
+    source: "NY court hierarchy"
+
+  - id: "LGS 7.9"
+    principle: P7
+    title: "Interpretive Methodology Used"
+    requirement: >
+      Statutory arguments deploy interpretive methodology, not bare
+      assertion.
+    deduction: -5
+    source: "Gluck"
+
+  - id: "LGS 7.10"
+    principle: P7
+    title: "Procedural Length Compliance"
+    requirement: >
+      The filing observes the length limits the filing court's rules impose.
+    deduction: -5
+    source: "22 NYCRR 202.8-b (compliance defined by the court)"
+
+  - id: "LGS 7.11"
+    principle: P7
+    title: "Certification Filed"
+    requirement: >
+      Any certification of citations the court's rules require is filed.
+    deduction: -5
+    source: "22 NYCRR 130-1.1-a (requirement defined by the court)"
+
+  - id: "LGS 7.12"
+    principle: P7
+    title: "String Citations Explained"
+    requirement: >
+      Any string citation includes a parenthetical explaining each case's
+      relevance.
+    deduction: -3
+    source: "Clermont; professional standards"
+
+  # --- Principle 8: Self-Assessment (10%) ---
+  - id: "LGS 8.1"
+    principle: P8
+    title: "Strongest Ground for Denial"
+    requirement: >
+      The motion identifies the single strongest ground on which the court
+      could deny it and addresses that ground.
+    source: "§VII, Prompt 1"
+
+  - id: "LGS 8.2"
+    principle: P8
+    title: "Counter-Argument Preemption"
+    requirement: >
+      The motion identifies opposing counsel's best counter-argument and
+      shows where it is preempted.
+    source: "§VII, Prompt 2"
+
+  - id: "LGS 8.3"
+    principle: P8
+    title: "Filing Judgment"
+    requirement: >
+      The motion articulates why filing is appropriate and what alternatives
+      were considered and rejected.
+    source: "§VII, Prompt 3; Kronman"
+
+  - id: "LGS 8.4"
+    principle: P8
+    title: "Vulnerable-Party Impact"
+    requirement: >
+      The motion considers the impact on unrepresented or under-resourced
+      parties.
+    source: "§VII, Prompt 4; Wizner"
+
+  - id: "LGS 8.5"
+    principle: P8
+    title: "Appellate Resilience"
+    requirement: >
+      The motion identifies which arguments are preserved for appeal and
+      what, if anything, has been conceded.
+    source: "§VII, Prompt 5; Clermont"
+
+# Conformance levels are mutually exclusive and exhaustive. The composite-band
+# edges match the grade_scale edges below (90/89 Expert/Competent; 80/79
+# Competent/Deficient), so no score maps to two levels. Expert and Competent
+# require ALL of {gate, precondition, composite band}; Deficient is reached by
+# ANY one of its conditions (a single failed gate condition demotes to Deficient).
+conformance_levels:
+  - id: expert
+    label: "Expert"
+    min_composite: 90
+    requires: all
+    gate: "P7 candor gate passes (no automatic deductions) and no hallucinated citation present"
+    precondition: "Filer has confirmed P1 procedural compliance"
+    composite_band: "90 or above (grade scale A−, A, A+)"
+    descriptor: "The highest bar — comprehensive, disciplined drafting"
+    note: >
+      All five authority categories deployed; adverse authority distinguished;
+      proposed order ready for signature; self-assessment identifies real
+      weaknesses; zero hallucinated citations.
+
+  - id: competent
+    label: "Competent"
+    min_composite: 80
+    max_composite: 89
+    requires: all
+    gate: "P7 candor gate passes and no hallucinated citation present"
+    precondition: "Filer has confirmed P1 procedural compliance"
+    composite_band: "80 to 89 inclusive (grade scale B−, B, B+)"
+    descriptor: "The practical floor for professional work"
+    note: >
+      Correct standard and vehicle; at least three authority categories; gaps
+      in adverse authority or proposed order; limited self-assessment.
+
+  - id: deficient
+    label: "Deficient"
+    max_composite: 79
+    requires: any
+    conditions:
+      - "P7 candor gate fails, OR"
+      - "Composite score 79 or below (grade scale C+ and below), OR"
+      - "Any hallucinated citation present (regardless of composite score)"
+    descriptor: "Professional-responsibility risk"
+    note: >
+      Wrong vehicle, missing authority categories, no adverse authority,
+      boilerplate proposed order, no self-assessment, or hallucinated citations.
+
+# A well-formed LGS conformance claim states all five elements; a claim missing
+# any element is not a LGS conformance claim. A claim is for one motion as
+# graded and does not transfer to revisions, which must be re-graded.
+conformance_claim:
+  required_elements:
+    - "Level claimed (Expert, Competent, or Deficient)"
+    - "Version (LexGrade Standard v1.0) — claims are version-specific"
+    - "Composite score and the date graded"
+    - "Jurisdiction profile (base NY calibration, or a named profile)"
+    - "Grader (self-assessment, named human grader(s), or model + settings)"
+  asserts: >
+    That, at the stated version and date, the motion's composite fell in the
+    claimed level's band AND the level's gate and precondition conditions held.
+  does_not_assert: >
+    That the filing is procedurally proper (filer's P1 responsibility), that
+    every citation was verified (the claimant's act, not the Standard's
+    guarantee), or that the motion will be granted.
+
+automatic_demotion_rules:
+  - condition: "Any hallucinated citation"
+    result: "Deficient (regardless of composite score)"
+  - condition: "Wrong procedural vehicle"
+    result: "Cannot exceed Competent"
+  - condition: "Missing Memorandum of Law"
+    result: "Cannot exceed Competent"
+  - condition: "No adverse authority addressed"
+    result: "Cannot exceed Competent"
+
+composite:
+  cap: 98
+  scale_divisor: 0.80
+  weighted_principles: [P2, P3, P4, P5, P6, P8]
+  weighted_points_total: 80
+  # Reproducible order of operations. P7 deductions and negative modifiers are
+  # applied AFTER scaling, on the 100-point basis, so a point is never deducted
+  # twice. A hallucinated citation is charged once (LGS 7.1, -20); it is NOT
+  # also a negative modifier — the prior -10 modifier double-count is removed.
+  formula: >
+    subtotal  = sum over P2,P3,P4,P5,P6,P8 of (grade/100 * weight)   -> /80
+    scaled    = subtotal / 0.80                                       -> /100
+    adjusted  = scaled + net modifier - P7 deductions
+    Composite = min(98, max(0, adjusted))
+  order_of_operations:
+    - "Grade each scored principle 0–100 using the §4 per-principle bands."
+    - "Weighted points: sum of (grade/100 * weight) over P2,P3,P4,P5,P6,P8 → /80."
+    - "Scale: subtotal / 0.80 → 100-point basis."
+    - "Apply net modifier and P7 deductions on the 100-point basis."
+    - "Floor at 0, cap at 98."
+  weights:
+    P2: 10
+    P3: 20
+    P4: 18
+    P5: 12
+    P6: 10
+    P8: 10
+  # Negative modifiers are quality nudges for NON-candor shortfalls only; candor
+  # violations run through the §4 P7 ladder instead, never both.
+  negative_modifiers:
+    - label: "Bare statutory assertion (no case law)"
+      deduction: -1
+      note: "-1 each occurrence"
+    - label: "Thin adverse-authority treatment (not a LGS 7.3 violation)"
+      deduction: -2
+  negative_modifiers_cap: -5
+  # Band edges align to the §5 conformance boundaries (90/89 and 80/79) so no
+  # score maps to two conformance levels. These grade the FINAL composite; the
+  # §4 per-principle bands (which keep the 88–91/92–94 edges) grade one principle.
+  grade_scale:
+    - letter: "A+"
+      range: "98"
+      conformance: expert
+    - letter: "A"
+      range: "95-97"
+      conformance: expert
+    - letter: "A-"
+      range: "90-94"
+      conformance: expert
+    - letter: "B+"
+      range: "86-89"
+      conformance: competent
+    - letter: "B"
+      range: "83-85"
+      conformance: competent
+    - letter: "B-"
+      range: "80-82"
+      conformance: competent
+    - letter: "C+ and below"
+      range: "79 and below"
+      conformance: deficient
+
+technique_register:
+  # This block mirrors Technique_Register_v1.0.md (the source of truth). An
+  # anti-drift test (sites/lexgrade.org/test/techniques.test.mjs) fails CI if the
+  # total, category counts, or ids here ever diverge from the parsed register.
+  total: 39
+  note: >
+    Informative companion — techniques are not scored criteria. A motion can
+    satisfy every LGS criterion at Expert level with zero techniques present.
+    The Register answers "how does this motion persuade?" not "is it good?"
+  categories:
+    - name: Factual
+      count: 4
+      ids: [1, 2, 3, 4]
+    - name: Writing
+      count: 7
+      ids: [5, 6, 7, 8, 9, 10, 11]
+    - name: Strategy
+      count: 13
+      ids: [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+    - name: Voice
+      count: 4
+      ids: [25, 26, 27, 28]
+    - name: Ethos
+      count: 2
+      ids: [29, 30]
+    - name: Credibility
+      count: 3
+      ids: [31, 32, 33]
+    - name: Structure
+      count: 6
+      ids: [34, 35, 36, 37, 38, 39]

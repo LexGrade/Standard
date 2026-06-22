@@ -1,0 +1,31 @@
+{
+    "standard": "WCAG2AAA",
+    "runners": [
+        "axe"
+    ],
+    "defaults": {
+        "timeout": 30000,
+        "wait": 500,
+        "chromeLaunchConfig": {
+            "args": [
+                "--no-sandbox",
+                "--disable-setuid-sandbox",
+                "--disable-dev-shm-usage"
+            ]
+        }
+    },
+    "urls": [
+        "http://localhost:8080/",
+        "http://localhost:8080/standard",
+        "http://localhost:8080/techniques",
+        "http://localhost:8080/techniques/unrebutted-absence",
+        "http://localhost:8080/about",
+        "http://localhost:8080/contribute",
+        "http://localhost:8080/references",
+        "http://localhost:8080/404.html"
+    ],
+    "ignore": [
+        "WCAG2AAA.Principle3.Guideline3_1.3_1_5",
+        "WCAG2AAA.Principle3.Guideline3_1.3_1_3"
+    ]
+}

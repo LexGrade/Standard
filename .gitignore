@@ -1,0 +1,14 @@
+# dependencies (npm workspaces hoist to the root node_modules)
+node_modules/
+
+# build output (per-site)
+dist/
+sites/*/dist/
+
+# logs / os
+*.log
+.DS_Store
+.wrangler/
+
+# Claude Code worktrees/session
+.claude/

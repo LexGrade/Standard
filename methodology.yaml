@@ -1,0 +1,27 @@
+# LexGrade methodology manifest
+#
+# Single source of truth for which version of each commons artifact is
+# currently authoritative. The site build (sites/lexgrade.org) and the MCP
+# server (packages/mcp) read this file to resolve "current" versions.
+#
+# Bumping a version here is the only mechanical step required to roll the whole
+# stack forward to a new edition of the standard.
+
+schema_version: 1
+
+# Version values are quoted strings so YAML floats like 3.0 round-trip cleanly
+# as map keys (an unquoted 3.0 would normalize to "3" and miss its `artifacts` key).
+current:
+  standard: "1.0"
+  technique_register: "1.0"
+
+artifacts:
+  standard:
+    "1.0":
+      path: commons/standard/LexGrade_Standard_v1.0.md
+      license: CC-BY-SA-4.0
+
+  technique_register:
+    "1.0":
+      path: commons/standard/Technique_Register_v1.0.md
+      license: CC-BY-SA-4.0

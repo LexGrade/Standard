@@ -1,0 +1,23 @@
+{
+  "name": "@lexgrade/site",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "description": "Static, zero-JS site for the open LexGrade Standard. A framework-free Node build emits pure HTML + CSS (and the static Standard JSON) for Cloudflare.",
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node --test 'test/*.mjs'",
+    "serve": "node serve.mjs",
+    "a11y": "pa11y-ci"
+  },
+  "dependencies": {
+    "@lexgrade/core": "^1.0.0",
+    "@resvg/resvg-js": "^2.6.2",
+    "marked": "^18.0.5",
+    "yaml": "^2.7.0"
+  },
+  "devDependencies": {
+    "pa11y-ci": "^4.1.1"
+  }
+}

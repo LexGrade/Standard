@@ -1,0 +1,24 @@
+# Cloudflare Workers (static assets) config for lexgrade.org.
+#
+# The site is a pure static build — HTML + CSS, zero JS, no server code. This
+# deploys it as a static-assets-only Worker (no `main` script): Cloudflare serves
+# the built files directly from the edge.
+#
+# Deployed via Cloudflare Workers Builds (git-connected). Dashboard settings:
+#   Project name:               standard
+#   Build command:              npm run build
+#   Deploy command:             npx wrangler deploy          (production / main)
+#   Non-prod branch deploy:     npx wrangler versions upload (preview branches)
+#   Path / root directory:      /
+#
+# `npm run build` (repo root) builds the site into the assets directory below;
+# `wrangler deploy` then uploads it. The dist/_headers file (CORS for the data
+# API, caching, a strict zero-JS CSP) is honored by Workers static assets.
+
+name = "standard"
+compatibility_date = "2025-01-01"
+
+[assets]
+directory = "./sites/lexgrade.org/dist"
+# Serve the site's custom 404.html on unmatched routes (not an SPA).
+not_found_handling = "404-page"

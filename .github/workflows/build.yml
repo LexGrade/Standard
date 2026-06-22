@@ -1,0 +1,33 @@
+name: build
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+env:
+  # Backs the "Edit this page on GitHub" links + the "Status of this document"
+  # source row. This is the standalone Standard repo, so point them here.
+  LEXGRADE_REPO_URL: https://github.com/LexGrade/standard
+
+jobs:
+  build:
+    name: Node 22 / test + offline static build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Unit tests (path resolution + render, zero-JS guard)
+        run: npm test
+      - name: Offline static build (litmus — no network beyond install)
+        run: npm run build
