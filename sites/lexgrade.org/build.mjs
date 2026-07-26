@@ -14,11 +14,11 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSy
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { loadBundle, loadStandard, loadTechniqueRegister, parseTechniques } from './src/lib/loadStandard.mjs';
+import { loadBundle, loadCalibration, loadStandard, loadTechniqueRegister, parseTechniques } from './src/lib/loadStandard.mjs';
 import { cspScriptSrc } from './src/lib/csp.mjs';
 import { toHtml } from './src/markdown.mjs';
 import { appIcon, ogCard } from './src/og.mjs';
-import { PAGES, LOGO_SVG, renderAbout, renderContribute, renderHome, renderReferences, renderLlmsFull, renderNotFound, renderStandard, renderTechnique, renderTechniques } from './src/render.mjs';
+import { PAGES, LOGO_SVG, renderAbout, renderCalibration, renderContribute, renderHome, renderReferences, renderLlmsFull, renderNotFound, renderStandard, renderTechnique, renderTechniques } from './src/render.mjs';
 
 const SITE = 'https://lexgrade.org';
 const OUT = resolve(dirname(fileURLToPath(import.meta.url)), 'dist');
@@ -73,6 +73,7 @@ writeFileSync(resolve(OUT, 'logo.svg'), LOGO_SVG);
 // Self-contained narrative pages (no markdown source): provenance, the
 // collaboration CTA, and the sources/influences credits.
 writePage('about', renderAbout());
+writePage('calibration', renderCalibration(loadCalibration()));
 writePage('contribute', renderContribute());
 writePage('references', renderReferences());
 

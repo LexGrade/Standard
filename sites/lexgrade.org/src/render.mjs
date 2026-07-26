@@ -119,6 +119,7 @@ export const PAGES = [
   { id: 'standard', path: '/standard', label: 'Standard', nav: true, footer: false, og: { title: 'LexGrade Standard', subtitle: 'Open scoring instrument for legal drafting quality' } },
   { id: 'techniques', path: '/techniques', label: 'Techniques', nav: true, footer: false, og: { title: 'Technique Register', subtitle: 'Named advocacy techniques, the informative companion' } },
   { id: 'about', path: '/about', label: 'About', nav: true, footer: true, og: { title: 'About LexGrade', subtitle: 'Grounded in real motion practice' } },
+  { id: 'calibration', path: '/calibration', label: 'Calibration', nav: false, footer: true, og: { title: 'Calibration Set', subtitle: 'A 95.5 / B− 82 / F 38 on identical facts — the Standard discriminates' } },
   { id: 'contribute', path: '/contribute', label: 'Contribute', nav: false, footer: true, og: { title: 'Contribute to LexGrade', subtitle: 'An open, collaborative standard — help shape it' } },
   { id: 'references', path: '/references', label: 'References', nav: false, footer: true, og: { title: 'Sources & influences', subtitle: 'What LexGrade builds on, credited in full' } },
 ];
@@ -678,6 +679,7 @@ export function renderAbout() {
     <p>That is the point of opening it. A scoring standard a litigant can run against their own draft, and a technique register that names what experienced advocates do by instinct, turn knowledge that used to require a retainer into something a self-represented party can apply directly. The value is not persuasion for its own sake; it is access — narrowing the gap between the drafting a court expects and the drafting most litigants can afford.</p>
     <h2>What it builds on</h2>
     <p>LexGrade did not appear from nothing. Its rubric method — weighted components, capped point values, and narrative performance bands — builds on prior legal-writing assessment scholarship, and its calibration is measured against New York&#39;s governing rules. The sources are credited in full on the <a href="/references">references</a> page.</p>
+    <p>The Standard also shows its work: three drafts of the same motion, produced three different ways and graded A, B&minus;, and F, demonstrate that the instrument discriminates. The exemplars, the scoring guide, and the open inter-rater reliability protocol are on the <a href="/calibration">calibration</a> page.</p>
     <h2>What this is — and isn&#39;t</h2>
     <p>LexGrade is an open, independently maintained model of effective motion practice, published openly so others can use it, test it, and <a href="/contribute">improve it</a>. It is <strong>not</strong> promulgated by any court, bar, or government body, it confers no authority, and nothing here is legal advice. Every legal citation in any LexGrade output must be independently verified before filing.</p>
     <p>Governed in the open and licensed CC-BY-SA 4.0 — free to reuse and adapt with attribution — LexGrade belongs to its field rather than to any vendor, bar, or individual: a shared reference that improves by being argued over. The <a href="/standard">Standard</a> and the <a href="/techniques">Technique Register</a> are the substance; this page is just the why.</p>
@@ -768,6 +770,87 @@ export function renderReferences() {
     canonical: '/references',
     current: 'references',
     image: '/og/references.png',
+  });
+}
+
+// Human labels for the calibration exemplar production methods. Fallback is the
+// raw method string, so a new method in methodology.yaml can't render blank.
+const CALIBRATION_METHODS = {
+  pipeline: 'Five-phase gated pipeline',
+  gpt4_raw: 'Raw single-pass GPT-4 output, unedited',
+  anti_pattern: 'Deliberately flawed anti-pattern draft',
+};
+
+/**
+ * Render the /calibration page — the evidence layer. Three drafts of the same
+ * motion, three grades, plus the filed-motion assessments and the inter-rater
+ * reliability status. Everything derives from methodology.yaml (the manifest),
+ * so the page can't drift from the commons source; each row links to the
+ * document itself on GitHub. States the single-rater limitation plainly — the
+ * candor the Standard demands of motions applies to its own evidence.
+ *
+ * @param {{exemplars: Array, scoringGuide: ?string, interRaterProtocol: ?string, assessments: Array}} calibration
+ * @returns {string}
+ */
+export function renderCalibration(calibration) {
+  const { exemplars, scoringGuide, interRaterProtocol, assessments } = calibration;
+  const src = (path) => `${REPO_URL}/blob/main/${escapeHtml(path)}`;
+
+  const exemplarRows = exemplars
+    .map(
+      (e) => `<tr>
+        <td><a href="${src(e.path)}">Exemplar ${escapeHtml(String(e.id).toUpperCase())}</a></td>
+        <td>${escapeHtml(e.grade)} (${escapeHtml(String(e.score))})</td>
+        <td>${escapeHtml(capitalize(String(e.tier ?? '')))}</td>
+        <td>${escapeHtml(CALIBRATION_METHODS[e.method] ?? String(e.method ?? ''))}</td>
+      </tr>`,
+    )
+    .join('\n');
+
+  const assessmentItems = assessments
+    .map(
+      (a) =>
+        `<li><a href="${src(a.path)}">${escapeHtml(String(a.id))}</a> — graded ${escapeHtml(a.grade)} (${escapeHtml(String(a.score))})${
+          a.techniques_present !== undefined && a.techniques_total !== undefined
+            ? `, ${escapeHtml(String(a.techniques_present))} of ${escapeHtml(String(a.techniques_total))} register techniques present`
+            : ''
+        } · <a href="${src(a.source)}">source motion</a></li>`,
+    )
+    .join('\n      ');
+
+  const body = `${docHeader({
+    title: 'Calibration',
+    subhead: 'The evidence that the Standard discriminates: three drafts on identical facts, three different grades — and the protocol for testing whether independent graders agree.',
+  })}
+  <section class="prose" aria-label="Calibration set">
+    <p>A scoring instrument earns trust by showing its work. The calibration set holds three complete motion drafts built from the <em>same</em> case facts, produced three different ways, and scored against the Standard. If the Standard could not tell them apart, it would measure nothing.</p>
+    <table class="data">
+      <caption>Calibration exemplars — identical facts, three methods, three grades</caption>
+      <thead><tr><th scope="col">Exemplar</th><th scope="col">Grade</th><th scope="col">Conformance</th><th scope="col">How it was produced</th></tr></thead>
+      <tbody>
+${exemplarRows}
+      </tbody>
+    </table>
+    <p>${scoringGuide ? `How each was scored, criterion by criterion, is documented in the <a href="${src(scoringGuide)}">Calibration Set Scoring Guide</a>.` : ''}</p>
+    <h2>Assessments of filed motions</h2>
+    <p>Beyond the constructed exemplars, the Standard has been applied to real filed motions:</p>
+    <ul>
+      ${assessmentItems}
+    </ul>
+    <h2>The limitation, stated plainly</h2>
+    <p>The calibration set was scored by a single rater — the methodology&#39;s author. That is a real limitation, and the Standard says so itself. The remedy is inter-rater reliability testing: three or more independent, bar-admitted graders scoring the same exemplars blind, with agreement measured by Krippendorff&#39;s &alpha; (target &ge; 0.80)${interRaterProtocol ? `, per the published <a href="${src(interRaterProtocol)}">Inter-Rater Reliability Protocol</a>` : ''}.</p>
+    <p><strong>Independent graders are welcome.</strong> If you are a practicing attorney willing to score one exemplar blind, the protocol takes roughly an hour per exemplar; results are published whatever they show. Start with the protocol above, then submit through the repository&#39;s inter-rater scoring issue template.</p>
+    <p class="note">The exemplars are drafting specimens for calibration, not templates for filing. LexGrade confers no authority and nothing here is legal advice.</p>
+  </section>`;
+
+  return documentShell({
+    title: 'Calibration — LexGrade',
+    description:
+      'The LexGrade calibration set: three motion drafts on identical facts graded A / B− / F, assessments of filed motions, and the open inter-rater reliability protocol.',
+    bodyHtml: body,
+    canonical: '/calibration',
+    current: 'calibration',
+    image: '/og/calibration.png',
   });
 }
 
