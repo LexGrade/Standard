@@ -30,4 +30,4 @@ See [`motion-type-overlay-TEMPLATE.md`](motion-type-overlay-TEMPLATE.md) for the
 
 ---
 
-© 2026 LexGrade. All rights reserved. | LexGrade
+Licensed AGPL-3.0. © 2026 LexGrade.

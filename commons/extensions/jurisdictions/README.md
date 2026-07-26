@@ -4,7 +4,7 @@ The LexGrade base rubric is jurisdiction-agnostic in structure. Jurisdiction mod
 
 ## Module slug convention
 
-Each module lives in its own slug-named directory under `commons/extensions/jurisdictions/`. The slug becomes the identifier used in `methodology.yaml`, in the SaaS jurisdiction picker, and in URL paths on the marketing site.
+Each module lives in its own slug-named directory under `commons/extensions/jurisdictions/`. The slug becomes the identifier used in `methodology.yaml` and by downstream implementations.
 
 ```
 commons/extensions/jurisdictions/

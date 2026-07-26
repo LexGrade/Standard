@@ -793,13 +793,12 @@ const CALIBRATION_METHODS = {
  * @returns {string}
  */
 export function renderCalibration(calibration) {
-  const { exemplars, scoringGuide, interRaterProtocol, assessments } = calibration;
-  const src = (path) => `${REPO_URL}/blob/main/${escapeHtml(path)}`;
+  const { exemplars, assessments } = calibration;
 
   const exemplarRows = exemplars
     .map(
       (e) => `<tr>
-        <td><a href="${src(e.path)}">Exemplar ${escapeHtml(String(e.id).toUpperCase())}</a></td>
+        <td>Exemplar ${escapeHtml(String(e.id).toUpperCase())}</td>
         <td>${escapeHtml(e.grade)} (${escapeHtml(String(e.score))})</td>
         <td>${escapeHtml(capitalize(String(e.tier ?? '')))}</td>
         <td>${escapeHtml(CALIBRATION_METHODS[e.method] ?? String(e.method ?? ''))}</td>
@@ -810,11 +809,11 @@ export function renderCalibration(calibration) {
   const assessmentItems = assessments
     .map(
       (a) =>
-        `<li><a href="${src(a.path)}">${escapeHtml(String(a.id))}</a> — graded ${escapeHtml(a.grade)} (${escapeHtml(String(a.score))})${
+        `<li>A DRL &sect; 237(a) fee application in filed form (fictionalized) — graded ${escapeHtml(a.grade)} (${escapeHtml(String(a.score))})${
           a.techniques_present !== undefined && a.techniques_total !== undefined
-            ? `, ${escapeHtml(String(a.techniques_present))} of ${escapeHtml(String(a.techniques_total))} register techniques present`
+            ? `, with ${escapeHtml(String(a.techniques_present))} of ${escapeHtml(String(a.techniques_total))} register techniques present`
             : ''
-        } · <a href="${src(a.source)}">source motion</a></li>`,
+        }.</li>`,
     )
     .join('\n      ');
 
@@ -823,7 +822,7 @@ export function renderCalibration(calibration) {
     subhead: 'The evidence that the Standard discriminates: three drafts on identical facts, three different grades — and the protocol for testing whether independent graders agree.',
   })}
   <section class="prose" aria-label="Calibration set">
-    <p>A scoring instrument earns trust by showing its work. The calibration set holds three complete motion drafts built from the <em>same</em> case facts, produced three different ways, and scored against the Standard. If the Standard could not tell them apart, it would measure nothing.</p>
+    <p>A scoring instrument earns trust by showing its work. The calibration set holds three complete motion drafts built from the <em>same</em> case facts, produced three different ways, and scored against the Standard. If the Standard could not tell them apart, it would measure nothing. The fact pattern is fictionalized — invented parties, court, and figures — while every cited authority is a real published decision, so the citation-verification claims stay testable.</p>
     <table class="data">
       <caption>Calibration exemplars — identical facts, three methods, three grades</caption>
       <thead><tr><th scope="col">Exemplar</th><th scope="col">Grade</th><th scope="col">Conformance</th><th scope="col">How it was produced</th></tr></thead>
@@ -831,15 +830,14 @@ export function renderCalibration(calibration) {
 ${exemplarRows}
       </tbody>
     </table>
-    <p>${scoringGuide ? `How each was scored, criterion by criterion, is documented in the <a href="${src(scoringGuide)}">Calibration Set Scoring Guide</a>.` : ''}</p>
-    <h2>Assessments of filed motions</h2>
-    <p>Beyond the constructed exemplars, the Standard has been applied to real filed motions:</p>
+    <p>The full exemplar texts and the criterion-by-criterion scoring guide live in the open repository alongside the Standard.</p>
+    <h2>Filed-form assessments</h2>
     <ul>
       ${assessmentItems}
     </ul>
     <h2>The limitation, stated plainly</h2>
-    <p>The calibration set was scored by a single rater — the methodology&#39;s author. That is a real limitation, and the Standard says so itself. The remedy is inter-rater reliability testing: three or more independent, bar-admitted graders scoring the same exemplars blind, with agreement measured by Krippendorff&#39;s &alpha; (target &ge; 0.80)${interRaterProtocol ? `, per the published <a href="${src(interRaterProtocol)}">Inter-Rater Reliability Protocol</a>` : ''}.</p>
-    <p><strong>Independent graders are welcome.</strong> If you are a practicing attorney willing to score one exemplar blind, the protocol takes roughly an hour per exemplar; results are published whatever they show. Start with the protocol above, then submit through the repository&#39;s inter-rater scoring issue template.</p>
+    <p>The calibration set was scored by a single rater — the methodology&#39;s author. That is a real limitation, and the Standard says so itself. The remedy is inter-rater reliability testing: three or more independent, bar-admitted graders scoring the same exemplars blind, with agreement measured by Krippendorff&#39;s &alpha; (target &ge; 0.80), under a published protocol. Results will appear here whatever they show.</p>
+    <p><strong>Independent graders are welcome.</strong> If you are a practicing attorney willing to score one exemplar blind — roughly an hour per exemplar — see <a href="/contribute">how to get involved</a>.</p>
     <p class="note">The exemplars are drafting specimens for calibration, not templates for filing. LexGrade confers no authority and nothing here is legal advice.</p>
   </section>`;
 

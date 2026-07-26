@@ -56,4 +56,4 @@ If no re-weighting is needed, state: "Base rubric weights apply without modifica
 
 ---
 
-© 2026 LexGrade. All rights reserved. | LexGrade
+Licensed AGPL-3.0. © 2026 LexGrade.

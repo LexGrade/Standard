@@ -81,4 +81,4 @@ If no modifications are needed, state: "Base rubric weights apply without modifi
 
 ---
 
-© 2026 LexGrade. All rights reserved. | LexGrade
+Licensed AGPL-3.0. © 2026 LexGrade.
