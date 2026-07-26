@@ -92,19 +92,27 @@ NY-rule citation carries a visible freshness date.
 ## Phase 2 — Validation
 
 *The Standard's §3 methodology note admits it hasn't been validated through
-inter-rater reliability testing, and invites it. Take the invitation.*
+inter-rater reliability testing, and invites it. The groundwork already
+exists in `commons/calibration-set/`: three exemplars on identical facts
+(A 95.5 / B− 82 / F 38), a scoring guide, a written inter-rater reliability
+protocol (Krippendorff's α ≥ 0.80 target), a call for graders, and a GitHub
+submission template. What remains is recruitment and publication.*
 
-- [ ] **Inter-rater reliability study.** Partner with a legal-writing program
-      (University at Buffalo, Syracuse, Cornell): two independent graders score
-      the same motion set; publish agreement statistics on the About page,
-      whatever they show. Until this exists, educators will cite the Standard
-      but not adopt it.
-- [ ] **Publish the study protocol in the open** (an `rfc:` issue or a
-      `commons/` document) before running it, so the methodology is on the
-      record and reusable by other programs.
+- [x] **Publish the study protocol in the open.**
+      `commons/calibration-set/Inter_Rater_Reliability_Protocol.md`, with the
+      inter-rater scoring issue template for submissions.
+- [ ] **Recruit the graders and run the round.** Partner with a legal-writing
+      program (University at Buffalo, Syracuse, Cornell) and/or answer the
+      standing Call for Graders with 3+ independent bar-admitted scorers.
+- [ ] **Publish agreement statistics** in `commons/calibration-set/results/`
+      and on the About page, whatever they show. Until this exists, educators
+      will cite the Standard but not adopt it.
+- [ ] **Surface the calibration evidence on lexgrade.org.** The exemplars and
+      scoring guide are the strongest proof the site doesn't yet show — a
+      /calibration page rendered from the commons source.
 
-**Done when:** the About page carries reliability data with a named academic
-partner behind it.
+**Done when:** the About page carries reliability data with named independent
+graders behind it.
 
 ## Phase 3 — Jurisdiction profiles (proof the framework travels)
 

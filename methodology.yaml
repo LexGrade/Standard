@@ -14,6 +14,7 @@ schema_version: 1
 current:
   standard: "1.0"
   technique_register: "1.0"
+  system_prompt: "1.0"
 
 artifacts:
   standard:
@@ -25,3 +26,50 @@ artifacts:
     "1.0":
       path: commons/standard/Technique_Register_v1.0.md
       license: CC-BY-SA-4.0
+
+  system_prompt:
+    "1.0":
+      path: commons/system-prompt/system_prompt_v1.0.md
+      license: AGPL-3.0
+      changelog: commons/system-prompt/CHANGELOG.md
+
+# The calibration set is evidence, not a versioned artifact: three exemplars on
+# identical facts demonstrating that the Standard discriminates (A / B− / F),
+# plus the protocol for validating scoring consistency across graders.
+calibration_set:
+  scoring_guide: commons/calibration-set/Calibration_Set_Scoring_Guide.md
+  inter_rater_protocol: commons/calibration-set/Inter_Rater_Reliability_Protocol.md
+  citation_corpus: commons/calibration-set/citation-corpus.json
+  exemplars:
+    - id: a
+      path: commons/calibration-set/exemplar-a/README.md
+      grade: A
+      score: 95.5
+      tier: expert
+      method: pipeline
+      redacted: true
+    - id: b
+      path: commons/calibration-set/exemplar-b/Exemplar_B_GPT4_Raw_Output.md
+      grade: B-
+      score: 82
+      tier: competent
+      method: gpt4_raw
+    - id: c
+      path: commons/calibration-set/exemplar-c/Exemplar_C_Deliberately_Flawed.md
+      grade: F
+      score: 38
+      tier: deficient
+      method: anti_pattern
+
+assessments:
+  - id: drl-237a-filed
+    path: commons/assessments/DRL_237a_Filed_Motion_Assessment.md
+    source: commons/assessments/DRL_237a_Motion_Clean.md
+    grade: A
+    score: 95
+    techniques_present: 28
+    techniques_total: 32
+
+extensions:
+  jurisdiction_module_template: commons/extensions/jurisdiction-module-TEMPLATE.md
+  motion_type_overlay_template: commons/extensions/motion-type-overlay-TEMPLATE.md
