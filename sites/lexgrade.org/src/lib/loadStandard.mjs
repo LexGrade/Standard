@@ -89,6 +89,7 @@ export function loadStandard() {
     version: standardVersion,
     scope: lgs.scope,
     license: lgs.license,
+    citationsVerified: lgs.citations_verified ?? null,
     principles,
     criteria,
     byPrinciple,

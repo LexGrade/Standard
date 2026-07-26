@@ -44,6 +44,7 @@ writeFileSync(
       version: standard.version,
       license: standard.license,
       scope: standard.scope,
+      citations_verified: standard.citationsVerified,
       cite_as: `LexGrade Standard v${standard.version}, LexGrade (lexgrade.org), ${standard.license}.`,
       principles: standard.principles,
       criteria: standard.criteria,

@@ -545,7 +545,11 @@ export function renderStandard(standard) {
       <dt>This version</dt><dd>v${escapeHtml(version)} (current published edition)</dd>
       <dt>Machine-readable</dt><dd><a href="${API_URL}">/api/v1/standard.json</a> · <a href="/llms-full.txt">/llms-full.txt</a></dd>
       <dt>Source repository</dt><dd><a href="${REPO_URL}">${escapeHtml(REPO_URL.replace(/^https?:\/\//, ''))}</a></dd>
-      <dt>Authority</dt><dd>CPLR &amp; the Uniform Civil Rules (22 NYCRR Part 202)</dd>
+      <dt>Authority</dt><dd>CPLR &amp; the Uniform Civil Rules (22 NYCRR Part 202)</dd>${
+        standard.citationsVerified
+          ? `\n      <dt>Citations verified</dt><dd>${escapeHtml(standard.citationsVerified)} — confirm cited provisions remain current before relying on them</dd>`
+          : ''
+      }
       <dt>License</dt><dd>${escapeHtml(license)} (content)</dd>
       <dt>Cite as</dt><dd><span id="lg-cite">&ldquo;${escapeHtml(title)}, LexGrade (lexgrade.org), ${escapeHtml(license)}.&rdquo;</span></dd>
     </dl>
@@ -619,6 +623,7 @@ export function renderHome({ standardVersion, principleCount, criteriaCount, tec
   const body = `  <header class="home-hero">
     <h1 class="home-title">Scoring the quality of legal drafting.</h1>
     <p class="subhead">LexGrade is an open instrument for grading legal motions — transparent principles, weighted criteria, and an ethics gate, all openly published and machine-readable.</p>
+    <p class="home-evidence">Why an ethics gate? General-purpose language models hallucinate 58&ndash;88% of legal citations (Dahl et al., <em>Large Legal Fictions</em>, 2024). Under the Standard, a single fabricated citation is an automatic &minus;20 — candor toward the court is the floor, not a style point.</p>
   </header>
   <nav class="home-cards" aria-label="Start here">
     <a class="home-card" href="/standard">
@@ -632,7 +637,7 @@ export function renderHome({ standardVersion, principleCount, criteriaCount, tec
       <span class="home-card__cta">Browse techniques <span aria-hidden="true">→</span></span>
     </a>
   </nav>
-  <p class="home-note">Grounded in real motion practice, not theory. <a href="/about">Why this exists <span aria-hidden="true">→</span></a></p>
+  <p class="home-note">Grounded in real motion practice, not theory. A better-built motion serves everyone — both parties, and the court that has to decide it. <a href="/about">Why this exists <span aria-hidden="true">→</span></a></p>
   <aside class="home-invite" aria-label="Contribute">
     <p class="home-invite__lead">An open, collaborative standard — shaped by the people who practice, owned by no one. If you litigate, help shape it.</p>
     <a class="home-invite__link" href="/contribute">Contribute to LexGrade <span aria-hidden="true">→</span></a>
@@ -975,6 +980,10 @@ ${rows}
     title: `LexGrade Technique Register <span class="version">v${escapeHtml(version)}</span>`,
     subhead: `An informative companion to the Standard — ${escapeHtml(String(techniques.length))} named advocacy techniques, reported alongside the composite score but never modifying it. The complete reference is also available as <a href="/api/v1/techniques.json">JSON</a> and in <a href="/llms-full.txt">llms-full.txt</a>.`,
   })}
+  <section class="tech-ethos" aria-label="How to read this register">
+    <p><strong>Read this first.</strong> The Register is a descriptive catalog of craft, not a playbook for getting one over on a court. Every technique here is a form of clarity, discipline, or preparation — making the strongest <em>honest</em> version of a case easy for a busy court to act on. A technique that requires bending candor to the tribunal or fairness to the opponent is a defect, not a feature.</p>
+    <p>No technique is required for any grade: a motion can score A+ with zero techniques present. The Register answers a different question — what does expert advocacy do that competent advocacy does not?</p>
+  </section>
   <div class="technique">
 ${groups}
   </div>`;
@@ -1234,6 +1243,9 @@ main { padding: 2.875rem 4.5rem 5rem; min-width: 0; }
    Reuses the solo reading column + shared tokens, so it stays on-system. */
 .home-hero { margin: var(--space-l) 0 var(--space-l); }
 .home-title { font-size: clamp(2.1rem, 5vw, 3rem); line-height: 1.1; letter-spacing: -.015em; font-weight: 600; margin: 0; }
+/* The evidence line — the one cited fact that explains the ethics gate. A quiet
+   callout, not a banner: it should read as documentation, not marketing. */
+.home-evidence { font-family: var(--sans); font-size: .95rem; color: var(--muted); max-width: var(--measure); margin: 1.1rem 0 0; padding: .85rem 1.1rem; background: var(--soft); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; }
 .home-cards { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-s); }
 .home-card { display: flex; flex-direction: column; gap: .5rem; padding: 1.6rem 1.5rem; background: var(--card); border: 1px solid var(--border); border-radius: 12px; text-decoration: none; color: inherit; transition: border-color .15s ease, transform .15s ease; }
 .home-card:hover { border-color: var(--accent); color: inherit; text-decoration: none; transform: translateY(-2px); }
@@ -1343,6 +1355,13 @@ ${Object.entries(ROLES)
 
 /* Technique index — single-column, category-grouped rows with a medium serif
    numeral in a gutter and hairline rules between rows (scannable, not dominant). */
+/* "Read this first" ethos block on the register index — the candor framing sits
+   above the category groups so a skimming reader meets it before any technique
+   name. Shares the evidence-callout look: documentation, not a warning banner. */
+.tech-ethos { max-width: var(--measure); margin: 0 0 var(--space-m); padding: 1rem 1.35rem; background: var(--soft); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0 10px 10px 0; }
+.tech-ethos p { margin: 0 0 .7rem; color: var(--muted); }
+.tech-ethos p:last-child { margin-bottom: 0; }
+
 .tech-group { margin: var(--space-l) 0; }
 .tech-group__h { font-family: var(--sans); font-size: .76rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 var(--space-2xs); }
 .tech-list { list-style: none; margin: 0; padding: 0; }

@@ -24,6 +24,10 @@ standard: "LexGrade Standard"
 version: "1.0"
 license: "CC-BY-SA-4.0"
 scope: "New York State Supreme Court motion practice"
+# Mirrors the Standard's currency note: all statutory, regulatory, and empirical
+# citations were verified against the official sources as of this date. Update it
+# whenever a re-verification pass runs.
+citations_verified: "February 2026"
 
 principles:
   - id: P1
