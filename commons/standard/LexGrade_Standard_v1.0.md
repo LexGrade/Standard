@@ -100,9 +100,12 @@ a single fabricated citation (−20) can drop an A to a B.
 
 *For LLM benchmarking.* Give the model a case scenario (facts, relief sought, key
 documents) and ask for a complete motion. Score the output against each
-principle. **Empirical context:** general-purpose LLMs hallucinate 58–88% of
-legal citations (Dahl et al., "Large Legal Fictions," 2024); even RAG-based legal
-tools hallucinate 17–34% (Magesh et al., Stanford RegLab/HAI, 2024). The citation
+principle. **Empirical context:** in a 2024 study, general-purpose LLMs
+hallucinated in 58–88% of their answers to verifiable questions about federal
+court cases (Dahl et al., "Large Legal Fictions," 16 J. Legal Analysis 64
+(2024)); even leading AI legal research tools hallucinated in 17–33% of
+responses (Magesh et al., "Hallucination-Free?," 22 J. Empirical Legal Stud.
+216 (2025)). The citation
 verification step is not optional. Map each model to a Conformance Level using the
 [LLM Comparison Guide](#5-conformance-levels). When LGS applies NY RPC standards
 to LLM outputs, it uses professional-responsibility rules as quality benchmarks,
@@ -235,7 +238,7 @@ LGS 2.1.
 
 **Benchmarking note.** Models frequently omit the proposed order, the
 certification, and Individual Part Rules compliance. In the Stanford RegLab
-studies (Dahl et al. 2024; Magesh et al. 2024), threshold procedural elements
+studies (Dahl et al. 2024; Magesh et al. 2025), threshold procedural elements
 were among the most commonly absent components of LLM-generated legal output —
 revealing whether training reflects actual NY practice or only treatise law. A
 benchmark harness may record procedural omissions descriptively; they are not
@@ -467,9 +470,10 @@ are accurate.
 > and burden on the court.
 
 **Benchmarking note.** Hallucinated citations are the most disqualifying LLM
-failure. General-purpose LLMs hallucinate 58–88% of verifiable legal citations
-(Dahl et al. 2024); even specialized tools hallucinate 17–34% (Magesh et al.
-2024). One fabricated citation is −20 and is sanctionable in practice (Mata v.
+failure. General-purpose LLMs hallucinated in 58–88% of answers to verifiable
+case-law questions (Dahl et al. 2024); even specialized legal research tools
+hallucinated in 17–33% of responses (Magesh et al. 2025). One fabricated
+citation is −20 and is sanctionable in practice (Mata v.
 Avianca, S.D.N.Y. 2023), and triggers automatic demotion to Deficient regardless
 of composite score.
 
@@ -628,7 +632,8 @@ motion as graded; it does not transfer to revisions, which must be re-graded.
 ### Critical LLM Failure Modes
 
 1. **Hallucinated citations.** The most disqualifying failure. Verify every case.
-   58–88% (general LLMs) / 17–34% (specialized legal AI).
+   Measured per response to case-law queries: 58–88% (general LLMs) / 17–33%
+   (specialized legal AI).
 2. **Jurisdiction confusion.** Mixing federal and state procedure; citing the
    wrong department as binding; applying FRCP standards in a CPLR motion.
 3. **Advocacy deficit.** Producing neutral memoranda when the task is persuasive
@@ -946,11 +951,17 @@ Sanctions; Commercial Division Rules 17, 19-a.
 - Kevin M. Clermont, "[Staying Faithful to the Standards of Proof](https://scholarship.law.cornell.edu/clr/vol104/iss6/2/)," 104 Cornell L. Rev. 1457 (2020) — standards of decision and the standard of review.
 - Bryan A. Garner, *[The Elements of Legal Style](https://global.oup.com/academic/product/the-elements-of-legal-style-9780195141627)* (2d ed., Oxford University Press 2002) — writing and citation standards.
 
-**Empirical LLM research.** Dahl et al., "Large Legal Fictions," Journal of Legal
-Analysis (2024) — 58–88% hallucination across GPT-4, GPT-3.5, PaLM 2, Llama 2;
-Magesh et al., "Hallucination-Free?", Stanford RegLab/HAI (2024) — 17–34% in
-RAG-based legal AI; Mata v. Avianca, Inc., No. 22-cv-1461 (S.D.N.Y. 2023) —
-landmark sanctions for AI-generated fabricated citations.
+**Empirical LLM research.** Matthew Dahl, Varun Magesh, Mirac Suzgun & Daniel E.
+Ho, "[Large Legal Fictions: Profiling Legal Hallucinations in Large Language
+Models](https://doi.org/10.1093/jla/laae003)," 16 J. Legal Analysis 64 (2024) —
+hallucination in 58–88% of answers to verifiable federal case-law questions,
+across GPT-4, GPT-3.5, PaLM 2, and Llama 2; Varun Magesh, Faiz Surani, Matthew
+Dahl, Mirac Suzgun, Christopher D. Manning & Daniel E. Ho,
+"[Hallucination-Free? Assessing the Reliability of Leading AI Legal Research
+Tools](https://doi.org/10.1111/jels.12413)," 22 J. Empirical Legal Stud. 216
+(2025) — hallucination in 17–33% of responses from RAG-based legal research
+tools; Mata v. Avianca, Inc., No. 22-cv-1461 (S.D.N.Y. 2023) — landmark
+sanctions for AI-generated fabricated citations.
 
 ---
 

@@ -10,10 +10,16 @@ published — a new edition never revokes a prior one.
 
 ## [Unreleased]
 
-Working draft of the next edition (`working_draft.standard: "1.1"` in
-`methodology.yaml`), captured in
-[`commons/standard/drafts/LexGrade_Standard_v1.1-DRAFT.md`](commons/standard/drafts/LexGrade_Standard_v1.1-DRAFT.md).
-Propose changes via an `rfc:` issue — see [CONTRIBUTING](.github/CONTRIBUTING.md).
+Changes accepted for the next edition accumulate here. Propose changes via an
+`rfc:` issue — see [CONTRIBUTING](.github/CONTRIBUTING.md).
+
+### Fixed
+- **Empirical citations stated precisely.** The Standard now describes the
+  Dahl et al. finding as hallucination in 58–88% of answers to verifiable
+  federal case-law questions (not "of legal citations"), corrects the Magesh
+  et al. range to 17–33%, and cites both papers in their published form with
+  DOIs (16 J. Legal Analysis 64 (2024); 22 J. Empirical Legal Stud. 216
+  (2025)). No criterion, weight, or deduction changed.
 
 ### Proposed
 - **Validity and its limits** — make explicit what the composite supports as an inference (content validity + demonstrated discrimination) vs. what it does not yet (criterion/predictive validity), plus a consequential-validity (washback) caveat. *Framing only; foldable into v1.0.*
@@ -29,7 +35,7 @@ Grounded in Clark & DeSanctis (2013), Gustafson (2024), Schwarcz & Farganis (201
 ### Added
 - **LexGrade Standard v1.0** — 8 principles, 45 scored criteria, composite scoring
   formula, and three conformance levels (Expert / Competent / Deficient).
-- **Technique Register v1.0** — 32 named advocacy techniques across 7 categories.
+- **Technique Register v1.0** — 39 named advocacy techniques across 7 categories.
 - **Calibration Set** — A (95.5) / B− (82) / F (38) exemplars on identical facts.
 - **Machine-readable catalog** (`commons/standard/lgs-criteria.yaml`) and the
   static JSON catalog served at `/api/v1/standard.json`.
