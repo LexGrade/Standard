@@ -8,7 +8,7 @@
 // machine-readable catalog. Reads everything locally (see lib.mjs) — no network,
 // no account. A `score_motion` prompt wires the rubric into a scoring workflow.
 //
-// Run:  node index.mjs           (from the monorepo, or with LEXGRADE_DATA_ROOT set)
+// Run:  node index.mjs           (from the repo root, or with LEXGRADE_DATA_ROOT set)
 // Add:  claude mcp add lexgrade -- node /abs/path/packages/mcp/index.mjs
 
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';

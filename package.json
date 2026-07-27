@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "license": "AGPL-3.0-only",
-  "description": "Monorepo for the open LexGrade Standard — the methodology (commons/), the lexgrade.org site (sites/), and tools incl. the MCP server (packages/).",
+  "description": "The open LexGrade Standard — the methodology (commons/), the lexgrade.org site (sites/), and tools incl. the MCP server (packages/).",
   "workspaces": [
     "sites/*",
     "packages/*"

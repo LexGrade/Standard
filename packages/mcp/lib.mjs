@@ -2,7 +2,7 @@
 //
 // Offline data loader for the LexGrade Standard MCP server.
 //
-// Reads ONLY local files from the monorepo (methodology.yaml + commons/*) — no
+// Reads ONLY local files from this repository (methodology.yaml + commons/*) — no
 // network, no account, no proprietary API. Mirrors the same offline-first
 // posture as the site build: the standard is data, and an agent can read it
 // without phoning home. Kept dependency-light (only `yaml`) so it is trivially
@@ -51,7 +51,7 @@ export function resolveDataRoot() {
 }
 
 // commons docs are recorded in methodology.yaml with a leading `commons/`. Resolve
-// across both the monorepo layout (prefix is real) and a flattened layout (commons
+// across both the full repo layout (prefix is real) and a flattened layout (commons
 // content at the data root), so the loader survives either packaging.
 function resolveDocPath(root, manifestPath) {
   const stripped = String(manifestPath).replace(/^commons\//, '');

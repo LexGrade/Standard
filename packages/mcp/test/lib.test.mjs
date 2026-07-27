@@ -14,7 +14,7 @@ import {
   slugifyTechnique,
 } from '../lib.mjs';
 
-test('load() reads the standard offline from the monorepo', () => {
+test('load() reads the standard offline from the repo', () => {
   const d = load();
   assert.equal(d.version, '1.0');
   assert.ok(d.standardMarkdown.length > 1000, 'standard markdown is present');
