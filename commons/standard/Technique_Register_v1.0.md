@@ -4,9 +4,9 @@
 
 ## Complete Reference
 
-The Technique Register identifies advanced advocacy techniques that distinguish expert-level work from competent work. These techniques are not required for any grade. A motion can score A+ (98) with zero techniques present — it is a clean, competent, well-researched filing that meets every rubric criterion. The Register answers a different question: not "is this motion good?" but "what does expert advocacy do that competent advocacy does not?"
+The Technique Register identifies advanced advocacy techniques that distinguish expert-level work from competent work. No technique is required for any grade. A motion can score A+ (98) with none present, as a clean, competent, well-researched filing that meets every rubric criterion. The Register asks a different question: what does expert advocacy do that competent advocacy does not?
 
-This is a descriptive catalog of craft. Each technique is a form of clarity, discipline, or preparation — making the strongest *honest* version of a case easy for a busy court to act on. None of it displaces the drafter's duties of candor to the tribunal and fairness to the opponent; a technique that requires bending either is a defect, not a feature (see Ethical Boundaries). Used as intended, the Register's value is straightforward: it helps a litigant — often a self-represented one — present a clean, credible, decision-ready motion.
+The Register is a descriptive catalog of craft. Each technique is a form of clarity, discipline, or preparation that makes the strongest *honest* version of a case easy for a busy court to act on. None of it displaces the drafter's duties of candor to the tribunal and fairness to the opponent. If a technique would require bending either duty, the Standard treats it as a defect (see Ethical Boundaries). Used as intended, the Register helps a litigant, often a self-represented one, present a clean, credible, decision-ready motion.
 
 The Technique Register is reported alongside the composite score but does not modify it.
 
