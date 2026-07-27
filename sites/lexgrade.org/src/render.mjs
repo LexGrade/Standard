@@ -537,7 +537,7 @@ export function renderStandard(standard) {
 
   const body = `${docHeader({
     title: `LexGrade Standard <span class="version">v${escapeHtml(version)}</span>`,
-    subhead: `An open scoring instrument for ${escapeHtml(scope)} — ${principleWord} principles and ${escapeHtml(String(critCount))} graded criteria, each independently citable.`,
+    subhead: `An open scoring instrument for ${escapeHtml(scope)}: ${principleWord} principles and ${escapeHtml(String(critCount))} graded criteria, each independently citable.`,
   })}
 
   <details class="sotd" open>
@@ -554,7 +554,7 @@ export function renderStandard(standard) {
       <dt>License</dt><dd>${escapeHtml(license)} (content)</dd>
       <dt>Cite as</dt><dd><span id="lg-cite">&ldquo;${escapeHtml(title)}, LexGrade (lexgrade.org), ${escapeHtml(license)}.&rdquo;</span></dd>
     </dl>
-    <p>This is the published LexGrade Standard, openly maintained by LexGrade under ${escapeHtml(license)} — not promulgated by any court, bar, or government body. The human-readable Standard text is the source of truth; this page and the machine-readable <code>/api/v1/standard.json</code> catalog are generated from the same criteria source, so they cannot drift. All legal citations in any LexGrade output must be independently verified before filing.</p>
+    <p>This is the published LexGrade Standard, openly maintained under ${escapeHtml(license)}. It is not promulgated by any court, bar, or government body. The human-readable Standard text is the source of truth; this page and the machine-readable <code>/api/v1/standard.json</code> catalog are generated from the same criteria source, so they cannot drift. All legal citations in any LexGrade output must be independently verified before filing.</p>
   </details>
 
   <section class="abstract" aria-labelledby="abstract-h">
@@ -623,8 +623,8 @@ export function renderRedirect(to) {
 export function renderHome({ standardVersion, principleCount, criteriaCount, techniqueVersion, techniqueCount }) {
   const body = `  <header class="home-hero">
     <h1 class="home-title">Scoring the quality of legal drafting.</h1>
-    <p class="subhead">LexGrade is an open instrument for grading legal motions — transparent principles, weighted criteria, and an ethics gate, all openly published and machine-readable.</p>
-    <p class="home-evidence">Why an ethics gate? General-purpose language models hallucinate 58&ndash;88% of legal citations (Dahl et al., <em>Large Legal Fictions</em>, 2024). Under the Standard, a single fabricated citation is an automatic &minus;20 — candor toward the court is the floor, not a style point.</p>
+    <p class="subhead">LexGrade is an open instrument for grading legal motions. The principles, the weights, and the ethics gate are published in full, in human and machine-readable form.</p>
+    <p class="home-evidence">Why an ethics gate? In one 2024 study, general-purpose language models hallucinated 58&ndash;88% of their legal citations (Dahl et al., <em>Large Legal Fictions</em>). The Standard treats a single fabricated citation as an automatic &minus;20, because candor toward the court is where grading has to start.</p>
   </header>
   <nav class="home-cards" aria-label="Start here">
     <a class="home-card" href="/standard">
@@ -638,9 +638,9 @@ export function renderHome({ standardVersion, principleCount, criteriaCount, tec
       <span class="home-card__cta">Browse techniques <span aria-hidden="true">→</span></span>
     </a>
   </nav>
-  <p class="home-note">Grounded in real motion practice, not theory. A better-built motion serves everyone — both parties, and the court that has to decide it. <a href="/about">Why this exists <span aria-hidden="true">→</span></a></p>
+  <p class="home-note">The criteria come from real motion practice. A well-built motion serves everyone involved, including the court that has to decide it. <a href="/about">Why this exists <span aria-hidden="true">→</span></a></p>
   <aside class="home-invite" aria-label="Contribute">
-    <p class="home-invite__lead">An open, collaborative standard — shaped by the people who practice, owned by no one. If you litigate, help shape it.</p>
+    <p class="home-invite__lead">An open standard gets sharper when practicing lawyers argue with it. If you litigate, help shape the next version.</p>
     <a class="home-invite__link" href="/contribute">Contribute to LexGrade <span aria-hidden="true">→</span></a>
   </aside>`;
   return documentShell({
@@ -668,21 +668,21 @@ export function renderHome({ standardVersion, principleCount, criteriaCount, tec
 export function renderAbout() {
   const body = `${docHeader({
     title: 'About LexGrade',
-    subhead: 'An open scoring standard grounded in real motion practice — the learnings, opened up.',
+    subhead: 'An open scoring standard grounded in real motion practice.',
   })}
   <section class="prose" aria-label="About LexGrade">
-    <p>LexGrade is an open standard for scoring the quality of legal drafting. Its criteria were drawn from active litigation in the New York State and federal courts — trial-level motion practice through appeal in both systems. They did not come from a style guide. They came from filing motions, reading what courts actually do with them, and noticing what separates a motion a court can act on from one it cannot.</p>
-    <p>One lesson sits at the center of the criteria: a filing&#39;s job is to compel action, and a well-built one often does — sometimes even when the specific relief is denied.</p>
-    <p>The calibration targets New York State Supreme Court motion practice, the venue the Standard was first built and verified against. The framework is built to extend to other courts and jurisdictions as it is tested against them.</p>
+    <p>LexGrade is an open standard for scoring the quality of legal drafting. Its criteria come from active litigation in the New York State and federal courts, from trial-level motion practice through appeal in both systems. The criteria came from filing motions and reading what courts actually did with them, and from noticing over time what separates a motion a court can act on from one it cannot. They grew out of that experience rather than a style guide.</p>
+    <p>One lesson sits at the center: a filing&#39;s job is to compel action. A well-built motion often does, sometimes even when the specific relief is denied.</p>
+    <p>The calibration targets New York State Supreme Court motion practice, the venue the Standard was first built and verified against. The framework is built to extend to other courts and jurisdictions as it gets tested against them.</p>
     <h2>Who it&#39;s for</h2>
-    <p>The people who most need a well-built motion are the least able to pay for one. Competent motion practice has a price — hours of a lawyer&#39;s time — that prices out most self-represented litigants, who are now the majority of parties in many family and housing courts. LexGrade is built for that gap. It does not promise to win cases; it makes the difference between a motion a court can act on and one it cannot <em>legible</em>, and — paired with a language model — reproducible at almost no marginal cost.</p>
-    <p>That is the point of opening it. A scoring standard a litigant can run against their own draft, and a technique register that names what experienced advocates do by instinct, turn knowledge that used to require a retainer into something a self-represented party can apply directly. The value is not persuasion for its own sake; it is access — narrowing the gap between the drafting a court expects and the drafting most litigants can afford.</p>
+    <p>The people who most need a well-built motion are usually the least able to pay for one. Competent motion practice costs hours of a lawyer&#39;s time, which prices out most self-represented litigants, and they are now the majority of parties in many family and housing courts. LexGrade was built for that gap. It does not promise to win cases. What it offers is a written, checkable account of the difference between a motion a court can act on and one it cannot, and paired with a language model, that check becomes reproducible at almost no marginal cost.</p>
+    <p>That is the point of opening it. A scoring standard a litigant can run against their own draft, and a technique register that names what experienced advocates do by instinct, turn knowledge that used to require a retainer into something a self-represented party can apply directly. The value is access: narrowing the gap between the drafting a court expects and the drafting most litigants can afford.</p>
     <h2>What it builds on</h2>
-    <p>LexGrade did not appear from nothing. Its rubric method — weighted components, capped point values, and narrative performance bands — builds on prior legal-writing assessment scholarship, and its calibration is measured against New York&#39;s governing rules. The sources are credited in full on the <a href="/references">references</a> page.</p>
-    <p>The Standard also shows its work: three drafts of the same motion, produced three different ways and graded A, B&minus;, and F, demonstrate that the instrument discriminates. The exemplars, the scoring guide, and the open inter-rater reliability protocol are on the <a href="/calibration">calibration</a> page.</p>
+    <p>LexGrade did not appear from nothing. Its rubric method of weighted components, capped point values, and narrative performance bands builds on prior legal-writing assessment scholarship, and its calibration is measured against New York&#39;s governing rules. The sources are credited in full on the <a href="/references">references</a> page.</p>
+    <p>The Standard also shows its work. Three drafts of the same motion, produced three different ways, grade out at A, B&minus;, and F. The exemplars, the scoring guide, and the open inter-rater reliability protocol are on the <a href="/calibration">calibration</a> page.</p>
     <h2>What this is — and isn&#39;t</h2>
-    <p>LexGrade is an open, independently maintained model of effective motion practice, published openly so others can use it, test it, and <a href="/contribute">improve it</a>. It is <strong>not</strong> promulgated by any court, bar, or government body, it confers no authority, and nothing here is legal advice. Every legal citation in any LexGrade output must be independently verified before filing.</p>
-    <p>Governed in the open and licensed CC-BY-SA 4.0 — free to reuse and adapt with attribution — LexGrade belongs to its field rather than to any vendor, bar, or individual: a shared reference that improves by being argued over. The <a href="/standard">Standard</a> and the <a href="/techniques">Technique Register</a> are the substance; this page is just the why.</p>
+    <p>LexGrade is an open, independently maintained model of effective motion practice, published so others can use it, test it, and <a href="/contribute">improve it</a>. It is <strong>not</strong> promulgated by any court, bar, or government body, it confers no authority, and nothing here is legal advice. Every legal citation in any LexGrade output must be independently verified before filing.</p>
+    <p>The methodology is governed in the open and licensed CC-BY-SA 4.0, free to reuse and adapt with attribution. It belongs to its field rather than to any vendor, bar, or individual, and it improves by being argued over. The <a href="/standard">Standard</a> and the <a href="/techniques">Technique Register</a> are the substance; this page is just the why.</p>
   </section>`;
   return documentShell({
     title: 'About — LexGrade',
@@ -819,10 +819,10 @@ export function renderCalibration(calibration) {
 
   const body = `${docHeader({
     title: 'Calibration',
-    subhead: 'The evidence that the Standard discriminates: three drafts on identical facts, three different grades — and the protocol for testing whether independent graders agree.',
+    subhead: 'Three drafts on identical facts, three different grades, and a protocol for testing whether independent graders agree.',
   })}
   <section class="prose" aria-label="Calibration set">
-    <p>A scoring instrument earns trust by showing its work. The calibration set holds three complete motion drafts built from the <em>same</em> case facts, produced three different ways, and scored against the Standard. If the Standard could not tell them apart, it would measure nothing. The fact pattern is fictionalized — invented parties, court, and figures — while every cited authority is a real published decision, so the citation-verification claims stay testable.</p>
+    <p>A scoring instrument earns trust by showing its work. The calibration set holds three complete motion drafts built from the <em>same</em> case facts, produced three different ways, and scored against the Standard. If the Standard could not tell them apart, it would measure nothing. The fact pattern is fictionalized, with invented parties, court, and figures, while every cited authority is a real published decision, so the citation-verification claims stay testable.</p>
     <table class="data">
       <caption>Calibration exemplars — identical facts, three methods, three grades</caption>
       <thead><tr><th scope="col">Exemplar</th><th scope="col">Grade</th><th scope="col">Conformance</th><th scope="col">How it was produced</th></tr></thead>
@@ -835,9 +835,9 @@ ${exemplarRows}
     <ul>
       ${assessmentItems}
     </ul>
-    <h2>The limitation, stated plainly</h2>
-    <p>The calibration set was scored by a single rater — the methodology&#39;s author. That is a real limitation, and the Standard says so itself. The remedy is inter-rater reliability testing: three or more independent, bar-admitted graders scoring the same exemplars blind, with agreement measured by Krippendorff&#39;s &alpha; (target &ge; 0.80), under a published protocol. Results will appear here whatever they show.</p>
-    <p><strong>Independent graders are welcome.</strong> If you are a practicing attorney willing to score one exemplar blind — roughly an hour per exemplar — see <a href="/contribute">how to get involved</a>.</p>
+    <h2>A known limitation</h2>
+    <p>The calibration set was scored by a single rater, the methodology&#39;s author, and the Standard says so itself. The remedy is inter-rater reliability testing: three or more independent, bar-admitted graders scoring the same exemplars blind, with agreement measured by Krippendorff&#39;s &alpha; (target &ge; 0.80) under a published protocol. Results will appear here whatever they show.</p>
+    <p><strong>Independent graders are welcome.</strong> Scoring one exemplar takes a practicing attorney roughly an hour. See <a href="/contribute">how to get involved</a>.</p>
     <p class="note">The exemplars are drafting specimens for calibration, not templates for filing. LexGrade confers no authority and nothing here is legal advice.</p>
   </section>`;
 
@@ -1062,8 +1062,8 @@ ${rows}
     subhead: `An informative companion to the Standard — ${escapeHtml(String(techniques.length))} named advocacy techniques, reported alongside the composite score but never modifying it. The complete reference is also available as <a href="/api/v1/techniques.json">JSON</a> and in <a href="/llms-full.txt">llms-full.txt</a>.`,
   })}
   <section class="tech-ethos" aria-label="How to read this register">
-    <p><strong>Read this first.</strong> The Register is a descriptive catalog of craft, not a playbook for getting one over on a court. Every technique here is a form of clarity, discipline, or preparation — making the strongest <em>honest</em> version of a case easy for a busy court to act on. A technique that requires bending candor to the tribunal or fairness to the opponent is a defect, not a feature.</p>
-    <p>No technique is required for any grade: a motion can score A+ with zero techniques present. The Register answers a different question — what does expert advocacy do that competent advocacy does not?</p>
+    <p><strong>Read this first.</strong> The Register catalogs craft. Each named technique is a form of clarity, discipline, or preparation that makes the strongest <em>honest</em> version of a case easy for a busy court to act on. If a technique would require bending candor to the tribunal or fairness to the opponent, the Standard treats it as a defect.</p>
+    <p>No technique is required for any grade, and a motion can score A+ with none present. The Register asks a different question: what does expert advocacy do that competent advocacy does not?</p>
   </section>
   <div class="technique">
 ${groups}
