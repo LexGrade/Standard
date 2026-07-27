@@ -68,10 +68,11 @@ sees that first.*
       descriptive catalog of craft… a technique that requires bending candor is
       a defect, not a feature") now sits above the category table on
       `/techniques`, so the skim hits it before any technique name.
-- [x] **Surface the hallucination statistics on the homepage.** "General-purpose
-      language models hallucinate 58–88% of legal citations" (Dahl et al.
-      2024), with the −20 automatic deduction, as a quiet cited callout in the
-      hero, written to read as documentation rather than marketing.
+- [x] **Surface the hallucination statistics on the homepage.** "Leading
+      language models hallucinated in 58–88% of their answers to verifiable
+      questions about federal court cases" (Dahl et al. 2024), with the −20
+      automatic deduction, as a quiet cited callout in the hero, written to
+      read as documentation rather than marketing.
 - [x] **Citation-currency visibility.** `citations_verified` added to
       `lgs-criteria.yaml` (source of truth), surfaced in the /standard "Status
       of this document" block and in `/api/v1/standard.json` — driven from
