@@ -194,7 +194,7 @@ function siteFooter(current) {
   return `<footer class="site-footer">
   <nav class="site-footer__nav" aria-label="Secondary">${links}<a href="${REPO_URL}">GitHub</a></nav>
   <p class="site-footer__meta">LexGrade — open methodology, licensed CC-BY-SA 4.0. &copy; 2026 LexGrade.</p>
-  <p class="site-footer__note">Not legal advice. LexGrade confers no authority — verify every citation before filing.</p>
+  <p class="site-footer__note">Not legal advice. LexGrade confers no authority; verify every citation before filing.</p>
 </footer>`;
 }
 
@@ -559,7 +559,7 @@ export function renderStandard(standard) {
 
   <section class="abstract" aria-labelledby="abstract-h">
     <h2 id="abstract-h">Abstract</h2>
-    <p>The LexGrade Standard (LGS) is an open instrument for scoring the quality of legal drafting. It defines ${principleWord} principles and ${escapeHtml(String(critCount))} graded criteria, calibrated against ${escapeHtml(scope)}. Each criterion is independently citable; the conformance grade is a weighted composite, with an ethics gate that forces a deficient grade on any hallucinated citation.</p>
+    <p>The LexGrade Standard (LGS) is an open instrument for scoring the quality of legal drafting. It defines ${principleWord} principles and ${escapeHtml(String(critCount))} graded criteria, calibrated against ${escapeHtml(scope)}. Each criterion is independently citable. The conformance grade is a weighted composite, and an ethics gate forces a deficient grade on any hallucinated citation.</p>
   </section>
 
 ${sections}
@@ -634,7 +634,7 @@ export function renderHome({ standardVersion, principleCount, criteriaCount, tec
     </a>
     <a class="home-card" href="/techniques">
       <h2 class="home-card__title">Technique Register <span class="home-card__v">v${escapeHtml(techniqueVersion)}</span></h2>
-      <p class="home-card__desc">${escapeHtml(String(techniqueCount))} named advocacy techniques — an informative companion to the Standard.</p>
+      <p class="home-card__desc">${escapeHtml(String(techniqueCount))} named advocacy techniques, an informative companion to the Standard.</p>
       <span class="home-card__cta">Browse techniques <span aria-hidden="true">→</span></span>
     </a>
   </nav>
@@ -680,9 +680,9 @@ export function renderAbout() {
     <h2>What it builds on</h2>
     <p>LexGrade did not appear from nothing. Its rubric method of weighted components, capped point values, and narrative performance bands builds on prior legal-writing assessment scholarship, and its calibration is measured against New York&#39;s governing rules. The sources are credited in full on the <a href="/references">references</a> page.</p>
     <p>The Standard also shows its work. Three drafts of the same motion, produced three different ways, grade out at A, B&minus;, and F. The exemplars, the scoring guide, and the open inter-rater reliability protocol are on the <a href="/calibration">calibration</a> page.</p>
-    <h2>What this is — and isn&#39;t</h2>
+    <h2>What this is and isn&#39;t</h2>
     <p>LexGrade is an open, independently maintained model of effective motion practice, published so others can use it, test it, and <a href="/contribute">improve it</a>. It is <strong>not</strong> promulgated by any court, bar, or government body, it confers no authority, and nothing here is legal advice. Every legal citation in any LexGrade output must be independently verified before filing.</p>
-    <p>The methodology is governed in the open and licensed CC-BY-SA 4.0, free to reuse and adapt with attribution. It belongs to its field rather than to any vendor, bar, or individual, and it improves by being argued over. The <a href="/standard">Standard</a> and the <a href="/techniques">Technique Register</a> are the substance; this page is just the why.</p>
+    <p>The methodology is governed in the open and licensed CC-BY-SA 4.0, free to reuse and adapt with attribution. It belongs to its field rather than to any vendor, bar, or individual, and it improves by being argued over. The <a href="/standard">Standard</a> and the <a href="/techniques">Technique Register</a> carry the substance. This page is only the background.</p>
   </section>`;
   return documentShell({
     title: 'About — LexGrade',
@@ -707,22 +707,22 @@ export function renderAbout() {
 export function renderContribute() {
   const body = `${docHeader({
     title: 'Help build the standard',
-    subhead: 'An open, vendor-neutral standard that gets sharper when the people who actually practice shape it. It belongs to its field, not to any one person.',
+    subhead: 'An open, vendor-neutral standard shaped by the people who actually practice. It belongs to its field.',
   })}
   <section class="prose" aria-label="How to contribute">
-    <p>A scoring standard is only worth what its consensus is worth. LexGrade is published under CC-BY-SA 4.0, governed in the open, and versioned so every change is traceable and citable. It is not owned by a vendor, a bar, or a single litigant — it is a shared reference, and it improves by being argued over.</p>
+    <p>A scoring standard is only worth what its consensus is worth. LexGrade is published under CC-BY-SA 4.0, governed in the open, and versioned so every change is traceable and citable. No vendor, bar, or single litigant owns it.</p>
     <h2>Where you come in</h2>
     <p>If you litigate, you know things the calibration does not yet. The most valuable contributions:</p>
     <ul>
-      <li><strong>Propose or challenge a criterion.</strong> If a graded criterion is wrong, incomplete, or weighted poorly, make the case. Disagreement, argued well, is how the standard earns trust.</li>
-      <li><strong>Calibrate a jurisdiction.</strong> The base targets New York State Supreme Court motion practice. Help extend it — other states, federal trial and appellate practice — so the standard travels.</li>
+      <li><strong>Propose or challenge a criterion.</strong> If a graded criterion is wrong, incomplete, or weighted poorly, make the case.</li>
+      <li><strong>Calibrate a jurisdiction.</strong> The base targets New York State Supreme Court motion practice. Help extend it to other states or to federal trial and appellate practice.</li>
       <li><strong>Name a technique.</strong> The Technique Register is a living catalog of advocacy moves. If you rely on one it does not yet name, contribute it.</li>
     </ul>
     <h2>How changes happen</h2>
-    <p>Substantive changes go through an <code>rfc:</code> proposal — stated in the open, discussed, accepted by rough consensus, and shipped in a versioned release that credits its contributors. Nothing changes by fiat, and no version claims to be endorsed by any court or bar.</p>
+    <p>Substantive changes go through an <code>rfc:</code> proposal. It is stated in the open, discussed, accepted by rough consensus, and shipped in a versioned release that credits its contributors. No version claims to be endorsed by any court or bar.</p>
     <h2>Two ways to start</h2>
     <p><strong>On GitHub.</strong> Open an <a href="${REPO_URL}/issues/new">rfc: issue</a>, or read the <a href="${REPO_URL}/blob/main/.github/CONTRIBUTING.md">contribution guide</a> first.</p>
-    <p><strong>Not on GitHub.</strong> Email <a href="mailto:contribute@lexgrade.org">contribute@lexgrade.org</a> with the idea, the jurisdiction, or the criterion you would change. A rough note is plenty — it will be turned into a proposal, with credit.</p>
+    <p><strong>Not on GitHub.</strong> Email <a href="mailto:contribute@lexgrade.org">contribute@lexgrade.org</a> with the idea, the jurisdiction, or the criterion you would change. A rough note is plenty, and it will be turned into a proposal with credit.</p>
     <p class="note">LexGrade confers no authority and nothing here is legal advice. Contributing creates no attorney–client relationship and no professional obligation.</p>
   </section>`;
   return documentShell({
@@ -748,18 +748,18 @@ export function renderContribute() {
 export function renderReferences() {
   const body = `${docHeader({
     title: 'Sources &amp; influences',
-    subhead: 'LexGrade is not all original, and says so. The criteria and weights are its own; the method it uses to express them stands on prior work.',
+    subhead: 'The criteria and weights are LexGrade&#39;s own. The method used to express them stands on prior work, credited here.',
   })}
   <section class="prose" aria-label="Sources and influences">
-    <p>A standard earns trust partly by being candid about where it comes from — the same candor LexGrade asks of the motions it scores. What follows is credited because the method was genuinely drawn from it. Ideas and methods are free to build on; the acknowledgment is owed regardless.</p>
+    <p>A standard should be candid about where it comes from. The sources below are credited because the method was genuinely drawn from them. Ideas and methods are free to build on, and the acknowledgment is owed regardless.</p>
     <h2>Scholarship</h2>
-    <p>LexGrade&#39;s rubric-based approach — weighted components, capped point values, and narrative performance bands that reduce a grader&#39;s subjectivity to a shared vocabulary — builds on an established tradition in legal-writing assessment, in particular:</p>
+    <p>LexGrade&#39;s rubric-based approach (weighted components, capped point values, and narrative performance bands that reduce a grader&#39;s subjectivity to a shared vocabulary) builds on an established tradition in legal-writing assessment, in particular:</p>
     <ul>
       <li>Jessica Clark &amp; Christy DeSanctis, <em>Toward a Unified Grading Vocabulary: Using Rubrics in Legal Writing Courses</em>, 63 J. Legal Educ. 3 (2013).</li>
     </ul>
-    <p>LexGrade adapts that pedagogy from the law-school classroom to motion practice. The criteria, weights, and examples are its own; the method is not ours alone. No rubric text or appendix from the cited work is reproduced here — LexGrade states its criteria in its own words.</p>
+    <p>LexGrade adapts that pedagogy from the law-school classroom to motion practice. The criteria, weights, and examples are its own. No rubric text or appendix from the cited work is reproduced here; LexGrade states its criteria in its own words.</p>
     <h2>Calibration authority</h2>
-    <p>The calibration is measured against the rules that govern the practice it scores: the New York Civil Practice Law and Rules (CPLR) and the Uniform Civil Rules for the Supreme and County Courts (22 NYCRR Part 202). These are primary legal authority, cited as calibration references — not endorsements of LexGrade.</p>
+    <p>The calibration is measured against the rules that govern the practice it scores: the New York Civil Practice Law and Rules (CPLR) and the Uniform Civil Rules for the Supreme and County Courts (22 NYCRR Part 202). These are primary legal authority, cited here as calibration references. No endorsement of LexGrade is implied.</p>
     <p class="note">Building on a source does not imply that source endorses LexGrade. LexGrade confers no authority, and nothing here is legal advice. If you believe a source is used improperly or should be credited, <a href="/contribute">tell us</a>.</p>
   </section>`;
   return documentShell({
@@ -824,7 +824,7 @@ export function renderCalibration(calibration) {
   <section class="prose" aria-label="Calibration set">
     <p>A scoring instrument earns trust by showing its work. The calibration set holds three complete motion drafts built from the <em>same</em> case facts, produced three different ways, and scored against the Standard. If the Standard could not tell them apart, it would measure nothing. The fact pattern is fictionalized, with invented parties, court, and figures, while every cited authority is a real published decision, so the citation-verification claims stay testable.</p>
     <table class="data">
-      <caption>Calibration exemplars — identical facts, three methods, three grades</caption>
+      <caption>Calibration exemplars: identical facts, three methods, three grades</caption>
       <thead><tr><th scope="col">Exemplar</th><th scope="col">Grade</th><th scope="col">Conformance</th><th scope="col">How it was produced</th></tr></thead>
       <tbody>
 ${exemplarRows}
@@ -1059,7 +1059,7 @@ ${rows}
   // eyebrow above the masthead.
   const body = `${docHeader({
     title: `LexGrade Technique Register <span class="version">v${escapeHtml(version)}</span>`,
-    subhead: `An informative companion to the Standard — ${escapeHtml(String(techniques.length))} named advocacy techniques, reported alongside the composite score but never modifying it. The complete reference is also available as <a href="/api/v1/techniques.json">JSON</a> and in <a href="/llms-full.txt">llms-full.txt</a>.`,
+    subhead: `An informative companion to the Standard: ${escapeHtml(String(techniques.length))} named advocacy techniques, reported alongside the composite score without ever modifying it. The complete reference is also available as <a href="/api/v1/techniques.json">JSON</a> and in <a href="/llms-full.txt">llms-full.txt</a>.`,
   })}
   <section class="tech-ethos" aria-label="How to read this register">
     <p><strong>Read this first.</strong> The Register catalogs craft. Each named technique is a form of clarity, discipline, or preparation that makes the strongest <em>honest</em> version of a case easy for a busy court to act on. If a technique would require bending candor to the tribunal or fairness to the opponent, the Standard treats it as a defect.</p>
