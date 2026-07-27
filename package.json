@@ -18,5 +18,9 @@
     "serve": "npm run serve --workspace sites/lexgrade.org",
     "a11y": "npm run a11y --workspace sites/lexgrade.org",
     "mcp": "node packages/mcp/index.mjs"
+  },
+  "overrides": {
+    "brace-expansion": "^5.0.8",
+    "minimatch": "^10.2.2"
   }
 }
