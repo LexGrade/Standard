@@ -119,7 +119,7 @@ export const PAGES = [
   { id: 'standard', path: '/standard', label: 'Standard', nav: true, footer: false, og: { title: 'LexGrade Standard', subtitle: 'Open scoring instrument for legal drafting quality' } },
   { id: 'techniques', path: '/techniques', label: 'Techniques', nav: true, footer: false, og: { title: 'Technique Register', subtitle: 'Named advocacy techniques, the informative companion' } },
   { id: 'about', path: '/about', label: 'About', nav: true, footer: true, og: { title: 'About LexGrade', subtitle: 'Grounded in real motion practice' } },
-  { id: 'calibration', path: '/calibration', label: 'Calibration', nav: false, footer: true, og: { title: 'Calibration Set', subtitle: 'A 95.5 / B− 82 / F 38 on identical facts — the Standard discriminates' } },
+  { id: 'calibration', path: '/calibration', label: 'Calibration', nav: false, footer: true, og: { title: 'Calibration Set', subtitle: 'Three drafts on identical facts, graded A 95.5 / B− 82 / F 38' } },
   { id: 'contribute', path: '/contribute', label: 'Contribute', nav: false, footer: true, og: { title: 'Contribute to LexGrade', subtitle: 'An open, collaborative standard — help shape it' } },
   { id: 'references', path: '/references', label: 'References', nav: false, footer: true, og: { title: 'Sources & influences', subtitle: 'What LexGrade builds on, credited in full' } },
 ];
