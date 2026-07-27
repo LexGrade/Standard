@@ -624,7 +624,7 @@ export function renderHome({ standardVersion, principleCount, criteriaCount, tec
   const body = `  <header class="home-hero">
     <h1 class="home-title">Scoring the quality of legal drafting.</h1>
     <p class="subhead">LexGrade is an open instrument for grading legal motions. The principles, the weights, and the ethics gate are published in full, in human and machine-readable form.</p>
-    <p class="home-evidence">Why an ethics gate? In one 2024 study, general-purpose language models hallucinated 58&ndash;88% of their legal citations (Dahl et al., <em>Large Legal Fictions</em>). The Standard treats a single fabricated citation as an automatic &minus;20, because candor toward the court is where grading has to start.</p>
+    <p class="home-evidence">Why an ethics gate? In one 2024 study, leading language models hallucinated in 58&ndash;88% of their answers to verifiable questions about federal court cases (<a href="https://doi.org/10.1093/jla/laae003">Dahl et al., <em>Large Legal Fictions</em></a>). The Standard treats a single fabricated citation as an automatic &minus;20, because candor toward the court is where grading has to start.</p>
   </header>
   <nav class="home-cards" aria-label="Start here">
     <a class="home-card" href="/standard">
@@ -756,6 +756,11 @@ export function renderReferences() {
     <p>LexGrade&#39;s rubric-based approach (weighted components, capped point values, and narrative performance bands that reduce a grader&#39;s subjectivity to a shared vocabulary) builds on an established tradition in legal-writing assessment, in particular:</p>
     <ul>
       <li>Jessica Clark &amp; Christy DeSanctis, <em>Toward a Unified Grading Vocabulary: Using Rubrics in Legal Writing Courses</em>, 63 J. Legal Educ. 3 (2013).</li>
+    </ul>
+    <h2>Empirical grounding</h2>
+    <p>The hallucination figures cited on the homepage and in the Standard&#39;s ethics-gate rationale come from:</p>
+    <ul>
+      <li>Matthew Dahl, Varun Magesh, Mirac Suzgun &amp; Daniel E. Ho, <em>Large Legal Fictions: Profiling Legal Hallucinations in Large Language Models</em>, 16 J. Legal Analysis 64 (2024), <a href="https://doi.org/10.1093/jla/laae003">doi:10.1093/jla/laae003</a>. The study measured hallucination rates in model answers to verifiable questions about federal court cases: 58% for ChatGPT-4, up to 88% for Llama 2.</li>
     </ul>
     <p>LexGrade adapts that pedagogy from the law-school classroom to motion practice. The criteria, weights, and examples are its own. No rubric text or appendix from the cited work is reproduced here; LexGrade states its criteria in its own words.</p>
     <h2>Calibration authority</h2>
