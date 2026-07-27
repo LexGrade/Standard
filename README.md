@@ -1,13 +1,13 @@
 # LexGrade Standard
 
-An open standard for grading the quality of legal motions — with a companion register of the advocacy techniques that distinguish expert work from competent work.
+An open standard for grading the quality of legal motions, with a companion register of the advocacy techniques that distinguish expert work from competent work.
 
 LexGrade is an open, independently maintained model of effective motion practice, published openly so others can use it, test it, and [improve it](.github/CONTRIBUTING.md). It is **not** promulgated by any court, bar, or government body, it confers no authority, and **nothing here is legal advice**. Every legal citation in any LexGrade output must be independently verified before filing.
 
 ## What's here
 
 - **The Standard** — principles and graded criteria, calibrated against New York State Supreme Court motion practice, each independently citable.
-- **The Technique Register** — named advocacy techniques; an informative companion reported alongside the composite score but never modifying it. A descriptive catalog of craft, not a manual for getting one over on a court.
+- **The Technique Register** — a descriptive catalog of named advocacy techniques. It is informative only: reported alongside the composite score, and it never modifies the score.
 - **The Calibration Set** — three exemplars on identical facts (A 95.5 / B− 82 / F 38) demonstrating the Standard discriminates, with a scoring guide and an inter-rater reliability protocol open to independent graders.
 - **The System Prompt** — the five-phase gated drafting workflow the Standard was calibrated against.
 - **Extensions** — templates for porting the Standard to other jurisdictions and motion types.

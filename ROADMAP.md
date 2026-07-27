@@ -1,31 +1,33 @@
 # Roadmap: from open standard to referrable institution
 
-**What lexgrade.org is.** The institutional home of the open standard — the
+**What lexgrade.org is.** The institutional home of the open standard: the
 Standard, the Technique Register, the machine-readable catalog, and nothing
-else. It is deliberately vendor-neutral: no product, no accounts, no scoring
-service, no data collection. Consumer-facing surfaces built *on* the standard
-(a pro se on-ramp, a guided draft-scoring walkthrough, printed checklists for
-help centers) are downstream implementations, maintained separately, outside
-this repo's scope — exactly as GOVERNANCE.md already provides for hosted
-services. This roadmap covers only the commons: the standard and its site.
+else. It is deliberately vendor-neutral, with no product, no accounts, no
+scoring service, and no data collection. Consumer-facing surfaces built on the
+standard (a pro se on-ramp, a guided draft-scoring walkthrough, printed
+checklists for help centers) are downstream implementations, maintained
+separately and outside this repo's scope, as GOVERNANCE.md already provides
+for hosted services. This roadmap covers only the commons: the standard and
+its site.
 
 **North star.** The standard becomes the thing institutions cite and
 downstream tools build on: courts, clinics, legal aid organizations, and
 educators can point to lexgrade.org the way they point to a published
-specification — because it is accountable, current, validated, and neutral.
+specification, because it is accountable, current, validated, and neutral.
 
-**The messaging principle — the judge test.** Every page must pass this: *a
+**The messaging principle: the judge test.** Every page must pass this: *a
 judge who lands here should be glad it exists.* The standard raises the floor
-of what arrives on the docket — better-diagnosed problems, real citations,
-provable facts, candor as a gate. That serves the court as much as the filer.
+of what arrives on the docket (better-diagnosed problems, real citations,
+provable facts, candor as a gate), and that serves the court as much as the
+filer.
 Any copy that reads as advantage-seeking, gamesmanship, or marketing fails the
 test and gets rewritten. (This is why the Technique Register's candor framing
 sits above its category table, and why the homepage leads with the
 hallucination evidence rather than a pitch.)
 
-**The gap, in one sentence.** The artifact is ready; the institution around it
-is not — everything on an institutional-citation checklist is satisfied except
-one: nobody is named.
+**The gap.** The artifact is ready and the institution around it is not.
+Everything on an institutional-citation checklist is satisfied except one
+item: nobody is named.
 
 Phases are ordered by dependency, not calendar. Phase 0 blocks external
 outreach (Phase 4); Phases 1–3 can proceed in parallel with it.
@@ -55,7 +57,7 @@ outreach (Phase 4); Phases 1–3 can proceed in parallel with it.
       the .org must never read as a vendor's marketing surface.
 
 **Done when:** the About page answers "who do I call when this is wrong?" with
-a name, not a working group.
+a specific person's name.
 
 ## Phase 1 — Credibility with judicial readers
 
@@ -69,7 +71,7 @@ sees that first.*
 - [x] **Surface the hallucination statistics on the homepage.** "General-purpose
       language models hallucinate 58–88% of legal citations" (Dahl et al.
       2024), with the −20 automatic deduction, as a quiet cited callout in the
-      hero — documentation, not marketing.
+      hero, written to read as documentation rather than marketing.
 - [x] **Citation-currency visibility.** `citations_verified` added to
       `lgs-criteria.yaml` (source of truth), surfaced in the /standard "Status
       of this document" block and in `/api/v1/standard.json` — driven from
@@ -181,5 +183,5 @@ relationships, not code.
 - **No outcome-tracking push (§8 of the Standard).** Courts are sensitive to
   anything that reads as "scoring judges' responses." Leave it informative.
 - **No endorsement-seeking from courts or grievance committees.** The goal is
-  to be *citable*, not endorsed; asking for endorsement invites a "no" that
-  forecloses the quieter yes.
+  to be citable. Asking for endorsement invites a "no" that forecloses the
+  quieter yes.
