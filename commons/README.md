@@ -29,6 +29,12 @@ is addressed by the
 see the [Call for Graders](calibration-set/Call_for_Graders.md) and submit via
 the inter-rater scoring issue template.
 
+The machine analogue is the
+[Machine Clarity Protocol](calibration-set/Machine_Clarity_Protocol.md) —
+independent language models grading the same exemplars to test whether the
+criteria are machine-unambiguous (consistency, never validity). Reports from
+both series live in [`calibration-set/results/`](calibration-set/results/).
+
 ## Governance, trademark, and forking
 
 - [`GOVERNANCE.md`](GOVERNANCE.md) — decision rights, DCO posture, stewardship
