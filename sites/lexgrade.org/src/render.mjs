@@ -5,7 +5,8 @@
 // Renders a W3C-spec-style static document: a fixed left ribbon, a sticky
 // table of contents, a "Status of this document" front-matter block, and
 // numbered principle/criteria sections. The PRODUCTION SURFACE SHIPS ZERO
-// JAVASCRIPT — the output is pure HTML + inline CSS (the sticky TOC is CSS
+// JAVASCRIPT — the output is pure HTML + a single static stylesheet
+// (src/styles.css, composed and emitted by build.mjs; the sticky TOC is CSS
 // `position: sticky`; the front matter is a native <details> disclosure;
 // no <script>, no inline handlers). A test in test/render.test.mjs guards
 // the no-JS rule so a regression fails CI.
@@ -324,7 +325,7 @@ function renderPrinciple(p, criteria) {
 
   const body =
     criteria.length === 0
-      ? `<p class="precondition">${
+      ? `<p class="panel precondition">${
           p.id === 'P1'
             ? 'Procedural Integrity is a precondition the filer satisfies against the court&#39;s rules. LGS does not score it; graded criteria begin at LGS 2.1.'
             : 'No graded criteria for this principle.'
@@ -540,7 +541,7 @@ export function renderStandard(standard) {
     subhead: `An open scoring instrument for ${escapeHtml(scope)}: ${principleWord} principles and ${escapeHtml(String(critCount))} graded criteria, each independently citable.`,
   })}
 
-  <details class="sotd" open>
+  <details class="panel sotd" open>
     <summary><span class="sotd-chevron" aria-hidden="true"></span>Status of this document</summary>
     <dl>
       <dt>This version</dt><dd>v${escapeHtml(version)} (current published edition)</dd>
@@ -624,7 +625,7 @@ export function renderHome({ standardVersion, principleCount, criteriaCount, tec
   const body = `  <header class="home-hero">
     <h1 class="home-title">Scoring the quality of legal drafting.</h1>
     <p class="subhead">LexGrade is an open instrument for grading legal motions. The principles, the weights, and the ethics gate are published in full, in human and machine-readable form.</p>
-    <p class="home-evidence">Why an ethics gate? In one 2024 study, leading language models hallucinated in 58&ndash;88% of their answers to verifiable questions about federal court cases (<a href="https://doi.org/10.1093/jla/laae003">Dahl et al., <em>Large Legal Fictions</em></a>). The Standard treats a single fabricated citation as an automatic &minus;20, because candor toward the court is where grading has to start.</p>
+    <p class="callout home-evidence">Why an ethics gate? In one 2024 study, leading language models hallucinated in 58&ndash;88% of their answers to verifiable questions about federal court cases (<a href="https://doi.org/10.1093/jla/laae003">Dahl et al., <em>Large Legal Fictions</em></a>). The Standard treats a single fabricated citation as an automatic &minus;20, because candor toward the court is where grading has to start.</p>
   </header>
   <nav class="home-cards" aria-label="Start here">
     <a class="home-card" href="/standard">
@@ -639,7 +640,7 @@ export function renderHome({ standardVersion, principleCount, criteriaCount, tec
     </a>
   </nav>
   <p class="home-note">The criteria come from real motion practice. A well-built motion serves everyone involved, including the court that has to decide it. <a href="/about">Why this exists <span aria-hidden="true">→</span></a></p>
-  <aside class="home-invite" aria-label="Contribute">
+  <aside class="panel home-invite" aria-label="Contribute">
     <p class="home-invite__lead">An open standard gets sharper when practicing lawyers argue with it. If you litigate, help shape the next version.</p>
     <a class="home-invite__link" href="/contribute">Contribute to LexGrade <span aria-hidden="true">→</span></a>
   </aside>`;
@@ -932,7 +933,7 @@ ${socialMeta({ title, description, url: canonicalUrl, image })}
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="${THEME_COLOR}">
 ${FONT_LINKS}
-<style>${CSS}</style>
+<link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to main content</a>
@@ -1070,7 +1071,7 @@ ${rows}
     title: `LexGrade Technique Register <span class="version">v${escapeHtml(version)}</span>`,
     subhead: `An informative companion to the Standard: ${escapeHtml(String(techniques.length))} named advocacy techniques, reported alongside the composite score without ever modifying it. The complete reference is also available as <a href="/api/v1/techniques.json">JSON</a> and in <a href="/llms-full.txt">llms-full.txt</a>.`,
   })}
-  <section class="tech-ethos" aria-label="How to read this register">
+  <section class="callout tech-ethos" aria-label="How to read this register">
     <p><strong>Read this first.</strong> The Register catalogs craft. Each named technique is a form of clarity, discipline, or preparation that makes the strongest <em>honest</em> version of a case easy for a busy court to act on. If a technique would require bending candor to the tribunal or fairness to the opponent, the Standard treats it as a defect.</p>
     <p>No technique is required for any grade, and a motion can score A+ with none present. The Register asks a different question: what does expert advocacy do that competent advocacy does not?</p>
   </section>
@@ -1177,419 +1178,13 @@ ${[def, example, anti, reqs, why, distinctions, notes].filter(Boolean).join('\n'
 }
 
 
-const CSS = `
-:root {
-  --page: #FAF8F4;
-  --panel: #F4F0E8;
-  --soft: #F6F2EA;
-  --card: #FFFFFF;
-  --text: #211D1A;
-  --heading: #1A1613;
-  /* Mockup specced --muted #5A534C / --muted-2 #6E655C; both fall just under the
-     AAA 7:1 floor on the warm paper at body size, so they're darkened here until
-     every text/background pair clears 7:1 (the deliberate AAA tradeoff). */
-  --muted: #4C463F;
-  --muted-2: #544D46;
-  --link: #2B4C7E;
-  --accent: #7A1626;
-  --accent-deep: #5E101C;
-  --border: #E4DFD6;
-  --border-2: #EDE7DC;
-  --measure: 42rem;
-  /* Golden-ratio (φ ≈ 1.618) spacing scale for type rhythm. */
-  --space-2xs: 0.382rem; /* φ⁻² */
-  --space-xs: 0.618rem;  /* φ⁻¹ */
-  --space-s: 1rem;       /* base */
-  --space-m: 1.618rem;   /* φ¹ */
-  --space-l: 2.618rem;   /* φ² */
-  --space-xl: 4.236rem;  /* φ³ */
-  --serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
-  --sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
-}
-* { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
-body {
-  margin: 0;
-  font-family: var(--serif);
-  font-optical-sizing: auto;
-  color: var(--text);
-  background: var(--page);
-  line-height: 1.65;
-  font-variant-numeric: oldstyle-nums proportional-nums;
-  /* Prevent orphans/widows everywhere: text-wrap-style is inherited, so this
-     reaches paragraphs, list items, table cells, and definitions automatically.
-     Progressive — older engines fall back to normal wrapping. */
-  text-wrap: pretty;
-}
-h1, h2, h3, h4 { font-family: var(--serif); color: var(--heading); text-wrap: balance; font-optical-sizing: auto; }
-/* Short display blocks read better balanced than ragged-with-no-orphan. */
-.subhead, .def__text p { text-wrap: balance; }
-a { color: var(--link); text-decoration-thickness: from-font; text-underline-offset: .12em; }
-a:hover { color: var(--accent-deep); text-decoration: underline; }
-a:focus-visible, summary:focus-visible, [tabindex]:focus-visible {
-  outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 3px;
-}
-:target { scroll-margin-top: 1.5rem; }
-.num, .pid, .self-link, .formula, code, table.data td { font-variant-numeric: lining-nums tabular-nums; }
-.skip-link { position: absolute; left: -9999px; top: 0; background: var(--heading); color: #fff; padding: .6rem 1rem; z-index: 10; font-family: var(--sans); }
-.skip-link:focus { left: .5rem; top: .5rem; }
-
-/* ── Shared top bar + page shells ─────────────────────────────────────────── */
-/* The spec page is a two-column grid (sticky TOC rail + content) under the top
-   bar; every other page is a single centered column under the same top bar. */
-.layout { display: grid; grid-template-columns: 21.5rem minmax(0, 1fr); align-items: start; min-height: 100vh; }
-.layout--solo { display: block; }
-
-/* Pinned full-height rail: min-height keeps the panel filling the viewport even
-   when the TOC is short (a few categories), so the cream rail never cuts off
-   mid-page; max-height + overflow lets a long TOC scroll within it. */
-.sidebar {
-  position: sticky; top: 0; align-self: start;
-  min-height: 100vh; max-height: 100vh; overflow-y: auto;
-  background: var(--panel);
-  border-right: 1px solid var(--border);
-  padding: 1.75rem 1.5rem 2rem;
-}
-
-main { padding: 2.875rem 4.5rem 5rem; min-width: 0; }
-.layout main { max-width: 1080px; }
-/* All solo doc pages share one centered reading column at ~the measure, so the
-   header and body line up and prose-heavy and table pages read consistently. */
-.layout--solo main { max-width: 50rem; margin: 0 auto; padding: 2.875rem 1.5rem 5rem; }
-
-/* ONE shared full-width top bar on every page: masthead + nav grouped at the
-   left, so the site nav is identical everywhere and never jumps when navigating.
-   The right edge is left open for a future CTA (which can claim it with
-   margin-left: auto). */
-.topbar { display: flex; align-items: center; justify-content: flex-start; flex-wrap: wrap; gap: .6rem 2rem; padding: 1.05rem 2rem; border-bottom: 1px solid var(--border); background: var(--panel); }
-
-/* ── Masthead + primary nav ──────────────────────────────────────────────── */
-.masthead { display: inline-flex; align-items: center; gap: .55rem; text-decoration: none; color: var(--heading); }
-/* text-decoration: none cancels the global a:hover underline — the masthead is a
-   brand mark, not a body link, so it never underlines on hover. */
-.masthead:hover { color: var(--heading); text-decoration: none; }
-/* The wordmark is the brand, set in the serif (like the spec itself); the nav
-   around it stays sans. It never underlines — a logo is a mark, not a link. */
-.masthead .wordmark { font-family: var(--serif); font-weight: 600; font-size: 1.3rem; letter-spacing: -.01em; }
-.masthead .logo { width: 1.85rem; height: 1.85rem; display: block; flex: none; color: var(--accent); }
-
-.sitenav { font-family: var(--sans); font-size: .92rem; }
-.sitenav a { text-decoration: none; color: var(--muted); }
-.sitenav a:hover { color: var(--accent-deep); }
-.sitenav a[aria-current="page"] { color: var(--heading); }
-.sitenav-menu { display: none; }
-
-/* Inline row of links with an accent underline on the active one. */
-.topbar .sitenav-bar { display: flex; flex-wrap: wrap; gap: .4rem 1.4rem; }
-.topbar .sitenav-bar a { padding: .15rem 0; border-bottom: 2px solid transparent; }
-.topbar .sitenav-bar a[aria-current="page"] { border-bottom-color: var(--accent); }
-
-/* The Contribute CTA — pinned to the right of the top bar (margin-left: auto
-   claims the slot the left-grouped nav leaves open). A solid accent button so it
-   reads as the primary action, distinct from the plain nav links. */
-.cta { margin-left: auto; font-family: var(--sans); font-size: .9rem; font-weight: 600; line-height: 1; text-decoration: none; color: #fff; background: var(--accent); border: 1px solid var(--accent); padding: .5rem 1rem; border-radius: 7px; white-space: nowrap; }
-.cta:hover { background: var(--accent-deep); border-color: var(--accent-deep); color: #fff; text-decoration: none; }
-.cta[aria-current="page"] { background: var(--accent-deep); border-color: var(--accent-deep); }
-
-/* ── Sidebar table of contents ────────────────────────────────────────────── */
-.toc { font-family: var(--sans); }
-.toc-label { font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted-2); margin: 0 0 var(--space-xs); padding: 0 .75rem; }
-.toc-label::after { content: ""; display: block; height: 1px; background: var(--border); margin-top: .65rem; }
-.toc ol { list-style: none; margin: 0; padding: 0; }
-.toc-list { font-size: .9rem; }
-.toc-list > li { margin-bottom: .15rem; }
-.toc-list > li > a { font-weight: 500; color: var(--heading); }
-.toc-list ol { margin: .15rem 0 .55rem .9rem; border-left: 1px solid var(--border); padding-left: .7rem; }
-.toc-list ol a { font-size: .85rem; color: var(--muted); }
-/* A 2px gutter reserved on every entry (transparent until active) so the active
-   accent bar is a straight vertical line, not a curved one, and toggling it never
-   shifts the text. Left corners stay square so the bar reads as a rule. */
-.toc a { text-decoration: none; display: flex; gap: .45rem; padding: .22rem .75rem; border-radius: 0 4px 4px 0; border-left: 2px solid transparent; transition: background-color .15s ease, border-color .15s ease, color .15s ease; }
-.toc-list ol a { padding: .18rem .55rem; }
-.toc a:hover { background: var(--border-2); color: var(--accent-deep); }
-.toc .num { color: var(--accent); font-size: .82em; flex: none; }
-/* Scroll-spy active entry — set by the enhancement script (aria-current); absent
-   and harmless without JS. Colour pairs with the left accent rule, never colour-only. */
-.toc a[aria-current] { color: var(--accent); background: var(--border-2); border-left-color: var(--accent); }
-.toc a[aria-current] .num { color: var(--accent); }
-
-/* Copy-cite button — injected by the enhancement script only where the clipboard
-   API exists; the citation text is always present and selectable without JS. */
-.cite-copy { font-family: var(--sans); font-weight: 600; font-size: 12px; color: var(--accent); background: none; border: 1px solid var(--border); border-radius: 6px; padding: 3px 11px; margin-left: 12px; cursor: pointer; }
-.cite-copy:hover { background: var(--border-2); }
-.cite-copy.is-copied { color: #156b3a; border-color: #a9d4be; }
-.cite-copy:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.toc-list ol a .num { color: var(--muted-2); }
-
-/* ── Document header ──────────────────────────────────────────────────────── */
-.doc-header { border-bottom: 1px solid var(--border); padding-bottom: var(--space-m); margin-bottom: var(--space-l); }
-.doc-header h1 { font-size: clamp(2rem, 4.5vw, 2.9rem); line-height: 1.12; margin: 0; letter-spacing: -.012em; font-weight: 600; }
-.doc-header .version { color: var(--muted-2); font-weight: 400; }
-.subhead { color: var(--muted); max-width: var(--measure); margin: .9rem 0 0; font-size: 1.12rem; line-height: 1.55; }
-
-/* ── Home landing ─────────────────────────────────────────────────────────── */
-/* A thin landing at the root: a value-proposition hero over two entry cards.
-   Reuses the solo reading column + shared tokens, so it stays on-system. */
-.home-hero { margin: var(--space-l) 0 var(--space-l); }
-.home-title { font-size: clamp(2.1rem, 5vw, 3rem); line-height: 1.1; letter-spacing: -.015em; font-weight: 600; margin: 0; }
-/* The evidence line — the one cited fact that explains the ethics gate. A quiet
-   callout, not a banner: it should read as documentation, not marketing. */
-.home-evidence { font-family: var(--sans); font-size: .95rem; color: var(--muted); max-width: var(--measure); margin: 1.1rem 0 0; padding: .85rem 1.1rem; background: var(--soft); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; }
-.home-cards { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-s); }
-.home-card { display: flex; flex-direction: column; gap: .5rem; padding: 1.6rem 1.5rem; background: var(--card); border: 1px solid var(--border); border-radius: 12px; text-decoration: none; color: inherit; transition: border-color .15s ease, transform .15s ease; }
-.home-card:hover { border-color: var(--accent); color: inherit; text-decoration: none; transform: translateY(-2px); }
-.home-card__title { font-family: var(--serif); font-size: 1.3rem; font-weight: 600; margin: 0; }
-.home-card__v { color: var(--muted-2); font-weight: 400; font-size: .9em; }
-.home-card__desc { color: var(--muted); margin: 0; flex: 1; }
-.home-card__cta { font-family: var(--sans); font-size: .9rem; font-weight: 600; color: var(--accent); margin-top: .4rem; }
-.home-card:hover .home-card__cta { text-decoration: underline; }
-.home-note { font-family: var(--sans); font-size: .95rem; color: var(--muted); margin: var(--space-l) 0 0; }
-/* Contribute teaser — a soft callout that turns the homepage into an on-ramp for
-   collaboration, distinct from the two document cards above it. */
-.home-invite { margin: var(--space-m) 0 0; padding: 1.1rem 1.35rem; background: var(--soft); border: 1px solid var(--border); border-radius: 10px; display: flex; flex-wrap: wrap; align-items: baseline; gap: .35rem 1rem; }
-.home-invite__lead { margin: 0; flex: 1 1 16rem; font-family: var(--sans); font-size: .95rem; color: var(--muted); }
-.home-invite__link { font-family: var(--sans); font-weight: 600; font-size: .95rem; color: var(--accent); text-decoration: none; white-space: nowrap; }
-.home-invite__link:hover { color: var(--accent-deep); text-decoration: underline; }
-@media (max-width: 40rem) { .home-cards { grid-template-columns: 1fr; } }
-
-/* ── Status of this document ──────────────────────────────────────────────── */
-.sotd { border: 1px solid var(--border); border-radius: 10px; padding: 0 1.5rem; margin-bottom: 2.5rem; background: var(--soft); }
-.sotd summary { cursor: pointer; font-family: var(--serif); font-weight: 600; font-size: 1.15rem; color: var(--heading); padding: 1.1rem 0; list-style: none; display: flex; align-items: center; gap: .6rem; }
-.sotd summary::-webkit-details-marker { display: none; }
-.sotd-chevron { width: .55rem; height: .55rem; border-right: 2px solid var(--accent); border-bottom: 2px solid var(--accent); transform: rotate(45deg); transition: transform .15s ease; flex: none; }
-.sotd[open] .sotd-chevron { transform: rotate(-135deg); }
-.sotd dl { display: grid; grid-template-columns: max-content 1fr; gap: .5rem 1.5rem; margin: 0 0 1.25rem; font-size: .96rem; }
-.sotd dt { font-family: var(--sans); font-size: .76rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted-2); align-self: center; }
-.sotd dd { margin: 0; }
-.sotd p { max-width: var(--measure); margin: 0 0 1.25rem; color: var(--muted); }
-.sotd code { font-family: var(--mono); font-size: .88em; }
-
-.abstract { margin-bottom: var(--space-l); }
-.abstract h2, .principle h2 { font-size: 1.6rem; font-weight: 600; }
-.abstract p { max-width: var(--measure); }
-
-/* ── Principle sections ───────────────────────────────────────────────────── */
-.principle { margin-bottom: var(--space-l); }
-.principle h2 { display: flex; flex-wrap: wrap; align-items: baseline; gap: .65rem; border-bottom: 1px solid var(--border); padding-bottom: .6rem; margin-bottom: 1rem; letter-spacing: -.01em; }
-.principle h2 .num { color: var(--accent); font-weight: 500; }
-.pid { font-family: var(--mono); font-size: .8rem; color: var(--muted-2); letter-spacing: 0; }
-.note { color: var(--muted); font-style: italic; max-width: var(--measure); }
-.precondition { max-width: var(--measure); color: var(--muted); background: var(--soft); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.35rem; }
-
-.criteria { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.4rem; }
-.criterion { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.15rem 1.4rem; }
-.criterion h3 { display: flex; flex-wrap: wrap; align-items: baseline; gap: .55rem; font-size: 1.18rem; font-weight: 600; margin: 0 0 .55rem; }
-.criterion h3 .num { font-size: .9rem; color: var(--accent); font-weight: 500; }
-.self-link { font-family: var(--mono); font-size: .76rem; text-decoration: none; color: var(--muted); padding: .1rem .45rem; border: 1px solid var(--border); border-radius: 5px; margin-left: auto; }
-.self-link:hover { color: var(--accent-deep); border-color: var(--accent); text-decoration: none; }
-.requirement { margin: 0; max-width: var(--measure); }
-.source { font-family: var(--sans); font-size: .82rem; color: var(--muted-2); margin: .65rem 0 0; }
-.deduction { font-family: var(--sans); font-size: .85rem; color: var(--accent-deep); margin: .55rem 0 0; }
-
-/* Role badges — colour always paired with the role text (WCAG 1.4.1). Only the
-   candor gate carries the brand red; precondition and weighted are tonal warm
-   neutrals (no off-system blue), all clearing AAA 7:1 on the warm paper. */
-.badge { font-family: var(--sans); font-size: .72rem; font-weight: 500; letter-spacing: .02em; padding: .18em .6em; border-radius: 999px; border: 1px solid var(--border); white-space: nowrap; }
-${Object.entries(ROLES)
+// The stylesheet lives in src/styles.css — a real CSS file, so editors get
+// syntax highlighting and there is no template-literal backtick hazard. The
+// one dynamic piece is the .badge--<role> palette derived from ROLES above;
+// build.mjs substitutes it at the /*__BADGE_ROLES__*/ placeholder so the
+// generated rules keep their cascade position. Exported (rather than read
+// here) so this module stays import-free and build.mjs remains the only
+// module that touches the filesystem.
+export const BADGE_ROLES_CSS = Object.entries(ROLES)
   .map(([k, r]) => `.badge--${k} { background: ${r.bg}; color: ${r.fg}; border-color: ${r.border}; }`)
-  .join('\n')}
-
-/* Screen-reader-only (visible to assistive tech, removed from the visual flow). */
-.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-
-/* Technique Register — elevated, single-column reading layout. One reading
-   column (var(--measure)); every section reads top-to-bottom. */
-.technique { max-width: var(--measure); }
-
-/* Definition — the dictionary entry; the category is the "part of speech". */
-.def { margin: 0 0 var(--space-l); padding-left: 1.2rem; border-left: 3px solid var(--accent); }
-.def__pos { font-family: var(--sans); font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 var(--space-xs); }
-.def__text, .def__text p { font-family: var(--serif); font-size: 1.3rem; line-height: 1.5; color: var(--heading); margin: 0; }
-
-/* Example (correct) / Anti-pattern (incorrect) — single-column exemplar quotes.
-   The anti-pattern carries the maroon rule + label; the example reads calm. */
-.example, .antipattern { margin: var(--space-m) 0; padding-left: 1.2rem; border-left: 3px solid var(--border); }
-.antipattern { border-left-color: var(--accent); }
-.example__label, .antipattern__label { display: flex; align-items: center; gap: .45rem; font-family: var(--sans); font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; margin: 0 0 var(--space-xs); }
-.example__label { color: var(--muted); }
-.antipattern__label { color: var(--accent); }
-.example .field__text, .antipattern .field__text { font-family: var(--serif); font-size: 1.05rem; color: var(--heading); }
-
-/* Generic labeled field (Requirements, Why it's expert, How it differs, notes). */
-.field { margin: var(--space-m) 0; }
-.field__label { font-family: var(--sans); font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 var(--space-xs); }
-/* Supplementary notes: a calm sentence-case sub-heading (source casing kept),
-   so long labels read as prose, not a shout. */
-.note-label { font-family: var(--sans); font-size: .92rem; font-weight: 600; color: var(--heading); margin: 0 0 var(--space-xs); }
-
-/* Shared rich-text container for every field value (raw markdown → HTML). */
-.field__text { line-height: 1.65; color: var(--ink); }
-.field__text > :first-child { margin-top: 0; }
-.field__text > :last-child { margin-bottom: 0; }
-.field__text p { margin: .7rem 0; }
-.field__text ul, .field__text ol { margin: .7rem 0; padding-left: 0; list-style: none; }
-.field__text li { position: relative; padding-left: 1.4rem; margin: .5rem 0; }
-.field__text ul > li::before { content: "—"; position: absolute; left: 0; color: var(--accent); }
-.field__text ol { counter-reset: tech-li; }
-.field__text ol > li::before { content: counter(tech-li) "."; counter-increment: tech-li; position: absolute; left: 0; font-family: var(--mono); font-size: .85em; color: var(--muted-2); }
-.field__text code { font-family: var(--mono); font-size: .88em; background: var(--soft); padding: .1em .35em; border-radius: 4px; }
-.field__text table { border-collapse: collapse; width: 100%; margin: .9rem 0; font-size: .92rem; background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-.field__text th, .field__text td { border-bottom: 1px solid var(--border-2); padding: .5rem .8rem; text-align: left; }
-.field__text tr:last-child td { border-bottom: none; }
-.field__text th { font-family: var(--sans); font-weight: 600; font-size: .82rem; background: var(--panel); }
-.tech-dl { margin: 0; }
-.tech-dl dt { font-family: var(--sans); font-size: .82rem; font-weight: 600; color: var(--heading); margin-top: .9rem; }
-.tech-dl dd { margin: .25rem 0 0; line-height: 1.6; }
-.tech-dl dd p { margin: 0; }
-
-/* Technique index — single-column, category-grouped rows with a medium serif
-   numeral in a gutter and hairline rules between rows (scannable, not dominant). */
-/* "Read this first" ethos block on the register index — the candor framing sits
-   above the category groups so a skimming reader meets it before any technique
-   name. Shares the evidence-callout look: documentation, not a warning banner. */
-.tech-ethos { max-width: var(--measure); margin: 0 0 var(--space-m); padding: 1rem 1.35rem; background: var(--soft); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0 10px 10px 0; }
-.tech-ethos p { margin: 0 0 .7rem; color: var(--muted); }
-.tech-ethos p:last-child { margin-bottom: 0; }
-
-.tech-group { margin: var(--space-l) 0; }
-.tech-group__h { font-family: var(--sans); font-size: .76rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 var(--space-2xs); }
-.tech-list { list-style: none; margin: 0; padding: 0; }
-.tech-row { margin: 0; }
-.tech-row a { display: grid; grid-template-columns: 2.25rem 1fr; gap: var(--space-s); align-items: baseline; padding: .9rem .25rem; border-top: 1px solid var(--border); text-decoration: none; color: inherit; transition: background .15s ease; }
-.tech-row:last-child a { border-bottom: 1px solid var(--border); }
-.tech-row a:hover { background: var(--panel); }
-.tech-row__num { font-family: var(--serif); font-size: 1.5rem; line-height: 1; color: var(--muted-2); font-variant-numeric: oldstyle-nums; text-align: right; }
-.tech-row__body { min-width: 0; }
-.tech-row__name { display: block; font-family: var(--serif); font-weight: 600; font-size: 1.05rem; color: var(--heading); }
-.tech-row a:hover .tech-row__name { color: var(--accent); }
-.tech-row__def { display: block; margin-top: .25rem; font-size: .9rem; line-height: 1.5; color: var(--muted); }
-
-.claim-elements { max-width: var(--measure); }
-.claim-asserts, .claim-disclaims { max-width: var(--measure); border-left: 3px solid var(--border); padding: .35rem 0 .35rem 1.1rem; margin: 1.1rem 0; }
-/* The integrity boundary (what a passing score does NOT mean) gets the accent —
-   the line a judge and an ethics reviewer check first. Colour pairs with the
-   "does not assert" text, never colour alone (WCAG 1.4.1). */
-.claim-disclaims { border-left-color: var(--accent); }
-
-.meta { margin: .3rem 0; font-size: .94rem; }
-.formula { background: var(--soft); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; overflow: auto; font-family: var(--mono); font-size: .82rem; line-height: 1.55; white-space: pre-wrap; max-width: var(--measure); }
-.steps { max-width: var(--measure); }
-table.data { border-collapse: collapse; margin: 1.4rem 0; font-size: .94rem; background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-table.data caption { font-family: var(--sans); text-align: left; color: var(--muted-2); font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; margin-bottom: .5rem; }
-table.data th, table.data td { border-bottom: 1px solid var(--border-2); padding: .55rem .85rem; text-align: left; }
-table.data tr:last-child td { border-bottom: none; }
-table.data th { font-family: var(--sans); font-weight: 600; font-size: .82rem; background: var(--panel); color: var(--heading); }
-
-.doc-footer { border-top: 1px solid var(--border); margin-top: 3.5rem; padding-top: 1.4rem; color: var(--muted); font-family: var(--sans); font-size: .85rem; }
-.doc-footer p { margin: .4rem 0; }
-.gh-links { color: var(--muted); }
-
-/* Shared site footer (every page): secondary links + license. Full-bleed below
-   the content, in the panel tone so it reads as site chrome, like the top bar. */
-.site-footer { border-top: 1px solid var(--border); background: var(--panel); padding: 1.5rem 2rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .6rem 1.5rem; font-family: var(--sans); font-size: .85rem; }
-.site-footer__nav { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; }
-.site-footer__nav a { color: var(--muted); text-decoration: none; }
-.site-footer__nav a:hover { color: var(--accent-deep); text-decoration: underline; }
-.site-footer__nav a[aria-current="page"] { color: var(--heading); }
-.site-footer__meta { margin: 0; color: var(--muted-2); }
-.site-footer__note { flex-basis: 100%; margin: 0; color: var(--muted-2); font-size: .8rem; }
-@media (max-width: 60rem) { .site-footer { padding: 1.5rem 1.25rem; } }
-
-/* ── Prose (rendered markdown pages) ──────────────────────────────────────── */
-.prose { max-width: var(--measure); }
-.prose h2 { font-size: 1.6rem; font-weight: 600; line-height: 1.2; margin-top: var(--space-l); letter-spacing: -.01em; }
-.prose h3 { font-size: 1.22rem; font-weight: 600; line-height: 1.25; margin-top: var(--space-m); }
-.prose table { border-collapse: collapse; margin: 1.4rem 0; font-size: .94rem; background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-.prose th, .prose td { border-bottom: 1px solid var(--border-2); padding: .55rem .85rem; text-align: left; }
-.prose tr:last-child td { border-bottom: none; }
-.prose th { font-family: var(--sans); font-weight: 600; font-size: .82rem; background: var(--panel); }
-.prose code { font-family: var(--mono); font-size: .88em; background: var(--soft); padding: .1em .35em; border-radius: 4px; }
-/* Identifiers in table cells (slugs, paths) stay on one line instead of fragmenting at hyphens. */
-.prose th code, .prose td code { white-space: nowrap; }
-.prose pre { overflow-x: auto; }
-.prose pre code { background: none; padding: 0; white-space: pre; }
-.prose hr, hr { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
-.prose ul, .prose ol { padding-left: 1.4rem; }
-.prose li + li { margin-top: .4rem; }
-.prose li > ul, .prose li > ol { margin-top: .4rem; }
-
-/* The § permalink on a rendered-markdown heading (the legal section sign — the
-   deep-link affordance for a legal standard). Muted, constant-weight at rest;
-   accent + underline on hover/focus (state never rides on font-weight). */
-/* The § permalink floats in the left gutter, outside the text column. */
-.prose :is(h1, h2, h3, h4, h5, h6) { position: relative; }
-.heading-anchor { position: absolute; left: -1.5em; top: 50%; transform: translateY(-50%); font-family: var(--sans); font-size: .85em; line-height: 1; text-decoration: none; color: var(--muted-2); transition: color .15s ease; }
-.prose :is(h1, h2, h3, h4, h5, h6):hover .heading-anchor, .heading-anchor:focus-visible { color: var(--accent); }
-@media (max-width: 60rem) { .heading-anchor { left: -1.1em; } }
-
-@media (max-width: 60rem) {
-  /* The top bar (brand + "Sections" disclosure) leads, the document follows, and
-     the long TOC drops to a footer rail (content-first — the TOC never dumps
-     above the document). The sidebar dissolves so its TOC orders after main.
-     align-items: stretch is explicit: the base grid sets align-items: start, which
-     in a flex column shrinks each row (the top bar) to content width instead of
-     spanning — stretch keeps the bar and main full-bleed. */
-  .layout { display: flex; flex-direction: column; align-items: stretch; }
-  .sidebar { display: contents; }
-  .topbar { flex-direction: column; align-items: stretch; gap: .35rem; padding: 1.25rem 1.25rem 1rem; }
-  main { order: 2; padding: 1.5rem 1.25rem 3.5rem; }
-  .toc { order: 3; border-top: 1px solid var(--border); padding: 1.75rem 1.25rem 2.5rem; }
-  .layout--solo main { padding-left: 1.25rem; padding-right: 1.25rem; }
-
-  /* The top-bar nav collapses to the zero-JS <details> disclosure ("Sections")
-     on phones. The context selector matches the base rule's specificity so the
-     override lands. */
-  .topbar .sitenav-bar { display: none; }
-  .topbar .sitenav { margin-top: .25rem; }
-  /* Contribute moves into the "Sections" disclosure on phones (see siteNav), so
-     the standalone CTA button is hidden here — one menu holds every destination. */
-  .cta { display: none; }
-  .sitenav-menu { display: block; margin-bottom: .5rem; }
-  /* A button-like disclosure with a custom chevron (matching the SOTD), rather
-     than the raw default ▶ marker. */
-  .sitenav-summary { cursor: pointer; padding: .55rem 0; color: var(--heading); font-family: var(--sans); font-weight: 600; list-style: none; display: flex; align-items: center; gap: .55rem; }
-  .sitenav-summary::-webkit-details-marker { display: none; }
-  .sitenav-summary::before { content: ""; width: .5rem; height: .5rem; border-right: 2px solid var(--accent); border-bottom: 2px solid var(--accent); transform: rotate(-45deg); transition: transform .15s ease; flex: none; }
-  .sitenav-menu[open] .sitenav-summary::before { transform: rotate(45deg); }
-  .sitenav-list { display: flex; flex-direction: column; padding-top: .35rem; }
-  .sitenav-list a { padding: .6rem 0 .6rem .65rem; border-left: 3px solid transparent; }
-  .sitenav-list a[aria-current="page"] { border-left-color: var(--accent); color: var(--heading); }
-
-  /* Compact TOC: top-level sections only; nested per-criterion links collapse.
-     Keep a left inset so the active item's accent border doesn't crowd its
-     label (matches the desktop rail's .75rem gutter). */
-  .toc-label { padding-left: .75rem; }
-  .toc a { padding-left: .75rem; }
-  .toc-list ol { display: none; }
-
-  /* Tables fill the column on a phone so the caption spans full width and a
-     short table (e.g. the 2-column weights) fills the card instead of shrinking
-     to a left-hugging sliver. display:table (NOT block) is the key: a block
-     table stretches its outer box to 100% but the rows collapse into an
-     anonymous table that shrinks to content width — the dead-space bug this
-     replaces. Wide tables wrap their cells to fit rather than overflow. */
-  table.data, .prose table { display: table; width: 100%; max-width: 100%; table-layout: auto; }
-  table.data td, table.data th, .prose td, .prose th { overflow-wrap: anywhere; }
-  /* Front matter reads as stacked label-over-value on a phone. */
-  .sotd dl { grid-template-columns: 1fr; gap: 0; }
-  .sotd dt { margin-top: .9rem; }
-  .sotd dt:first-of-type { margin-top: 0; }
-  .sotd dd { margin: .15rem 0 0; }
-
-  .principle { margin-bottom: 2.5rem; }
-  .abstract { margin-bottom: 2.25rem; }
-  .self-link { margin-left: 0; }
-
-  /* Touch targets ≥44px on phones — satisfies the WCAG 2.5.5 (AAA) target size
-     the site claims, and makes the nav, TOC, and CTA comfortable to thumb-tap.
-     (Desktop keeps its tighter pointer-friendly sizing above.) */
-  .sitenav-summary { min-height: 2.75rem; }
-  .sitenav-list a { min-height: 2.75rem; display: flex; align-items: center; }
-  .toc a { min-height: 2.75rem; align-items: center; }
-}
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  * { animation: none !important; transition: none !important; }
-}
-`;
+  .join('\n');

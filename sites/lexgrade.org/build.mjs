@@ -10,7 +10,7 @@
 // lgs-criteria.yaml via loadStandard) — no network, no external API — so the
 // site is self-contained and reproducible.
 
-import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -18,10 +18,16 @@ import { loadBundle, loadCalibration, loadStandard, loadTechniqueRegister, parse
 import { cspScriptSrc } from './src/lib/csp.mjs';
 import { toHtml } from './src/markdown.mjs';
 import { appIcon, ogCard } from './src/og.mjs';
-import { PAGES, LOGO_SVG, renderAbout, renderCalibration, renderContribute, renderHome, renderReferences, renderLlmsFull, renderNotFound, renderStandard, renderTechnique, renderTechniques } from './src/render.mjs';
+import { PAGES, LOGO_SVG, BADGE_ROLES_CSS, renderAbout, renderCalibration, renderContribute, renderHome, renderReferences, renderLlmsFull, renderNotFound, renderStandard, renderTechnique, renderTechniques } from './src/render.mjs';
 
 const SITE = 'https://lexgrade.org';
 const OUT = resolve(dirname(fileURLToPath(import.meta.url)), 'dist');
+
+// Start from an empty dist so pages removed from the sources (renamed
+// techniques, dropped routes) can't linger from a previous build and keep
+// being served. Everything below regenerates the full output.
+rmSync(OUT, { recursive: true, force: true });
+mkdirSync(OUT, { recursive: true });
 
 /** Write a self-contained page at dist/<path>/index.html (creates the dir). */
 function writePage(path, html) {
@@ -70,6 +76,14 @@ const cspScript = cspScriptSrc(standardHtml);
 writeFileSync(resolve(OUT, '404.html'), renderNotFound());
 // The logo as a standalone file (favicon target + reusable asset).
 writeFileSync(resolve(OUT, 'logo.svg'), LOGO_SVG);
+// The stylesheet: static src/styles.css with the ROLES-derived badge palette
+// substituted at its placeholder (see render.mjs), emitted as one cacheable
+// file shared by every page.
+writeFileSync(
+  resolve(OUT, 'styles.css'),
+  readFileSync(resolve(dirname(fileURLToPath(import.meta.url)), 'src', 'styles.css'), 'utf-8')
+    .replace('/*__BADGE_ROLES__*/', BADGE_ROLES_CSS),
+);
 // Self-contained narrative pages (no markdown source): provenance, the
 // collaboration CTA, and the sources/influences credits.
 writePage('about', renderAbout());
@@ -185,6 +199,9 @@ writeFileSync(
     '',
     '/api/*',
     '  Access-Control-Allow-Origin: *',
+    '  Cache-Control: public, max-age=3600',
+    '',
+    '/styles.css',
     '  Cache-Control: public, max-age=3600',
     '',
     '/llms-full.txt',
