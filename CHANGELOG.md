@@ -4,14 +4,26 @@ All notable changes to the LexGrade Standard and this repository are recorded
 here. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 The **standard itself** is versioned independently (currently **v1.0**); the
-*Unreleased* section below accumulates changes accepted for the next edition (the
-[working draft](commons/standard/drafts/README.md)). Published editions stay
-published — a new edition never revokes a prior one.
+*Unreleased* section below accumulates changes accepted for the next edition.
+Published editions stay published — a new edition never revokes a prior one.
 
 ## [Unreleased]
 
 Changes accepted for the next edition accumulate here. Propose changes via an
 `rfc:` issue — see [CONTRIBUTING](.github/CONTRIBUTING.md).
+
+### Changed
+- **Calibration set replaced with synthetic specimens (v2).** The original
+  exemplars and the filed-form assessments were withdrawn as insufficiently
+  fictionalized for publication. The replacement set
+  uses a wholly invented DRL § 237(a)/(d) fact pattern and three specimens
+  authored to their bands (A 95.6 / B− 80.1 / F 0), with every real citation's
+  pinpoint verified against the published opinion texts and provenance stated
+  plainly in the Scoring Guide. No criterion, weight, or deduction changed.
+
+### Removed
+- **Filed-form assessments** (`commons/assessments/`) — withdrawn with the
+  original exemplar set, for the same reason.
 
 ### Fixed
 - **Empirical citations stated precisely.** The Standard now describes the

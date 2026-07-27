@@ -9,8 +9,7 @@ templates for extending them to other forums.
 | Directory | Contents | License |
 |-----------|----------|---------|
 | `standard/` | The LexGrade Standard, the Technique Register, and `lgs-criteria.yaml` (the machine-readable catalog) | CC-BY-SA 4.0 |
-| `calibration-set/` | Three exemplars on identical facts, graded A (95.5) / B− (82) / F (38), plus the scoring guide, the inter-rater reliability protocol, and the citation corpus | CC-BY-SA 4.0 |
-| `assessments/` | LexGrade Standard assessments of real filed motions | CC-BY-SA 4.0 |
+| `calibration-set/` | Three exemplars on identical facts, graded A (95.6) / B− (80.1) / F (0), plus the scoring guide, the inter-rater reliability protocol, and the citation corpus | CC-BY-SA 4.0 |
 | `system-prompt/` | The five-phase gated drafting system prompt (`system_prompt_v1.0.md`) | AGPL-3.0 |
 | `extensions/` | Jurisdiction module and motion-type overlay templates, and jurisdiction modules in progress | AGPL-3.0 |
 

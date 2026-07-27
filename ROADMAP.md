@@ -97,7 +97,7 @@ NY-rule citation carries a visible freshness date.
 *The Standard's §3 methodology note admits it hasn't been validated through
 inter-rater reliability testing, and invites it. The groundwork already
 exists in `commons/calibration-set/`: three exemplars on identical facts
-(A 95.5 / B− 82 / F 38), a scoring guide, a written inter-rater reliability
+(A 95.6 / B− 80.1 / F 0), a scoring guide, a written inter-rater reliability
 protocol (Krippendorff's α ≥ 0.80 target), a call for graders, and a GitHub
 submission template. What remains is recruitment and publication.*
 

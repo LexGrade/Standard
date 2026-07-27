@@ -78,7 +78,7 @@ part of the submission.** Rubric refinement happens here.
 
 ## Agreement / divergence vs the published score
 
-The Scoring Guide publishes Exemplar A = 95.5, B = 82, C = 38. After
+The Scoring Guide publishes Exemplar A = 95.6, B = 80.1, C = 0. After
 submitting your scores above, look at the published score for the exemplar
 you graded and write 2-4 sentences on whether your score agreed, diverged,
 and what (if anything) the divergence suggests about the rubric.

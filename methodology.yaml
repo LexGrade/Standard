@@ -43,33 +43,23 @@ calibration_set:
   citation_corpus: commons/calibration-set/citation-corpus.json
   exemplars:
     - id: a
-      path: commons/calibration-set/exemplar-a/README.md
+      path: commons/calibration-set/exemplar-a/Exemplar_A_Expert_Band.md
       grade: A
-      score: 95.5
+      score: 95.6
       tier: expert
-      method: pipeline
-      redacted: true
+      method: expert_specimen
     - id: b
-      path: commons/calibration-set/exemplar-b/Exemplar_B_GPT4_Raw_Output.md
+      path: commons/calibration-set/exemplar-b/Exemplar_B_Single_Pass.md
       grade: B-
-      score: 82
+      score: 80.1
       tier: competent
-      method: gpt4_raw
+      method: single_pass_specimen
     - id: c
       path: commons/calibration-set/exemplar-c/Exemplar_C_Deliberately_Flawed.md
       grade: F
-      score: 38
+      score: 0
       tier: deficient
       method: anti_pattern
-
-assessments:
-  - id: drl-237a-filed
-    path: commons/assessments/DRL_237a_Filed_Motion_Assessment.md
-    source: commons/assessments/DRL_237a_Motion_Clean.md
-    grade: A
-    score: 95
-    techniques_present: 28
-    techniques_total: 32
 
 extensions:
   jurisdiction_module_template: commons/extensions/jurisdiction-module-TEMPLATE.md

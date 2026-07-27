@@ -119,7 +119,7 @@ export const PAGES = [
   { id: 'standard', path: '/standard', label: 'Standard', nav: true, footer: false, og: { title: 'LexGrade Standard', subtitle: 'Open scoring instrument for legal drafting quality' } },
   { id: 'techniques', path: '/techniques', label: 'Techniques', nav: true, footer: false, og: { title: 'Technique Register', subtitle: 'Named advocacy techniques, the informative companion' } },
   { id: 'about', path: '/about', label: 'About', nav: true, footer: true, og: { title: 'About LexGrade', subtitle: 'Grounded in real motion practice' } },
-  { id: 'calibration', path: '/calibration', label: 'Calibration', nav: false, footer: true, og: { title: 'Calibration Set', subtitle: 'Three drafts on identical facts, graded A 95.5 / B− 82 / F 38' } },
+  { id: 'calibration', path: '/calibration', label: 'Calibration', nav: false, footer: true, og: { title: 'Calibration Set', subtitle: 'Three drafts on identical facts, graded A 95.6 / B− 80.1 / F 0' } },
   { id: 'contribute', path: '/contribute', label: 'Contribute', nav: false, footer: true, og: { title: 'Contribute to LexGrade', subtitle: 'An open, collaborative standard — help shape it' } },
   { id: 'references', path: '/references', label: 'References', nav: false, footer: true, og: { title: 'Sources & influences', subtitle: 'What LexGrade builds on, credited in full' } },
 ];
@@ -781,8 +781,8 @@ export function renderReferences() {
 // Human labels for the calibration exemplar production methods. Fallback is the
 // raw method string, so a new method in methodology.yaml can't render blank.
 const CALIBRATION_METHODS = {
-  pipeline: 'Five-phase gated pipeline',
-  gpt4_raw: 'Raw single-pass GPT-4 output, unedited',
+  expert_specimen: 'Constructed expert-band specimen, authored to the Standard',
+  single_pass_specimen: 'Constructed single-pass specimen with competent-band gaps',
   anti_pattern: 'Deliberately flawed anti-pattern draft',
 };
 
@@ -822,6 +822,13 @@ export function renderCalibration(calibration) {
     )
     .join('\n      ');
 
+  const assessmentsSection = assessments.length
+    ? `<h2>Filed-form assessments</h2>
+    <ul>
+      ${assessmentItems}
+    </ul>`
+    : '';
+
   const body = `${docHeader({
     title: 'Calibration',
     subhead: 'Three drafts on identical facts, three different grades, and a protocol for testing whether independent graders agree.',
@@ -836,12 +843,9 @@ ${exemplarRows}
       </tbody>
     </table>
     <p>The full exemplar texts and the criterion-by-criterion scoring guide live in the open repository alongside the Standard.</p>
-    <h2>Filed-form assessments</h2>
-    <ul>
-      ${assessmentItems}
-    </ul>
-    <h2>A known limitation</h2>
-    <p>The calibration set was scored by a single rater, the methodology&#39;s author, and the Standard says so itself. The remedy is inter-rater reliability testing: three or more independent, bar-admitted graders scoring the same exemplars blind, with agreement measured by Krippendorff&#39;s &alpha; (target &ge; 0.80) under a published protocol. Results will appear here whatever they show.</p>
+    ${assessmentsSection}
+    <h2>Two known limitations</h2>
+    <p>First, the exemplars are constructed specimens: each was authored by the methodology&#39;s maintainers to represent its band, and the scoring guide says so plainly. They demonstrate that the Standard&#39;s bands are separable and its arithmetic reproducible — not how any particular drafting method performs in the wild, which requires genuine raw outputs a future round can add. Second, the set was scored by its authors. The remedy for both is the same: independent graders. Three or more bar-admitted graders scoring the same exemplars blind, with agreement measured by Krippendorff&#39;s &alpha; (target &ge; 0.80) under a published protocol. Results will appear here whatever they show.</p>
     <p><strong>Independent graders are welcome.</strong> Scoring one exemplar takes a practicing attorney roughly an hour. See <a href="/contribute">how to get involved</a>.</p>
     <p class="note">The exemplars are drafting specimens for calibration, not templates for filing. LexGrade confers no authority and nothing here is legal advice.</p>
   </section>`;
