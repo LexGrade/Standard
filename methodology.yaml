@@ -39,7 +39,6 @@ artifacts:
 calibration_set:
   scoring_guide: commons/calibration-set/Calibration_Set_Scoring_Guide.md
   inter_rater_protocol: commons/calibration-set/Inter_Rater_Reliability_Protocol.md
-  machine_clarity_protocol: commons/calibration-set/Machine_Clarity_Protocol.md
   citation_corpus: commons/calibration-set/citation-corpus.json
   exemplars:
     - id: a

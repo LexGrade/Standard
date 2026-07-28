@@ -1,33 +1,112 @@
-# Graders
+# Graders — Call and Roll
 
-Durable credit for the independent graders who validate the LexGrade
-Standard through inter-rater reliability (IRR) rounds. Per-round scores
-and statistics live in [`results/`](results/); this is the standing roll
-of contributors *across* all rounds.
+**The ask:** a few hours from independent attorneys (and legal-writing
+faculty) to grade three motion exemplars against the open LexGrade
+Standard, so the standard can graduate from one person's judgment to a
+validated instrument.
 
-Attribution is **opt-in**. When a round report publishes, each grader is
-listed here by the name they chose — full name, or "Grader N" to stay
-anonymous while still being counted. This roll is CC-BY-SA 4.0, like the
-rest of the calibration set.
+## Why this matters
+
+The LexGrade Standard is an open, citable instrument for measuring the
+quality of a legal motion draft: its structure, its support, and whether
+every citation is real. Today it carries one limitation that no amount of
+engineering can fix from the inside: a grading rubric that has only ever
+been applied by its author remains untested as an instrument.
+
+Every score the standard produces is currently downstream of a single
+rater's judgment. The fix is **independent graders applying the published
+rubric to the same exemplars** and seeing whether they converge.
+Convergence supports the standard. Divergence shows exactly which criteria
+need sharpening. Either result is useful data.
+
+## What you would do
+
+- About **3–4 hours**, one round.
+- Read three exemplars — an expert-band draft, a single-pass
+  competent-band draft, and a deliberately flawed draft — and grade each
+  **blind** against LexGrade Standard v1.0: per-section scores plus a
+  short rationale.
+- Flag any criterion where the rubric made the call ambiguous. **That is
+  the single highest-value thing the round produces.**
+- You are *not* trying to produce the "correct" score. You are testing
+  whether the rubric, as written, is clear enough that independent
+  professionals land in the same place.
+
+## Who can grade
+
+- A **New York–admitted attorney** with motion-practice experience —
+  matrimonial, family, or general civil; active or inactive registration.
+  The current set is NY-calibrated (DRL § 237(a), NY Supreme Court).
+- **Legal-writing or clinic faculty.** You grade against rubrics for a
+  living; this is squarely your wheelhouse — and a publishable
+  inter-rater-reliability study.
+- Recent graduates with about a year of motion-drafting experience count.
+
+## What you get
+
+- **Attribution, your way.** Your name in the round report and on the
+  standing roll below — or grade as "Grader N" and stay anonymous while
+  still being counted.
+- For educators: a citable IRR dataset (Krippendorff's α, per section) you
+  can build scholarship on.
+- A direct hand in an open, access-to-justice standard anyone can read,
+  fork, and run (CC-BY-SA 4.0).
+
+## What this is and isn't
+
+LexGrade is an **engineering-style standard** for drafting quality,
+modeled on how WCAG works for web accessibility: principles → criteria
+with stable IDs → conformance levels. It measures how well a document is
+built and whether its sources check out. It does **not** give legal
+advice, predict outcomes, or tell anyone what the law is. You are
+validating a measuring instrument, not endorsing legal conclusions.
+
+Participation is **volunteer**: there is currently no budget for paid
+grader time. When sponsorship makes paid grading sustainable, prior
+volunteers are invited first.
+
+## How to take part
+
+Email **hello@lexgrade.org**, subject line **`Grader`**, and the
+maintainer will coordinate exemplar access and round timing. (A
+lower-friction, account-based sign-up is on the way; this email path works
+today.)
+
+The full method, eligibility, scoring procedure, and agreement statistics
+live in the
+[Inter-Rater Reliability Protocol](Inter_Rater_Reliability_Protocol.md).
+
+---
 
 ## Roll
 
-> No rounds have closed yet; recruitment is in progress. See the
-> [Call for Graders](Call_for_Graders.md). The empty roll is published
-> so the absence of validation stays visible.
+Durable credit for the independent graders who validate the LexGrade
+Standard through IRR rounds. Per-round scores and statistics live in the
+round reports (see the protocol's
+[Output section](Inter_Rater_Reliability_Protocol.md#output)); this is
+the standing roll of contributors *across* all rounds. Attribution is
+**opt-in**: full name, or "Grader N" to stay anonymous while still being
+counted.
+
+> No rounds have closed yet; recruitment is in progress — see the top of
+> this page. The empty roll is published so the absence of validation
+> stays visible.
 
 | Grader | Role / admission | Rounds | Report |
 |--------|------------------|--------|--------|
 | _(your name here)_ | | | |
 
-## How you get listed
+### How you get listed
 
-1. Take part in an IRR round — see the
-   [Call for Graders](Call_for_Graders.md) and the
-   [protocol](Inter_Rater_Reliability_Protocol.md).
+1. Take part in an IRR round — see [How to take part](#how-to-take-part)
+   and the [protocol](Inter_Rater_Reliability_Protocol.md).
 2. State your attribution preference (full name, or "Grader N") on intake.
-3. When your round report lands in [`results/`](results/), you are added
-   here with a link to it.
+3. When your round report lands, you are added here with a link to it.
 
 Relabeling or removal on request, any time — email
 **hello@lexgrade.org**.
+
+---
+
+*CC-BY-SA 4.0. Forks applying LexGrade to other jurisdictions are
+encouraged to run their own rounds and publish their own results.*

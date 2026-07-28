@@ -74,20 +74,26 @@ You receive:
 
 Apply the LexGrade Standard v1.0 exactly as written. Specifically:
 
-1. Score each weighted section (II-A, II-B, III, IV, V, VII) on
-   the rubric's 0–100 scale and record a per-section rationale.
-2. Determine pass/fail on the two gates (Section I Threshold and
-   Section VI Ethical). For Section VI, identify and itemize any
-   hallucinated citations you find — each is an automatic −20 and a
-   gate failure.
-3. Apply automatic deductions explicitly using the values in the
-   rubric (hallucinated citation −20, wrong vehicle −5, missing
-   Memorandum of Law −5, missing Proposed Order −3, missing Statement
-   of Net Worth −2).
-4. Compute the composite per the scaling formula in the rubric.
-5. **Flag any section where rubric ambiguity made the scoring call
+1. Grade each scored principle (P2, P3, P4, P5, P6, P8) on the
+   rubric's 0–100 scale per the §4 score bands, and record a
+   per-principle rationale.
+2. Determine pass/fail on the two gates: the Principle 1 threshold
+   precondition and the Principle 7 candor gate. For Principle 7,
+   identify and itemize every violation against the §4 deduction
+   ladder by criterion ID (e.g., a hallucinated citation is LGS 7.1,
+   −20 per instance, and forces the Deficient tier).
+3. Itemize any negative modifiers per §6 (capped at −5 total; never
+   double-charge a defect already deducted under Principle 7).
+4. Compute the composite by the §6 formula, step by step: weighted
+   subtotal /80 → ÷0.80 → apply net modifier and P7 deductions →
+   clamp to [0, 98].
+5. **Flag any criterion where rubric ambiguity made the scoring call
    difficult.** This is the highest-value qualitative data the round
    produces.
+
+The deduction values live in the Standard itself (§4, Principle 7
+ladder; §6, negative modifiers) — apply them from the published
+Standard, not from memory or from this protocol.
 
 Do *not* read the Scoring Guide before completing your scoring. The
 guide exists to explain *why* the published scores landed where they
@@ -142,10 +148,21 @@ record, not by quiet maintainer fiat.
 
 ## Output
 
-Each round produces one markdown report at
-[`commons/calibration-set/results/`](results/), named per the convention
-described in [`results/README.md`](results/README.md). The report
-includes:
+Each round produces one markdown report in
+`commons/calibration-set/results/` (the directory is created when the
+first report lands). Two report series share it and are never merged:
+
+```
+{year}-q{quarter}-irr-round-{n}.md      (human IRR — this protocol)
+{year}-q{quarter}-clarity-round-{n}.md  (machine clarity — see below)
+```
+
+`{n}` is the round number within the quarter — normally one, but the
+convention supports more if grader availability allows. Only IRR rounds
+validate; clarity rounds test machine-legibility (see
+[Machine clarity rounds](#machine-clarity-rounds)).
+
+The IRR report includes:
 
 - Round number, dates, and rubric version graded against.
 - Number of raters, jurisdictions represented, and (if opted in) names.
@@ -176,7 +193,72 @@ If you are eligible and willing:
    `Grader N`) appears in the report per your preference.
 
 The maintainer does not have a budget for paid grader time in the
-current quarter (see [`../TRANSPARENCY.md`](../TRANSPARENCY.md)).
-Participation is volunteer. When sponsorship reaches a level where
-paid grader time is sustainable, this section will be updated and
-prior volunteers will be invited first.
+current quarter. Participation is volunteer. When sponsorship reaches
+a level where paid grader time is sustainable, this section will be
+updated and prior volunteers will be invited first.
+
+---
+
+## Machine clarity rounds
+
+The machine analogue of the human protocol above: grade the calibration
+exemplars with independent language models and report whether they
+converge. It answers one question: is the published Standard unambiguous
+enough for a machine to follow? When independent models from different
+vendors land near the same composite, the criteria are written clearly.
+When they diverge, that divergence is a rubric-refinement candidate, the
+same way human disagreement is.
+
+> **Consistency is not validity.** Models share training data and biases
+> and can agree on the same wrong score. A clarity round guards *clarity*
+> and catches drift after rubric edits; the human IRR rounds remain the
+> ground-truth anchor. Never report "the models agree" as "the Standard
+> is validated."
+
+*Provenance.* The method and thresholds are adapted from an earlier
+inter-model grading harness that predates this repository; the recording
+lives here.
+
+### Method
+
+1. **Grader input.** The model receives the LexGrade Standard v1.0
+   (§§4–6: criteria, score bands, P7 deduction ladder, negative
+   modifiers, composite formula) and one exemplar's full text. Nothing
+   else — no Scoring Guide, no expected scores, no other model's output.
+2. **Blind-by-procedure.** The Scoring Guide and expected composites are
+   consulted only after the model's scores are final. If the operator or
+   model already knows the expected scores, the round is recorded as
+   **not blind** and reported as a consistency data point only.
+3. **Output per exemplar.** A 0–100 grade for each scored principle
+   (P2–P6, P8) with a one-line rationale each; P7 deductions itemized by
+   criterion ID; negative modifiers itemized; the composite computed by
+   the §6 formula, shown step by step.
+4. **Context floor.** The grader model must accept the full Standard
+   §§4–6 plus the exemplar in one context. Models capped below roughly
+   8,000 tokens cannot run this protocol; attempting it produces silent
+   truncation or request failures rather than grades. An earlier harness
+   failed exactly this way and recorded vacuous passes. A round with zero
+   completed grades must be recorded as a failed round.
+
+### Thresholds
+
+| Measure | Threshold |
+|---------|-----------|
+| Tolerance | A model's composite within ±10.0 points of the exemplar's expected score |
+| Spread | Max−min composite across models for one exemplar ≤ 15.0 points |
+
+A breach by itself does not condemn the model or the Standard. It flags
+one of three things: the criteria are ambiguous at that exemplar, the
+expected score needs re-derivation under the current formula, or the
+model could not follow the worksheet. The round report says which.
+
+### Recording
+
+One markdown file per round, named per the convention in
+[Output](#output). Each clarity report contains, at minimum: date;
+grader model(s) and exact version ids; blind or not-blind, and why;
+per-principle scores with rationales; the step-by-step composite
+arithmetic; deltas against expected; and a "rubric-refinement
+candidates" section for every breach or ambiguity encountered while
+grading. A clarity round can motivate a rubric edit, but only IRR
+rounds validate.

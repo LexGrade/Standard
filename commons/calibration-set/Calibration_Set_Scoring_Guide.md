@@ -201,9 +201,8 @@ Exemplar C's three "authorities" are fabricated by design and exist nowhere.
 
 ## 6. Running Your Own Round
 
-Independent graders are the point. See the
-[Call for Graders](Call_for_Graders.md) and the
-[Inter-Rater Reliability Protocol](Inter_Rater_Reliability_Protocol.md);
-machine consistency rounds follow the
-[Machine Clarity Protocol](Machine_Clarity_Protocol.md). Round reports land in
-[`results/`](results/) whatever they show.
+Independent graders are the point. See
+[Graders — Call and Roll](GRADERS.md) and the
+[Inter-Rater Reliability Protocol](Inter_Rater_Reliability_Protocol.md),
+which also defines the machine clarity rounds. Round reports land in
+`results/` whatever they show.

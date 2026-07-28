@@ -26,15 +26,14 @@ each was scored. Its stated limitation is that a single rater did the scoring,
 which is why the
 [Inter-Rater Reliability Protocol](calibration-set/Inter_Rater_Reliability_Protocol.md)
 exists (Krippendorff's α ≥ 0.80 target). Independent graders are welcome:
-see the [Call for Graders](calibration-set/Call_for_Graders.md) and submit via
+see [Graders — Call and Roll](calibration-set/GRADERS.md) and submit via
 the inter-rater scoring issue template.
 
-There is also a machine analogue, the
-[Machine Clarity Protocol](calibration-set/Machine_Clarity_Protocol.md), in
-which independent language models grade the same exemplars. That tests whether
-the criteria are written unambiguously enough for a machine to follow; it does
-not validate anything. Reports from both series live in
-[`calibration-set/results/`](calibration-set/results/).
+The protocol also defines a machine analogue — clarity rounds, in which
+independent language models grade the same exemplars. That tests whether
+the criteria are written unambiguously enough for a machine to follow; it
+does not validate anything. Reports from both series land in
+`calibration-set/results/` as rounds complete.
 
 ## Governance, trademark, and forking
 
