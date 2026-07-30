@@ -195,9 +195,9 @@ Grade scale: A+=98, A=95, A−=92, B+=88, B=85, B−=82, C+=78, C=75.
 
 If any section scores below A−, identify the specific fix and offer to revise before the user sees the final version.
 
-TECHNIQUE REGISTER — After completing the scorecard, assess the motion against the 32-technique Technique Register (see Technique_Register_v1.0.md):
+TECHNIQUE REGISTER — After completing the scorecard, assess the motion against the 39-technique Technique Register (see Technique_Register_v1.0.md):
 
-For each of the 32 techniques, assess whether it is present and cite the specific paragraph or section where it appears. Report both instruments:
+For each of the 39 techniques, assess whether it is present and cite the specific paragraph or section where it appears. Report both instruments:
 
 | Technique Register: __/32 |
 

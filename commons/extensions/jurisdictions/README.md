@@ -34,7 +34,7 @@ Each available module is a lawyer-reviewed artifact. The reviewer's name and bar
 ## What does not vary by jurisdiction
 
 - Citation verification — the verifier does not branch on jurisdiction. CourtListener's coverage is broad (federal courts and all 50 states) but not complete for every reporter series, and the offline fallback extractor recognizes a narrower reporter set — an unresolved citation can be a coverage gap, not necessarily a fabrication.
-- The 7-section rubric structure and the 32-technique Technique Register — universal.
+- The 7-section rubric structure and the 39-technique Technique Register — universal.
 - The 5-phase gated workflow in the system prompt — universal.
 
 ## What varies by jurisdiction

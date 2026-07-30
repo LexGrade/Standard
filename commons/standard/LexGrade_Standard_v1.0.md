@@ -776,7 +776,7 @@ LGS criterion IDs. Document the applicable overlay on the worksheet.
 
 ## 7. Technique Register (Informative)
 
-The 32-technique Technique Register is an **informative companion** to the
+The 39-technique Technique Register is an **informative companion** to the
 Standard. Techniques are not criteria: a motion can satisfy every LGS criterion
 at the Expert level with zero techniques present. The Register answers a different
 question — not "is this motion good?" but "how does this motion persuade?" It is
@@ -784,13 +784,13 @@ reported alongside the composite score but does not modify it.
 
 | Category | Count | Technique IDs |
 |----------|-------|---------------|
-| Factual | 4 | #1, #6, #8, #23 |
-| Writing | 5 | #2, #21, #24, #25, #31 |
-| Strategy | 10 | #3, #4, #9, #10, #13, #17, #19, #26, #27, #28 |
-| Voice | 3 | #5, #12, #20 |
-| Ethos | 2 | #7, #18 |
-| Credibility | 3 | #11, #15, #29 |
-| Structure | 5 | #14, #16, #22, #30, #32 |
+| Factual | 4 | #1–#4 |
+| Writing | 7 | #5–#11 |
+| Strategy | 13 | #12–#24 |
+| Voice | 4 | #25–#28 |
+| Ethos | 2 | #29–#30 |
+| Credibility | 3 | #31–#33 |
+| Structure | 6 | #34–#39 |
 
 See the Technique Register (companion document) for full definitions.
 
