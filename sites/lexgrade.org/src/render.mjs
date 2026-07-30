@@ -554,7 +554,7 @@ export function renderStandard(standard) {
       <dt>License</dt><dd>${escapeHtml(license)} (content)</dd>
       <dt>Cite as</dt><dd><span id="lg-cite">&ldquo;${escapeHtml(title)}, LexGrade (lexgrade.org), ${escapeHtml(license)}.&rdquo;</span></dd>
     </dl>
-    <p>This is the published LexGrade Standard, openly maintained under ${escapeHtml(license)}. It is not promulgated by any court, bar, or government body. The human-readable Standard text is the source of truth; this page and the machine-readable <code>/api/v1/standard.json</code> catalog are generated from the same criteria source, so they cannot drift. All legal citations in any LexGrade output must be independently verified before filing.</p>
+    <p>This is the published LexGrade Standard, openly maintained under ${escapeHtml(license)}. It is not promulgated by any court, bar, or government body. The Standard's markdown text is the source of truth and is what <code>/llms-full.txt</code> serves verbatim; this page and the machine-readable <code>/api/v1/standard.json</code> catalog render from its structured derivative, and a build-blocking test holds every criterion ID, title, and weight in the derivative equal to the text, so the representations cannot drift apart silently. All legal citations in any LexGrade output must be independently verified before filing.</p>
   </details>
 
   <section class="abstract" aria-labelledby="abstract-h">
