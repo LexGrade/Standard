@@ -1,6 +1,6 @@
 # LexGrade — Technique Register v1.0
 
-> **Not legal advice; no authority.** LexGrade is an open standard, independently maintained — not promulgated by any court, bar, or government body, and it confers no authority. Nothing here is legal advice. Every legal citation in any LexGrade output must be independently verified against the official reporter before filing.
+> **Not legal advice; no authority.** LexGrade is an open standard, independently maintained — not promulgated by any court, bar, or government body, and it confers no authority. Nothing here is legal advice. Every legal citation, whether in this document or in any motion drafted or assessed with it, must be independently verified against the official reporter before filing.
 
 ## Complete Reference
 

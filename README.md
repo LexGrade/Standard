@@ -2,7 +2,7 @@
 
 An open standard for grading the quality of legal motions, with a companion register of the advocacy techniques that distinguish expert work from competent work.
 
-LexGrade is an open, independently maintained model of effective motion practice, published openly so others can use it, test it, and [improve it](.github/CONTRIBUTING.md). It is **not** promulgated by any court, bar, or government body, it confers no authority, and **nothing here is legal advice**. Every legal citation in any LexGrade output must be independently verified before filing.
+LexGrade is an open, independently maintained model of effective motion practice, published openly so others can use it, test it, and [improve it](.github/CONTRIBUTING.md). It is **not** promulgated by any court, bar, or government body, it confers no authority, and **nothing here is legal advice**. Every legal citation, whether in the Standard itself or in any motion drafted or assessed with it, must be independently verified before filing.
 
 ## What's here
 
