@@ -9,7 +9,7 @@
 
 **Name.** LexGrade Standard (LGS). The name follows the LexGrade service mark.
 Renamed forks are explicitly welcome under the trademark policy (see
-TRADEMARK.md).
+GOVERNANCE.md).
 
 **Scope.** LGS 1.0 is calibrated to New York State Supreme Court motion practice. It
 references New York State authority (CPLR, 22 NYCRR, NY RPC) **only as the source
@@ -981,7 +981,7 @@ change to weights, gate logic, or conformance thresholds requires a major releas
 
 **License.** CC-BY-SA 4.0. © 2026 LexGrade. Cite as: "LexGrade Standard v1.0,
 LexGrade (lexgrade.org), CC-BY-SA 4.0." Renamed forks must update the
-attribution to their chosen name per the trademark policy (see TRADEMARK.md).
+attribution to their chosen name per the trademark policy (see GOVERNANCE.md).
 
 ---
 

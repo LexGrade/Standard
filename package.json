@@ -4,20 +4,16 @@
   "private": true,
   "type": "module",
   "license": "AGPL-3.0-only",
-  "description": "The open LexGrade Standard — the methodology (commons/), the lexgrade.org site (sites/), and tools incl. the MCP server (packages/).",
+  "description": "The open LexGrade Standard — the methodology (commons/) and the lexgrade.org site (sites/).",
   "workspaces": [
     "sites/*",
     "packages/*"
   ],
-  "bin": {
-    "lexgrade-mcp": "packages/mcp/index.mjs"
-  },
   "scripts": {
     "build": "npm run build --workspace sites/lexgrade.org",
     "test": "npm test --workspaces --if-present",
     "serve": "npm run serve --workspace sites/lexgrade.org",
-    "a11y": "npm run a11y --workspace sites/lexgrade.org",
-    "mcp": "node packages/mcp/index.mjs"
+    "a11y": "npm run a11y --workspace sites/lexgrade.org"
   },
   "overrides": {
     "brace-expansion": "^5.0.8",

@@ -101,27 +101,6 @@ export function loadStandard() {
 }
 
 /**
- * Load the calibration evidence from methodology.yaml: the exemplar set
- * (identical facts, three grades), the validation documents, and the filed-
- * motion assessments. Returns null-safe empty shapes when absent so the site
- * builds against older manifests.
- *
- * @returns {{exemplars: Array, scoringGuide: ?string, interRaterProtocol: ?string, citationCorpus: ?string, assessments: Array}}
- */
-export function loadCalibration() {
-  const dataRoot = resolveDataRoot(process.cwd(), existsSync, process.env.LEXGRADE_DATA_ROOT);
-  const methodology = parseYaml(readFileSync(resolve(dataRoot, 'methodology.yaml'), 'utf-8'));
-  const set = methodology.calibration_set ?? {};
-  return {
-    exemplars: set.exemplars ?? [],
-    scoringGuide: set.scoring_guide ?? null,
-    interRaterProtocol: set.inter_rater_protocol ?? null,
-    citationCorpus: set.citation_corpus ?? null,
-    assessments: methodology.assessments ?? [],
-  };
-}
-
-/**
  * Load the CC-BY-SA methodology bundle for the agent-readable /llms-full.txt:
  * the LexGrade Standard and the Technique Register, in that order. Paths come
  * from methodology.yaml (current versions), so a version bump rolls the bundle

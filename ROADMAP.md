@@ -95,23 +95,25 @@ NY-rule citation carries a visible freshness date.
 ## Phase 2 — Validation
 
 *The Standard's §3 methodology note admits it hasn't been validated through
-inter-rater reliability testing, and invites it. The groundwork already
-exists in `commons/calibration-set/`: three exemplars on identical facts
-(A 95.6 / B− 80.1 / F 0), a scoring guide, a written inter-rater reliability
-protocol (Krippendorff's α ≥ 0.80 target), a call for graders, and a GitHub
-submission template. What remains is recruitment and publication.*
+inter-rater reliability testing, and invites it. The launch scope holds no
+validation materials on purpose: a calibration set (three graded exemplars on
+identical facts, a criterion-by-criterion scoring guide) and an inter-rater
+reliability protocol (Krippendorff's α ≥ 0.80 target, blind scoring, a machine
+clarity-round analogue) were drafted, and are withheld from the published tree
+until the first round with independent graders is actually running — evidence
+ships when it is evidence.*
 
-- [x] **Publish the study protocol in the open.**
-      `commons/calibration-set/Inter_Rater_Reliability_Protocol.md`, with the
-      inter-rater scoring issue template for submissions.
-- [ ] **Recruit the graders and run the round.** Partner with a legal-writing
-      program (University at Buffalo, Syracuse, Cornell) and/or answer the
-      standing Call for Graders with 3+ independent bar-admitted scorers.
+- [ ] **Recruit the graders.** Partner with a legal-writing program
+      (University at Buffalo, Syracuse, Cornell) and/or recruit 3+ independent
+      bar-admitted scorers directly.
+- [ ] **Publish the calibration set and protocol with the round.** The
+      exemplars, scoring guide, IRR protocol, and submission template land in
+      `commons/calibration-set/` when the first round opens, so the repo never
+      carries an empty graders roll or an unrun protocol.
 - [ ] **Publish agreement statistics** in `commons/calibration-set/results/`
       and on the About page, whatever they show. Until this exists, educators
       will cite the Standard but not adopt it.
-- [ ] **Surface the calibration evidence on lexgrade.org.** The exemplars and
-      scoring guide are the strongest proof the site doesn't yet show — a
+- [ ] **Surface the calibration evidence on lexgrade.org** once real — a
       /calibration page rendered from the commons source.
 
 **Done when:** the About page carries reliability data with named independent
@@ -174,6 +176,20 @@ shipped; the remainder (per-criterion dates, technique renames) is days plus
 one RFC cycle. Phase 2 is a semester-scale partnership. Phase 3 is the first
 real methodology project (RFC process, weeks). Phase 4 runs for months and is
 relationships, not code.
+
+## Deferred surfaces
+
+Drafted but deliberately absent from the launch tree, each waiting on its
+trigger (all of it lives in git history and returns when earned):
+
+- **Calibration set + IRR protocol** — returns with the first real grader
+  round (Phase 2).
+- **Jurisdiction and motion-type extension templates** — return with the
+  first real jurisdiction profile (Phase 3).
+- **Drafting system prompt** — a downstream tool, not part of the standard;
+  returns, if at all, as a separately maintained implementation.
+- **MCP server** — returns when there is demonstrated demand for
+  machine-served access beyond the existing JSON API and llms-full.txt.
 
 ## What this roadmap deliberately does not do
 

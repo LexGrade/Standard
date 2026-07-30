@@ -120,7 +120,6 @@ export const PAGES = [
   { id: 'standard', path: '/standard', label: 'Standard', nav: true, footer: false, og: { title: 'LexGrade Standard', subtitle: 'Open scoring instrument for legal drafting quality' } },
   { id: 'techniques', path: '/techniques', label: 'Techniques', nav: true, footer: false, og: { title: 'Technique Register', subtitle: 'Named advocacy techniques, the informative companion' } },
   { id: 'about', path: '/about', label: 'About', nav: true, footer: true, og: { title: 'About LexGrade', subtitle: 'Grounded in real motion practice' } },
-  { id: 'calibration', path: '/calibration', label: 'Calibration', nav: false, footer: true, og: { title: 'Calibration Set', subtitle: 'Three drafts on identical facts, graded A 95.6 / B− 80.1 / F 0' } },
   { id: 'contribute', path: '/contribute', label: 'Contribute', nav: false, footer: true, og: { title: 'Contribute to LexGrade', subtitle: 'An open, collaborative standard — help shape it' } },
   { id: 'references', path: '/references', label: 'References', nav: false, footer: true, og: { title: 'Sources & influences', subtitle: 'What LexGrade builds on, credited in full' } },
 ];
@@ -680,7 +679,7 @@ export function renderAbout() {
     <p>That is the point of opening it. A scoring standard a litigant can run against their own draft, and a technique register that names what experienced advocates do by instinct, turn knowledge that used to require a retainer into something a self-represented party can apply directly. The value is access: narrowing the gap between the drafting a court expects and the drafting most litigants can afford.</p>
     <h2>What it builds on</h2>
     <p>LexGrade did not appear from nothing. Its rubric method of weighted components, capped point values, and narrative performance bands builds on prior legal-writing assessment scholarship, and its calibration is measured against New York&#39;s governing rules. The sources are credited in full on the <a href="/references">references</a> page.</p>
-    <p>The Standard also shows its work. Three drafts of the same motion, produced three different ways, grade out at A, B&minus;, and F. The exemplars, the scoring guide, and the open inter-rater reliability protocol are on the <a href="/calibration">calibration</a> page.</p>
+    <p><strong>Validation status, stated plainly.</strong> The Standard is a single-author instrument: its criteria and weights have not yet been validated by independent graders, and it does not claim otherwise. The next milestone is an inter-rater reliability round — independent, bar-admitted graders scoring shared exemplars blind, with agreement measured by Krippendorff&#39;s &alpha; — and the calibration materials return to this site when that round is real. Until then, the honest claim is the smaller one: the criteria are published, stable, and citable, and every legal citation in the Standard itself has been verified against the official sources.</p>
     <h2>What this is and isn&#39;t</h2>
     <p>LexGrade is an open, independently maintained model of effective motion practice, published so others can use it, test it, and <a href="/contribute">improve it</a>. It is <strong>not</strong> promulgated by any court, bar, or government body, it confers no authority, and nothing here is legal advice. Every legal citation in any LexGrade output must be independently verified before filing.</p>
     <p>The methodology is governed in the open and licensed CC-BY-SA 4.0, free to reuse and adapt with attribution. It belongs to its field rather than to any vendor, bar, or individual, and it improves by being argued over. The <a href="/standard">Standard</a> and the <a href="/techniques">Technique Register</a> carry the substance. This page is only the background.</p>
@@ -779,88 +778,6 @@ export function renderReferences() {
   });
 }
 
-// Human labels for the calibration exemplar production methods. Fallback is the
-// raw method string, so a new method in methodology.yaml can't render blank.
-const CALIBRATION_METHODS = {
-  expert_specimen: 'Constructed expert-band specimen, authored to the Standard',
-  single_pass_specimen: 'Constructed single-pass specimen with competent-band gaps',
-  anti_pattern: 'Deliberately flawed anti-pattern draft',
-};
-
-/**
- * Render the /calibration page — the evidence layer. Three drafts of the same
- * motion, three grades, plus the filed-motion assessments and the inter-rater
- * reliability status. Everything derives from methodology.yaml (the manifest),
- * so the page can't drift from the commons source; each row links to the
- * document itself on GitHub. States the single-rater limitation plainly — the
- * candor the Standard demands of motions applies to its own evidence.
- *
- * @param {{exemplars: Array, scoringGuide: ?string, interRaterProtocol: ?string, assessments: Array}} calibration
- * @returns {string}
- */
-export function renderCalibration(calibration) {
-  const { exemplars, assessments } = calibration;
-
-  const exemplarRows = exemplars
-    .map(
-      (e) => `<tr>
-        <td>Exemplar ${escapeHtml(String(e.id).toUpperCase())}</td>
-        <td>${escapeHtml(e.grade)} (${escapeHtml(String(e.score))})</td>
-        <td>${escapeHtml(capitalize(String(e.tier ?? '')))}</td>
-        <td>${escapeHtml(CALIBRATION_METHODS[e.method] ?? String(e.method ?? ''))}</td>
-      </tr>`,
-    )
-    .join('\n');
-
-  const assessmentItems = assessments
-    .map(
-      (a) =>
-        `<li>A DRL &sect; 237(a) fee application in filed form (fictionalized) — graded ${escapeHtml(a.grade)} (${escapeHtml(String(a.score))})${
-          a.techniques_present !== undefined && a.techniques_total !== undefined
-            ? `, with ${escapeHtml(String(a.techniques_present))} of ${escapeHtml(String(a.techniques_total))} register techniques present`
-            : ''
-        }.</li>`,
-    )
-    .join('\n      ');
-
-  const assessmentsSection = assessments.length
-    ? `<h2>Filed-form assessments</h2>
-    <ul>
-      ${assessmentItems}
-    </ul>`
-    : '';
-
-  const body = `${docHeader({
-    title: 'Calibration',
-    subhead: 'Three drafts on identical facts, three different grades, and a protocol for testing whether independent graders agree.',
-  })}
-  <section class="prose" aria-label="Calibration set">
-    <p>A scoring instrument earns trust by showing its work. The calibration set holds three complete motion drafts built from the <em>same</em> case facts, produced three different ways, and scored against the Standard. If the Standard could not tell them apart, it would measure nothing. The fact pattern is fictionalized, with invented parties, court, and figures, while every cited authority is a real published decision, so the citation-verification claims stay testable.</p>
-    <table class="data">
-      <caption>Calibration exemplars: identical facts, three methods, three grades</caption>
-      <thead><tr><th scope="col">Exemplar</th><th scope="col">Grade</th><th scope="col">Conformance</th><th scope="col">How it was produced</th></tr></thead>
-      <tbody>
-${exemplarRows}
-      </tbody>
-    </table>
-    <p>The full exemplar texts and the criterion-by-criterion scoring guide live in the open repository alongside the Standard.</p>
-    ${assessmentsSection}
-    <h2>Two known limitations</h2>
-    <p>First, the exemplars are constructed specimens: each was authored by the methodology&#39;s maintainers to represent its band, and the scoring guide says so plainly. They demonstrate that the Standard&#39;s bands are separable and its arithmetic reproducible — not how any particular drafting method performs in the wild, which requires genuine raw outputs a future round can add. Second, the set was scored by its authors. The remedy for both is the same: independent graders. Three or more bar-admitted graders scoring the same exemplars blind, with agreement measured by Krippendorff&#39;s &alpha; (target &ge; 0.80) under a published protocol. Results will appear here whatever they show.</p>
-    <p><strong>Independent graders are welcome.</strong> Scoring one exemplar takes a practicing attorney roughly an hour. See <a href="/contribute">how to get involved</a>.</p>
-    <p class="note">The exemplars are drafting specimens for calibration, not templates for filing. LexGrade confers no authority and nothing here is legal advice.</p>
-  </section>`;
-
-  return documentShell({
-    title: 'Calibration — LexGrade',
-    description:
-      'The LexGrade calibration set: three motion drafts on identical facts graded A / B− / F, assessments of filed motions, and the open inter-rater reliability protocol.',
-    bodyHtml: body,
-    canonical: '/calibration',
-    current: 'calibration',
-    image: '/og/calibration.png',
-  });
-}
 
 /**
  * Render the agent-readable /llms-full.txt — the CC-BY-SA methodology bundle as

@@ -1,8 +1,8 @@
 # LexGrade methodology manifest
 #
 # Single source of truth for which version of each commons artifact is
-# currently authoritative. The site build (sites/lexgrade.org) and the MCP
-# server (packages/mcp) read this file to resolve "current" versions.
+# currently authoritative. The site build (sites/lexgrade.org) reads this file
+# to resolve "current" versions.
 #
 # Bumping a version here is the only mechanical step required to roll the whole
 # stack forward to a new edition of the standard.
@@ -14,7 +14,6 @@ schema_version: 1
 current:
   standard: "1.0"
   technique_register: "1.0"
-  system_prompt: "1.0"
 
 artifacts:
   standard:
@@ -26,40 +25,3 @@ artifacts:
     "1.0":
       path: commons/standard/Technique_Register_v1.0.md
       license: CC-BY-SA-4.0
-
-  system_prompt:
-    "1.0":
-      path: commons/system-prompt/system_prompt_v1.0.md
-      license: AGPL-3.0
-      changelog: commons/system-prompt/CHANGELOG.md
-
-# The calibration set is evidence, not a versioned artifact: three exemplars on
-# identical facts demonstrating that the Standard discriminates (A / B− / F),
-# plus the protocol for validating scoring consistency across graders.
-calibration_set:
-  scoring_guide: commons/calibration-set/Calibration_Set_Scoring_Guide.md
-  inter_rater_protocol: commons/calibration-set/Inter_Rater_Reliability_Protocol.md
-  citation_corpus: commons/calibration-set/citation-corpus.json
-  exemplars:
-    - id: a
-      path: commons/calibration-set/exemplar-a/Exemplar_A_Expert_Band.md
-      grade: A
-      score: 95.6
-      tier: expert
-      method: expert_specimen
-    - id: b
-      path: commons/calibration-set/exemplar-b/Exemplar_B_Single_Pass.md
-      grade: B-
-      score: 80.1
-      tier: competent
-      method: single_pass_specimen
-    - id: c
-      path: commons/calibration-set/exemplar-c/Exemplar_C_Deliberately_Flawed.md
-      grade: F
-      score: 0
-      tier: deficient
-      method: anti_pattern
-
-extensions:
-  jurisdiction_module_template: commons/extensions/jurisdiction-module-TEMPLATE.md
-  motion_type_overlay_template: commons/extensions/motion-type-overlay-TEMPLATE.md

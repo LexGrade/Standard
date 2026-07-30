@@ -13,17 +13,19 @@ Changes accepted for the next edition accumulate here. Propose changes via an
 `rfc:` issue — see [CONTRIBUTING](.github/CONTRIBUTING.md).
 
 ### Changed
-- **Calibration set replaced with synthetic specimens (v2).** The original
-  exemplars and the filed-form assessments were withdrawn as insufficiently
-  fictionalized for publication. The replacement set
-  uses a wholly invented DRL § 237(a)/(d) fact pattern and three specimens
-  authored to their bands (A 95.6 / B− 80.1 / F 0), with every real citation's
-  pinpoint verified against the published opinion texts and provenance stated
-  plainly in the Scoring Guide. No criterion, weight, or deduction changed.
-
-### Removed
-- **Filed-form assessments** (`commons/assessments/`) — withdrawn with the
-  original exemplar set, for the same reason.
+- **Launch scope cut to the core.** The published tree now holds the
+  Standard, the Technique Register, the machine-readable catalog, and the
+  site — and nothing that outruns its evidence. Withdrawn to git history,
+  each with a return trigger on the [roadmap](ROADMAP.md): the calibration
+  set and inter-rater reliability protocol (return with the first
+  independent grader round), the filed-form assessments and the original
+  exemplars (withdrawn earlier as insufficiently fictionalized for
+  publication; a fully synthetic replacement set was authored and is
+  withheld until the first round runs), the jurisdiction and motion-type
+  extension templates (return with the first real jurisdiction profile),
+  the drafting system prompt, and the MCP server. `FORK.md` and
+  `TRADEMARK.md` are merged into `GOVERNANCE.md` unchanged in substance.
+  No criterion, weight, or deduction changed.
 
 ### Fixed
 - **Empirical citations stated precisely.** The Standard now describes the
@@ -32,6 +34,10 @@ Changes accepted for the next edition accumulate here. Propose changes via an
   et al. range to 17–33%, and cites both papers in their published form with
   DOIs (16 J. Legal Analysis 64 (2024); 22 J. Empirical Legal Stud. 216
   (2025)). No criterion, weight, or deduction changed.
+- **§7 Register summary corrected to 39 techniques.** The Standard's §7
+  category table mirrored an earlier 32-technique register; it now matches
+  the Register's category index, and a test cross-checks the two documents
+  so they cannot drift apart silently.
 
 ### Proposed
 - **Validity and its limits** — make explicit what the composite supports as an inference (content validity + demonstrated discrimination) vs. what it does not yet (criterion/predictive validity), plus a consequential-validity (washback) caveat. *Framing only; foldable into v1.0.*
