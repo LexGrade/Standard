@@ -21,9 +21,9 @@ jobs:
     name: pa11y-ci (WCAG2AAA)
     runs-on: ubuntu-24.04
     timeout-minutes: 15
-    # Headless audits can be flaky on shared runners; don't block merges while
-    # the workflow stabilizes. Flip to false after ~10 green runs.
-    continue-on-error: true
+    # Enforcing: the site's WCAG 2.2 AAA claim is a headline claim, so an a11y
+    # regression fails CI rather than merging silently.
+    continue-on-error: false
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6

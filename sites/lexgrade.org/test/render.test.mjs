@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 
 import { escapeHtml, LOGO_SVG, renderAbout, renderContribute, renderHome, renderLlmsFull, renderNotFound, renderRedirect, renderReferences, renderStandard, renderTechnique, renderTechniques, stripScripts } from '../src/render.mjs';
@@ -207,12 +208,13 @@ test('the masthead links to the homepage root, not /standard', () => {
 });
 
 test('the masthead is a mark, not a link — no hover underline (global a:hover is cancelled)', () => {
-  const html = renderStandard(fixture);
+  // The rules live in the external stylesheet now, not the rendered HTML.
+  const css = readFileSync(new URL('../src/styles.css', import.meta.url), 'utf-8');
   // No wordmark-specific underline rule…
-  assert.ok(!/\.wordmark\s*\{[^}]*text-decoration/.test(html));
-  assert.ok(!/masthead:hover\s+\.wordmark/.test(html));
+  assert.ok(!/\.wordmark\s*\{[^}]*text-decoration/.test(css));
+  assert.ok(!/masthead:hover\s+\.wordmark/.test(css));
   // …and .masthead:hover explicitly kills the inherited a:hover underline.
-  assert.match(html, /\.masthead:hover\s*\{[^}]*text-decoration:\s*none/);
+  assert.match(css, /\.masthead:hover\s*\{[^}]*text-decoration:\s*none/);
 });
 
 test('renderReferences credits the source method without relicensing its text, on its own canonical', () => {

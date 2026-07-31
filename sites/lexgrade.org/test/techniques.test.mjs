@@ -6,7 +6,7 @@ import { existsSync, readFileSync } from 'node:fs';
 
 import { parse as parseYaml } from 'yaml';
 
-import { loadTechniqueRegister, parseTechniqueFields, parseTechniques, slugifyTechnique } from '../src/lib/loadStandard.mjs';
+import { loadBundle, loadTechniqueRegister, parseTechniqueFields, parseTechniques, slugifyTechnique } from '../src/lib/loadStandard.mjs';
 import { resolveCriteriaPath, resolveDataRoot } from '../src/lib/paths.mjs';
 
 // slugifyTechnique must be stable and deterministic so a technique keeps the
@@ -204,4 +204,31 @@ test('the register markdown summary tables match its technique blocks', () => {
       `template row for #${t.number} (${t.category})`,
     );
   }
+});
+
+// The Standard's §7 summary (the "N-technique" count and the category table)
+// must mirror the Register itself — this is the guard against the two documents
+// drifting apart, which has happened once (§7 said 32 while the Register held 39).
+test('the Standard §7 summary mirrors the Register: total and per-category counts', () => {
+  const techniques = parseTechniques(loadTechniqueRegister().markdown);
+  const standardMd = loadBundle().documents[0];
+
+  const headline = standardMd.match(/The (\d+)-technique Technique Register/);
+  assert.ok(headline, 'Standard §7 names a technique count');
+  assert.equal(Number(headline[1]), techniques.length, '§7 headline count');
+
+  const section = standardMd.split(/^## 7\. Technique Register/m)[1]?.split(/^## /m)[0];
+  assert.ok(section, 'Standard has a §7 Technique Register section');
+
+  const byCat = new Map();
+  for (const t of techniques) byCat.set(t.category, (byCat.get(t.category) ?? 0) + 1);
+
+  const rows = [...section.matchAll(/^\| ([A-Za-z]+) \| (\d+) \|/gm)];
+  assert.equal(rows.length, byCat.size, '§7 table lists every Register category');
+  let total = 0;
+  for (const [, cat, count] of rows) {
+    assert.equal(Number(count), byCat.get(cat), `§7 count for ${cat}`);
+    total += Number(count);
+  }
+  assert.equal(total, techniques.length, '§7 table counts sum to the Register total');
 });

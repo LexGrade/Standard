@@ -1,25 +1,26 @@
 # LexGrade Standard (LGS) — Version 1.0
 
-> **Not legal advice; no authority.** LexGrade is an open standard, independently maintained — not promulgated by any court, bar, or government body, and it confers no authority. Nothing here is legal advice. Every legal citation in any LexGrade output must be independently verified against the official reporter before filing.
+> **Not legal advice; no authority.** LexGrade is an open standard, independently maintained — not promulgated by any court, bar, or government body, and it confers no authority. Nothing here is legal advice. Every legal citation, whether in this document or in any motion drafted or assessed with it, must be independently verified against the official reporter before filing.
 
 > The LexGrade Standard (LGS) is the public, citable form of the LexGrade
 > motion-assessment methodology: a standard for scoring legal motions, modeled
 > on the W3C Web Content Accessibility Guidelines (Principles → Criteria with
 > stable IDs → Conformance Levels).
 
-**Name.** LexGrade Standard (LGS). The name is brand-tied — consistent with the
-LexGrade service mark. Renamed forks are explicitly welcome under the trademark
-policy (see TRADEMARK.md).
+**Name.** LexGrade Standard (LGS). The name follows the LexGrade service mark.
+Renamed forks are explicitly welcome under the trademark policy (see
+GOVERNANCE.md).
 
 **Scope.** LGS 1.0 is calibrated to New York State Supreme Court motion practice. It
 references New York State authority (CPLR, 22 NYCRR, NY RPC) **only as the source
-of the quality expectations it measures — never as requirements it imposes.** The
-**framework** — principles, weights, and conformance levels — is
-jurisdiction-neutral; the **criterion text and calibration are NY-anchored**, and
-porting to another forum is a jurisdiction profile, not a find-and-replace.
-Several criteria cite NY-specific authority directly (e.g. CPLR/22 NYCRR rule
-numbers); a profile substitutes controlling authority — FRCP for the CPLR, local
-rules for 22 NYCRR, circuit authority for Appellate Division authority.
+of the quality expectations it measures, never as requirements it imposes.** The
+**framework** of principles, weights, and conformance levels is
+jurisdiction-neutral, while the **criterion text and calibration are NY-anchored**.
+Porting to another forum therefore takes a jurisdiction profile rather than a
+find-and-replace. Several criteria cite NY-specific authority directly (e.g.
+CPLR/22 NYCRR rule numbers); a profile substitutes the controlling authority:
+FRCP for the CPLR, local rules for 22 NYCRR, circuit authority for Appellate
+Division authority.
 
 **Audiences.** Practitioner self-assessment; LLM output benchmarking; legal
 writing education; academic citation.
@@ -81,11 +82,11 @@ content needed to grade a motion: per-criterion requirements, score-band
 descriptors, an authority hierarchy, automatic deductions, motion-type overlays,
 a benchmarking guide, a plain-language quick start, and a scoring worksheet.
 
-**What this is not — a procedural rulebook.** LGS does **not** restate the
+**What this is not: a procedural rulebook.** LGS does **not** restate the
 CPLR, the Uniform Rules, the Rules of Professional Conduct, or any court's filing
 requirements, and is **not a substitute for them.** Whether a filing is
-procedurally proper — caption, notice, supporting papers, service, length,
-proposed order — is governed by the controlling authority of the filing court,
+procedurally proper (caption, notice, supporting papers, service, length,
+proposed order) is governed by the controlling authority of the filing court,
 not by this Standard (see Principle 1). LGS measures **drafting quality:** the
 reasoning, authority, factual foundation, writing, strategy, candor, and
 self-assessment in a motion.
@@ -100,9 +101,12 @@ a single fabricated citation (−20) can drop an A to a B.
 
 *For LLM benchmarking.* Give the model a case scenario (facts, relief sought, key
 documents) and ask for a complete motion. Score the output against each
-principle. **Empirical context:** general-purpose LLMs hallucinate 58–88% of
-legal citations (Dahl et al., "Large Legal Fictions," 2024); even RAG-based legal
-tools hallucinate 17–34% (Magesh et al., Stanford RegLab/HAI, 2024). The citation
+principle. **Empirical context:** in a 2024 study, general-purpose LLMs
+hallucinated in 58–88% of their answers to verifiable questions about federal
+court cases (Dahl et al., "Large Legal Fictions," 16 J. Legal Analysis 64
+(2024)); even leading AI legal research tools hallucinated in 17–33% of
+responses (Magesh et al., "Hallucination-Free?," 22 J. Empirical Legal Stud.
+216 (2025)). The citation
 verification step is not optional. Map each model to a Conformance Level using the
 [LLM Comparison Guide](#5-conformance-levels). When LGS applies NY RPC standards
 to LLM outputs, it uses professional-responsibility rules as quality benchmarks,
@@ -123,8 +127,8 @@ benchmarkers may raise Principle 3). Document any adjustment on the worksheet.
 
 ## 2. How the Standard Is Structured
 
-LGS is layered — themed groups of stable, named requirements that resolve to
-conformance levels:
+LGS is layered: themed groups of stable, named requirements that resolve to
+conformance levels.
 
 | Layer | LGS |
 |-------|------|
@@ -155,14 +159,14 @@ that relies on no documentary evidence. Criteria whose text already includes
 "where applicable," "where relevant," or "if applicable" are the explicit N/A
 candidates.
 
-An N/A criterion is **dropped from its principle's denominator** — it neither
-helps nor hurts the score. Concretely: grade a principle on the criteria that
-**do** apply, then assign the principle's 0–100 grade from those; the principle's
-**weight in §6 is unchanged** (so the composite still totals 80 weighted points
-and stays reproducible). N/A is a judgment about applicability, recorded with a
-one-line reason on the worksheet; "the drafter omitted it" is a deficiency scored
-under the criterion, not an N/A. When in doubt, the criterion **applies** — N/A is
-the narrow exception, not the default.
+An N/A criterion is **dropped from its principle's denominator**, where it
+neither helps nor hurts the score. Concretely: grade a principle on the criteria
+that **do** apply, then assign the principle's 0–100 grade from those; the
+principle's **weight in §6 is unchanged** (so the composite still totals 80
+weighted points and stays reproducible). N/A is a judgment about applicability,
+recorded with a one-line reason on the worksheet. "The drafter omitted it" is a
+deficiency scored under the criterion, never an N/A. When in doubt, the
+criterion **applies**; N/A is a narrow exception.
 
 ---
 
@@ -221,21 +225,22 @@ identifying and meeting every requirement those sources impose.
 
 > **What LGS does and does not do here.** LGS does **not** check whether your
 > caption, notice, supporting papers, service, length, or proposed order
-> comply — that is the court's rulebook, not ours. Confirm compliance
-> independently: the court's own forms, a current CPLR practice guide, your
-> court's self-help center, or counsel. **A pro se filer must not read the
-> absence of these items from the LGS criteria as permission to omit them — it
-> means the opposite. They are required by law, which LGS deliberately does not
-> restate.** The one integrity question LGS itself evaluates — whether every
-> citation refers to a decision that actually exists — is scored under
-> Principle 7 (Ethics and Candor), where it belongs as a duty-of-candor matter.
+> comply; that determination belongs to the court's rulebook. Confirm
+> compliance independently: the court's own forms, a current CPLR practice
+> guide, your court's self-help center, or counsel. **A pro se filer must not
+> read the absence of these items from the LGS criteria as permission to omit
+> them. It means the opposite: they are required by law, which LGS
+> deliberately does not restate.** The one integrity question LGS itself
+> evaluates, whether every citation refers to a decision that actually exists,
+> is scored under Principle 7 (Ethics and Candor), where it belongs as a
+> duty-of-candor matter.
 
 This Principle carries no scored LGS criteria; scored criterion IDs begin at
 LGS 2.1.
 
 **Benchmarking note.** Models frequently omit the proposed order, the
 certification, and Individual Part Rules compliance. In the Stanford RegLab
-studies (Dahl et al. 2024; Magesh et al. 2024), threshold procedural elements
+studies (Dahl et al. 2024; Magesh et al. 2025), threshold procedural elements
 were among the most commonly absent components of LLM-generated legal output —
 revealing whether training reflects actual NY practice or only treatise law. A
 benchmark harness may record procedural omissions descriptively; they are not
@@ -467,9 +472,10 @@ are accurate.
 > and burden on the court.
 
 **Benchmarking note.** Hallucinated citations are the most disqualifying LLM
-failure. General-purpose LLMs hallucinate 58–88% of verifiable legal citations
-(Dahl et al. 2024); even specialized tools hallucinate 17–34% (Magesh et al.
-2024). One fabricated citation is −20 and is sanctionable in practice (Mata v.
+failure. General-purpose LLMs hallucinated in 58–88% of answers to verifiable
+case-law questions (Dahl et al. 2024); even specialized legal research tools
+hallucinated in 17–33% of responses (Magesh et al. 2025). One fabricated
+citation is −20 and is sanctionable in practice (Mata v.
 Avianca, S.D.N.Y. 2023), and triggers automatic demotion to Deficient regardless
 of composite score.
 
@@ -628,7 +634,8 @@ motion as graded; it does not transfer to revisions, which must be re-graded.
 ### Critical LLM Failure Modes
 
 1. **Hallucinated citations.** The most disqualifying failure. Verify every case.
-   58–88% (general LLMs) / 17–34% (specialized legal AI).
+   Measured per response to case-law queries: 58–88% (general LLMs) / 17–33%
+   (specialized legal AI).
 2. **Jurisdiction confusion.** Mixing federal and state procedure; citing the
    wrong department as binding; applying FRCP standards in a CPLR motion.
 3. **Advocacy deficit.** Producing neutral memoranda when the task is persuasive
@@ -769,7 +776,7 @@ LGS criterion IDs. Document the applicable overlay on the worksheet.
 
 ## 7. Technique Register (Informative)
 
-The 32-technique Technique Register is an **informative companion** to the
+The 39-technique Technique Register is an **informative companion** to the
 Standard. Techniques are not criteria: a motion can satisfy every LGS criterion
 at the Expert level with zero techniques present. The Register answers a different
 question — not "is this motion good?" but "how does this motion persuade?" It is
@@ -777,13 +784,13 @@ reported alongside the composite score but does not modify it.
 
 | Category | Count | Technique IDs |
 |----------|-------|---------------|
-| Factual | 4 | #1, #6, #8, #23 |
-| Writing | 5 | #2, #21, #24, #25, #31 |
-| Strategy | 10 | #3, #4, #9, #10, #13, #17, #19, #26, #27, #28 |
-| Voice | 3 | #5, #12, #20 |
-| Ethos | 2 | #7, #18 |
-| Credibility | 3 | #11, #15, #29 |
-| Structure | 5 | #14, #16, #22, #30, #32 |
+| Factual | 4 | #1–#4 |
+| Writing | 7 | #5–#11 |
+| Strategy | 13 | #12–#24 |
+| Voice | 4 | #25–#28 |
+| Ethos | 2 | #29–#30 |
+| Credibility | 3 | #31–#33 |
+| Structure | 6 | #34–#39 |
 
 See the Technique Register (companion document) for full definitions.
 
@@ -946,11 +953,17 @@ Sanctions; Commercial Division Rules 17, 19-a.
 - Kevin M. Clermont, "[Staying Faithful to the Standards of Proof](https://scholarship.law.cornell.edu/clr/vol104/iss6/2/)," 104 Cornell L. Rev. 1457 (2020) — standards of decision and the standard of review.
 - Bryan A. Garner, *[The Elements of Legal Style](https://global.oup.com/academic/product/the-elements-of-legal-style-9780195141627)* (2d ed., Oxford University Press 2002) — writing and citation standards.
 
-**Empirical LLM research.** Dahl et al., "Large Legal Fictions," Journal of Legal
-Analysis (2024) — 58–88% hallucination across GPT-4, GPT-3.5, PaLM 2, Llama 2;
-Magesh et al., "Hallucination-Free?", Stanford RegLab/HAI (2024) — 17–34% in
-RAG-based legal AI; Mata v. Avianca, Inc., No. 22-cv-1461 (S.D.N.Y. 2023) —
-landmark sanctions for AI-generated fabricated citations.
+**Empirical LLM research.** Matthew Dahl, Varun Magesh, Mirac Suzgun & Daniel E.
+Ho, "[Large Legal Fictions: Profiling Legal Hallucinations in Large Language
+Models](https://doi.org/10.1093/jla/laae003)," 16 J. Legal Analysis 64 (2024) —
+hallucination in 58–88% of answers to verifiable federal case-law questions,
+across GPT-4, GPT-3.5, PaLM 2, and Llama 2; Varun Magesh, Faiz Surani, Matthew
+Dahl, Mirac Suzgun, Christopher D. Manning & Daniel E. Ho,
+"[Hallucination-Free? Assessing the Reliability of Leading AI Legal Research
+Tools](https://doi.org/10.1111/jels.12413)," 22 J. Empirical Legal Stud. 216
+(2025) — hallucination in 17–33% of responses from RAG-based legal research
+tools; Mata v. Avianca, Inc., No. 22-cv-1461 (S.D.N.Y. 2023) — landmark
+sanctions for AI-generated fabricated citations.
 
 ---
 
@@ -968,7 +981,7 @@ change to weights, gate logic, or conformance thresholds requires a major releas
 
 **License.** CC-BY-SA 4.0. © 2026 LexGrade. Cite as: "LexGrade Standard v1.0,
 LexGrade (lexgrade.org), CC-BY-SA 4.0." Renamed forks must update the
-attribution to their chosen name per the trademark policy (see TRADEMARK.md).
+attribution to their chosen name per the trademark policy (see GOVERNANCE.md).
 
 ---
 

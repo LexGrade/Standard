@@ -2,9 +2,9 @@
 #
 # NOT LEGAL ADVICE; NO AUTHORITY. LexGrade is an open standard, independently
 # maintained — not promulgated by any court, bar, or government body, and it
-# confers no authority. Nothing here is legal advice. Every legal citation in any
-# LexGrade output must be independently verified against the official reporter
-# before filing.
+# confers no authority. Nothing here is legal advice. Every legal citation, whether in
+# this catalog or in any motion drafted or assessed with the Standard, must be
+# independently verified against the official reporter before filing.
 #
 # License: CC-BY-SA 4.0
 # © 2026 LexGrade
@@ -24,6 +24,10 @@ standard: "LexGrade Standard"
 version: "1.0"
 license: "CC-BY-SA-4.0"
 scope: "New York State Supreme Court motion practice"
+# Mirrors the Standard's currency note: all statutory, regulatory, and empirical
+# citations were verified against the official sources as of this date. Update it
+# whenever a re-verification pass runs.
+citations_verified: "February 2026"
 
 principles:
   - id: P1

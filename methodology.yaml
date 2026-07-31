@@ -1,8 +1,8 @@
 # LexGrade methodology manifest
 #
 # Single source of truth for which version of each commons artifact is
-# currently authoritative. The site build (sites/lexgrade.org) and the MCP
-# server (packages/mcp) read this file to resolve "current" versions.
+# currently authoritative. The site build (sites/lexgrade.org) reads this file
+# to resolve "current" versions.
 #
 # Bumping a version here is the only mechanical step required to roll the whole
 # stack forward to a new edition of the standard.
