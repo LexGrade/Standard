@@ -20,7 +20,6 @@
         "http://localhost:8080/techniques",
         "http://localhost:8080/techniques/uncharacterized-omission",
         "http://localhost:8080/about",
-        "http://localhost:8080/calibration",
         "http://localhost:8080/contribute",
         "http://localhost:8080/references",
         "http://localhost:8080/404.html"
