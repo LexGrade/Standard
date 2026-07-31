@@ -73,10 +73,18 @@ valuable:
 ## A note on the tests
 
 The technique, principle, and criteria counts are **guarded against drift**: there
-are no hand-maintained magic numbers in the tests. If you add a technique, update
-the `technique_register` block in `commons/standard/lgs-criteria.yaml` and the
-markdown's own summary tables — the tests cross-check both against the technique
-blocks and will tell you if anything is inconsistent.
+are no hand-maintained magic numbers in the tests, and the Standard's two
+representations are welded together by CI. Concretely:
+
+- **Editing or adding a criterion** — change both the Standard markdown
+  (`LexGrade_Standard_v1.0.md`) and the catalog (`lgs-criteria.yaml`). A test
+  holds every criterion ID, title, count, and weight equal between the two; a
+  one-sided edit fails the build.
+- **Adding a technique** — update the Register's own summary tables (Category
+  Index, count line, distribution, template table), the `technique_register`
+  block in `lgs-criteria.yaml`, and the Standard's §7 category table. Tests
+  cross-check all of them against the technique blocks and will tell you
+  exactly what's inconsistent.
 
 ## Licensing of contributions
 
