@@ -25,6 +25,6 @@ and protocol) publish here when that round is real. See the
 
 ## Governance, trademark, and forking
 
-[`GOVERNANCE.md`](GOVERNANCE.md) — decision rights, DCO posture, stewardship;
+[`GOVERNANCE.md`](GOVERNANCE.md) — decision rights, licensing posture, stewardship;
 it also carries the fork guide and the "LexGrade" service-mark policy:
 nominative use is fine, renamed forks are welcomed.
