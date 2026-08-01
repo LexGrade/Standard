@@ -45,6 +45,14 @@ body {
 h1, h2, h3, h4 { font-family: var(--serif); color: var(--heading); text-wrap: balance; font-optical-sizing: auto; }
 /* Short display blocks read better balanced than ragged-with-no-orphan. */
 .subhead, .def__text p { text-wrap: balance; }
+/* Editorial micro-typography: old-style figures in running prose (dates and
+   counts sit in the text like words), with lining/tabular reasserted below for
+   IDs, formulas, code, and tables where alignment matters. text-wrap: pretty
+   kills orphans in supporting browsers; hanging punctuation (Safari) lets
+   quotation marks hang into the margin like set type. All progressive. */
+body { font-variant-numeric: oldstyle-nums; }
+p, dd, li { text-wrap: pretty; }
+blockquote { hanging-punctuation: first; }
 a { color: var(--link); text-decoration-thickness: from-font; text-underline-offset: .12em; }
 a:hover { color: var(--accent-deep); text-decoration: underline; }
 a:focus-visible, summary:focus-visible, [tabindex]:focus-visible {
@@ -155,7 +163,7 @@ main { padding: 2.875rem 4.5rem 5rem; min-width: 0; }
 /* ── Document header ──────────────────────────────────────────────────────── */
 .doc-header { border-bottom: 1px solid var(--border); padding-bottom: var(--space-m); margin-bottom: var(--space-l); }
 .doc-header h1 { font-size: clamp(2rem, 4.5vw, 2.9rem); line-height: 1.12; margin: 0; letter-spacing: -.012em; font-weight: 600; }
-.doc-header .version { color: var(--muted-2); font-weight: 400; }
+.doc-header .version { color: var(--muted-2); font-weight: 400; font-size: .62em; letter-spacing: 0; }
 .subhead { color: var(--muted); max-width: var(--measure); margin: .9rem 0 0; font-size: 1.12rem; line-height: 1.55; }
 
 /* ── Home landing ─────────────────────────────────────────────────────────── */
@@ -187,8 +195,9 @@ main { padding: 2.875rem 4.5rem 5rem; min-width: 0; }
 .sotd { padding: 0 1.5rem; margin-bottom: 2.5rem; }
 .sotd summary { cursor: pointer; font-family: var(--serif); font-weight: 600; font-size: 1.15rem; color: var(--heading); padding: 1.1rem 0; list-style: none; display: flex; align-items: center; gap: .6rem; }
 .sotd summary::-webkit-details-marker { display: none; }
-.sotd-chevron { width: .55rem; height: .55rem; border-right: 2px solid var(--accent); border-bottom: 2px solid var(--accent); transform: rotate(45deg); transition: transform .15s ease; flex: none; }
-.sotd[open] .sotd-chevron { transform: rotate(-135deg); }
+/* Disclosure convention: points right when closed, down when open. */
+.sotd-chevron { width: .55rem; height: .55rem; border-right: 2px solid var(--accent); border-bottom: 2px solid var(--accent); transform: rotate(-45deg); transition: transform .15s ease; flex: none; }
+.sotd[open] .sotd-chevron { transform: rotate(45deg); }
 .sotd dl { display: grid; grid-template-columns: max-content 1fr; gap: .5rem 1.5rem; margin: 0 0 1.25rem; font-size: .96rem; }
 .sotd dt { font-family: var(--sans); font-size: .76rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted-2); align-self: center; }
 .sotd dd { margin: 0; }

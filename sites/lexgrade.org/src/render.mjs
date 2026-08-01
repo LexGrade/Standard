@@ -546,9 +546,9 @@ export function renderStandard(standard) {
       <dt>This version</dt><dd>v${escapeHtml(version)} (current published edition)</dd>
       <dt>Machine-readable</dt><dd><a href="${API_URL}">/api/v1/standard.json</a> · <a href="/llms-full.txt">/llms-full.txt</a></dd>
       <dt>Source repository</dt><dd><a href="${REPO_URL}">${escapeHtml(REPO_URL.replace(/^https?:\/\//, ''))}</a></dd>
-      <dt>Authority</dt><dd>CPLR &amp; the Uniform Civil Rules (22 NYCRR Part 202)</dd>${
+      <dt>Calibrated to</dt><dd>CPLR &amp; the Uniform Civil Rules (22 NYCRR Part 202)</dd>${
         standard.citationsVerified
-          ? `\n      <dt>Citations verified</dt><dd>${escapeHtml(standard.citationsVerified)} — confirm cited provisions remain current before relying on them</dd>`
+          ? `\n      <dt>Citations verified</dt><dd>${escapeHtml(standard.citationsVerified)} (confirm provisions remain current)</dd>`
           : ''
       }
       <dt>License</dt><dd>${escapeHtml(license)} (content)</dd>
