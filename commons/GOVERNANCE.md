@@ -43,9 +43,7 @@ A CLA would let the project relicense your contribution under different terms. W
 never want that power: AGPL-3.0-only on the tooling and CC-BY-SA 4.0 on the rubric
 exist for **permanence** — the methodology cannot be quietly relicensed or absorbed
 into a closed product. Inbound = outbound gives the legal hygiene without the
-relicensing escape hatch. (A `Signed-off-by:` trailer per the
-[Developer Certificate of Origin](https://developercertificate.org/) is welcome
-but not required.)
+relicensing escape hatch.
 
 ## License of contributions
 
@@ -62,8 +60,9 @@ If a PR touches both code and content, each file inherits its directory's licens
 
 Whatever stewardship structure comes later, these hold:
 
-1. **`commons/` is never relicensed to a closed license.** The DCO (not CLA) is what
-   makes this enforceable.
+1. **`commons/` is never relicensed to a closed license.** The no-CLA,
+   inbound = outbound posture is what makes this enforceable: the project never
+   acquires the rights a relicense would need.
 2. **Published rubric versions keep their rights.** v1.0 stays under CC-BY-SA forever,
    even if a later version ships under different terms.
 3. **The methodology stays forkable.** Renamed, attributed forks that follow the
