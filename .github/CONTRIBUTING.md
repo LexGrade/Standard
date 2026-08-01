@@ -20,19 +20,13 @@ it improves by being argued over.
 
 ## Workflow
 
-1. **Fork**, branch, and open a pull request.
-2. **Sign off every commit** with the Developer Certificate of Origin (DCO):
+1. **Fork**, branch, and open a pull request. By contributing you agree your
+   contribution is licensed under the file's existing license (inbound =
+   outbound; see the table below). There is **no CLA** — so the methodology
+   can never be quietly relicensed. See
+   [`commons/GOVERNANCE.md`](../commons/GOVERNANCE.md).
 
-   ```bash
-   git commit -s -m "your message"
-   ```
-
-   This adds a `Signed-off-by:` trailer affirming you have the right to
-   contribute under the project's existing licenses. We use the
-   [DCO](https://developercertificate.org/), **not** a CLA — so the methodology
-   can never be quietly relicensed. See [`commons/GOVERNANCE.md`](../commons/GOVERNANCE.md).
-
-3. Run the checks before pushing:
+2. Run the checks before pushing:
 
    ```bash
    npm install

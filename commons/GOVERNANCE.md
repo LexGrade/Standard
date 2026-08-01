@@ -33,25 +33,23 @@ outside contribution to warrant it; this document will be updated when it happen
 3. **Breaking changes** (rubric structure that breaks tooling; license changes) —
    tagged `rfc:breaking`, with 30 days' notice and broad agreement before merge.
 
-## DCO, not CLA
+## No CLA
 
-Contributions are accepted under the **[Developer Certificate of Origin](https://developercertificate.org/)**
-(DCO), not a Contributor License Agreement. Every commit is signed off:
-
-```bash
-git commit -s -m "your message"
-```
+Contributions are accepted under the repository's existing licenses, inbound =
+outbound: by contributing, you license your contribution under the same terms
+as the file you are changing, and nothing more.
 
 A CLA would let the project relicense your contribution under different terms. We
 never want that power: AGPL-3.0-only on the tooling and CC-BY-SA 4.0 on the rubric
 exist for **permanence** — the methodology cannot be quietly relicensed or absorbed
-into a closed product. The DCO gives the legal hygiene without the relicensing
-escape hatch. This is the same model used by Linux, Docker, and most copyleft
-projects that take community ownership seriously.
+into a closed product. Inbound = outbound gives the legal hygiene without the
+relicensing escape hatch. (A `Signed-off-by:` trailer per the
+[Developer Certificate of Origin](https://developercertificate.org/) is welcome
+but not required.)
 
 ## License of contributions
 
-By signing off your commit you affirm your contribution is licensed under:
+By contributing you affirm your contribution is licensed under:
 
 | If you're modifying… | Your contribution is licensed under… |
 |---|---|
