@@ -2,7 +2,8 @@
 //
 // Source-of-truth weld for the Standard's two representations.
 //
-// The human-authored markdown (LexGrade_Standard_v1.0.md → llms-full.txt) and
+// The human-authored markdown (the current LexGrade_Standard_vX.Y.md named in
+// methodology.yaml → llms-full.txt) and
 // the hand-maintained structured catalog (lgs-criteria.yaml → /standard page +
 // /api/v1/standard.json) describe the same instrument from two files. Nothing
 // mechanical generates one from the other, so this suite is what makes the
@@ -31,8 +32,11 @@ test('every catalog criterion id and title appears in the Standard markdown', ()
 
 // Criterion ids in the markdown, excluding version strings: criterion numbering
 // starts at .1, so "LGS 1.0" / "LGS 2.0" are always edition references, never
-// criteria (while LGS 7.10 is a real criterion and must not be excluded).
-const mdCriterionIds = () => new Set((md.match(/LGS \d+\.\d+/g) ?? []).filter((id) => !/^LGS \d+\.0$/.test(id)));
+// criteria (while LGS 7.10 is a real criterion and must not be excluded). And
+// Principle 1 is a precondition with no criteria, so "LGS 1.1" / "LGS 1.2" can
+// only ever be edition references too.
+const mdCriterionIds = () =>
+  new Set((md.match(/LGS \d+\.\d+/g) ?? []).filter((id) => !/^LGS \d+\.0$/.test(id) && !/^LGS 1\.\d+$/.test(id)));
 
 test('the markdown mentions no criterion id the catalog lacks', () => {
   const catalogIds = new Set(catalog.criteria.map((c) => c.id));

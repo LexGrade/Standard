@@ -3,14 +3,50 @@
 All notable changes to the LexGrade Standard and this repository are recorded
 here. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-The **standard itself** is versioned independently (currently **v1.0**); the
-*Unreleased* section below accumulates changes accepted for the next edition.
-Published editions stay published — a new edition never revokes a prior one.
+The **standard itself** is versioned independently (published: **v1.0**;
+proposed: **v1.1**); the *Unreleased* section below accumulates changes
+accepted for the next edition. Published editions stay published — a new
+edition never revokes a prior one.
 
 ## [Unreleased]
 
 Changes accepted for the next edition accumulate here. Propose changes via an
 `rfc:` issue — see [CONTRIBUTING](.github/CONTRIBUTING.md).
+
+### Added — LexGrade Standard v1.1 (proposed)
+
+The next edition of the Standard, `commons/standard/LexGrade_Standard_v1.1.md`,
+pinned as current in `methodology.yaml`; v1.0 stays in the tree, published and
+citable. A minor release under §13: no weight, deduction, gate rule, or
+conformance threshold changed, and no existing criterion ID moved. The
+Technique Register is unchanged at v1.0.
+
+- **LGS 3.10 — Case Synthesis** (Principle 3). Where the rule is drawn from
+  more than one authority, the motion states the rule they establish together
+  and shows how each contributes, then applies it. Distinct from analogical
+  reasoning (LGS 3.8), which scores the use of a single authority. N/A where
+  one controlling decision states the rule.
+- **LGS 5.6 — Analytical Structure** (Principle 5). Each argument's rule,
+  explanation, application, and conclusion are each locatable (the
+  CREAC/IRAC family), conclusion-first; reconciled in the text with the
+  Register's Anchor Paragraph.
+- **§3 — Validity and its limits.** States what the composite can support
+  (content validity, a shared grading vocabulary, author-level
+  discrimination) and what it cannot yet (inter-rater reliability,
+  criterion/predictive validity, weight validity, transfer to other forums),
+  with a consequential-validity (washback) caveat and the three design guards
+  against it.
+- **§6 — Reporting the composite.** The composite is a gateway, not the
+  product: findings before the number, never the number alone, integers only,
+  the Register reported and never added, comparisons as profiles rather than
+  ranks, and findings-first feedback in education. The worksheet gains a
+  "per-criterion findings attached" line.
+- **§12 — Legal-education and assessment scholarship.** Clark & DeSanctis
+  (63 J. Legal Educ. 3 (2013)), Sargent & Curcio (61 J. Legal Educ. 379
+  (2012)), Schwarcz & Farganis (67 J. Legal Educ. 139 (2017)), and Gustafson
+  (73 J. Legal Educ. no. 1 (2024)), each linked to its publisher page.
+- **§13 — Edition history** table, and a rule that a criterion added in a
+  minor release takes the next unused number in its Principle.
 
 ### Changed
 - **Launch scope cut to the core.** The published tree now holds the
@@ -38,15 +74,17 @@ Changes accepted for the next edition accumulate here. Propose changes via an
   category table mirrored an earlier 32-technique register; it now matches
   the Register's category index, and a test cross-checks the two documents
   so they cannot drift apart silently.
+- **Worksheet Technique Register denominator** (v1.1). The §10 worksheet
+  still read `__/32`; it now reads `__/39`.
+- **LGS 5.5 text harmonized** (v1.1). The catalog's requirement for Audience
+  Calibration still referred to "the assigned justice's known preferences";
+  it now matches the Standard's text (local practice, applicable standards,
+  procedural posture). The criteria-sync test compares IDs and titles, not
+  requirement text, which is how this drift survived.
 
-### Proposed
-- **Validity and its limits** — make explicit what the composite supports as an inference (content validity + demonstrated discrimination) vs. what it does not yet (criterion/predictive validity), plus a consequential-validity (washback) caveat. *Framing only; foldable into v1.0.*
-- **The composite is a gateway, not the product** — constrain how the score is presented/used so per-criterion findings + the Technique Register lead, not the number.
-- **LGS 3.10 — Case Synthesis** (Principle 3) — a proposed new criterion for digesting multiple authorities into an explained rule, distinct from analogical reasoning (LGS 3.8).
-- **LGS 5.6 — Analytical Structure** (Principle 5) — a proposed new criterion for rule → explanation → application → conclusion (the IRAC/CREAC/TREAT family).
-- **LLM-grader reliability & validity study** — roadmap companion to the human IRR protocol.
-
-Grounded in Clark & DeSanctis (2013), Gustafson (2024), Schwarcz & Farganis (2017), and Sargent & Curcio (2012); see the draft for the red-team record and open RFC decisions.
+### Moved to the roadmap
+- **LLM-grader reliability and validity study** — now a Phase 2 item in
+  [ROADMAP.md](ROADMAP.md), sequenced after the human inter-rater round.
 
 ## [1.0.0] — 2026-02
 

@@ -115,6 +115,16 @@ ships when it is evidence.*
       will cite the Standard but not adopt it.
 - [ ] **Surface the calibration evidence on lexgrade.org** once real — a
       /calibration page rendered from the commons source.
+- [ ] **LLM-grader reliability and validity study.** The machine companion
+      to the human round, run only after the human panel has set the
+      reference grades: the same exemplars graded by several models at fixed,
+      published settings; agreement with the panel reported per principle
+      and per criterion, not just on the composite; stability across runs
+      and across prompt wordings; and the failure modes the Standard already
+      names for LLM *drafting* checked for LLM *grading* (does a model reward
+      the vocabulary of a criterion over its substance?). Results publish
+      alongside the human statistics, whatever they show, and feed §3
+      *Validity and its limits* in the next edition.
 
 **Done when:** the About page carries reliability data with named independent
 graders behind it.

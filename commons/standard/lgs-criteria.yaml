@@ -8,10 +8,11 @@
 #
 # License: CC-BY-SA 4.0
 # © 2026 LexGrade
-# Cite as: "LexGrade Standard v1.0, LexGrade (lexgrade.org), CC-BY-SA 4.0."
+# Cite as: "LexGrade Standard v1.1, LexGrade (lexgrade.org), CC-BY-SA 4.0."
 #
 # This file is the canonical structured form of the LexGrade Standard.
-# It is transcribed faithfully from commons/standard/LexGrade_Standard_v1.0.md.
+# It is transcribed faithfully from the current Standard markdown named in
+# methodology.yaml (commons/standard/LexGrade_Standard_v1.1.md).
 # The markdown is the human-readable source of truth; this YAML is the
 # machine-readable derivative — every LGS N.N criterion ID here must match the
 # set in the markdown; they cannot silently diverge.
@@ -21,7 +22,7 @@
 # build against it.
 
 standard: "LexGrade Standard"
-version: "1.0"
+version: "1.1"
 license: "CC-BY-SA-4.0"
 scope: "New York State Supreme Court motion practice"
 # Mirrors the Standard's currency note: all statutory, regulatory, and empirical
@@ -194,6 +195,18 @@ criteria:
       only its text.
     source: "§II-B, Specific Evaluation Criteria; Gluck"
 
+  - id: "LGS 3.10"
+    principle: P3
+    title: "Case Synthesis"
+    requirement: >
+      Where the governing rule is drawn from more than one authority, the
+      motion states the rule those authorities together establish, shows how
+      each contributes to it, and applies the synthesized rule; a sequence of
+      case descriptions or parentheticals without a stated rule is not a
+      synthesis. N/A where a single controlling decision states the rule.
+    source: "v1.1; Clark & DeSanctis"
+    added_in: "1.1"
+
   # --- Principle 4: Factual Foundation (18%) ---
   - id: "LGS 4.1"
     principle: P4
@@ -271,9 +284,21 @@ criteria:
     principle: P5
     title: "Audience Calibration"
     requirement: >
-      The motion is calibrated to the assigned justice's known preferences,
-      the court's local practice, and the procedural posture.
+      The motion is calibrated to the court's local practice, the applicable
+      standards, and the procedural posture.
     source: "§IV, Specific Evaluation Criteria; Wizner"
+
+  - id: "LGS 5.6"
+    principle: P5
+    title: "Analytical Structure"
+    requirement: >
+      Each argument has a visible analytical structure: the conclusion or
+      rule stated first, the rule explained from its authority, the rule
+      applied to the record facts, and the conclusion restated (the CREAC /
+      IRAC family); the reader can locate each step, and no step is missing
+      or merged into another.
+    source: "v1.1; Clark & DeSanctis"
+    added_in: "1.1"
 
   # --- Principle 6: Strategic Sophistication (10%) ---
   - id: "LGS 6.1"
@@ -510,7 +535,7 @@ conformance_levels:
 conformance_claim:
   required_elements:
     - "Level claimed (Expert, Competent, or Deficient)"
-    - "Version (LexGrade Standard v1.0) — claims are version-specific"
+    - "Version (LexGrade Standard v1.1) — claims are version-specific; minor editions are comparable, but a claim names the exact edition graded"
     - "Composite score and the date graded"
     - "Jurisdiction profile (base NY calibration, or a named profile)"
     - "Grader (self-assessment, named human grader(s), or model + settings)"
