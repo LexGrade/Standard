@@ -82,11 +82,11 @@ sees that first.*
       authority, render it on the criterion. Establish a quarterly
       re-verification pass (recurring issue) — the Uniform Rules get amended by
       administrative order with little fanfare.
-- [ ] **Soften the 3–4 most adversarial-sounding technique names.**
-      Candidates: "Catch-22 Demand," "Recursive Bind," "Burden-Shift
-      Choreography," "The Concession That Isn't." Definitions stay; the labels
-      are what gets screenshotted. Via `rfc:` issue per GOVERNANCE.md; retire
-      old names as aliases so citations don't break.
+- [x] **Soften the 3–4 most adversarial-sounding technique names.** Done in
+      Register v1.0.12, which renamed thirteen techniques to neutral craft
+      names ("Catch-22 Demand" is now "Rule-Anchored Demand," "The Concession
+      That Isn't" is "Converted Concession," and so on) and recast the loaded
+      vocabulary around them. Definitions unchanged.
 
 **Done when:** a Presiding Justice's counsel skimming any page finds the
 candor framing before anything that could read as gamesmanship, and every

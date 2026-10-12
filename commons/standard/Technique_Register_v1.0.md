@@ -145,6 +145,8 @@ LexGrade Standard; reported alongside the composite score but never modifying it
 
 **LLM note:** LLMs default to chronological or IRAC structure. Anchor paragraphs require deliberate override of default ordering.
 
+
+**Standard criterion served:** LGS 5.6 (Analytical Structure). The anchor paragraph is the conclusion-first step of LGS 5.6 taken at the top of the memorandum: the strongest fact and the strongest authority lead, and the rule, its application, and the conclusion follow. Impact-first is compatible with the structure 5.6 asks for; what it overrides is the habit of opening with background.
 ---
 
 ### 7. The Defined Term as Argument
@@ -585,6 +587,8 @@ LexGrade Standard; reported alongside the composite score but never modifying it
 
 **Anti-pattern:** "As the Court of Appeals so powerfully and eloquently stated in its landmark decision..." (the drafter's admiration undermines the borrowed authority)
 
+
+**Standard criterion served:** LGS 3.10 (Case Synthesis). Once the drafter has shown what several authorities hold together, a court's own phrase is often the cleanest way to state that rule. The quotation does not replace the synthesis: a quoted phrase with no account of what the other authorities add is a parenthetical, and LGS 3.10 scores that as a list.
 ---
 
 ### 27. Sourced Emotion
@@ -631,6 +635,8 @@ LexGrade Standard; reported alongside the composite score but never modifying it
 
 **Distinguished from Borrowed Authority (#26):** Borrowed Authority uses an appellate court's words for their moral or rhetorical weight. The Court's Own Precedent draws on the deciding court's prior reasoning, which it is especially likely to find persuasive because it is the court's own.
 
+
+**Standard criterion served:** LGS 3.10 (Case Synthesis) and LGS 3.2 (Binding Authority). The deciding court's prior decisions are authorities to synthesize, not only to cite. The strongest 3.10 statement often runs down the hierarchy, with the Court of Appeals stating the rule, the Appellate Division applying it, and the deciding court having applied it to facts like these, each level adding something. Recalling the court's own ruling is the last step in that chain.
 ---
 
 ### 29. Credibility by Contrast
@@ -822,6 +828,8 @@ LexGrade Standard; reported alongside the composite score but never modifying it
 
 **The real reader:** In a busy motion part, the first reader is often the principal court attorney who drafts the decision. A memorandum mapped to the statutory elements is one they can adopt directly — that is the technique's value. The corollary is unforgiving: a single wrong pinpoint citation, caught on that line-by-line read, forfeits the drafter's credibility for the whole motion. The Checklist works only if every cell in it is accurate.
 
+
+**Standard criterion served:** LGS 5.6 (Analytical Structure) and LGS 2.2 (Vehicle Selection, which asks that the motion state the vehicle's elements and show the facts meet each). The Checklist is LGS 5.6 applied to the whole memorandum: one element per section, and inside each section the rule, its authority, the facts, and the application. A Checklist whose cells skip the application step fails 5.6 even though the architecture is right.
 ---
 
 ### 39. Argumentative Point Headings
@@ -901,6 +909,8 @@ LexGrade Standard; reported alongside the composite score but never modifying it
 - Strategy: \_\_\_/13
 - Ethos: \_\_\_/2
 
+
+**Standard criterion served:** LGS 5.1 (Argumentative Point Headings) directly, and LGS 5.6 (Analytical Structure). This is the one place a technique and a criterion share a name: the criterion scores whether the headings are argumentative; the technique describes the craft of writing them. A heading that asserts the section's conclusion is also the conclusion-first step of 5.6, placed where a skimming reader finds it.
 ---
 
 ## LLM-SPECIFIC FAILURE MODES
@@ -1084,3 +1094,4 @@ The instrument exists to make good motions legible, not to make persuasion an en
 | v1.0.10 | 2026 | Reframed the register as craft: rewrote the opening to lead with purpose and the ethical floor, and recast loaded language in the premise and in several technique notes (#9, #12, #14, #16). No change to definitions' substance, count, categories, or score. |
 | v1.0.11 | 2026 | Renumbered the register so each category is contiguous and ascending (grouped by category, relative order preserved). Numbers only — no change to definitions, count (39), categories, or score. URLs/slugs unaffected. |
 | v1.0.12 | 2026 | Renamed techniques whose names read as adversarial tactics to neutral craft names (#1, #12, #14, #15, #17, #18, #19, #21, #23, #27, #29, #31, #32) and recast remaining loaded vocabulary throughout toward clarity, candor, and helping the court act on the honest case. No change to definitions' substance, count (39), categories, or score. Slugs regenerate from the new names. |
+| v1.0.13 | 2026 | Added "Standard criterion served" notes to #6, #26, #28, #38, and #39, cross-referencing the Standard v1.1 criteria they serve (LGS 3.10 Case Synthesis and LGS 5.6 Analytical Structure, with 2.2, 3.2, and 5.1). Informative only; no change to definitions, count (39), categories, or score. |

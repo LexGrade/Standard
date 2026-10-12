@@ -48,6 +48,11 @@ Technique Register is unchanged at v1.0.
   (73 J. Legal Educ. no. 1 (2024)), each linked to its publisher page.
 - **§13 — Edition history** table, and a rule that a criterion added in a
   minor release takes the next unused number in its Principle.
+- **Technique Register v1.0.13.** "Standard criterion served" notes on #6
+  The Anchor Paragraph, #26 Borrowed Authority, #28 The Court's Own
+  Precedent, #38 The Judge's Checklist, and #39 Argumentative Point Headings,
+  saying which v1.1 criteria each serves. Informative only; count, categories,
+  and definitions unchanged. The Register's manifest version stays 1.0.
 
 ### Changed
 - **Launch scope cut to the core.** The published tree now holds the
