@@ -854,6 +854,8 @@ LexGrade Standard; reported alongside the composite score but never modifying it
 
 **Distinguished from the Judge's Checklist (#38):** The Judge's Checklist maps sections to the elements the court must analyze — it is the analytical architecture. Argumentative Point Headings are the persuasion that architecture carries on a skim: the headings assert the conclusion of each section, not merely name it.
 
+**Standard criterion served:** LGS 5.1 (Argumentative Point Headings) directly, and LGS 5.6 (Analytical Structure). This is the one place a technique and a criterion share a name: the criterion scores whether the headings are argumentative; the technique describes the craft of writing them. A heading that asserts the section's conclusion is also the conclusion-first step of 5.6, placed where a skimming reader finds it.
+
 ## TECHNIQUE REGISTER — TEMPLATE
 
 | \# | Technique                   | Category    | Present? | Instance(s) |
@@ -909,8 +911,6 @@ LexGrade Standard; reported alongside the composite score but never modifying it
 - Strategy: \_\_\_/13
 - Ethos: \_\_\_/2
 
-
-**Standard criterion served:** LGS 5.1 (Argumentative Point Headings) directly, and LGS 5.6 (Analytical Structure). This is the one place a technique and a criterion share a name: the criterion scores whether the headings are argumentative; the technique describes the craft of writing them. A heading that asserts the section's conclusion is also the conclusion-first step of 5.6, placed where a skimming reader finds it.
 ---
 
 ## LLM-SPECIFIC FAILURE MODES
