@@ -37,10 +37,11 @@ Technique Register is unchanged at v1.0.
   with a consequential-validity (washback) caveat and the three design guards
   against it.
 - **§6 — Reporting the composite.** The composite is a gateway, not the
-  product: findings before the number, never the number alone, integers only,
-  the Register reported and never added, comparisons as profiles rather than
-  ranks, and findings-first feedback in education. The worksheet gains a
-  "per-criterion findings attached" line.
+  product. A reported grading leads with the per-criterion findings, always
+  carries the conformance-claim elements, rounds to an integer, keeps the
+  Register on its own line, and compares motions by profile. In education
+  the findings go to the student first. The worksheet gains a "per-criterion
+  findings attached" line.
 - **§12 — Legal-education and assessment scholarship.** Clark & DeSanctis
   (63 J. Legal Educ. 3 (2013)), Sargent & Curcio (61 J. Legal Educ. 379
   (2012)), Schwarcz & Farganis (67 J. Legal Educ. 139 (2017)), and Gustafson

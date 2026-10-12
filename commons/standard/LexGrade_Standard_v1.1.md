@@ -212,9 +212,8 @@ citations reflects both sanctionability and empirical frequency.
 
 A score is only as meaningful as the inference it is used to support. This
 subsection states which inferences the Standard can bear today and which it
-cannot, so that a user, a reader of a conformance claim, or a researcher
-citing the instrument does not read more into a number than the evidence
-allows. It is normative for how scores are described (see §6, *Reporting the
+cannot, so that nobody reads more into a number than the evidence allows. It
+is normative for how scores are described (see §6, *Reporting the
 composite*) and informative about the instrument's evidence base.
 
 **What the Standard can support.**
@@ -224,18 +223,18 @@ composite*) and informative about the instrument's evidence base.
   or named scholarship (§11, §12). The criteria describe what practice
   guides, the Rules of Professional Conduct, and legal-writing pedagogy
   already treat as the elements of a sound motion. A reader can audit that
-  mapping line by line; nothing in the composite is measured that is not
-  named.
+  mapping line by line.
 - *A shared vocabulary.* The criteria give graders, students, and drafters
   the same named terms for the same qualities, which is the first-order
   purpose of a rubric in legal writing instruction (Clark & DeSanctis 2013).
-  Two graders using the Standard disagree about a *named* thing, which is
-  what makes the disagreement resolvable.
+  When two graders using the Standard disagree, they disagree about a named
+  thing, and that is what makes the disagreement resolvable.
 - *Author-level discrimination.* The instrument separates exemplars written
-  to be Expert, Competent, and Deficient on identical facts when scored by
-  its author. That is a necessary check, not evidence of reliability, which
-  is why those materials are withheld from the published tree until
-  independent graders have scored them (see the project roadmap).
+  to be Expert, Competent, and Deficient on identical facts when its author
+  scores them. That shows only that the instrument can separate what its
+  author wrote to be separated. It says nothing about reliability, so those
+  materials stay out of the published tree until independent graders have
+  scored them (see the project roadmap).
 
 **What the Standard cannot yet support.**
 
@@ -247,12 +246,11 @@ composite*) and informative about the instrument's evidence base.
 - *Criterion and predictive validity.* No correlation between LGS scores and
   outcomes (grant, denial, settlement, appellate result) has been measured.
   §8 states the hypothesis and the sample it would take; it remains untested.
-  A score is not a prediction.
-- *Weight validity.* The weights in this section are calibrated by stated
-  reasoning, not estimated from data. A different, defensible weighting would
-  move composites by several points without changing any per-criterion
-  finding, which is one reason the per-criterion findings, not the number,
-  are the primary output (§6).
+- *Weight validity.* The weights in this section were set by the reasoning
+  stated above, without data. A different, defensible weighting would move
+  composites by several points without changing any per-criterion finding,
+  which is one reason the per-criterion findings are the primary output
+  (§6).
 - *Transfer.* The calibration is New York State Supreme Court motion practice.
   Nothing has been measured in any other forum. A jurisdiction profile ports
   the criterion text; it does not carry validity evidence with it.
@@ -268,11 +266,11 @@ The Standard guards against it in three ways, and users should preserve all
 three: the score-band descriptors reward *specific, named* content and cap
 generic compliance at the B range; the Technique Register is never scored, so
 there is nothing to gain by shoehorning a technique; and the reporting rule in
-§6 puts the per-criterion findings ahead of the composite, so the feedback a
-drafter receives is the finding, not the number. The empirical case that
-specific, individualized feedback improves subsequent legal work (Sargent &
-Curcio 2012; Schwarcz & Farganis 2017) is the reason the instrument is built
-as a feedback device first and a score second.
+§6 puts the per-criterion findings ahead of the composite, so a drafter is
+told what was found before being told a number. The evidence that specific,
+individualized feedback improves later legal work (Sargent & Curcio 2012;
+Schwarcz & Farganis 2017) is why the instrument is built as a feedback device
+first and a score second.
 
 **What this means for a user.** "This motion scored 91 under LexGrade
 Standard v1.1" is a statement about how one grader applied a published
@@ -431,8 +429,7 @@ provides" without case law showing how courts apply it is the most common LLM
 failure pattern in this Principle (−5 automatic deduction). A second pattern
 is the unsynthesized string: three or four cases described in sequence, each
 with a parenthetical, and no sentence stating what rule they establish
-together. That is a list, not a synthesis, and scores accordingly under
-LGS 3.10.
+together. LGS 3.10 scores that as a list.
 
 ---
 
@@ -495,15 +492,14 @@ written for this court, this judge, this posture.
 | LGS 5.5 | Audience Calibration | The motion is calibrated to the court's local practice, the applicable standards, and the procedural posture. | §IV, Specific Evaluation Criteria; Wizner |
 | LGS 5.6 | Analytical Structure | Each argument has a visible analytical structure: the conclusion or rule stated first, the rule explained from its authority, the rule applied to the record facts, and the conclusion restated (the CREAC / IRAC family); the reader can locate each step, and no step is missing or merged into another. | v1.1; Clark & DeSanctis |
 
-**Analytical structure is a floor, not a formula.** LGS 5.6 asks whether a
-reader can find the rule, its explanation, its application, and the
-conclusion for each argument. It does not require a particular acronym, a
-particular order beyond conclusion-first, or one paragraph per step. The
-Technique Register's Anchor Paragraph (impact-first) is consistent with it:
-the strongest fact and authority lead, and the structure follows. A motion
-that recites rules without applying them to the record, or applies facts to
-a rule it never stated, falls short here regardless of how polished the prose
-is.
+**What LGS 5.6 does and does not require.** It asks whether a reader can
+find the rule, its explanation, its application, and the conclusion for each
+argument. It does not require a particular acronym or one paragraph per
+step, and the only ordering it fixes is conclusion-first. The Technique
+Register's Anchor Paragraph (impact-first) is consistent with it: the
+strongest fact and authority lead, and the structure follows. A motion that
+recites rules without applying them to the record, or applies facts to a
+rule it never stated, falls short here however polished the prose is.
 
 **Score bands.**
 
@@ -877,14 +873,13 @@ conformance claim (§5) and for any tool that presents LGS results.
 3. **Integers.** The formula reproduces to the decimal; the instrument does
    not resolve to the decimal (§3, *Validity and its limits*). Report the
    composite as an integer, rounding half up.
-4. **The Register is reported, not added.** The Technique Register count and
-   the techniques observed are reported in their own line and are never
-   summed with, averaged into, or used to break ties in the composite.
-5. **Comparisons are profiles, not ranks.** Two motions, two drafters, or
-   two models are compared by their per-principle grades and per-criterion
-   findings side by side. A rank ordering by composite alone asserts a
-   precision and a validity the instrument does not have, and is outside
-   what it supports.
+4. **The Register stays separate.** The Technique Register count and the
+   techniques observed are reported on their own line. They are never added
+   to the composite or used to break ties in it.
+5. **Comparisons show profiles.** Two motions, or two models, are compared by
+   their per-principle grades and per-criterion findings side by side. A
+   rank ordering by composite alone claims a precision the instrument does
+   not have.
 6. **For education, the findings are the feedback.** Where the Standard is
    used to grade student work, the per-criterion findings and the Principle 8
    responses are what the student receives first; the number may be withheld
@@ -1012,7 +1007,7 @@ Complete one worksheet per motion (or per model, for benchmarking).
 | P7 Ethical Deductions | | | | From the §4 Principle 7 ladder |
 | **COMPOSITE SCORE** | | | **/100** | Scaled + net modifier − P7 deductions, clamped [0, 98]; report as an integer |
 | Per-criterion findings attached | Required | | | Findings and P7 ladder precede the composite (§6, Reporting) |
-| Technique Register | Non-scored | | __/39 | Informative; reported, never added |
+| Technique Register | Non-scored | | __/39 | Informative; kept separate from the score |
 
 | Field | Entry |
 |-------|-------|
@@ -1118,9 +1113,8 @@ Sanctions; Commercial Division Rules 17, 19-a.
 - Bryan A. Garner, *[The Elements of Legal Style](https://global.oup.com/academic/product/the-elements-of-legal-style-9780195141627)* (2d ed., Oxford University Press 2002) — writing and citation standards.
 
 **Legal-education and assessment scholarship (added in v1.1).** These
-sources ground the two v1.1 criteria and the validity and reporting
-provisions; they are about how legal writing is assessed, not about New York
-practice.
+sources concern how legal writing is assessed. They ground the two v1.1
+criteria and the validity and reporting provisions.
 
 - Jessica L. Clark & Christy H. DeSanctis, "[Toward a Unified Grading Vocabulary: Using Rubrics in Legal Writing Courses](https://jle.aals.org/home/vol63/iss1/2)," 63 J. Legal Educ. 3 (2013) — rubrics as a shared, named vocabulary for the qualities of legal writing; the basis for LGS 3.10 and LGS 5.6 as separately named criteria.
 - Carol Springer Sargent & Andrea A. Curcio, "[Empirical Evidence That Formative Assessments Improve Final Exams](https://jle.aals.org/home/vol61/iss3/4/)," 61 J. Legal Educ. 379 (2012) — formative feedback improved subsequent performance by up to a letter grade; why the findings, not the number, are the output.

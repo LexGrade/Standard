@@ -119,7 +119,7 @@ ships when it is evidence.*
       to the human round, run only after the human panel has set the
       reference grades: the same exemplars graded by several models at fixed,
       published settings; agreement with the panel reported per principle
-      and per criterion, not just on the composite; stability across runs
+      and per criterion as well as on the composite; stability across runs
       and across prompt wordings; and the failure modes the Standard already
       names for LLM *drafting* checked for LLM *grading* (does a model reward
       the vocabulary of a criterion over its substance?). Results publish
