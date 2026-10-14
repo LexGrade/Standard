@@ -14,6 +14,10 @@ it improves by being argued over.
 - **Pull request** against the source of truth in `commons/standard/` (the Standard,
   the Technique Register, `lgs-criteria.yaml`) or the site/code.
 - **Issue** — <https://github.com/LexGrade/standard/issues/new>
+- **Correction** — a stale rule, wrong citation, or error of fact: use the
+  [correction template](https://github.com/LexGrade/standard/issues/new?template=correction.yml).
+  Acknowledged within 14 days; the policy is in
+  [GOVERNANCE](../commons/GOVERNANCE.md#corrections).
 - **Email** — `contribute@lexgrade.org` with the idea, the jurisdiction, or the
   criterion you would change. A rough note is plenty; it will be turned into a
   proposal, with credit.

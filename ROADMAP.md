@@ -45,10 +45,13 @@ outreach (Phase 4); Phases 1–3 can proceed in parallel with it.
 - [ ] **Recruit 2–3 advisory reviewers.** A legal-writing professor, a legal
       aid attorney, and/or a retired judge or court attorney. Listed by name on
       the About page. Their job is annual review sign-off, not day-to-day work.
-- [ ] **Publish a corrections channel and SLA.** A `corrections@` address (or
-      GitHub issue template) plus a stated commitment: stale-rule reports
-      acknowledged within N days, criterion corrections in the next minor
-      version. Add to About and `GOVERNANCE.md`.
+- [x] **Publish a corrections channel and SLA.** A `correction` issue
+      template, the `hello@lexgrade.org` subject line, and a commitment in
+      `GOVERNANCE.md` §Corrections and on the About page: every report
+      acknowledged within 14 days; errors of fact fixed in the current edition
+      as routine changes; corrections that change a requirement go through an
+      RFC and ship in the next minor edition, with the report linked until
+      then.
 - [ ] **Decide the fiscal-host question deliberately.** GOVERNANCE.md currently
       defers it; replace the open-ended deferral with a trigger ("when X
       sustained outside contributors" or "before any institutional partnership
