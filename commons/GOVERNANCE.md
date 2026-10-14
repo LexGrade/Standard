@@ -217,13 +217,14 @@ other.
 | Thing | Status | What it means |
 |---|---|---|
 | **"LexGrade"** — word mark, logo, domain | Service mark of the SaaS LLC | Don't use it to brand your own product, service, or domain without written permission. |
-| **"LexGrade Standard v1.0"** | Name of the open standard | Use this exact phrase to describe an implementation of the open rubric + Technique Register, as long as you don't imply endorsement. |
+| **"LexGrade Standard vX.Y"** | Name of the open standard | Use this phrase, naming the edition you implement, to describe an implementation of the open rubric + Technique Register, as long as you don't imply endorsement. |
 | The rubric and Technique Register | Open content (CC-BY-SA-4.0; tooling AGPL-3.0) | Implement, fork, and redistribute freely — under any name except "LexGrade." |
 
 ### Without asking, you may
 
 - Implement the open rubric and Technique Register — describe it as "an
-  implementation of the LexGrade Standard v1.0."
+  implementation of the LexGrade Standard v1.1" (or whichever edition you
+  implement).
 - Fork the open tooling under AGPL-3.0 and ship it under your own name (see the
   [forking guide above](#forking-lexgrade)).
 - Cite "LexGrade" in writing, research, journalism, and reviews — nominative
@@ -245,7 +246,8 @@ academic, and clinic use, and denied where it would create user confusion.
 ### If you fork
 
 Rename it (anything without "LexGrade"), acknowledge the source — *"Built on the
-LexGrade Standard v1.0 (lexgrade.org), under AGPL-3.0 / CC-BY-SA-4.0"* — and
+LexGrade Standard v1.1 (lexgrade.org), under AGPL-3.0 / CC-BY-SA-4.0"*, naming
+the edition you built on — and
 don't claim endorsement. Full guide in the [forking section above](#forking-lexgrade).
 
 ### What we will and won't do
