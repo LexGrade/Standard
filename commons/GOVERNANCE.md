@@ -33,6 +33,40 @@ outside contribution to warrant it; this document will be updated when it happen
 3. **Breaking changes** (rubric structure that breaks tooling; license changes) —
    tagged `rfc:breaking`, with 30 days' notice and broad agreement before merge.
 
+## Corrections
+
+The Standard cites court rules and published scholarship, and both change.
+The Uniform Rules are amended by administrative order with little notice, and
+a criterion that cites a renumbered or repealed rule is wrong until someone
+says so. This section is the channel for saying so.
+
+**How to report.** Open a [correction issue](https://github.com/LexGrade/standard/issues/new?template=correction.yml),
+or email `hello@lexgrade.org` with the subject `Correction: <criterion or page>`.
+Say where the error is, what the text says, what it should say, and the
+authority for the change.
+
+**What we commit to.**
+
+1. **Acknowledgment within 14 days.** Every report gets a reply saying whether
+   it is confirmed, disputed, or still being checked.
+2. **Errors of fact are routine changes.** A wrong rule number, citation, date,
+   or quotation is corrected in the current edition under the routine path in
+   *Decision-making* above, with a changelog entry naming the report. No RFC,
+   no version bump. The `citations_verified` date in the catalog is updated
+   when the correction touches a verified citation.
+3. **Changes to what a criterion requires go through an RFC.** If the
+   correction would change a requirement, a weight, or a deduction, it starts
+   as an `rfc:` issue, and the fix ships in the next minor edition. The
+   correction issue stays open and linked until then, so the known problem is
+   on the record while the text is uncorrected.
+4. **Published editions are never edited silently.** A correction to a
+   published edition is recorded in the changelog and in the edition's
+   history table. The prior wording stays in git history.
+
+**What a correction is not.** Disagreement with a criterion, a weight, or a
+score band is a proposal, and goes through the `rfc:` path. The corrections
+channel is for the text being wrong about a fact.
+
 ## No CLA
 
 Contributions are accepted under the repository's existing licenses, inbound =
