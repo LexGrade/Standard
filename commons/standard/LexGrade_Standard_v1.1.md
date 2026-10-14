@@ -500,6 +500,9 @@ Register's Anchor Paragraph (impact-first) is consistent with it: the
 strongest fact and authority lead, and the structure follows. A motion that
 recites rules without applying them to the record, or applies facts to a
 rule it never stated, falls short here however polished the prose is.
+LGS 5.4 and LGS 5.6 are scored independently. 5.4 asks in what order the
+authorities appear; 5.6 asks whether the reasoning that uses them is
+complete. A motion can satisfy either without the other.
 
 **Score bands.**
 
@@ -860,7 +863,8 @@ can be compared. The product of an LGS grading is the set of per-criterion
 findings: for each criterion, whether it is satisfied, short, or N/A, and
 for each shortfall, the specific defect in the motion. The following rules
 govern how a grading is reported. They are normative for anyone making a
-conformance claim (§5) and for any tool that presents LGS results.
+conformance claim (§5) and for any tool that presents LGS results. For any
+other use they are informative.
 
 1. **Findings before the number.** A reported grading leads with the
    per-criterion findings and the Principle 7 ladder (each deduction, with

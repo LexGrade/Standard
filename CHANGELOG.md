@@ -41,7 +41,8 @@ Technique Register is unchanged at v1.0.
   carries the conformance-claim elements, rounds to an integer, keeps the
   Register on its own line, and compares motions by profile. In education
   the findings go to the student first. The worksheet gains a "per-criterion
-  findings attached" line.
+  findings attached" line. The calibration set re-reports as integers when
+  it returns.
 - **§12 — Legal-education and assessment scholarship.** Clark & DeSanctis
   (63 J. Legal Educ. 3 (2013)), Sargent & Curcio (61 J. Legal Educ. 379
   (2012)), Schwarcz & Farganis (67 J. Legal Educ. 139 (2017)), and Gustafson
