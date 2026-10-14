@@ -303,7 +303,12 @@ function renderCriterion(c) {
           c.deduction_note ? ` (${escapeHtml(String(c.deduction_note))})` : ''
         }</p>`
       : '';
-  const source = c.source ? `<p class="source">Source: ${escapeHtml(String(c.source))}</p>` : '';
+  const addedIn = c.added_in ? ` <span class="added-in">Added in v${escapeHtml(String(c.added_in))}.</span>` : '';
+  const source = c.source
+    ? `<p class="source">Source: ${escapeHtml(String(c.source))}${addedIn}</p>`
+    : addedIn
+      ? `<p class="source">${addedIn.trim()}</p>`
+      : '';
 
   return `<section class="criterion" id="${a}" aria-labelledby="${a}-h">
     <h3 id="${a}-h"><span class="num">${escapeHtml(sectionNumber(c.id))}</span> ${escapeHtml(c.title)} <a class="self-link" href="#${a}" aria-label="Permalink to ${escapeHtml(c.id)}">${escapeHtml(c.id)}</a></h3>
