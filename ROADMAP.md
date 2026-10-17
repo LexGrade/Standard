@@ -82,11 +82,11 @@ sees that first.*
       authority, render it on the criterion. Establish a quarterly
       re-verification pass (recurring issue) — the Uniform Rules get amended by
       administrative order with little fanfare.
-- [ ] **Soften the 3–4 most adversarial-sounding technique names.**
-      Candidates: "Catch-22 Demand," "Recursive Bind," "Burden-Shift
-      Choreography," "The Concession That Isn't." Definitions stay; the labels
-      are what gets screenshotted. Via `rfc:` issue per GOVERNANCE.md; retire
-      old names as aliases so citations don't break.
+- [x] **Soften the 3–4 most adversarial-sounding technique names.** Done in
+      Register v1.0.12, which renamed thirteen techniques to neutral craft
+      names ("Catch-22 Demand" is now "Rule-Anchored Demand," "The Concession
+      That Isn't" is "Converted Concession," and so on) and recast the loaded
+      vocabulary around them. Definitions unchanged.
 
 **Done when:** a Presiding Justice's counsel skimming any page finds the
 candor framing before anything that could read as gamesmanship, and every
@@ -115,6 +115,16 @@ ships when it is evidence.*
       will cite the Standard but not adopt it.
 - [ ] **Surface the calibration evidence on lexgrade.org** once real — a
       /calibration page rendered from the commons source.
+- [ ] **LLM-grader reliability and validity study.** The machine companion
+      to the human round, run only after the human panel has set the
+      reference grades: the same exemplars graded by several models at fixed,
+      published settings; agreement with the panel reported per principle
+      and per criterion as well as on the composite; stability across runs
+      and across prompt wordings; and the failure modes the Standard already
+      names for LLM *drafting* checked for LLM *grading* (does a model reward
+      the vocabulary of a criterion over its substance?). Results publish
+      alongside the human statistics, whatever they show, and feed §3
+      *Validity and its limits* in the next edition.
 
 **Done when:** the About page carries reliability data with named independent
 graders behind it.

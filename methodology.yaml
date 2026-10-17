@@ -12,13 +12,16 @@ schema_version: 1
 # Version values are quoted strings so YAML floats like 3.0 round-trip cleanly
 # as map keys (an unquoted 3.0 would normalize to "3" and miss its `artifacts` key).
 current:
-  standard: "1.0"
+  standard: "1.1"
   technique_register: "1.0"
 
 artifacts:
   standard:
     "1.0":
       path: commons/standard/LexGrade_Standard_v1.0.md
+      license: CC-BY-SA-4.0
+    "1.1":
+      path: commons/standard/LexGrade_Standard_v1.1.md
       license: CC-BY-SA-4.0
 
   technique_register:
