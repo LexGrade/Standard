@@ -55,6 +55,15 @@ Technique Register is unchanged at v1.0.
   saying which v1.1 criteria each serves. Informative only; count, categories,
   and definitions unchanged. The Register's manifest version stays 1.0.
 
+### Added
+- **Corrections channel and SLA.** A `correction` issue template, a
+  `Corrections` section in `GOVERNANCE.md`, and a "When this is wrong"
+  section on the About page. Every report is acknowledged within 14 days;
+  errors of fact are fixed in the current edition as routine changes;
+  corrections that change a requirement go through an RFC and ship in the
+  next minor edition, with the report linked until then. Governance only;
+  no criterion, weight, or deduction changed.
+
 ### Changed
 - **Launch scope cut to the core.** The published tree now holds the
   Standard, the Technique Register, the machine-readable catalog, and the
