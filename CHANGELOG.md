@@ -12,6 +12,15 @@ Published editions stay published — a new edition never revokes a prior one.
 Changes accepted for the next edition accumulate here. Propose changes via an
 `rfc:` issue — see [CONTRIBUTING](.github/CONTRIBUTING.md).
 
+### Added
+- **Corrections channel and SLA.** A `correction` issue template, a
+  `Corrections` section in `GOVERNANCE.md`, and a "When this is wrong"
+  section on the About page. Every report is acknowledged within 14 days;
+  errors of fact are fixed in the current edition as routine changes;
+  corrections that change a requirement go through an RFC and ship in the
+  next minor edition, with the report linked until then. Governance only;
+  no criterion, weight, or deduction changed.
+
 ### Changed
 - **Launch scope cut to the core.** The published tree now holds the
   Standard, the Technique Register, the machine-readable catalog, and the

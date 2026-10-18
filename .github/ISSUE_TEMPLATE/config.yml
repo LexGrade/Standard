@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Propose a change to the methodology
+    url: https://github.com/LexGrade/standard/issues/new?title=rfc%3A%20
+    about: Criteria, weights, gate logic, techniques, and new editions start as an `rfc:` issue, open at least seven days before merge.
+  - name: Email
+    url: https://lexgrade.org/contribute
+    about: "hello@lexgrade.org, subject \"Correction: <criterion or page>\". Same 14-day acknowledgment."

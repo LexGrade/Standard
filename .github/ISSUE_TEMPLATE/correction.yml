@@ -1,0 +1,46 @@
+name: Correction
+description: Report a stale rule, a wrong citation, or an error of fact in the Standard or the Technique Register.
+title: "correction: "
+labels: ["correction"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks. Corrections are acknowledged within 14 days. A confirmed error of fact (a rule number, a citation, a date, a quotation) is fixed as a routine change and recorded in the changelog. A correction that changes what a criterion requires goes through an `rfc:` issue and ships in the next minor edition. The full policy is in [GOVERNANCE](../blob/main/commons/GOVERNANCE.md#corrections).
+  - type: input
+    id: where
+    attributes:
+      label: Where
+      description: The criterion ID, technique number, section, or page URL.
+      placeholder: "LGS 7.1, Technique #38, §12, or https://lexgrade.org/standard#..."
+    validations:
+      required: true
+  - type: textarea
+    id: says
+    attributes:
+      label: What the text says now
+      description: Quote the sentence or table cell as it stands.
+    validations:
+      required: true
+  - type: textarea
+    id: should
+    attributes:
+      label: What it should say, and why
+      description: The current rule, citation, or fact, with the authority you are relying on (an administrative order, the amended rule's text, the published opinion, the journal page).
+    validations:
+      required: true
+  - type: input
+    id: effective
+    attributes:
+      label: Effective date of the change, if a rule was amended
+      placeholder: "2026-03-01"
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of correction is this
+      options:
+        - Error of fact (rule number, citation, date, quotation)
+        - Changes what a criterion requires
+        - Not sure
+    validations:
+      required: true
