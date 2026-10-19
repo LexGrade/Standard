@@ -3,8 +3,8 @@
 All notable changes to the LexGrade Standard and this repository are recorded
 here. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-The **standard itself** is versioned independently (published: **v1.0**;
-proposed: **v1.1**); the *Unreleased* section below accumulates changes
+The **standard itself** is versioned independently (published: **v1.0**
+and **v1.1**, current); the *Unreleased* section below accumulates changes
 accepted for the next edition. Published editions stay published — a new
 edition never revokes a prior one.
 
@@ -13,7 +13,11 @@ edition never revokes a prior one.
 Changes accepted for the next edition accumulate here. Propose changes via an
 `rfc:` issue — see [CONTRIBUTING](.github/CONTRIBUTING.md).
 
-### Added — LexGrade Standard v1.1 (proposed)
+## [1.1.0] — 2026-10-19
+
+LexGrade Standard v1.1. RFC: [#4](https://github.com/LexGrade/standard/issues/4); merged in [#3](https://github.com/LexGrade/standard/pull/3).
+
+### Added — LexGrade Standard v1.1
 
 The next edition of the Standard, `commons/standard/LexGrade_Standard_v1.1.md`,
 pinned as current in `methodology.yaml`; v1.0 stays in the tree, published and
@@ -55,7 +59,7 @@ Technique Register is unchanged at v1.0.
   saying which v1.1 criteria each serves. Informative only; count, categories,
   and definitions unchanged. The Register's manifest version stays 1.0.
 
-### Added
+### Added — governance
 - **Corrections channel and SLA.** A `correction` issue template, a
   `Corrections` section in `GOVERNANCE.md`, and a "When this is wrong"
   section on the About page. Every report is acknowledged within 14 days;
@@ -115,5 +119,6 @@ Technique Register is unchanged at v1.0.
 - **MCP server** (`packages/mcp`) — serves the Standard to Claude and other MCP clients.
 - Governance, trademark, and fork-safety policy; jurisdiction module for NY Supreme Court.
 
-[Unreleased]: https://github.com/LexGrade/standard/compare/v1.0...HEAD
-[1.0.0]: https://github.com/LexGrade/standard/releases/tag/v1.0
+[Unreleased]: https://github.com/LexGrade/standard/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/LexGrade/standard/releases/tag/v1.1.0
+[1.0.0]: https://github.com/LexGrade/standard/blob/main/commons/standard/LexGrade_Standard_v1.0.md

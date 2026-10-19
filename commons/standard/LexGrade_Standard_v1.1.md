@@ -1158,7 +1158,7 @@ release takes the next unused number in its Principle.
 | Edition | Status | Changes |
 |---------|--------|---------|
 | v1.0 | Published, February 2026 | Initial edition: 8 principles, 45 criteria, composite formula, three conformance levels. Remains published and citable. |
-| v1.1 | Proposed | Adds LGS 3.10 (Case Synthesis) and LGS 5.6 (Analytical Structure); adds §3 *Validity and its limits* and §6 *Reporting the composite*; adds the legal-education scholarship in §12; corrects the worksheet's Technique Register denominator to 39. No weight, deduction, gate rule, or threshold changed. |
+| v1.1 | Published, October 2026 | Adds LGS 3.10 (Case Synthesis) and LGS 5.6 (Analytical Structure); adds §3 *Validity and its limits* and §6 *Reporting the composite*; adds the legal-education scholarship in §12; corrects the worksheet's Technique Register denominator to 39. No weight, deduction, gate rule, or threshold changed. |
 
 **License.** CC-BY-SA 4.0. © 2026 LexGrade. Cite as: "LexGrade Standard v1.1,
 LexGrade (lexgrade.org), CC-BY-SA 4.0." Renamed forks must update the
