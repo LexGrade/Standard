@@ -74,10 +74,16 @@ The technique, principle, and criteria counts are **guarded against drift**: the
 are no hand-maintained magic numbers in the tests, and the Standard's two
 representations are welded together by CI. Concretely:
 
-- **Editing or adding a criterion** — change both the Standard markdown
-  (`LexGrade_Standard_v1.0.md`) and the catalog (`lgs-criteria.yaml`). A test
-  holds every criterion ID, title, count, and weight equal between the two; a
-  one-sided edit fails the build.
+- **Editing or adding a criterion** — change both the current Standard
+  markdown (the file `methodology.yaml` names as `current.standard`) and the
+  catalog (`lgs-criteria.yaml`). A test holds every criterion ID, title,
+  count, and weight equal between the two; a one-sided edit fails the build.
+  Requirement *text* is not cross-checked, so edit it in both places.
+- **Proposing a new edition** — copy the current Standard to
+  `LexGrade_Standard_vX.Y.md`, register it under `artifacts.standard` in
+  `methodology.yaml`, and point `current.standard` at it. The prior edition
+  stays in the tree: published editions are never revoked. A new criterion
+  takes the next unused number in its Principle; IDs never move.
 - **Adding a technique** — update the Register's own summary tables (Category
   Index, count line, distribution, template table), the `technique_register`
   block in `lgs-criteria.yaml`, and the Standard's §7 category table. Tests
