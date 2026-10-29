@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 260" role="img" aria-label="LexGrade">
+  <g fill="#7A1626" transform="translate(40, 20)">
+    <path d="M 0,144 L 36,144 L 36,204 L 180,204 L 180,240 L 0,240 Z"/>
+    <rect x="48" y="108" width="36" height="84"/>
+    <rect x="96" y="72" width="36" height="120"/>
+    <path d="M 144,36 L 162,18 L 180,36 L 180,192 L 144,192 Z"/>
+  </g>
+</svg>

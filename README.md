@@ -1,6 +1,24 @@
-# LexGrade Standard
+<p align="center">
+  <a href="https://lexgrade.org">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset=".github/assets/lexgrade-logo-dark.svg">
+      <img src=".github/assets/lexgrade-logo-light.svg" alt="LexGrade" width="96" height="96">
+    </picture>
+  </a>
+</p>
 
-An open standard for grading the quality of legal motions, with a companion register of the advocacy techniques that distinguish expert work from competent work.
+<h1 align="center">LexGrade Standard</h1>
+
+<p align="center">
+  An open standard for grading the quality of legal motions, with a companion register of the advocacy techniques that distinguish expert work from competent work.
+</p>
+
+<p align="center">
+  <a href="https://lexgrade.org/standard">The Standard</a> ·
+  <a href="https://lexgrade.org/techniques">Technique Register</a> ·
+  <a href="https://lexgrade.org/about">About</a> ·
+  <a href="https://lexgrade.org/contribute">Contribute</a>
+</p>
 
 LexGrade is an open, independently maintained model of effective motion practice, published openly so others can use it, test it, and [improve it](.github/CONTRIBUTING.md). It is **not** promulgated by any court, bar, or government body, it confers no authority, and **nothing here is legal advice**. Every legal citation, whether in the Standard itself or in any motion drafted or assessed with it, must be independently verified before filing.
 

@@ -491,3 +491,13 @@ test('every page carries the logo masthead + favicon, and the standalone SVG has
   // The logo SVG is markup, never script (the page's lone enhancement script aside).
   assert.ok(!/<script/i.test(LOGO_SVG));
 });
+
+test('the README logo copies draw the same mark as LOGO_SVG (only the fill differs)', () => {
+  // The repo README shows committed light/dark copies of the logo (dist/ is
+  // build output). They must keep the site's geometry so the two can't drift.
+  const shapes = (svg) => svg.match(/<(path|rect)\b[^>]*\/>/g).join('\n');
+  for (const variant of ['light', 'dark']) {
+    const copy = readFileSync(new URL(`../../../.github/assets/lexgrade-logo-${variant}.svg`, import.meta.url), 'utf8');
+    assert.equal(shapes(copy), shapes(LOGO_SVG), `${variant} logo geometry matches LOGO_SVG`);
+  }
+});
