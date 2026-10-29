@@ -327,17 +327,21 @@ function renderPrinciple(p, criteria) {
   }</span>`;
   const note = p.note ? `<p class="note">${escapeHtml(String(p.note).trim())}</p>` : '';
 
+  // A principle with no graded criteria says so once: its own note when it has
+  // one, otherwise this fallback line.
   const body =
     criteria.length === 0
-      ? `<p class="panel precondition">${
+      ? p.note
+        ? ''
+        : `<p class="precondition">${
           p.id === 'P1'
             ? 'Procedural Integrity is a precondition the filer satisfies against the court&#39;s rules. LGS does not score it; graded criteria begin at LGS 2.1.'
             : 'No graded criteria for this principle.'
-        }</p>`
+          }</p>`
       : `<div class="criteria">\n${criteria.map(renderCriterion).join('\n')}\n</div>`;
 
   return `<section class="principle" id="${id}" aria-labelledby="${id}-h">
-  <h2 id="${id}-h"><span class="num">${escapeHtml(sectionNumber(p.id))}.</span> ${escapeHtml(p.title)} <span class="pid">${escapeHtml(p.id)}</span> ${badge}</h2>
+  <h2 id="${id}-h"><span class="num">${escapeHtml(sectionNumber(p.id))}.</span> ${escapeHtml(p.title)} ${badge}</h2>
   ${note}
   ${body}
 </section>`;
@@ -571,7 +575,6 @@ ${sections}
 ${appendix}
 
   <footer class="doc-footer">
-    <p>${escapeHtml(title)}, LexGrade (lexgrade.org), ${escapeHtml(license)}. &copy; 2026 LexGrade.</p>
     <p class="gh-links">Found an error? <a href="${REPO_URL}/edit/main/commons/standard/lgs-criteria.yaml">Edit this page on GitHub</a> or <a href="${REPO_URL}/issues/new">open an issue</a>. Substantive changes go through an <code>rfc:</code> issue.</p>
   </footer>`;
 
@@ -644,7 +647,7 @@ export function renderHome({ standardVersion, principleCount, criteriaCount, tec
     </a>
   </nav>
   <p class="home-note">The criteria come from real motion practice. A well-built motion serves everyone involved, including the court that has to decide it. <a href="/about">Why this exists <span aria-hidden="true">→</span></a></p>
-  <aside class="panel home-invite" aria-label="Contribute">
+  <aside class="home-invite" aria-label="Contribute">
     <p class="home-invite__lead">An open standard gets sharper when practicing lawyers argue with it. If you litigate, help shape the next version.</p>
     <a class="home-invite__link" href="/contribute">Contribute to LexGrade <span aria-hidden="true">→</span></a>
   </aside>`;
