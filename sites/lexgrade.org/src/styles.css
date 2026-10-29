@@ -1,7 +1,6 @@
 :root {
   --page: #FAF8F4;
   --panel: #F4F0E8;
-  --soft: #F6F2EA;
   --card: #FFFFFF;
   --text: #211D1A;
   --heading: #1A1613;
@@ -15,7 +14,7 @@
   --accent-deep: #5E101C;
   --border: #E4DFD6;
   --border-2: #EDE7DC;
-  --measure: 42rem;
+  --measure: 36rem;
   /* Golden-ratio (φ ≈ 1.618) spacing scale for type rhythm. */
   --space-2xs: 0.382rem; /* φ⁻² */
   --space-xs: 0.618rem;  /* φ⁻¹ */
@@ -45,13 +44,10 @@ body {
 h1, h2, h3, h4 { font-family: var(--serif); color: var(--heading); text-wrap: balance; font-optical-sizing: auto; }
 /* Short display blocks read better balanced than ragged-with-no-orphan. */
 .subhead, .def__text p { text-wrap: balance; }
-/* Editorial micro-typography: old-style figures in running prose (dates and
-   counts sit in the text like words), with lining/tabular reasserted below for
-   IDs, formulas, code, and tables where alignment matters. text-wrap: pretty
-   kills orphans in supporting browsers; hanging punctuation (Safari) lets
-   quotation marks hang into the margin like set type. All progressive. */
-body { font-variant-numeric: oldstyle-nums; }
-p, dd, li { text-wrap: pretty; }
+/* Editorial micro-typography: old-style figures in running prose (set on body),
+   with lining/tabular reasserted below for IDs, formulas, code, and tables where
+   alignment matters. Hanging punctuation (Safari) lets quotation marks hang into
+   the margin like set type. Progressive. */
 blockquote { hanging-punctuation: first; }
 a { color: var(--link); text-decoration-thickness: from-font; text-underline-offset: .12em; }
 a:hover { color: var(--accent-deep); text-decoration: underline; }
@@ -59,19 +55,16 @@ a:focus-visible, summary:focus-visible, [tabindex]:focus-visible {
   outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 3px;
 }
 :target { scroll-margin-top: 1.5rem; }
-.num, .pid, .self-link, .formula, code, table.data td { font-variant-numeric: lining-nums tabular-nums; }
+.num, .self-link, .formula, code, table.data td { font-variant-numeric: lining-nums tabular-nums; }
 .skip-link { position: absolute; left: -9999px; top: 0; background: var(--heading); color: #fff; padding: .6rem 1rem; z-index: 10; font-family: var(--sans); }
 .skip-link:focus { left: .5rem; top: .5rem; }
 
 /* ── Notice patterns ──────────────────────────────────────────────────────── */
-/* Two families, two jobs. .panel is reference furniture — metadata and asides
-   the reader consults (status block, preconditions, the contribute invite):
-   hairline border, even rounding, no accent. .callout frames what follows and
-   asks to be read first (the evidence line, the register ethos): accent left
-   rule, right-only rounding. Instances add layout and typography only — the box
-   recipe lives here, so the two families can't drift apart. */
-.panel { background: var(--soft); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.35rem; }
-.callout { background: var(--soft); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0 10px 10px 0; padding: 1rem 1.35rem; max-width: var(--measure); }
+/* .panel is the one boxed surface: reference metadata the reader consults (the
+   status block). .callout is unboxed: text that asks to be read first sits in
+   the flow at the measure, so it reads as documentation, not a banner. */
+.panel { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.35rem; }
+.callout { max-width: var(--measure); }
 
 /* ── Shared top bar + page shells ─────────────────────────────────────────── */
 /* The spec page is a two-column grid (sticky TOC rail + content) under the top
@@ -132,7 +125,7 @@ main { padding: 2.875rem 4.5rem 5rem; min-width: 0; }
 
 /* ── Sidebar table of contents ────────────────────────────────────────────── */
 .toc { font-family: var(--sans); }
-.toc-label { font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted-2); margin: 0 0 var(--space-xs); padding: 0 .75rem; }
+.toc-label { font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted-2); margin: 0 0 var(--space-xs); padding: 0 .75rem; }
 .toc-label::after { content: ""; display: block; height: 1px; background: var(--border); margin-top: .65rem; }
 .toc ol { list-style: none; margin: 0; padding: 0; }
 .toc-list { font-size: .9rem; }
@@ -150,7 +143,6 @@ main { padding: 2.875rem 4.5rem 5rem; min-width: 0; }
 /* Scroll-spy active entry — set by the enhancement script (aria-current); absent
    and harmless without JS. Colour pairs with the left accent rule, never colour-only. */
 .toc a[aria-current] { color: var(--accent); background: var(--border-2); border-left-color: var(--accent); }
-.toc a[aria-current] .num { color: var(--accent); }
 
 /* Copy-cite button — injected by the enhancement script only where the clipboard
    API exists; the citation text is always present and selectable without JS. */
@@ -174,22 +166,23 @@ main { padding: 2.875rem 4.5rem 5rem; min-width: 0; }
 /* The evidence line — the one cited fact that explains the ethics gate. A quiet
    callout, not a banner: it should read as documentation, not marketing. */
 .home-evidence { font-family: var(--sans); font-size: .95rem; color: var(--muted); margin: 1.1rem 0 0; }
-.home-cards { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-s); }
-.home-card { display: flex; flex-direction: column; gap: .5rem; padding: 1.6rem 1.5rem; background: var(--card); border: 1px solid var(--border); border-radius: 12px; text-decoration: none; color: inherit; transition: border-color .15s ease, transform .15s ease; }
-.home-card:hover { border-color: var(--accent); color: inherit; text-decoration: none; transform: translateY(-2px); }
+.home-cards { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-l); border-top: 1px solid var(--border); padding-top: var(--space-m); }
+.home-card { display: flex; flex-direction: column; gap: .5rem; text-decoration: none; color: inherit; }
+.home-card:hover { color: inherit; text-decoration: none; }
+.home-card:hover .home-card__title { color: var(--accent); }
 .home-card__title { font-family: var(--serif); font-size: 1.3rem; font-weight: 600; margin: 0; }
 .home-card__v { color: var(--muted-2); font-weight: 400; font-size: .9em; }
 .home-card__desc { color: var(--muted); margin: 0; flex: 1; }
 .home-card__cta { font-family: var(--sans); font-size: .9rem; font-weight: 600; color: var(--accent); margin-top: .4rem; }
 .home-card:hover .home-card__cta { text-decoration: underline; }
-.home-note { font-family: var(--sans); font-size: .95rem; color: var(--muted); margin: var(--space-l) 0 0; }
+.home-note { font-family: var(--sans); font-size: .95rem; color: var(--muted); margin: var(--space-l) 0 0; max-width: var(--measure); }
 /* Contribute teaser — a soft callout that turns the homepage into an on-ramp for
    collaboration, distinct from the two document cards above it. */
-.home-invite { margin: var(--space-m) 0 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: .35rem 1rem; }
-.home-invite__lead { margin: 0; flex: 1 1 16rem; font-family: var(--sans); font-size: .95rem; color: var(--muted); }
-.home-invite__link { font-family: var(--sans); font-weight: 600; font-size: .95rem; color: var(--accent); text-decoration: none; white-space: nowrap; }
+.home-invite { margin: var(--space-s) 0 0; max-width: var(--measure); font-family: var(--sans); font-size: .95rem; color: var(--muted); }
+.home-invite__lead { display: inline; margin: 0; }
+.home-invite__link { font-weight: 600; color: var(--accent); text-decoration: none; white-space: nowrap; }
 .home-invite__link:hover { color: var(--accent-deep); text-decoration: underline; }
-@media (max-width: 40rem) { .home-cards { grid-template-columns: 1fr; } }
+@media (max-width: 40rem) { .home-cards { grid-template-columns: 1fr; gap: var(--space-m); } }
 
 /* ── Status of this document ──────────────────────────────────────────────── */
 .sotd { padding: 0 1.5rem; margin-bottom: 2.5rem; }
@@ -199,7 +192,7 @@ main { padding: 2.875rem 4.5rem 5rem; min-width: 0; }
 .sotd-chevron { width: .55rem; height: .55rem; border-right: 2px solid var(--accent); border-bottom: 2px solid var(--accent); transform: rotate(-45deg); transition: transform .15s ease; flex: none; }
 .sotd[open] .sotd-chevron { transform: rotate(45deg); }
 .sotd dl { display: grid; grid-template-columns: max-content 1fr; gap: .5rem 1.5rem; margin: 0 0 1.25rem; font-size: .96rem; }
-.sotd dt { font-family: var(--sans); font-size: .76rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted-2); align-self: center; }
+.sotd dt { font-family: var(--sans); font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted-2); align-self: center; }
 .sotd dd { margin: 0; }
 .sotd p { max-width: var(--measure); margin: 0 0 1.25rem; color: var(--muted); }
 .sotd code { font-family: var(--mono); font-size: .88em; }
@@ -212,16 +205,16 @@ main { padding: 2.875rem 4.5rem 5rem; min-width: 0; }
 .principle { margin-bottom: var(--space-l); }
 .principle h2 { display: flex; flex-wrap: wrap; align-items: baseline; gap: .65rem; border-bottom: 1px solid var(--border); padding-bottom: .6rem; margin-bottom: 1rem; letter-spacing: -.01em; }
 .principle h2 .num { color: var(--accent); font-weight: 500; }
-.pid { font-family: var(--mono); font-size: .8rem; color: var(--muted-2); letter-spacing: 0; }
 .note { color: var(--muted); font-style: italic; max-width: var(--measure); }
 .precondition { max-width: var(--measure); color: var(--muted); }
 
-.criteria { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.4rem; }
-.criterion { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.15rem 1.4rem; }
+.criteria { margin-top: 1.4rem; }
+.criterion { padding: 1.15rem 0; }
+.criterion + .criterion { border-top: 1px solid var(--border-2); }
 .criterion h3 { display: flex; flex-wrap: wrap; align-items: baseline; gap: .55rem; font-size: 1.18rem; font-weight: 600; margin: 0 0 .55rem; }
 .criterion h3 .num { font-size: .9rem; color: var(--accent); font-weight: 500; }
-.self-link { font-family: var(--mono); font-size: .76rem; text-decoration: none; color: var(--muted); padding: .1rem .45rem; border: 1px solid var(--border); border-radius: 5px; margin-left: auto; }
-.self-link:hover { color: var(--accent-deep); border-color: var(--accent); text-decoration: none; }
+.self-link { font-family: var(--mono); font-size: .75rem; text-decoration: none; color: var(--muted); margin-left: auto; }
+.self-link:hover { color: var(--accent-deep); text-decoration: underline; }
 .requirement { margin: 0; max-width: var(--measure); }
 .source { font-family: var(--sans); font-size: .82rem; color: var(--muted-2); margin: .65rem 0 0; }
 .added-in { color: var(--accent-deep); }
@@ -230,7 +223,7 @@ main { padding: 2.875rem 4.5rem 5rem; min-width: 0; }
 /* Role badges — colour always paired with the role text (WCAG 1.4.1). Only the
    candor gate carries the brand red; precondition and weighted are tonal warm
    neutrals (no off-system blue), all clearing AAA 7:1 on the warm paper. */
-.badge { font-family: var(--sans); font-size: .72rem; font-weight: 500; letter-spacing: .02em; padding: .18em .6em; border-radius: 999px; border: 1px solid var(--border); white-space: nowrap; }
+.badge { font-family: var(--sans); font-size: .75rem; font-weight: 500; letter-spacing: .02em; padding: .18em .6em; border-radius: 999px; border: 1px solid var(--border); white-space: nowrap; }
 /*__BADGE_ROLES__*/
 
 /* Screen-reader-only (visible to assistive tech, removed from the visual flow). */
@@ -241,28 +234,27 @@ main { padding: 2.875rem 4.5rem 5rem; min-width: 0; }
 .technique { max-width: var(--measure); }
 
 /* Definition — the dictionary entry; the category is the "part of speech". */
-.def { margin: 0 0 var(--space-l); padding-left: 1.2rem; border-left: 3px solid var(--accent); }
-.def__pos { font-family: var(--sans); font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 var(--space-xs); }
+.def { margin: 0 0 var(--space-l); }
+/* One small-caps label recipe for every field label on the technique pages and
+   the register's category headings; instances only set colour or layout. */
+.def__pos, .example__label, .antipattern__label, .field__label, .tech-group__h { font-family: var(--sans); font-size: .75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 var(--space-xs); }
 .def__text, .def__text p { font-family: var(--serif); font-size: 1.3rem; line-height: 1.5; color: var(--heading); margin: 0; }
 
 /* Example (correct) / Anti-pattern (incorrect) — single-column exemplar quotes.
-   The anti-pattern carries the maroon rule + label; the example reads calm. */
-.example, .antipattern { margin: var(--space-m) 0; padding-left: 1.2rem; border-left: 3px solid var(--border); }
-.antipattern { border-left-color: var(--accent); }
-.example__label, .antipattern__label { display: flex; align-items: center; gap: .45rem; font-family: var(--sans); font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; margin: 0 0 var(--space-xs); }
-.example__label { color: var(--muted); }
+   The anti-pattern carries the maroon label; the example reads calm. */
+.example, .antipattern { margin: var(--space-m) 0; }
+.example__label, .antipattern__label { display: flex; align-items: center; gap: .45rem; }
 .antipattern__label { color: var(--accent); }
 .example .field__text, .antipattern .field__text { font-family: var(--serif); font-size: 1.05rem; color: var(--heading); }
 
 /* Generic labeled field (Requirements, Why it's expert, How it differs, notes). */
 .field { margin: var(--space-m) 0; }
-.field__label { font-family: var(--sans); font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 var(--space-xs); }
 /* Supplementary notes: a calm sentence-case sub-heading (source casing kept),
    so long labels read as prose, not a shout. */
 .note-label { font-family: var(--sans); font-size: .92rem; font-weight: 600; color: var(--heading); margin: 0 0 var(--space-xs); }
 
 /* Shared rich-text container for every field value (raw markdown → HTML). */
-.field__text { line-height: 1.65; color: var(--ink); }
+.field__text { line-height: 1.65; }
 .field__text > :first-child { margin-top: 0; }
 .field__text > :last-child { margin-bottom: 0; }
 .field__text p { margin: .7rem 0; }
@@ -271,11 +263,6 @@ main { padding: 2.875rem 4.5rem 5rem; min-width: 0; }
 .field__text ul > li::before { content: "—"; position: absolute; left: 0; color: var(--accent); }
 .field__text ol { counter-reset: tech-li; }
 .field__text ol > li::before { content: counter(tech-li) "."; counter-increment: tech-li; position: absolute; left: 0; font-family: var(--mono); font-size: .85em; color: var(--muted-2); }
-.field__text code { font-family: var(--mono); font-size: .88em; background: var(--soft); padding: .1em .35em; border-radius: 4px; }
-.field__text table { border-collapse: collapse; width: 100%; margin: .9rem 0; font-size: .92rem; background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-.field__text th, .field__text td { border-bottom: 1px solid var(--border-2); padding: .5rem .8rem; text-align: left; }
-.field__text tr:last-child td { border-bottom: none; }
-.field__text th { font-family: var(--sans); font-weight: 600; font-size: .82rem; background: var(--panel); }
 .tech-dl { margin: 0; }
 .tech-dl dt { font-family: var(--sans); font-size: .82rem; font-weight: 600; color: var(--heading); margin-top: .9rem; }
 .tech-dl dd { margin: .25rem 0 0; line-height: 1.6; }
@@ -291,7 +278,7 @@ main { padding: 2.875rem 4.5rem 5rem; min-width: 0; }
 .tech-ethos p:last-child { margin-bottom: 0; }
 
 .tech-group { margin: var(--space-l) 0; }
-.tech-group__h { font-family: var(--sans); font-size: .76rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 var(--space-2xs); }
+.tech-group__h { margin-bottom: var(--space-2xs); }
 .tech-list { list-style: none; margin: 0; padding: 0; }
 .tech-row { margin: 0; }
 .tech-row a { display: grid; grid-template-columns: 2.25rem 1fr; gap: var(--space-s); align-items: baseline; padding: .9rem .25rem; border-top: 1px solid var(--border); text-decoration: none; color: inherit; transition: background .15s ease; }
@@ -304,20 +291,23 @@ main { padding: 2.875rem 4.5rem 5rem; min-width: 0; }
 .tech-row__def { display: block; margin-top: .25rem; font-size: .9rem; line-height: 1.5; color: var(--muted); }
 
 .claim-elements { max-width: var(--measure); }
-.claim-asserts, .claim-disclaims { max-width: var(--measure); border-left: 3px solid var(--border); padding: .35rem 0 .35rem 1.1rem; margin: 1.1rem 0; }
-/* The integrity boundary (what a passing score does NOT mean) gets the accent —
-   the line a judge and an ethics reviewer check first. Colour pairs with the
-   "does not assert" text, never colour alone (WCAG 1.4.1). */
-.claim-disclaims { border-left-color: var(--accent); }
+.claim-asserts, .claim-disclaims { max-width: var(--measure); margin: 1.1rem 0; }
+/* The integrity boundary (what a passing score does NOT mean) gets the accent on
+   its label — the line a judge and an ethics reviewer check first. Colour pairs
+   with the "does not assert" text, never colour alone (WCAG 1.4.1). */
+.claim-disclaims strong { color: var(--accent-deep); }
 
 .meta { margin: .3rem 0; font-size: .94rem; }
-.formula { background: var(--soft); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; overflow: auto; font-family: var(--mono); font-size: .82rem; line-height: 1.55; white-space: pre-wrap; max-width: var(--measure); }
+.formula { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; overflow: auto; font-family: var(--mono); font-size: .82rem; line-height: 1.55; white-space: pre-wrap; max-width: var(--measure); }
 .steps { max-width: var(--measure); }
-table.data { border-collapse: collapse; margin: 1.4rem 0; font-size: .94rem; background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+/* One table recipe for the spec's data tables, prose tables, and technique-field
+   tables. */
+table.data, .prose table, .field__text table { border-collapse: collapse; margin: 1.4rem 0; font-size: .94rem; background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+:is(table.data, .prose table, .field__text table) :is(th, td) { border-bottom: 1px solid var(--border-2); padding: .55rem .85rem; text-align: left; }
+:is(table.data, .prose table, .field__text table) tr:last-child td { border-bottom: none; }
+:is(table.data, .prose table, .field__text table) th { font-family: var(--sans); font-weight: 600; font-size: .82rem; background: var(--panel); color: var(--heading); }
+.field__text table { width: 100%; margin: .9rem 0; font-size: .92rem; }
 table.data caption { font-family: var(--sans); text-align: left; color: var(--muted-2); font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; margin-bottom: .5rem; }
-table.data th, table.data td { border-bottom: 1px solid var(--border-2); padding: .55rem .85rem; text-align: left; }
-table.data tr:last-child td { border-bottom: none; }
-table.data th { font-family: var(--sans); font-weight: 600; font-size: .82rem; background: var(--panel); color: var(--heading); }
 
 .doc-footer { border-top: 1px solid var(--border); margin-top: 3.5rem; padding-top: 1.4rem; color: var(--muted); font-family: var(--sans); font-size: .85rem; }
 .doc-footer p { margin: .4rem 0; }
@@ -338,11 +328,7 @@ table.data th { font-family: var(--sans); font-weight: 600; font-size: .82rem; b
 .prose { max-width: var(--measure); }
 .prose h2 { font-size: 1.6rem; font-weight: 600; line-height: 1.2; margin-top: var(--space-l); letter-spacing: -.01em; }
 .prose h3 { font-size: 1.22rem; font-weight: 600; line-height: 1.25; margin-top: var(--space-m); }
-.prose table { border-collapse: collapse; margin: 1.4rem 0; font-size: .94rem; background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-.prose th, .prose td { border-bottom: 1px solid var(--border-2); padding: .55rem .85rem; text-align: left; }
-.prose tr:last-child td { border-bottom: none; }
-.prose th { font-family: var(--sans); font-weight: 600; font-size: .82rem; background: var(--panel); }
-.prose code { font-family: var(--mono); font-size: .88em; background: var(--soft); padding: .1em .35em; border-radius: 4px; }
+.prose code, .field__text code { font-family: var(--mono); font-size: .88em; background: var(--panel); padding: .1em .35em; border-radius: 4px; }
 /* Identifiers in table cells (slugs, paths) stay on one line instead of fragmenting at hyphens. */
 .prose th code, .prose td code { white-space: nowrap; }
 .prose pre { overflow-x: auto; }
