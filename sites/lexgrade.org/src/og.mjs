@@ -2,8 +2,8 @@
 //
 // Build-time Open Graph card generator: a branded 1200×630 PNG per page so a
 // shared link (a campus channel, a citation, a tweet) unfurls with an image.
-// Hand-templated SVG → PNG via resvg-js — no satori. The site's own faces
-// (Source Serif 4, IBM Plex Sans) are VENDORED in assets/fonts so the build is
+// Hand-templated SVG → PNG via resvg-js — no satori. The site's own serif
+// (Source Serif 4) is VENDORED in assets/fonts so the build is
 // reproducible off any host (Cloudflare Pages, the extracted repo), never
 // reliant on system fonts or the network. A DEV/build dependency
 // only — the production HTML surface stays zero-JS.
@@ -19,8 +19,6 @@ const FONTS = [
   'SourceSerif4Display-Semibold.ttf',
   'SourceSerif4-Semibold.ttf',
   'SourceSerif4-Regular.ttf',
-  'IBMPlexSans-Regular.ttf',
-  'IBMPlexSans-SemiBold.ttf',
 ].map((file) => FONT_DIR + file);
 
 // Palette and faces mirror styles.css (:root), so a shared link previews as the
@@ -32,11 +30,9 @@ const PANEL = '#F4F0E8';
 const BORDER = '#E4DFD6';
 const HEADING = '#1A1613';
 const MUTED = '#4C463F';
-const MUTED_2 = '#544D46';
 const ACCENT = '#7A1626';
 const DISPLAY = 'Source Serif 4 Display';
 const SERIF = 'Source Serif 4';
-const SANS = 'IBM Plex Sans';
 const BAR = 96;
 const X = 80;
 
@@ -89,13 +85,14 @@ const tspans = (lines, dy) =>
  */
 export function ogCard({ title, subtitle = 'Open scoring instrument for legal drafting quality' }) {
   const titleLines = wrap(title, 27, 3);
-  const subLines = wrap(subtitle, 56, 2);
+  const subLines = wrap(subtitle, 64, 2);
   const titleSize = 76;
   const titleLead = 84;
   const subLead = 44;
-  // Vertically centre the headline block in the paper below the bar.
+  // Vertically centre the headline block in the paper below the bar. No footer:
+  // every platform already prints the domain under the image.
   const block = titleLines.length * titleLead + 28 + subLines.length * subLead;
-  const titleTop = BAR + Math.round((H - BAR - 70 - block) / 2) + titleSize;
+  const titleTop = BAR + Math.round((H - BAR - block) / 2) + titleSize - 14;
   const subTop = titleTop + (titleLines.length - 1) * titleLead + 28 + subLead;
 
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
@@ -106,9 +103,6 @@ export function ogCard({ title, subtitle = 'Open scoring instrument for legal dr
   <text x="138" y="62" font-family="${SERIF}" font-weight="600" font-size="34" letter-spacing="-0.3" fill="${HEADING}">LexGrade</text>
   <text x="${X}" y="${titleTop}" font-family="${DISPLAY}" font-weight="600" font-size="${titleSize}" letter-spacing="-1" fill="${HEADING}">${tspans(titleLines, titleLead)}</text>
   <text x="${X}" y="${subTop}" font-family="${SERIF}" font-size="31" fill="${MUTED}">${tspans(subLines, subLead)}</text>
-  <rect x="${X}" y="${H - 78}" width="${W - 2 * X}" height="2" fill="${BORDER}"/>
-  <text x="${X}" y="${H - 38}" font-family="${SANS}" font-size="20" letter-spacing="1.6" fill="${MUTED_2}">OPEN STANDARD · CC-BY-SA 4.0</text>
-  <text x="${W - X}" y="${H - 38}" text-anchor="end" font-family="${SANS}" font-weight="600" font-size="24" fill="${ACCENT}">lexgrade.org →</text>
 </svg>`;
 
   return Buffer.from(
