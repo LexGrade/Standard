@@ -2,28 +2,46 @@
 //
 // Build-time Open Graph card generator: a branded 1200×630 PNG per page so a
 // shared link (a campus channel, a citation, a tweet) unfurls with an image.
-// Hand-templated SVG → PNG via resvg-js — no satori. Fonts are VENDORED
-// (assets/fonts) so the build is reproducible off any host (Cloudflare Pages,
-// the extracted repo), never reliant on system fonts. A DEV/build dependency
+// Hand-templated SVG → PNG via resvg-js — no satori. The site's own faces
+// (Source Serif 4, IBM Plex Sans) are VENDORED in assets/fonts so the build is
+// reproducible off any host (Cloudflare Pages, the extracted repo), never
+// reliant on system fonts or the network. A DEV/build dependency
 // only — the production HTML surface stays zero-JS.
 
-import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
 import { Resvg } from '@resvg/resvg-js';
 
 const FONT_DIR = fileURLToPath(new URL('../assets/fonts/', import.meta.url));
-const FONTS = [readFileSync(FONT_DIR + 'DejaVuSans.ttf'), readFileSync(FONT_DIR + 'DejaVuSans-Bold.ttf')];
+// Passed as file paths: resvg-js's Node binding reads `fontFiles`; `fontBuffers`
+// is honoured only by the wasm build and is silently ignored here.
+const FONTS = [
+  'SourceSerif4Display-Semibold.ttf',
+  'SourceSerif4-Semibold.ttf',
+  'SourceSerif4-Regular.ttf',
+  'IBMPlexSans-Regular.ttf',
+  'IBMPlexSans-SemiBold.ttf',
+].map((file) => FONT_DIR + file);
 
+// Palette and faces mirror styles.css (:root), so a shared link previews as the
+// page it opens: warm paper, the cream top bar, serif display headline.
 const W = 1200;
 const H = 630;
+const PAGE = '#FAF8F4';
+const PANEL = '#F4F0E8';
+const BORDER = '#E4DFD6';
+const HEADING = '#1A1613';
+const MUTED = '#4C463F';
+const MUTED_2 = '#544D46';
 const ACCENT = '#7A1626';
-const INK = '#1A1613';
-const MUTED = '#5A534C';
-const BG = '#FAF8F4';
+const DISPLAY = 'Source Serif 4 Display';
+const SERIF = 'Source Serif 4';
+const SANS = 'IBM Plex Sans';
+const BAR = 104;
+const X = 80;
 
-// The LexGrade mark (the bar-chart glyph), placed top-left on the card.
-const MARK = `<g fill="${ACCENT}" transform="translate(80,70) scale(0.2)"><g transform="translate(40,20)"><path d="M 0,144 L 36,144 L 36,204 L 180,204 L 180,240 L 0,240 Z"/><rect x="48" y="108" width="36" height="84"/><rect x="96" y="72" width="36" height="120"/><path d="M 144,36 L 162,18 L 180,36 L 180,192 L 144,192 Z"/></g></g>`;
+// The LexGrade mark (the bar-chart glyph), set in the top bar beside the wordmark.
+const MARK = `<g fill="${ACCENT}" transform="translate(${X},30) scale(0.18)"><g transform="translate(40,20)"><path d="M 0,144 L 36,144 L 36,204 L 180,204 L 180,240 L 0,240 Z"/><rect x="48" y="108" width="36" height="84"/><rect x="96" y="72" width="36" height="120"/><path d="M 144,36 L 162,18 L 180,36 L 180,192 L 144,192 Z"/></g></g>`;
 
 function escapeXml(value) {
   return String(value ?? '')
@@ -33,8 +51,8 @@ function escapeXml(value) {
     .replaceAll('"', '&quot;');
 }
 
-// Naive word-wrap to fit the headline width — long titles split across ≤3 lines.
-function wrap(text, maxChars) {
+// Naive word-wrap to fit a line width — capped at `maxLines`.
+function wrap(text, maxChars, maxLines) {
   const words = String(text).split(/\s+/);
   const lines = [];
   let line = '';
@@ -47,8 +65,11 @@ function wrap(text, maxChars) {
     }
   }
   if (line) lines.push(line);
-  return lines.slice(0, 3);
+  return lines.slice(0, maxLines);
 }
+
+const tspans = (lines, dy) =>
+  lines.map((line, i) => `<tspan x="${X}" dy="${i === 0 ? 0 : dy}">${escapeXml(line)}</tspan>`).join('');
 
 /**
  * Render a branded 1200×630 OG card to a PNG buffer.
@@ -57,28 +78,32 @@ function wrap(text, maxChars) {
  * @returns {Buffer}
  */
 export function ogCard({ title, subtitle = 'Open scoring instrument for legal drafting quality' }) {
-  const lines = wrap(title, 20);
-  const titleTop = 300;
-  const lineHeight = 86;
-  const tspans = lines
-    .map((line, i) => `<tspan x="80" dy="${i === 0 ? 0 : lineHeight}">${escapeXml(line)}</tspan>`)
-    .join('');
-  const subtitleY = titleTop + (lines.length - 1) * lineHeight + 70;
+  const titleLines = wrap(title, 24, 3);
+  const subLines = wrap(subtitle, 56, 2);
+  const titleSize = 76;
+  const titleLead = 84;
+  const subLead = 44;
+  // Vertically centre the headline block in the paper below the bar.
+  const block = titleLines.length * titleLead + 28 + subLines.length * subLead;
+  const titleTop = BAR + Math.round((H - BAR - 70 - block) / 2) + titleSize;
+  const subTop = titleTop + (titleLines.length - 1) * titleLead + 28 + subLead;
 
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
-  <rect width="${W}" height="${H}" fill="${BG}"/>
-  <rect width="18" height="${H}" fill="${ACCENT}"/>
+  <rect width="${W}" height="${H}" fill="${PAGE}"/>
+  <rect width="${W}" height="${BAR}" fill="${PANEL}"/>
+  <rect y="${BAR}" width="${W}" height="2" fill="${BORDER}"/>
   ${MARK}
-  <text x="146" y="112" font-family="DejaVu Sans" font-weight="700" font-size="36" fill="${INK}">LexGrade</text>
-  <text x="80" y="206" font-family="DejaVu Sans" font-size="26" letter-spacing="4" fill="${MUTED}">OPEN STANDARD</text>
-  <text x="80" y="${titleTop}" font-family="DejaVu Sans" font-weight="700" font-size="78" fill="${INK}">${tspans}</text>
-  <text x="80" y="${subtitleY}" font-family="DejaVu Sans" font-size="30" fill="${MUTED}">${escapeXml(subtitle)}</text>
-  <text x="80" y="566" font-family="DejaVu Sans" font-size="24" fill="${MUTED}">CC-BY-SA 4.0 · lexgrade.org</text>
+  <text x="138" y="66" font-family="${SERIF}" font-weight="600" font-size="34" letter-spacing="-0.3" fill="${HEADING}">LexGrade</text>
+  <text x="${W - X}" y="62" text-anchor="end" font-family="${SANS}" font-size="22" fill="${MUTED}">lexgrade.org</text>
+  <text x="${X}" y="${titleTop}" font-family="${DISPLAY}" font-weight="600" font-size="${titleSize}" letter-spacing="-1" fill="${HEADING}">${tspans(titleLines, titleLead)}</text>
+  <text x="${X}" y="${subTop}" font-family="${SERIF}" font-size="31" fill="${MUTED}">${tspans(subLines, subLead)}</text>
+  <rect x="${X}" y="${H - 78}" width="${W - 2 * X}" height="2" fill="${BORDER}"/>
+  <text x="${X}" y="${H - 38}" font-family="${SANS}" font-size="21" letter-spacing="1.6" fill="${MUTED_2}">OPEN STANDARD · CC-BY-SA 4.0</text>
 </svg>`;
 
   return Buffer.from(
     new Resvg(svg, {
-      font: { fontBuffers: FONTS, defaultFontFamily: 'DejaVu Sans', loadSystemFonts: false },
+      font: { fontFiles: FONTS, defaultFontFamily: SERIF, loadSystemFonts: false },
     })
       .render()
       .asPng(),
