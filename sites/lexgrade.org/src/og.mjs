@@ -37,11 +37,11 @@ const ACCENT = '#7A1626';
 const DISPLAY = 'Source Serif 4 Display';
 const SERIF = 'Source Serif 4';
 const SANS = 'IBM Plex Sans';
-const BAR = 104;
+const BAR = 96;
 const X = 80;
 
 // The LexGrade mark (the bar-chart glyph), set in the top bar beside the wordmark.
-const MARK = `<g fill="${ACCENT}" transform="translate(${X},30) scale(0.18)"><g transform="translate(40,20)"><path d="M 0,144 L 36,144 L 36,204 L 180,204 L 180,240 L 0,240 Z"/><rect x="48" y="108" width="36" height="84"/><rect x="96" y="72" width="36" height="120"/><path d="M 144,36 L 162,18 L 180,36 L 180,192 L 144,192 Z"/></g></g>`;
+const MARK = `<g fill="${ACCENT}" transform="translate(${X},26) scale(0.18)"><g transform="translate(40,20)"><path d="M 0,144 L 36,144 L 36,204 L 180,204 L 180,240 L 0,240 Z"/><rect x="48" y="108" width="36" height="84"/><rect x="96" y="72" width="36" height="120"/><path d="M 144,36 L 162,18 L 180,36 L 180,192 L 144,192 Z"/></g></g>`;
 
 function escapeXml(value) {
   return String(value ?? '')
@@ -51,9 +51,8 @@ function escapeXml(value) {
     .replaceAll('"', '&quot;');
 }
 
-// Naive word-wrap to fit a line width — capped at `maxLines`.
-function wrap(text, maxChars, maxLines) {
-  const words = String(text).split(/\s+/);
+// Greedy word-wrap at a fixed width, capped at `maxLines`.
+function wrapAt(words, maxChars) {
   const lines = [];
   let line = '';
   for (const word of words) {
@@ -65,7 +64,18 @@ function wrap(text, maxChars, maxLines) {
     }
   }
   if (line) lines.push(line);
-  return lines.slice(0, maxLines);
+  return lines;
+}
+
+// Balanced wrap, like CSS text-wrap: balance on the site's headings: keep the
+// greedy line count but take the narrowest width that still achieves it, so
+// the last line isn't left short ("Several Lines" alone under a full line).
+function wrap(text, maxChars, maxLines) {
+  const words = String(text).split(/\s+/);
+  const count = wrapAt(words, maxChars).length;
+  let width = Math.max(...words.map((w) => w.length));
+  while (width < maxChars && wrapAt(words, width).length > count) width++;
+  return wrapAt(words, width).slice(0, maxLines);
 }
 
 const tspans = (lines, dy) =>
@@ -78,7 +88,7 @@ const tspans = (lines, dy) =>
  * @returns {Buffer}
  */
 export function ogCard({ title, subtitle = 'Open scoring instrument for legal drafting quality' }) {
-  const titleLines = wrap(title, 24, 3);
+  const titleLines = wrap(title, 27, 3);
   const subLines = wrap(subtitle, 56, 2);
   const titleSize = 76;
   const titleLead = 84;
@@ -93,12 +103,12 @@ export function ogCard({ title, subtitle = 'Open scoring instrument for legal dr
   <rect width="${W}" height="${BAR}" fill="${PANEL}"/>
   <rect y="${BAR}" width="${W}" height="2" fill="${BORDER}"/>
   ${MARK}
-  <text x="138" y="66" font-family="${SERIF}" font-weight="600" font-size="34" letter-spacing="-0.3" fill="${HEADING}">LexGrade</text>
-  <text x="${W - X}" y="62" text-anchor="end" font-family="${SANS}" font-size="22" fill="${MUTED}">lexgrade.org</text>
+  <text x="138" y="62" font-family="${SERIF}" font-weight="600" font-size="34" letter-spacing="-0.3" fill="${HEADING}">LexGrade</text>
   <text x="${X}" y="${titleTop}" font-family="${DISPLAY}" font-weight="600" font-size="${titleSize}" letter-spacing="-1" fill="${HEADING}">${tspans(titleLines, titleLead)}</text>
   <text x="${X}" y="${subTop}" font-family="${SERIF}" font-size="31" fill="${MUTED}">${tspans(subLines, subLead)}</text>
   <rect x="${X}" y="${H - 78}" width="${W - 2 * X}" height="2" fill="${BORDER}"/>
-  <text x="${X}" y="${H - 38}" font-family="${SANS}" font-size="21" letter-spacing="1.6" fill="${MUTED_2}">OPEN STANDARD · CC-BY-SA 4.0</text>
+  <text x="${X}" y="${H - 38}" font-family="${SANS}" font-size="20" letter-spacing="1.6" fill="${MUTED_2}">OPEN STANDARD · CC-BY-SA 4.0</text>
+  <text x="${W - X}" y="${H - 38}" text-anchor="end" font-family="${SANS}" font-weight="600" font-size="24" fill="${ACCENT}">lexgrade.org →</text>
 </svg>`;
 
   return Buffer.from(
