@@ -198,6 +198,28 @@ function siteFooter(current) {
 </footer>`;
 }
 
+// Social previews show ~125 characters before truncating mid-word, so the
+// og/twitter copy is clipped here; <meta name="description"> keeps the full text
+// for search engines, which show more.
+const PREVIEW_MAX = 125;
+
+/**
+ * Clip a description for a social preview: whole sentences while they fit,
+ * else the last whole word plus an ellipsis.
+ *
+ * @param {string} text
+ * @returns {string}
+ */
+export function previewText(text, max = PREVIEW_MAX) {
+  const str = String(text ?? '').trim();
+  if (str.length <= max) return str;
+  const head = str.slice(0, max);
+  const sentenceEnd = head.lastIndexOf('. ');
+  if (sentenceEnd >= max / 2) return head.slice(0, sentenceEnd + 1);
+  const wordEnd = str.slice(0, max).lastIndexOf(' ');
+  return `${str.slice(0, wordEnd).replace(/[\s,;:—–-]+$/, '')}…`;
+}
+
 /**
  * Open Graph + Twitter card tags so a shared link (a campus channel, a citation)
  * unfurls with the page's title + description + a branded image instead of a bare
@@ -208,6 +230,7 @@ function siteFooter(current) {
  * @returns {string}
  */
 function socialMeta({ title, description, url, image }) {
+  const preview = previewText(description);
   const imageUrl = image ? `${SITE_ORIGIN}${image}` : null;
   const imageTags = imageUrl
     ? `
@@ -219,11 +242,11 @@ function socialMeta({ title, description, url, image }) {
   return `<meta property="og:type" content="website">
 <meta property="og:site_name" content="LexGrade Standard">
 <meta property="og:title" content="${escapeHtml(title)}">
-<meta property="og:description" content="${escapeHtml(description)}">
+<meta property="og:description" content="${escapeHtml(preview)}">
 <meta property="og:url" content="${escapeHtml(url)}">${imageTags}
 <meta name="twitter:card" content="${imageUrl ? 'summary_large_image' : 'summary'}">
 <meta name="twitter:title" content="${escapeHtml(title)}">
-<meta name="twitter:description" content="${escapeHtml(description)}">`;
+<meta name="twitter:description" content="${escapeHtml(preview)}">`;
 }
 
 // Single source of truth for a principle role's presentation: the human label,
