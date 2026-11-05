@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 
-import { escapeHtml, LOGO_SVG, previewText, renderAbout, renderContribute, renderHome, renderLlmsFull, renderNotFound, renderRedirect, renderReferences, renderStandard, renderTechnique, renderTechniques, stripScripts } from '../src/render.mjs';
+import { escapeHtml, LOGO_SVG, previewText, renderAbout, renderCheck, renderContribute, renderHome, renderLlmsFull, renderNotFound, renderRedirect, renderReferences, renderStandard, renderTechnique, renderTechniques, stripScripts } from '../src/render.mjs';
 import { cspScriptSrc } from '../src/lib/csp.mjs';
 import { toHtml } from '../src/markdown.mjs';
 
@@ -525,4 +525,24 @@ test('social tags carry the clipped preview; the meta description stays full', (
   const og = html.match(/<meta property="og:description" content="([^"]*)"/)[1];
   assert.ok(og.length <= 126);
   assert.ok(meta.startsWith(og.replace(/…$/, '')));
+});
+
+test('renderCheck frames the Standard\'s quick start for readers without a lawyer, zero JS', () => {
+  const html = renderCheck({ version: '1.1', quickStartHtml: '<table><tr><td>P4. Factual Foundation</td></tr></table>' });
+  // Principle names link to their section of the Standard.
+  assert.match(html, /<a href="\/standard#p4">P4\.&nbsp;Factual Foundation<\/a>/);
+  assert.match(html, /rel="canonical" href="https:\/\/lexgrade\.org\/check"/);
+  assert.match(html, /From §9 of LexGrade Standard v1\.1/);
+  // The limits the poster states must hold here too.
+  assert.match(html, /not legal advice/);
+  assert.match(html, /can&#39;t predict a ruling/);
+  assert.match(html, /New York State Supreme Court/);
+  // Audience, not authorship (same guard as /about).
+  assert.ok(!/built by a self-represented litigant|the creator of LexGrade/i.test(html));
+  assert.ok(!/<script/i.test(html));
+});
+
+test('the homepage links readers without a lawyer to /check', () => {
+  const html = renderHome({ standardVersion: '1.1', principleCount: 8, criteriaCount: 47, techniqueVersion: '1.0', techniqueCount: 39 });
+  assert.match(html, /Filing without a lawyer\? <a href="\/check">/);
 });

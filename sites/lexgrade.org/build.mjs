@@ -14,11 +14,11 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, wri
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { loadBundle, loadStandard, loadTechniqueRegister, parseTechniques } from './src/lib/loadStandard.mjs';
+import { loadBundle, loadStandard, loadTechniqueRegister, parseTechniques, standardSection } from './src/lib/loadStandard.mjs';
 import { cspScriptSrc } from './src/lib/csp.mjs';
 import { toHtml } from './src/markdown.mjs';
 import { appIcon, ogCard } from './src/og.mjs';
-import { PAGES, LOGO_SVG, BADGE_ROLES_CSS, renderAbout, renderContribute, renderHome, renderReferences, renderLlmsFull, renderNotFound, renderStandard, renderTechnique, renderTechniques } from './src/render.mjs';
+import { PAGES, LOGO_SVG, BADGE_ROLES_CSS, renderAbout, renderCheck, renderContribute, renderHome, renderReferences, renderLlmsFull, renderNotFound, renderStandard, renderTechnique, renderTechniques } from './src/render.mjs';
 
 const SITE = 'https://lexgrade.org';
 const OUT = resolve(dirname(fileURLToPath(import.meta.url)), 'dist');
@@ -88,6 +88,13 @@ writeFileSync(
 // collaboration CTA, and the sources/influences credits.
 writePage('about', renderAbout());
 writePage('contribute', renderContribute());
+// The plain-language entry point: the Standard's own §9 Quick Start, rendered
+// from the current edition's markdown (bundle.documents[0] is the Standard).
+const quickStart = standardSection(loadBundle().documents[0], 9);
+// §9 opens with its audience line ("For users who are not attorneys."), which the
+// /check heading already says; drop it there so the page doesn't repeat itself.
+const quickStartBody = quickStart.body.replace(/^For users who are not attorneys\.\s*/, '');
+writePage('check', renderCheck({ version: standard.version, quickStartHtml: toHtml(quickStartBody) }));
 writePage('references', renderReferences());
 
 // /techniques — the Technique Register index, rendered from markdown at
