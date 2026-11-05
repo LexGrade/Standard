@@ -116,7 +116,7 @@ function siteMasthead() {
 //   og     — title/subtitle for the page's Open Graph card (build may override
 //            with version/counts for the dynamic pages)
 export const PAGES = [
-  { id: 'home', path: '/', label: 'Home', nav: false, footer: false, og: { title: 'LexGrade', subtitle: 'Open scoring for legal drafting quality' } },
+  { id: 'home', path: '/', label: 'Home', nav: false, footer: false, og: { title: 'Scoring the quality of legal drafting.', subtitle: 'Principles, weights, and the ethics gate, published in full' } },
   { id: 'standard', path: '/standard', label: 'Standard', nav: true, footer: false, og: { title: 'LexGrade Standard', subtitle: 'Open scoring instrument for legal drafting quality' } },
   { id: 'techniques', path: '/techniques', label: 'Techniques', nav: true, footer: false, og: { title: 'Technique Register', subtitle: 'Named advocacy techniques, the informative companion' } },
   { id: 'about', path: '/about', label: 'About', nav: true, footer: true, og: { title: 'About LexGrade', subtitle: 'Grounded in real motion practice' } },
@@ -529,7 +529,7 @@ export function renderStandard(standard) {
   // from the catalog. spellNumber keeps the principle count in words (the spec's
   // voice); the larger criteria count stays a numeral.
   const principleWord = spellNumber(principles.length);
-  const description = `${title} — open scoring instrument for legal drafting quality. ${capitalize(principleWord)} principles, ${critCount} graded criteria, ${license}.`;
+  const description = `${title} — open scoring instrument for legal drafting. ${capitalize(principleWord)} principles, ${critCount} graded criteria, ${license}.`;
 
   const toc = principles
     .map((p) => {
@@ -677,7 +677,7 @@ export function renderHome({ standardVersion, principleCount, criteriaCount, tec
   return documentShell({
     title: 'LexGrade — Open scoring for legal drafting quality',
     description:
-      'LexGrade is an open standard for scoring the quality of legal drafting: principles, graded criteria, and a named technique register. CC-BY-SA 4.0.',
+      'An open standard for grading legal motions: the principles, weights, and ethics gate, published in full. CC-BY-SA 4.0.',
     bodyHtml: body,
     canonical: '/',
     current: 'home',
@@ -720,7 +720,7 @@ export function renderAbout() {
   return documentShell({
     title: 'About — LexGrade',
     description:
-      'LexGrade is an open scoring standard grounded in active litigation across New York State and federal courts — an independently maintained, vendor-neutral reference. CC-BY-SA 4.0.',
+      'LexGrade is an open scoring standard grounded in active litigation in New York State and federal courts. CC-BY-SA 4.0.',
     bodyHtml: body,
     canonical: '/about',
     current: 'about',
@@ -761,7 +761,7 @@ export function renderContribute() {
   return documentShell({
     title: 'Contribute — LexGrade',
     description:
-      'Help shape LexGrade — an open, vendor-neutral standard for scoring legal drafting. Propose criteria, calibrate jurisdictions, name techniques. CC-BY-SA 4.0.',
+      'Help shape LexGrade: propose criteria, calibrate new jurisdictions, and name techniques. An open standard, CC-BY-SA 4.0.',
     bodyHtml: body,
     canonical: '/contribute',
     current: 'contribute',
@@ -803,7 +803,7 @@ export function renderReferences() {
   return documentShell({
     title: 'References — LexGrade',
     description:
-      'Sources and influences behind LexGrade — the legal-writing assessment scholarship its rubric method builds on, and the legal authority it calibrates against. CC-BY-SA 4.0.',
+      'The scholarship LexGrade\'s rubric method builds on, and the legal authority it calibrates against. CC-BY-SA 4.0.',
     bodyHtml: body,
     canonical: '/references',
     current: 'references',
