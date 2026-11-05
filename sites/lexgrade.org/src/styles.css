@@ -357,6 +357,13 @@ table.data caption { font-family: var(--sans); text-align: left; color: var(--mu
    whose tables break out while its paragraphs stay on the measure. */
 .layout--solo :is(.wide, .wide-tables > table) { width: var(--wide-col); max-width: none; margin-left: calc((var(--solo-col) - var(--wide-col)) / 2); }
 .wide > table { width: 100%; }
+/* /check quick start: principle names and key terms stay on one line; the
+   prose columns take the wrapping. (Phones stack the rows; see the media query.) */
+.quick-start td:first-child { white-space: nowrap; }
+/* A short paragraph that introduces a broken-out table ("Key terms.") reads
+   as that table's caption: set like table.data caption, on the table's edge. */
+.layout--solo .wide-tables > p:has(+ table) { width: var(--wide-col); margin-left: calc((var(--solo-col) - var(--wide-col)) / 2); margin-bottom: -.6rem; font-family: var(--sans); font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted-2); }
+.wide-tables > p:has(+ table) strong { font-weight: inherit; }
 
 .prose hr, hr { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
 .prose ul, .prose ol { padding-left: 1.4rem; }
@@ -428,7 +435,7 @@ table.data caption { font-family: var(--sans); text-align: left; color: var(--mu
   .prose .quick-start tr { padding: .7rem 0; border-bottom: 1px solid var(--border-2); }
   .prose .quick-start tr:last-child { border-bottom: none; }
   .prose .quick-start td { border: none; padding: .1rem .85rem; overflow-wrap: normal; }
-  .prose .quick-start td:first-child { font-weight: 600; color: var(--heading); }
+  .prose .quick-start td:first-child { font-weight: 600; color: var(--heading); white-space: normal; }
   .prose .quick-start td:nth-child(3) { color: var(--muted); font-style: italic; }
   /* Front matter reads as stacked label-over-value on a phone. */
   .sotd dl { grid-template-columns: 1fr; gap: 0; }
