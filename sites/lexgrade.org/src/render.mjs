@@ -120,7 +120,7 @@ export const PAGES = [
   { id: 'standard', path: '/standard', label: 'Standard', nav: true, footer: false, og: { title: 'LexGrade Standard', subtitle: 'Open scoring instrument for legal drafting quality' } },
   { id: 'techniques', path: '/techniques', label: 'Techniques', nav: true, footer: false, og: { title: 'Technique Register', subtitle: 'Named advocacy techniques, the informative companion' } },
   { id: 'about', path: '/about', label: 'About', nav: true, footer: true, og: { title: 'About LexGrade', subtitle: 'Grounded in real motion practice' } },
-  { id: 'check', path: '/check', label: 'Check your motion', nav: false, footer: true, og: { title: 'Checking your own motion', subtitle: 'For anyone filing without a lawyer' } },
+  { id: 'check', path: '/check', label: 'Check a motion', nav: true, footer: true, og: { title: 'Checking your own motion', subtitle: 'For anyone filing without a lawyer' } },
   { id: 'contribute', path: '/contribute', label: 'Contribute', nav: false, footer: true, og: { title: 'Contribute to LexGrade', subtitle: 'An open, collaborative standard — help shape it' } },
   { id: 'references', path: '/references', label: 'References', nav: false, footer: true, og: { title: 'Sources & influences', subtitle: 'What LexGrade builds on, credited in full' } },
 ];
@@ -755,9 +755,9 @@ export function renderCheck({ version, quickStartHtml }) {
   <section class="prose" aria-label="How to check a motion">
     <h2>How to use it</h2>
     <ol>
-      <li>Check the court&#39;s own rules first. The notice of motion, page limits, and proof of service are set by the court, not by LexGrade.</li>
+      <li>Start with the court&#39;s own rules. The court sets filing requirements such as the notice of motion and proof of service, and LexGrade doesn&#39;t cover them.</li>
       <li>Take the principles below one at a time. Each links to its criteria in the Standard. Hold your draft up to each criterion and note where it falls short.</li>
-      <li>Look up every case and statute you cite, and confirm it exists and says what you claim. AI tools invent cases, and a fake citation is the most serious problem a motion can have.</li>
+      <li>Look up every case and statute you cite, and confirm it exists and says what you claim. AI tools often invent cases, and under the Standard one fake citation can drop a motion from an A to a B.</li>
     </ol>
     <h2>The eight principles, in plain language</h2>
     <p class="note">From §9 of LexGrade Standard v${escapeHtml(version)}.</p>
@@ -767,7 +767,7 @@ ${linked}
     <h2>What it can&#39;t do</h2>
     <p>LexGrade is not legal advice and has no authority. It can&#39;t predict whether a motion will be granted, and one that meets every criterion can still be denied. It was written for New York State Supreme Court; other courts have their own rules.</p>
     <h2>If something is unclear</h2>
-    <p>Email <a href="mailto:contribute@lexgrade.org?subject=Unclear">contribute@lexgrade.org</a> and say which principle or term didn&#39;t make sense. Reports like that shape the next edition. Anyone can help improve LexGrade; <a href="/contribute">here&#39;s how</a>.</p>
+    <p>Email <a href="mailto:contribute@lexgrade.org?subject=Unclear">contribute@lexgrade.org</a> and say which principle or term didn&#39;t make sense. Anyone can help improve LexGrade: see <a href="/contribute">how to contribute</a>.</p>
   </section>`;
   return documentShell({
     title: 'Checking your own motion — LexGrade',
