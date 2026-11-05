@@ -21,6 +21,16 @@ Changes accepted for the next edition accumulate here. Propose changes via an
   the RFC resolutions on [#4](https://github.com/LexGrade/standard/issues/4);
   merged in [#6](https://github.com/LexGrade/standard/pull/6).
 
+### Fixed — LexGrade Standard v1.1, in place
+Both found in maintainer review; no correction report was filed.
+- **Gustafson pinpoint (§12).** The citation now gives the first page:
+  73 J. Legal Educ. 59 (2024), replacing "no. 1". Source: the author's
+  faculty listing at UA Little Rock. A correction of fact under
+  GOVERNANCE §Corrections; no requirement changed.
+- **Plain-language table (§9).** The P1 row reads "LexGrade does not" in place
+  of "LGS does not", so the section written for non-attorneys doesn't rely on
+  the abbreviation. Wording only; no requirement changed.
+
 ## [1.1.0] — 2026-10-19
 
 LexGrade Standard v1.1. RFC: [#4](https://github.com/LexGrade/standard/issues/4); merged in [#3](https://github.com/LexGrade/standard/pull/3).
