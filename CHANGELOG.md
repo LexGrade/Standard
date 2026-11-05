@@ -22,6 +22,7 @@ Changes accepted for the next edition accumulate here. Propose changes via an
   merged in [#6](https://github.com/LexGrade/standard/pull/6).
 
 ### Fixed — LexGrade Standard v1.1, in place
+Both found in maintainer review; no correction report was filed.
 - **Gustafson pinpoint (§12).** The citation now gives the first page:
   73 J. Legal Educ. 59 (2024), replacing "no. 1". Source: the author's
   faculty listing at UA Little Rock. A correction of fact under
