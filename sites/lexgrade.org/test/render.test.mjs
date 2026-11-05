@@ -529,8 +529,9 @@ test('social tags carry the clipped preview; the meta description stays full', (
 
 test('renderCheck frames the Standard\'s quick start for readers without a lawyer, zero JS', () => {
   const html = renderCheck({ version: '1.1', quickStartHtml: '<table><tr><td>P4. Factual Foundation</td></tr></table>' });
+  // Principle names link to their section of the Standard.
+  assert.match(html, /<a href="\/standard#p4">P4\.&nbsp;Factual Foundation<\/a>/);
   assert.match(html, /rel="canonical" href="https:\/\/lexgrade\.org\/check"/);
-  assert.match(html, /P4\. Factual Foundation/);
   assert.match(html, /From §9 of LexGrade Standard v1\.1/);
   // The limits the poster states must hold here too.
   assert.match(html, /not legal advice/);
