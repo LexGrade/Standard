@@ -15,6 +15,13 @@
   --border: #E4DFD6;
   --border-2: #EDE7DC;
   --measure: 36rem;
+  /* Solo-page column, its gutter, and the breakout width for .wide blocks (see
+     "Breakout blocks"). The gutter narrows on phones; both columns follow it. */
+  --gutter: 1.5rem;
+  --solo-max: 47rem;
+  --wide-max: 64rem;
+  --solo-col: min(var(--solo-max), 100vw - 2 * var(--gutter));
+  --wide-col: min(var(--wide-max), 100vw - 2 * var(--gutter));
   /* Golden-ratio (φ ≈ 1.618) spacing scale for type rhythm. */
   --space-2xs: 0.382rem; /* φ⁻² */
   --space-xs: 0.618rem;  /* φ⁻¹ */
@@ -87,7 +94,7 @@ main { padding: 2.875rem 4.5rem 5rem; min-width: 0; }
 .layout main { max-width: 1080px; }
 /* All solo doc pages share one centered reading column at ~the measure, so the
    header and body line up and prose-heavy and table pages read consistently. */
-.layout--solo main { max-width: 50rem; margin: 0 auto; padding: 2.875rem 1.5rem 5rem; }
+.layout--solo main { max-width: calc(var(--solo-max) + 2 * var(--gutter)); margin: 0 auto; padding: 2.875rem var(--gutter) 5rem; }
 
 /* ONE shared full-width top bar on every page: masthead + nav grouped at the
    left, so the site nav is identical everywhere and never jumps when navigating.
@@ -338,6 +345,19 @@ table.data caption { font-family: var(--sans); text-align: left; color: var(--mu
 .prose th code, .prose td code { white-space: nowrap; }
 .prose pre { overflow-x: auto; }
 .prose pre code { background: none; padding: 0; white-space: pre; }
+/* ── Breakout blocks ──────────────────────────────────────────────────────
+   Prose keeps its reading measure; a block marked .wide (a table, a figure)
+   steps out past it, centred on the page column, up to --wide-max. Block flow
+   with a computed negative margin, not a grid, so vertical margins between
+   prose elements still collapse exactly as before. On a narrow screen both
+   columns resolve to the full width inside the gutter and the offset is zero,
+   so .wide falls back to normal width with no media query. Solo pages only:
+   /standard has a sidebar and no centred column to break out of.
+   .wide marks one block; .wide-tables marks a wrapper of rendered markdown
+   whose tables break out while its paragraphs stay on the measure. */
+.layout--solo :is(.wide, .wide-tables > table) { width: var(--wide-col); max-width: none; margin-left: calc((var(--solo-col) - var(--wide-col)) / 2); }
+.wide > table { width: 100%; }
+
 .prose hr, hr { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
 .prose ul, .prose ol { padding-left: 1.4rem; }
 .prose li + li { margin-top: .4rem; }
@@ -364,7 +384,7 @@ table.data caption { font-family: var(--sans); text-align: left; color: var(--mu
   .topbar { flex-direction: column; align-items: stretch; gap: .35rem; padding: 1.25rem 1.25rem 1rem; }
   main { order: 2; padding: 1.5rem 1.25rem 3.5rem; }
   .toc { order: 3; border-top: 1px solid var(--border); padding: 1.75rem 1.25rem 2.5rem; }
-  .layout--solo main { padding-left: 1.25rem; padding-right: 1.25rem; }
+  :root { --gutter: 1.25rem; }
 
   /* The top-bar nav collapses to the zero-JS <details> disclosure ("Sections")
      on phones. The context selector matches the base rule's specificity so the

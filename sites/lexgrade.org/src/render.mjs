@@ -761,7 +761,7 @@ export function renderCheck({ version, quickStartHtml }) {
     </ol>
     <h2>The eight principles, in plain language</h2>
     <p class="note">From §9 of LexGrade Standard v${escapeHtml(version)}.</p>
-    <div class="quick-start">
+    <div class="quick-start wide-tables">
 ${linked}
     </div>
     <h2>What it can&#39;t do</h2>
