@@ -761,12 +761,12 @@ export function renderCheck({ version, quickStartHtml }) {
       <li>Look up every case and statute you cite and confirm it says what you claim. AI tools invent cases, and courts have sanctioned people for citing them.</li>
     </ol>
     <h2>The eight principles</h2>
-    <p class="note">From §9 of LexGrade Standard v${escapeHtml(version)}.</p>
     <div class="quick-start wide-tables">
+    <p>From §9 of LexGrade Standard v${escapeHtml(version)}</p>
 ${linked}
     </div>
     <h2>What it can&#39;t do</h2>
-    <p>LexGrade is not legal advice and can&#39;t predict a ruling. It was written for New York State Supreme Court; other courts&#39; rules differ.</p>
+    <p>LexGrade is not legal advice and can&#39;t predict a ruling. It was written for New&nbsp;York State Supreme Court; other courts&#39; rules differ.</p>
     <h2>Something unclear?</h2>
     <p>Email <a href="mailto:contribute@lexgrade.org?subject=Unclear">contribute@lexgrade.org</a> and say what.</p>
   </section>`;
