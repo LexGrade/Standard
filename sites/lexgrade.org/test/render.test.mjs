@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 
-import { escapeHtml, LOGO_SVG, renderAbout, renderContribute, renderHome, renderLlmsFull, renderNotFound, renderRedirect, renderReferences, renderStandard, renderTechnique, renderTechniques, stripScripts } from '../src/render.mjs';
+import { escapeHtml, LOGO_SVG, previewText, renderAbout, renderContribute, renderHome, renderLlmsFull, renderNotFound, renderRedirect, renderReferences, renderStandard, renderTechnique, renderTechniques, stripScripts } from '../src/render.mjs';
 import { cspScriptSrc } from '../src/lib/csp.mjs';
 import { toHtml } from '../src/markdown.mjs';
 
@@ -500,4 +500,29 @@ test('the README logo copies draw the same mark as LOGO_SVG (only the fill diffe
     const copy = readFileSync(new URL(`../../../.github/assets/lexgrade-logo-${variant}.svg`, import.meta.url), 'utf8');
     assert.equal(shapes(copy), shapes(LOGO_SVG), `${variant} logo geometry matches LOGO_SVG`);
   }
+});
+
+test('previewText leaves short descriptions alone', () => {
+  assert.equal(previewText('Short and sweet.'), 'Short and sweet.');
+});
+
+test('previewText clips to whole sentences when one fits', () => {
+  const text = 'Adverse-Party Sourcing: Building the motion\'s factual foundation primarily from the opposing party\'s own filings. The opponent\'s documents become the evidence against them.';
+  assert.equal(previewText(text), 'Adverse-Party Sourcing: Building the motion\'s factual foundation primarily from the opposing party\'s own filings.');
+});
+
+test('previewText falls back to a whole word plus an ellipsis', () => {
+  const text = 'Uncharacterized Omission: Presenting an opposing party\'s inaction, omission, or procedural failure as a plain factual assertion — stated without editorializing, placed after contextual setup.';
+  const out = previewText(text);
+  assert.ok(out.length <= 126, `got ${out.length}`);
+  assert.ok(out.endsWith('…'));
+  assert.ok(!/\s…$/.test(out) && !/[,—]…$/.test(out), out);
+});
+
+test('social tags carry the clipped preview; the meta description stays full', () => {
+  const html = renderAbout();
+  const meta = html.match(/<meta name="description" content="([^"]*)"/)[1];
+  const og = html.match(/<meta property="og:description" content="([^"]*)"/)[1];
+  assert.ok(og.length <= 126);
+  assert.ok(meta.startsWith(og.replace(/…$/, '')));
 });

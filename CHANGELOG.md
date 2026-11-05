@@ -13,6 +13,14 @@ edition never revokes a prior one.
 Changes accepted for the next edition accumulate here. Propose changes via an
 `rfc:` issue — see [CONTRIBUTING](.github/CONTRIBUTING.md).
 
+### Changed — governance
+- **The trademark phrase names the edition.** `commons/GOVERNANCE.md` no
+  longer fixes "LexGrade Standard v1.0" as the phrase an implementer may use;
+  the permission attaches to the Standard, and implementers name the edition
+  they implement. Policy text only: what is permitted is unchanged. Item 7 of
+  the RFC resolutions on [#4](https://github.com/LexGrade/standard/issues/4);
+  merged in [#6](https://github.com/LexGrade/standard/pull/6).
+
 ## [1.1.0] — 2026-10-19
 
 LexGrade Standard v1.1. RFC: [#4](https://github.com/LexGrade/standard/issues/4); merged in [#3](https://github.com/LexGrade/standard/pull/3).
