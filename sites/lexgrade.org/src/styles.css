@@ -165,6 +165,11 @@ main { padding: 2.875rem 4.5rem 5rem; min-width: 0; }
 .home-title { font-size: clamp(2.1rem, 5vw, 3rem); line-height: 1.1; letter-spacing: -.015em; font-weight: 600; margin: 0; }
 /* The evidence line — the one cited fact that explains the ethics gate. A quiet
    callout, not a banner: it should read as documentation, not marketing. */
+/* The way in for readers without a lawyer (where the poster's QR code lands):
+   one plain line above everything else, link set like the card CTAs. */
+.home-check { font-family: var(--sans); font-size: 1.05rem; color: var(--text); margin: 1.1rem 0 0; }
+.home-check a { font-weight: 600; color: var(--accent); text-decoration: none; }
+.home-check a:hover { text-decoration: underline; }
 .home-evidence { font-family: var(--sans); font-size: .95rem; color: var(--muted); margin: 1.1rem 0 0; }
 .home-cards { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-l); border-top: 1px solid var(--border); padding-top: var(--space-m); }
 .home-card { display: flex; flex-direction: column; gap: .5rem; text-decoration: none; color: inherit; }
@@ -395,6 +400,16 @@ table.data caption { font-family: var(--sans); text-align: left; color: var(--mu
      replaces. Wide tables wrap their cells to fit rather than overflow. */
   table.data, .prose table { display: table; width: 100%; max-width: 100%; table-layout: auto; }
   table.data td, table.data th, .prose td, .prose th { overflow-wrap: anywhere; }
+  /* The /check quick start is prose in every cell, so on a phone each row
+     stacks (principle, what it checks, the analogy) instead of squeezing three
+     columns until words break mid-word. */
+  .quick-start table, .quick-start tbody, .quick-start tr, .quick-start td { display: block; width: 100%; }
+  .quick-start thead { display: none; }
+  .prose .quick-start tr { padding: .7rem 0; border-bottom: 1px solid var(--border-2); }
+  .prose .quick-start tr:last-child { border-bottom: none; }
+  .prose .quick-start td { border: none; padding: .1rem .85rem; overflow-wrap: normal; }
+  .prose .quick-start td:first-child { font-weight: 600; color: var(--heading); }
+  .prose .quick-start td:nth-child(3) { color: var(--muted); font-style: italic; }
   /* Front matter reads as stacked label-over-value on a phone. */
   .sotd dl { grid-template-columns: 1fr; gap: 0; }
   .sotd dt { margin-top: .9rem; }

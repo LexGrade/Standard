@@ -58,3 +58,10 @@ test('resolveDocPath throws naming the path when neither candidate exists', () =
     /commons document not found for "commons\/standard\/X\.md"/,
   );
 });
+
+test('standardSection extracts one numbered section without its heading or rule', async () => {
+  const { standardSection } = await import('../src/lib/loadStandard.mjs');
+  const md = '## 8. Before\n\nx\n\n## 9. Plain-Language Quick Start\n\nBody line.\n\n---\n\n## 10. After\n';
+  assert.deepEqual(standardSection(md, 9), { title: 'Plain-Language Quick Start', body: 'Body line.' });
+  assert.throws(() => standardSection(md, 11), /section 11 not found/);
+});

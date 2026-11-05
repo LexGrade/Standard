@@ -142,3 +142,20 @@ export function loadTechniqueRegister() {
   // The register carries its OWN version, which may diverge from the standard's.
   return { version: techniqueV, markdown, path };
 }
+
+/**
+ * Pull one numbered top-level section ("## 9. …") out of the Standard markdown,
+ * without its heading or trailing rule, so a page can present that section
+ * verbatim and never drift from the source. Throws if the section is missing,
+ * so a renumbered Standard fails the build instead of shipping an empty page.
+ *
+ * @param {string} markdown
+ * @param {number} number
+ * @returns {{title: string, body: string}}
+ */
+export function standardSection(markdown, number) {
+  const re = new RegExp(`^## ${number}\\. (.+)$([\\s\\S]*?)(?=^## |(?![\\s\\S]))`, 'm');
+  const match = String(markdown ?? '').match(re);
+  if (!match) throw new Error(`Standard section ${number} not found`);
+  return { title: match[1].trim(), body: match[2].replace(/\n-{3,}\s*$/, '').trim() };
+}

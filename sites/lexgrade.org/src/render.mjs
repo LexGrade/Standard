@@ -120,6 +120,7 @@ export const PAGES = [
   { id: 'standard', path: '/standard', label: 'Standard', nav: true, footer: false, og: { title: 'LexGrade Standard', subtitle: 'Open scoring instrument for legal drafting quality' } },
   { id: 'techniques', path: '/techniques', label: 'Techniques', nav: true, footer: false, og: { title: 'Technique Register', subtitle: 'Named advocacy techniques, the informative companion' } },
   { id: 'about', path: '/about', label: 'About', nav: true, footer: true, og: { title: 'About LexGrade', subtitle: 'Grounded in real motion practice' } },
+  { id: 'check', path: '/check', label: 'Check your motion', nav: false, footer: true, og: { title: 'Checking your own motion', subtitle: 'For anyone filing without a lawyer' } },
   { id: 'contribute', path: '/contribute', label: 'Contribute', nav: false, footer: true, og: { title: 'Contribute to LexGrade', subtitle: 'An open, collaborative standard — help shape it' } },
   { id: 'references', path: '/references', label: 'References', nav: false, footer: true, og: { title: 'Sources & influences', subtitle: 'What LexGrade builds on, credited in full' } },
 ];
@@ -655,6 +656,7 @@ export function renderHome({ standardVersion, principleCount, criteriaCount, tec
   const body = `  <header class="home-hero">
     <h1 class="home-title">Scoring the quality of legal drafting.</h1>
     <p class="subhead">LexGrade is an open instrument for grading legal motions. The principles, the weights, and the ethics gate are published in full, in human and machine-readable form.</p>
+    <p class="home-check">Filing without a lawyer? <a href="/check">Start here <span aria-hidden="true">→</span></a></p>
     <p class="callout home-evidence">Why an ethics gate? In one 2024 study, leading language models hallucinated in 58&ndash;88% of their answers to verifiable questions about federal court cases (<a href="https://doi.org/10.1093/jla/laae003">Dahl et al., <em>Large Legal Fictions</em></a>). The Standard treats a single fabricated citation as an automatic &minus;20, because candor toward the court is where grading has to start.</p>
   </header>
   <nav class="home-cards" aria-label="Start here">
@@ -725,6 +727,51 @@ export function renderAbout() {
     canonical: '/about',
     current: 'about',
     image: '/og/about.png',
+  });
+}
+
+/**
+ * Render the /check page — the plain-language entry point for people filing
+ * without a lawyer (the printed poster's QR code lands on the homepage, which
+ * links here). The quick-start table is the Standard's own §9, rendered from
+ * the markdown at build time so it cannot drift; only the framing around it is
+ * site copy. Audience, not authorship: the page speaks to self-represented
+ * readers and never describes who wrote the Standard.
+ *
+ * @param {{version: string, quickStartHtml: string}} opts
+ * @returns {string}
+ */
+export function renderCheck({ version, quickStartHtml }) {
+  const body = `${docHeader({
+    title: 'Checking your own motion',
+    subhead: 'For anyone filing without a lawyer. LexGrade can&#39;t predict whether a motion will be granted. It can help you check that yours is built well.',
+  })}
+  <section class="prose" aria-label="How to check a motion">
+    <h2>How to use it</h2>
+    <ol>
+      <li><strong>Start with the court&#39;s own rules.</strong> Filing requirements such as the notice of motion, page limits, and proof of service come from the court, not from LexGrade. Check them first.</li>
+      <li><strong>Read the table below.</strong> Each row is one principle the Standard uses to judge a motion, in plain words.</li>
+      <li><strong>Go one principle at a time.</strong> In <a href="/standard">the Standard</a>, each principle lists short criteria. Hold your draft up to each one and note where it falls short.</li>
+      <li><strong>Check every citation yourself.</strong> Look up each case and statute you cite and confirm it exists and says what you claim. AI tools often invent cases, and a fake citation is the most serious problem a motion can have.</li>
+    </ol>
+    <h2>The eight principles, in plain language</h2>
+    <p class="note">From §9 of LexGrade Standard v${escapeHtml(version)}.</p>
+    <div class="quick-start">
+${stripScripts(quickStartHtml)}
+    </div>
+    <h2>What it can&#39;t do</h2>
+    <p>LexGrade is not legal advice and has no authority. It was written for New York State Supreme Court, and other courts have their own rules. A motion that meets every criterion can still be denied.</p>
+    <h2>If something here is unclear</h2>
+    <p>That is a problem with the Standard, not with you. Email <a href="mailto:contribute@lexgrade.org?subject=Unclear">contribute@lexgrade.org</a> and say what was confusing. Anyone can help improve LexGrade; <a href="/contribute">here&#39;s how</a>.</p>
+  </section>`;
+  return documentShell({
+    title: 'Checking your own motion — LexGrade',
+    description:
+      'For anyone filing without a lawyer: how to check a motion against the LexGrade Standard, in plain language. Not legal advice.',
+    bodyHtml: body,
+    canonical: '/check',
+    current: 'check',
+    image: '/og/check.png',
   });
 }
 
