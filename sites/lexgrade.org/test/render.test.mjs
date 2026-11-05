@@ -535,7 +535,7 @@ test('renderCheck frames the Standard\'s quick start for readers without a lawye
   assert.match(html, /From §9 of LexGrade Standard v1\.1/);
   // The limits the poster states must hold here too.
   assert.match(html, /not legal advice/);
-  assert.match(html, /can&#39;t predict whether a motion will be granted/);
+  assert.match(html, /can&#39;t predict a ruling/);
   assert.match(html, /New York State Supreme Court/);
   // Audience, not authorship (same guard as /about).
   assert.ok(!/built by a self-represented litigant|the creator of LexGrade/i.test(html));

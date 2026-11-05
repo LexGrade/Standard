@@ -750,30 +750,30 @@ export function renderCheck({ version, quickStartHtml }) {
   );
   const body = `${docHeader({
     title: 'Checking your own motion',
-    subhead: 'For anyone filing without a lawyer: how to check that a motion is built well before you file it.',
+    subhead: 'For anyone filing without a lawyer.',
   })}
   <section class="prose" aria-label="How to check a motion">
-    <h2>How to use it</h2>
-    <p>A motion is a written request asking the judge to decide something or order something in your case.</p>
+    <h2>Before you file</h2>
+    <p>A motion asks the judge to decide or order something in your case.</p>
     <ol>
-      <li>Start with the court&#39;s own rules. The court sets filing requirements such as the notice of motion and proof of service, and LexGrade doesn&#39;t cover them.</li>
-      <li>Take the principles below one at a time. Each one links to the Standard, where it&#39;s broken into short requirements. Compare your draft with each requirement and note where it falls short.</li>
-      <li>Look up every case and statute you cite, and confirm it exists and says what you claim. AI tools often invent cases, and one fake citation can lower a motion&#39;s LexGrade score from an A to a B.</li>
+      <li>Follow the court&#39;s filing rules first, such as the notice of motion and proof of service. LexGrade doesn&#39;t cover them.</li>
+      <li>Check your draft against each principle below. Each links to its requirements in the Standard.</li>
+      <li>Look up every case and statute you cite and confirm it says what you claim. AI tools invent cases, and courts have sanctioned people for citing them.</li>
     </ol>
-    <h2>The eight principles, in plain language</h2>
+    <h2>The eight principles</h2>
     <p class="note">From §9 of LexGrade Standard v${escapeHtml(version)}.</p>
     <div class="quick-start wide-tables">
 ${linked}
     </div>
     <h2>What it can&#39;t do</h2>
-    <p>LexGrade is not legal advice and has no authority. It can&#39;t predict whether a motion will be granted, and one that meets every criterion can still be denied. It was written for New York State Supreme Court; other courts have their own rules.</p>
-    <h2>If something is unclear</h2>
-    <p>Email <a href="mailto:contribute@lexgrade.org?subject=Unclear">contribute@lexgrade.org</a> and say which principle or term didn&#39;t make sense. Anyone can help improve LexGrade: see <a href="/contribute">how to contribute</a>.</p>
+    <p>LexGrade is not legal advice and can&#39;t predict a ruling. It was written for New York State Supreme Court; other courts&#39; rules differ.</p>
+    <h2>Something unclear?</h2>
+    <p>Email <a href="mailto:contribute@lexgrade.org?subject=Unclear">contribute@lexgrade.org</a> and say what.</p>
   </section>`;
   return documentShell({
     title: 'Checking your own motion — LexGrade',
     description:
-      'For anyone filing without a lawyer: how to check a motion against the LexGrade Standard, in plain language. Not legal advice.',
+      'How to check a motion against the LexGrade Standard, for anyone filing without a lawyer. Not legal advice.',
     bodyHtml: body,
     canonical: '/check',
     current: 'check',
