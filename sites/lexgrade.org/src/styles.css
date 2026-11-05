@@ -447,6 +447,19 @@ table.data caption { font-family: var(--sans); text-align: left; color: var(--mu
   .sitenav-list a { min-height: 2.75rem; display: flex; align-items: center; }
   .toc a { min-height: 2.75rem; align-items: center; }
 }
+/* Print: librarians and clinics hand people paper. Drop the site chrome and
+   the paper tint, let breakout blocks return to the column, and keep table
+   rows, list items, and headings from splitting across pages. */
+@media print {
+  .topbar, .sidebar, .site-footer, .skip-link { display: none; }
+  body { background: #fff; color: #000; }
+  .layout--solo main { max-width: none; padding: 0; }
+  .layout--solo :is(.wide, .wide-tables > table) { width: 100%; margin-left: 0; }
+  tr, li { break-inside: avoid; }
+  h2, h3 { break-after: avoid; }
+  a { color: inherit; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   * { animation: none !important; transition: none !important; }

@@ -754,10 +754,11 @@ export function renderCheck({ version, quickStartHtml }) {
   })}
   <section class="prose" aria-label="How to check a motion">
     <h2>How to use it</h2>
+    <p>A motion is a written request asking the judge to decide something or order something in your case.</p>
     <ol>
       <li>Start with the court&#39;s own rules. The court sets filing requirements such as the notice of motion and proof of service, and LexGrade doesn&#39;t cover them.</li>
-      <li>Take the principles below one at a time. Each links to its criteria in the Standard. Hold your draft up to each criterion and note where it falls short.</li>
-      <li>Look up every case and statute you cite, and confirm it exists and says what you claim. AI tools often invent cases, and under the Standard one fake citation can drop a motion from an A to a B.</li>
+      <li>Take the principles below one at a time. Each one links to the Standard, where it&#39;s broken into short requirements. Compare your draft with each requirement and note where it falls short.</li>
+      <li>Look up every case and statute you cite, and confirm it exists and says what you claim. AI tools often invent cases, and one fake citation can lower a motion&#39;s LexGrade score from an A to a B.</li>
     </ol>
     <h2>The eight principles, in plain language</h2>
     <p class="note">From §9 of LexGrade Standard v${escapeHtml(version)}.</p>
