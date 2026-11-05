@@ -971,7 +971,7 @@ For users who are not attorneys.
 
 | Principle | What it checks | Analogy |
 |-----------|----------------|---------|
-| P1. Procedural Integrity | Did you follow the court's filing rules? (The court defines these — LGS does not.) | Like a tax return: missing a required form = rejected. Check the court's rules. |
+| P1. Procedural Integrity | Did you follow the court's filing rules? (The court defines these — LexGrade does not.) | Like a tax return: missing a required form = rejected. Check the court's rules. |
 | P2. Problem Diagnosis | Correct type of legal problem identified? | Wrong diagnosis = wrong treatment. |
 | P3. Legal Authority | Right laws and cases supporting your request? | Five categories: statute, binding, persuasive, administrative, adverse. |
 | P4. Factual Foundation | Facts proven with specific documents? | Every claim needs a receipt. |
@@ -1123,7 +1123,7 @@ criteria and the validity and reporting provisions.
 - Jessica L. Clark & Christy H. DeSanctis, "[Toward a Unified Grading Vocabulary: Using Rubrics in Legal Writing Courses](https://jle.aals.org/home/vol63/iss1/2)," 63 J. Legal Educ. 3 (2013) — rubrics as a shared, named vocabulary for the qualities of legal writing; the basis for LGS 3.10 and LGS 5.6 as separately named criteria.
 - Carol Springer Sargent & Andrea A. Curcio, "[Empirical Evidence That Formative Assessments Improve Final Exams](https://jle.aals.org/home/vol61/iss3/4/)," 61 J. Legal Educ. 379 (2012) — formative feedback improved subsequent performance by up to a letter grade; why the findings, not the number, are the output.
 - Daniel Schwarcz & Dion Farganis, "[The Impact of Individualized Feedback on Law Student Performance](https://scholarship.law.umn.edu/faculty_articles/644)," 67 J. Legal Educ. 139 (2017) — a natural experiment: individualized feedback raised performance by about a third of a grade increment, controlling for entering credentials.
-- Lindsey P. Gustafson, "[The Compounding Effects of Assessment: How Our Failure to Coordinate Formative Assessments May Impact Their Validity](https://jle.aals.org/home/vol73/iss1/4)," 73 J. Legal Educ. no. 1 (2024) — validity of an assessment system as a whole, and how uncoordinated assessment erodes it; the basis for the consequential-validity caveat in §3.
+- Lindsey P. Gustafson, "[The Compounding Effects of Assessment: How Our Failure to Coordinate Formative Assessments May Impact Their Validity](https://jle.aals.org/home/vol73/iss1/4)," 73 J. Legal Educ. 59 (2024) — validity of an assessment system as a whole, and how uncoordinated assessment erodes it; the basis for the consequential-validity caveat in §3.
 
 **Empirical LLM research.** Matthew Dahl, Varun Magesh, Mirac Suzgun & Daniel E.
 Ho, "[Large Legal Fictions: Profiling Legal Hallucinations in Large Language
@@ -1158,7 +1158,7 @@ release takes the next unused number in its Principle.
 | Edition | Status | Changes |
 |---------|--------|---------|
 | v1.0 | Published, February 2026 | Initial edition: 8 principles, 45 criteria, composite formula, three conformance levels. Remains published and citable. |
-| v1.1 | Published, October 2026 | Adds LGS 3.10 (Case Synthesis) and LGS 5.6 (Analytical Structure); adds §3 *Validity and its limits* and §6 *Reporting the composite*; adds the legal-education scholarship in §12; corrects the worksheet's Technique Register denominator to 39. No weight, deduction, gate rule, or threshold changed. |
+| v1.1 | Published, October 2026 | Adds LGS 3.10 (Case Synthesis) and LGS 5.6 (Analytical Structure); adds §3 *Validity and its limits* and §6 *Reporting the composite*; adds the legal-education scholarship in §12; corrects the worksheet's Technique Register denominator to 39. No weight, deduction, gate rule, or threshold changed. Corrected in place, November 2026: the Gustafson first-page pinpoint in §12 (59); "LexGrade" for "LGS" in the §9 plain-language table. |
 
 **License.** CC-BY-SA 4.0. © 2026 LexGrade. Cite as: "LexGrade Standard v1.1,
 LexGrade (lexgrade.org), CC-BY-SA 4.0." Renamed forks must update the

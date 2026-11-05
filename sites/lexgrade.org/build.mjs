@@ -93,7 +93,11 @@ writePage('contribute', renderContribute());
 const quickStart = standardSection(loadBundle().documents[0], 9);
 // §9 opens with its audience line ("For users who are not attorneys."), which the
 // /check heading already says; drop it there so the page doesn't repeat itself.
-const quickStartBody = quickStart.body.replace(/^For users who are not attorneys\.\s*/, '');
+// A bold-only line that introduces a table ("**Key terms.**") renders on /check
+// as that table's caption, so it drops the sentence period there.
+const quickStartBody = quickStart.body
+  .replace(/^For users who are not attorneys\.\s*/, '')
+  .replace(/^\*\*([^*\n]+)\.\*\*$/gm, '**$1**');
 writePage('check', renderCheck({ version: standard.version, quickStartHtml: toHtml(quickStartBody) }));
 writePage('references', renderReferences());
 
