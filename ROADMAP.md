@@ -207,9 +207,9 @@ trigger (all of it lives in git history and returns when earned):
 ## What this roadmap deliberately does not do
 
 - **No consumer surface on the .org.** No scoring service, no accounts, no
-  hosted grader, no "start here" funnels. The institutional, zero-JS,
-  no-data-collection posture is the asset; downstream implementations carry
-  the consumer experience.
+  hosted grader, no "start here" funnels. The institutional posture is the
+  asset: a static site with no backend, measured only by aggregate Cloudflare
+  Web Analytics; downstream implementations carry the consumer experience.
 - **No outcome-tracking push (§8 of the Standard).** Courts are sensitive to
   anything that reads as "scoring judges' responses." Leave it informative.
 - **No endorsement-seeking from courts or grievance committees.** The goal is
