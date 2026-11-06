@@ -21,6 +21,12 @@ Changes accepted for the next edition accumulate here. Propose changes via an
   the RFC resolutions on [#4](https://github.com/LexGrade/standard/issues/4);
   merged in [#6](https://github.com/LexGrade/standard/pull/6).
 
+### Changed — site
+- **Cloudflare Web Analytics on lexgrade.org.** The CSP now allows the beacon
+  Cloudflare injects at the edge, measuring aggregate traffic and page
+  performance. Built pages don't reference it. `SECURITY.md` and `ROADMAP.md`
+  no longer describe the site as zero-JS with no data collection.
+
 ### Fixed — LexGrade Standard v1.1, in place
 Both found in maintainer review; no correction report was filed.
 - **Gustafson pinpoint (§12).** The citation now gives the first page:
