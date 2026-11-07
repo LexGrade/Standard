@@ -31,6 +31,9 @@ Changes accepted for the next edition accumulate here. Propose changes via an
 - **Self-hosted fonts.** The site serves its fonts from its own domain instead
   of Google Fonts, with the main faces preloaded, and the CSP no longer allows
   Google's font hosts.
+- **Search and canonical URLs.** Pages now load directly at their canonical URLs,
+  without a redirect. Adds schema.org structured data, keeps search descriptions
+  within display length, and removes the sitemap's build-date `lastmod`.
 - **Stylesheet caching.** The stylesheet is trimmed and named by content hash,
   so browsers can keep it permanently.
 - **`www.lexgrade.org`.** Redirects to `lexgrade.org`, through a small Worker in

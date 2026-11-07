@@ -19,7 +19,7 @@ import { loadBundle, loadStandard, loadTechniqueRegister, parseTechniques, stand
 import { cspScriptSrc } from './src/lib/csp.mjs';
 import { toHtml } from './src/markdown.mjs';
 import { appIcon, ogCard } from './src/og.mjs';
-import { PAGES, LOGO_SVG, BADGE_ROLES_CSS, renderAbout, renderCheck, renderContribute, renderHome, renderReferences, renderLlmsFull, renderNotFound, renderStandard, renderTechnique, renderTechniques } from './src/render.mjs';
+import { PAGES, LOGO_SVG, BADGE_ROLES_CSS, homeStructuredData, jsonLdScript, registerStructuredData, standardStructuredData, techniqueStructuredData, renderAbout, renderCheck, renderContribute, renderHome, renderReferences, renderLlmsFull, renderNotFound, renderStandard, renderTechnique, renderTechniques } from './src/render.mjs';
 
 const SITE = 'https://lexgrade.org';
 const OUT = resolve(dirname(fileURLToPath(import.meta.url)), 'dist');
@@ -192,11 +192,10 @@ const sitemapPaths = [
   ...PAGES.map((p) => p.path),
   ...techniqueList.map((t) => `/techniques/${t.slug}`),
 ];
-const lastmod = new Date().toISOString().slice(0, 10);
 writeFileSync(
   resolve(OUT, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapPaths
-    .map((p) => `  <url><loc>${SITE}${p}</loc><lastmod>${lastmod}</lastmod></url>`)
+    .map((p) => `  <url><loc>${SITE}${p}</loc></url>`)
     .join('\n')}\n</urlset>\n`,
 );
 writeFileSync(resolve(OUT, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
@@ -255,6 +254,20 @@ writeFileSync(
     '',
   ].join('\n'),
 );
+
+// Structured data for the pages that have a clear schema.org type. Added here rather
+// than by the renderers, whose tests guard the pages against script tags; JSON-LD is
+// data, so the zero-JS guarantee still holds.
+const structuredPages = [
+  ['index.html', homeStructuredData()],
+  ['standard/index.html', standardStructuredData({ version: standard.version })],
+  ['techniques/index.html', registerStructuredData({ version: techniques.version })],
+  ...techniqueList.map((t) => [`techniques/${t.slug}/index.html`, techniqueStructuredData(t)]),
+];
+for (const [file, data] of structuredPages) {
+  const p = resolve(OUT, file);
+  writeFileSync(p, readFileSync(p, 'utf-8').replace('</head>', `${jsonLdScript(data)}\n</head>`));
+}
 
 // Self-check: every internal link + in-page anchor must resolve. A spec site can't
 // ship dead links; this fails the build (and CI) before a broken reference goes
