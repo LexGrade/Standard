@@ -317,6 +317,12 @@ function docHeader({ title, subhead = '' }) {
   </header>`;
 }
 
+/** A correction form with its "Where" field filled in. */
+function correctionUrl(where) {
+  const q = encodeURIComponent;
+  return `${REPO_URL}/issues/new?template=correction.yml&amp;title=${q(`correction: ${where}`)}&amp;where=${q(where)}`;
+}
+
 function renderCriterion(c) {
   const a = anchor(c.id);
   const deduction =
@@ -337,6 +343,7 @@ function renderCriterion(c) {
     <p class="requirement">${escapeHtml(String(c.requirement ?? '').trim())}</p>
     ${deduction}
     ${source}
+    <p class="source"><a href="${correctionUrl(c.id)}" aria-label="Suggest a correction to ${escapeHtml(c.id)}">Suggest a correction</a></p>
   </section>`;
 }
 
@@ -574,12 +581,20 @@ export function renderStandard(standard) {
   <details class="panel sotd" open>
     <summary><span class="sotd-chevron" aria-hidden="true"></span>Status of this document</summary>
     <dl>
-      <dt>This version</dt><dd>v${escapeHtml(version)} (current published edition)</dd>
+      <dt>This version</dt><dd>v${escapeHtml(version)} (current published edition)</dd>${
+        standard.editions?.length
+          ? `\n      <dt>Full text</dt><dd>${standard.editions
+              .map((e) => `<a href="${editionPath(e.version)}">v${escapeHtml(e.version)}</a>`)
+              .join(' · ')}</dd>`
+          : ''
+      }
+      <dt>Download citation</dt><dd>${citationLinks(version)}</dd>
       <dt>Machine-readable</dt><dd><a href="${API_URL}">/api/v1/standard.json</a> · <a href="/llms-full.txt">/llms-full.txt</a></dd>
+      <dt>Updates</dt><dd><a href="/feed.xml">Atom feed</a> of new editions and corrections</dd>
       <dt>Source repository</dt><dd><a href="${REPO_URL}">${escapeHtml(REPO_URL.replace(/^https?:\/\//, ''))}</a></dd>
       <dt>Calibrated to</dt><dd>CPLR &amp; the Uniform Civil Rules (22 NYCRR Part 202)</dd>${
         standard.citationsVerified
-          ? `\n      <dt>Citations verified</dt><dd>${escapeHtml(standard.citationsVerified)} (confirm provisions remain current)</dd>`
+          ? `\n      <dt>Citations verified</dt><dd>${monthTime(standard.citationsVerified)} (confirm provisions remain current)</dd>`
           : ''
       }
       <dt>License</dt><dd>${escapeHtml(license)} (content)</dd>
@@ -638,6 +653,127 @@ export function renderRedirect(to) {
 </body>
 </html>
 `;
+}
+
+/** The permanent URL of one edition of the Standard. */
+export function editionPath(version) {
+  return `/standard/v${version}`;
+}
+
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+/** "February 2026" -> a <time> element, or the escaped text if it isn't in that form. */
+function monthTime(value) {
+  const match = /^([A-Z][a-z]+) (\d{4})$/.exec(String(value));
+  const month = match ? MONTHS.indexOf(match[1]) + 1 : 0;
+  return month
+    ? `<time datetime="${match[2]}-${String(month).padStart(2, '0')}">${escapeHtml(value)}</time>`
+    : escapeHtml(value);
+}
+
+/**
+ * The Atom feed of editions and corrections, newest first. Timestamps come from
+ * methodology.yaml, so rebuilding the site never makes the feed look updated.
+ *
+ * @param {Array<{version: string, published: string, corrections?: Array<{date: string, summary: string}>}>} editions
+ * @returns {string}
+ */
+export function renderFeed(editions) {
+  const stamp = (date) => `${String(date).length === 7 ? `${date}-01` : date}T00:00:00Z`;
+  const entries = editions
+    .flatMap((e) => {
+      const url = `${SITE_ORIGIN}${editionPath(e.version)}`;
+      return [
+        { id: url, title: `LexGrade Standard v${e.version} published`, link: url, updated: stamp(e.published), summary: `Full text of LexGrade Standard v${e.version}.` },
+        ...(e.corrections ?? []).map((c) => ({
+          id: `${url}#correction-${c.date}`,
+          title: `Correction to LexGrade Standard v${e.version}`,
+          link: `${url}#corrections`,
+          updated: stamp(c.date),
+          summary: c.summary,
+        })),
+      ];
+    })
+    .sort((a, b) => b.updated.localeCompare(a.updated));
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>LexGrade Standard: editions and corrections</title>
+  <id>${SITE_ORIGIN}/feed.xml</id>
+  <link rel="self" type="application/atom+xml" href="${SITE_ORIGIN}/feed.xml"/>
+  <link rel="alternate" type="text/html" href="${CANONICAL_URL}"/>
+  <updated>${entries[0].updated}</updated>
+  <author><name>LexGrade</name></author>
+${entries
+  .map(
+    (entry) => `  <entry>
+    <id>${escapeHtml(entry.id)}</id>
+    <title>${escapeHtml(entry.title)}</title>
+    <link rel="alternate" type="text/html" href="${escapeHtml(entry.link)}"/>
+    <updated>${entry.updated}</updated>
+    <summary>${escapeHtml(entry.summary)}</summary>
+  </entry>`,
+  )
+  .join('\n')}
+</feed>
+`;
+}
+
+/** "2026-10-19" -> "October 19, 2026"; "2026-02" -> "February 2026". */
+export function formatDate(value) {
+  const [year, month, day] = String(value).split('-');
+  const name = MONTHS[Number(month) - 1];
+  return day ? `${name} ${Number(day)}, ${year}` : `${name} ${year}`;
+}
+
+/** The criteria tables have no headings, so give each criterion's first row its LGS anchor. */
+function anchorCriteria(html) {
+  const seen = new Set();
+  return html.replace(/<td([^>]*)>(LGS \d+\.\d+)<\/td>/g, (cell, attrs, id) => {
+    const a = anchor(id);
+    if (seen.has(a)) return cell;
+    seen.add(a);
+    return `<td${attrs} id="${a}">${id}</td>`;
+  });
+}
+
+/**
+ * Render one edition's full text at its permanent URL. The markdown is the Standard's
+ * source of truth; its H1 is dropped in favor of the page header.
+ *
+ * @param {{version: string, path: string, published: string, corrections?: Array<{date: string, summary: string}>, isCurrent: boolean, currentVersion: string, html: string}} opts
+ * @returns {string}
+ */
+export function renderEdition({ version, path, published, corrections = [], isCurrent, currentVersion, html }) {
+  const notice = isCurrent
+    ? `This is the current edition. <a href="/standard">The Standard</a> presents its criteria for browsing.`
+    : `This edition has been superseded by <a href="${editionPath(currentVersion)}">v${escapeHtml(currentVersion)}</a>. It stays published and citable.`;
+  const correctionNote = corrections.length
+    ? `\n    <dt id="corrections">Corrections</dt>${corrections
+        .map((c) => `<dd><time datetime="${escapeHtml(c.date)}">${escapeHtml(formatDate(c.date))}</time>: ${escapeHtml(c.summary)}</dd>`)
+        .join('')}`
+    : '';
+  const body = `${docHeader({
+    title: `LexGrade Standard <span class="version">v${escapeHtml(version)}</span>`,
+    subhead: `Full text. Published <time datetime="${escapeHtml(published)}">${escapeHtml(formatDate(published))}</time>.`,
+  })}
+  <dl class="edition-cite">
+    <dt>Cite as</dt><dd>LexGrade Standard v${escapeHtml(version)}, LexGrade (lexgrade.org), CC-BY-SA 4.0.</dd>
+    <dt>Cite a criterion</dt><dd>Add its ID, such as LGS 7.1, and link to <code>${escapeHtml(editionPath(version))}#lgs-7.1</code>.</dd>
+    <dt>Download citation</dt><dd>${citationLinks(version)}</dd>${correctionNote}
+  </dl>
+  <section class="prose wide-tables" aria-label="Full text of LexGrade Standard v${escapeHtml(version)}">
+    <p class="note">${notice}</p>
+    ${anchorCriteria(stripScripts(html))}
+  </section>`;
+  return documentShell({
+    title: `LexGrade Standard v${version}: full text`,
+    description: `The full text of LexGrade Standard v${version}, an open standard for scoring legal motions. CC-BY-SA 4.0.`,
+    bodyHtml: body,
+    canonical: editionPath(version),
+    current: 'standard',
+    image: '/og/standard.png',
+    editPath: path,
+  });
 }
 
 /**
@@ -889,12 +1025,16 @@ export function renderLlmsFull({ version, documents }) {
  * @param {string} [editPath] repo-relative path to the page's source file
  * @returns {string}
  */
-function githubFooter(editPath) {
+function githubFooter(editPath, correctionFor) {
   if (!editPath) {
     return '';
   }
   return `  <footer class="doc-footer">
-    <p class="gh-links">Found an error? <a href="${REPO_URL}/edit/main/${escapeHtml(editPath)}">Edit this page on GitHub</a> or <a href="${REPO_URL}/issues/new">open an issue</a>.</p>
+    <p class="gh-links">Found an error? <a href="${REPO_URL}/edit/main/${escapeHtml(editPath)}">Edit this page on GitHub</a> or ${
+      correctionFor
+        ? `<a href="${correctionUrl(correctionFor)}">suggest a correction</a>`
+        : `<a href="${REPO_URL}/issues/new">open an issue</a>`
+    }.</p>
   </footer>`;
 }
 
@@ -906,7 +1046,7 @@ function githubFooter(editPath) {
  * @param {{title: string, description: string, bodyHtml: string, editPath?: string}} opts
  * @returns {string}
  */
-function documentShell({ title, description, bodyHtml, canonical = '/standard', current, image, editPath, noindex = false, toc = null }) {
+function documentShell({ title, description, bodyHtml, canonical = '/standard', current, image, editPath, correctionFor, noindex = false, toc = null }) {
   // Each page declares its OWN canonical URL — a shared one would tell search
   // engines every solo page is a duplicate of /standard. Accept a path or a
   // full URL. A noindex page (the 404) carries no canonical.
@@ -925,6 +1065,7 @@ ${indexTag}
 ${socialMeta({ title, description, url: canonicalUrl, image })}
 <link rel="icon" href="/logo.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="alternate" type="application/atom+xml" title="LexGrade Standard: editions and corrections" href="/feed.xml">
 <meta name="theme-color" content="${THEME_COLOR}">
 ${FONT_LINKS}
 <link rel="stylesheet" href="/styles.css">
@@ -938,14 +1079,14 @@ ${
 ${tocSidebar(toc)}
 <main id="main" tabindex="-1">
 ${bodyHtml}
-${githubFooter(editPath)}
+${githubFooter(editPath, correctionFor)}
 </main>
 </div>`
     : `<div class="layout layout--solo">
 ${topbar(current)}
 <main id="main" tabindex="-1">
 ${bodyHtml}
-${githubFooter(editPath)}
+${githubFooter(editPath, correctionFor)}
 </main>
 </div>`
 }
@@ -1168,6 +1309,7 @@ ${[def, example, anti, reqs, why, distinctions, notes].filter(Boolean).join('\n'
     current: 'techniques',
     image: `/og/technique-${slug}.png`,
     editPath,
+    correctionFor: `Technique #${number}`,
   });
 }
 
@@ -1180,6 +1322,88 @@ const REGISTER_URL = `${SITE_ORIGIN}/techniques`;
 /** A schema.org JSON-LD block. It's data, not code: browsers don't execute it and CSP doesn't apply. */
 export function jsonLdScript(data) {
   return `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', ...data }).replace(/</g, '\\u003c')}</script>`;
+}
+
+const editionUrl = (version) => `${SITE_ORIGIN}/standard/v${version}`;
+const citeFile = (version, ext) => `/cite/lexgrade-standard-v${version}.${ext}`;
+
+/** Citation downloads for one edition, keyed by file extension. */
+export function citationFiles({ version, published }) {
+  const [year, month, day] = String(published).split('-');
+  const title = `LexGrade Standard v${version}`;
+  const url = editionUrl(version);
+  return {
+    bib: `@misc{lexgrade-standard-${version},
+  title = {${title}},
+  author = {{LexGrade}},
+  year = {${year}},
+  version = {${version}},
+  url = {${url}},
+  note = {CC-BY-SA 4.0}
+}
+`,
+    // RIS lines end in CRLF, and each date part is padded by position (YYYY/MM/DD/).
+    ris: [
+      'TY  - STAND',
+      `TI  - ${title}`,
+      'AU  - LexGrade',
+      `PY  - ${year}`,
+      `DA  - ${[year, month ?? '', day ?? ''].join('/')}/`,
+      `ET  - ${version}`,
+      `UR  - ${url}`,
+      'ER  - ',
+      '',
+    ].join('\r\n'),
+    json: `${JSON.stringify(
+      [
+        {
+          id: `lexgrade-standard-${version}`,
+          type: 'standard',
+          title,
+          author: [{ literal: 'LexGrade' }],
+          issued: { 'date-parts': [[year, month, day].filter(Boolean).map(Number)] },
+          version,
+          URL: url,
+        },
+      ],
+      null,
+      2,
+    )}\n`,
+  };
+}
+
+/** Head tags that let citation managers and catalogs read an edition. */
+export function citationHeadTags({ version, published }) {
+  const url = editionUrl(version);
+  const title = `LexGrade Standard v${version}`;
+  const meta = [
+    ['citation_title', title],
+    ['citation_author', 'LexGrade'],
+    ['citation_publication_date', String(published).replaceAll('-', '/')],
+    ['citation_public_url', url],
+    ['DC.title', title],
+    ['DC.creator', 'LexGrade'],
+    ['DC.date', published],
+    ['DC.type', 'Text'],
+    ['DC.format', 'text/html'],
+    ['DC.language', 'en'],
+    ['DC.identifier', url],
+    ['DC.rights', LICENSE_URL],
+  ];
+  return [
+    '<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">',
+    `<link rel="cite-as" href="${url}">`,
+    `<link rel="license" href="${LICENSE_URL}">`,
+    `<link rel="alternate" type="application/json" href="${API_URL}">`,
+    ...meta.map(([name, content]) => `<meta name="${name}" content="${escapeHtml(content)}">`),
+  ].join('\n');
+}
+
+/** The links to an edition's citation downloads. */
+function citationLinks(version) {
+  return [['bib', 'BibTeX'], ['ris', 'RIS'], ['json', 'CSL-JSON']]
+    .map(([ext, label]) => `<a href="${citeFile(version, ext)}">${label}</a>`)
+    .join(' · ');
 }
 
 /** The site itself and its publisher, for the homepage. */
@@ -1200,13 +1424,14 @@ export function homeStructuredData() {
   };
 }
 
-/** The Standard as a versioned, openly licensed work. */
-export function standardStructuredData({ version }) {
+/** The Standard as a versioned, openly licensed work, at /standard or at an edition's own URL. */
+export function standardStructuredData({ version, url = CANONICAL_URL, published }) {
   return {
     '@type': 'CreativeWork',
     name: 'LexGrade Standard',
     version,
-    url: CANONICAL_URL,
+    url,
+    ...(published ? { datePublished: published } : {}),
     description: 'An open standard for scoring legal motions.',
     inLanguage: 'en',
     isAccessibleForFree: true,

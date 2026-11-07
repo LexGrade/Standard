@@ -34,6 +34,12 @@ Changes accepted for the next edition accumulate here. Propose changes via an
 - **Search and canonical URLs.** Pages now load directly at their canonical URLs,
   without a redirect. Adds schema.org structured data, keeps search descriptions
   within display length, and removes the sitemap's build-date `lastmod`.
+- **Citable editions.** Each edition of the Standard has a permanent URL with its
+  full text, an anchor for each criterion, and any corrections. Adds citation
+  metadata, BibTeX, RIS and CSL-JSON downloads, and `CITATION.cff`.
+- **Updates and corrections.** Adds an Atom feed of editions and corrections, and
+  a pre-filled correction link on each criterion. The correction form now warns
+  that it is public.
 - **Stylesheet caching.** The stylesheet is trimmed and named by content hash,
   so browsers can keep it permanently.
 - **`www.lexgrade.org`.** Redirects to `lexgrade.org`, through a small Worker in

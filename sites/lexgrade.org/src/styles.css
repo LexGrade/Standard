@@ -342,6 +342,16 @@ table.data caption { font-family: var(--sans); text-align: left; color: var(--mu
 .doc-footer { border-top: 1px solid var(--border); margin-top: 3.5rem; padding-top: 1.4rem; color: var(--muted); font-family: var(--sans); font-size: .85rem; }
 .doc-footer p { margin: .4rem 0; }
 .gh-links { color: var(--muted); }
+.edition-cite { display: grid; grid-template-columns: max-content 1fr; gap: .25rem 1rem; font-family: var(--sans); font-size: .9rem; color: var(--muted); margin: 0 0 var(--space-m, 1.5rem); }
+.edition-cite dt { font-weight: 600; color: var(--heading); }
+.edition-cite dd { margin: 0; }
+.edition-cite dd + dd { grid-column: 2; }
+@media (max-width: 600px) {
+  .edition-cite { grid-template-columns: 1fr; }
+  .edition-cite dd + dd { grid-column: 1; }
+  .edition-cite dt:not(:first-child) { margin-top: .5rem; }
+  .edition-cite code { overflow-wrap: anywhere; }
+}
 
 /* Shared site footer (every page): secondary links + license. Full-bleed below
    the content, in the panel tone so it reads as site chrome, like the top bar. */
@@ -408,6 +418,8 @@ table.data caption { font-family: var(--sans); text-align: left; color: var(--mu
   .sidebar { display: contents; }
   .topbar { flex-direction: column; align-items: stretch; gap: .35rem; padding: 1.25rem 1.25rem 1rem; }
   main { order: 2; padding: 1.5rem 1.25rem 3.5rem; }
+  /* Auto margins stop a flex item stretching, so main would size to its content and a long code line would widen the page. */
+  .layout--solo main { width: 100%; }
   .toc { order: 3; border-top: 1px solid var(--border); padding: 1.75rem 1.25rem 2.5rem; }
   :root { --gutter: 1.25rem; }
 
