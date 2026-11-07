@@ -40,7 +40,7 @@ extension templates, and integration tooling are planned — see
 | Path | What |
 |------|------|
 | `commons/standard/` | Source of truth: the Standard, the Technique Register, and `lgs-criteria.yaml` |
-| `sites/lexgrade.org/` | The static site (framework-free Node build → HTML/CSS) |
+| `sites/lexgrade.org/` | The static, zero-JS site (framework-free Node build → HTML/CSS) |
 | `packages/core/` | Shared register/standard parser |
 | `methodology.yaml` | Version manifest |
 

@@ -13,8 +13,7 @@
 #
 # `npm run build` (repo root) builds the site into the assets directory below;
 # `wrangler deploy` then uploads it. The dist/_headers file (CORS for the data
-# API, caching, a strict CSP) is honored by Workers static assets. Web Analytics
-# is enabled in the Cloudflare dashboard; its beacon is injected at the edge.
+# API, caching, a strict zero-JS CSP) is honored by Workers static assets.
 
 name = "standard"
 compatibility_date = "2025-01-01"
@@ -23,5 +22,3 @@ compatibility_date = "2025-01-01"
 directory = "./sites/lexgrade.org/dist"
 # Serve the site's custom 404.html on unmatched routes (not an SPA).
 not_found_handling = "404-page"
-# Serve /about directly, matching the canonical URLs and sitemap; /about/ redirects to it.
-html_handling = "drop-trailing-slash"
