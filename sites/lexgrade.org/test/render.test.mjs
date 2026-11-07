@@ -415,7 +415,7 @@ test('the mobile nav is a zero-JS <details> disclosure rendered from the same li
   // The same links render in BOTH the desktop bar and the mobile list (one array,
   // shown one-per-breakpoint), so the active link appears twice — never zero.
   const active = (std.match(/<a href="\/standard" aria-current="page">Standard<\/a>/g) || []).length;
-  assert.equal(active, 2, 'active link present in both the bar and the disclosure list');
+  assert.equal(active, 3, 'active link present in the bar, the disclosure list, and the footer');
   // The nav mechanism is a native <details> (proven above), never a JS toggle — no
   // inline handler rides on it. (The page's lone enhancement script is unrelated.)
   assert.ok(!/<(?:details|summary)[^>]*\son\w+\s*=/i.test(std), 'the disclosure nav uses no inline JS handler');
@@ -631,22 +631,34 @@ test('structured data parses, stays impersonal, and is escaped for HTML', () => 
   assert.equal(crumbs.itemListElement.length, 2);
 });
 
-test('renderCheck frames the Standard\'s quick start for readers without a lawyer, zero JS', () => {
+test('renderCheck presents the Standard\'s plain-language summary without instructions, zero JS', () => {
   const html = renderCheck({ version: '1.1', quickStartHtml: '<table><tr><td>P4. Factual Foundation</td></tr></table>' });
   // Principle names link to their section of the Standard.
   assert.match(html, /<a href="\/standard#p4">P4\.&nbsp;Factual Foundation<\/a>/);
   assert.match(html, /rel="canonical" href="https:\/\/lexgrade\.org\/check"/);
-  assert.match(html, /From §9 of LexGrade Standard v1\.1/);
+  assert.match(html, /Section 9 of <a href="\/standard\/v1\.1">LexGrade Standard v1\.1<\/a>/);
   // The limits the poster states must hold here too.
   assert.match(html, /not legal advice/);
   assert.match(html, /can&#39;t predict a ruling/);
   assert.match(html, /New(&nbsp;| )York State Supreme Court/);
+  // A pure standard: the page doesn't speak to a reader's own filing or invite questions about it.
+  assert.ok(!/your draft|your own motion|before you file|without a lawyer|mailto:/i.test(html));
+  assert.match(html, /href="\/standard\/v1\.1"/);
   // Audience, not authorship (same guard as /about).
   assert.ok(!/built by a self-represented litigant|the creator of LexGrade/i.test(html));
   assert.ok(!/<script/i.test(html));
 });
 
-test('the homepage links readers without a lawyer to /check', () => {
+test('the footer lists the top menu in the same order, then the secondary pages', () => {
+  const html = renderAbout();
+  const footer = html.match(/<footer class="site-footer">[\s\S]*?<\/footer>/)[0];
+  const labels = [...footer.matchAll(/<a [^>]*>([^<]+)<\/a>/g)].map((m) => m[1]);
+  assert.deepEqual(labels, ['Standard', 'Techniques', 'About', 'Plain-language summary', 'References', 'Contribute', 'GitHub']);
+});
+
+test('the homepage links to the plain-language summary', () => {
   const html = renderHome({ standardVersion: '1.1', principleCount: 8, criteriaCount: 47, techniqueVersion: '1.0', techniqueCount: 39 });
-  assert.match(html, /Filing without a lawyer\? <a href="\/check">/);
+  assert.match(html, /<a href="\/check">Plain-language summary /);
+  assert.ok(!/without a lawyer|your own motion/i.test(html));
+  assert.ok(!/without a lawyer/i.test(renderAbout()), 'About describes the Standard, not who should use it');
 });

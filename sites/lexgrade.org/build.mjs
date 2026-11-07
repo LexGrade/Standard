@@ -110,8 +110,8 @@ writePage('contribute', renderContribute());
 // The plain-language entry point: the Standard's own §9 Quick Start, rendered
 // from the current edition's markdown (bundle.documents[0] is the Standard).
 const quickStart = standardSection(loadBundle().documents[0], 9);
-// §9 opens with its audience line ("For users who are not attorneys."), which the
-// /check heading already says; drop it there so the page doesn't repeat itself.
+// §9 opens with its audience line ("For users who are not attorneys."). /check
+// presents the summary without addressing an audience, so the line is dropped there.
 // A bold-only line that introduces a table ("**Key terms.**") renders on /check
 // as that table's caption, so it drops the sentence period there.
 const quickStartBody = quickStart.body

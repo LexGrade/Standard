@@ -117,12 +117,12 @@ function siteMasthead() {
 //            with version/counts for the dynamic pages)
 export const PAGES = [
   { id: 'home', path: '/', label: 'Home', nav: false, footer: false, og: { title: 'An open standard for scoring legal motions.', subtitle: 'Principles, weights, and the ethics gate, published in full' } },
-  { id: 'standard', path: '/standard', label: 'Standard', nav: true, footer: false, og: { title: 'LexGrade Standard', subtitle: 'Open scoring instrument for legal drafting quality' } },
-  { id: 'techniques', path: '/techniques', label: 'Techniques', nav: true, footer: false, og: { title: 'Technique Register', subtitle: 'Named advocacy techniques, the informative companion' } },
+  { id: 'standard', path: '/standard', label: 'Standard', nav: true, footer: true, og: { title: 'LexGrade Standard', subtitle: 'Open scoring instrument for legal drafting quality' } },
+  { id: 'techniques', path: '/techniques', label: 'Techniques', nav: true, footer: true, og: { title: 'Technique Register', subtitle: 'Named advocacy techniques, the informative companion' } },
   { id: 'about', path: '/about', label: 'About', nav: true, footer: true, og: { title: 'About LexGrade', subtitle: 'Grounded in real motion practice' } },
-  { id: 'check', path: '/check', label: 'Check your own motion', nav: true, footer: true, og: { title: 'Checking your own motion', subtitle: 'For anyone filing without a lawyer' } },
-  { id: 'contribute', path: '/contribute', label: 'Contribute', nav: false, footer: true, og: { title: 'Contribute to LexGrade', subtitle: 'An open, collaborative standard — help shape it' } },
+  { id: 'check', path: '/check', label: 'Plain-language summary', nav: true, footer: true, og: { title: 'Plain-language summary', subtitle: 'Section 9 of the LexGrade Standard' } },
   { id: 'references', path: '/references', label: 'References', nav: false, footer: true, og: { title: 'Sources & influences', subtitle: 'What LexGrade builds on, credited in full' } },
+  { id: 'contribute', path: '/contribute', label: 'Contribute', nav: false, footer: true, og: { title: 'Contribute to LexGrade', subtitle: 'An open, collaborative standard — help shape it' } },
 ];
 
 /** One <a> for a PAGES entry, marked aria-current when it's the active page. */
@@ -789,7 +789,7 @@ export function renderHome({ standardVersion, principleCount, criteriaCount, tec
   const body = `  <header class="home-hero">
     <h1 class="home-title">An open standard for scoring legal motions.</h1>
     <p class="subhead">Its principles, weights, and penalties are published in full.</p>
-    <p class="home-check">Filing without a lawyer? <a href="/check">Check your own motion</a>. LexGrade is not legal advice.</p>
+    <p class="home-check"><a href="/check">Plain-language summary <span aria-hidden="true">→</span></a> LexGrade is not legal advice.</p>
     <p class="callout home-evidence">Candor toward the court comes first. A single fabricated citation costs 20 points and makes the motion Deficient, whatever its score.</p>
   </header>
   <nav class="home-cards" aria-label="Standard and Technique Register">
@@ -804,10 +804,10 @@ export function renderHome({ standardVersion, principleCount, criteriaCount, tec
       <span class="home-card__cta">Browse techniques <span aria-hidden="true">→</span></span>
     </a>
   </nav>
-  <p class="home-note">The criteria come from New York State and federal motion practice. <a href="/about">About LexGrade</a></p>
+  <p class="home-note">The criteria come from New York State and federal motion practice. <a href="/about">About LexGrade <span aria-hidden="true">→</span></a></p>
   <aside class="home-invite" aria-label="Contribute">
     <p class="home-invite__lead">If you litigate, help shape the Standard.</p>
-    <a class="home-invite__link" href="/contribute">Contribute to LexGrade</a>
+    <a class="home-invite__link" href="/contribute">Contribute to LexGrade <span aria-hidden="true">→</span></a>
   </aside>`;
   return documentShell({
     title: 'LexGrade: an open standard for scoring legal motions',
@@ -838,8 +838,8 @@ export function renderAbout() {
   })}
   <section class="prose" aria-label="About LexGrade">
     <p>LexGrade&#39;s criteria come from motion practice in the New York State and federal courts. The premise is that a filing&#39;s job is to compel action.</p>
-    <h2>Who it&#39;s for</h2>
-    <p>LexGrade is for anyone drafting a motion, including people filing without a lawyer. The Standard sets out, in a form anyone can check, what separates a motion a court can act on from one it cannot. The Technique Register names what experienced advocates do by instinct. Neither promises to win cases.</p>
+    <h2>What it covers</h2>
+    <p>The Standard sets out, in a form anyone can check, what separates a motion a court can act on from one it cannot. The Technique Register names what experienced advocates do by instinct. Neither promises to win cases.</p>
     <h2>Status</h2>
     <p>The Standard is calibrated to New York State Supreme Court motion practice. Its criteria and weights have not been independently validated. Legal citations are verified against official sources, with the date shown on the Standard. The method builds on the scholarship credited in <a href="/references">References</a>.</p>
     <h2>Limits</h2>
@@ -860,49 +860,35 @@ export function renderAbout() {
 }
 
 /**
- * Render the /check page — the plain-language entry point for people filing
- * without a lawyer (the printed poster's QR code lands on the homepage, which
- * links here). The quick-start table is the Standard's own §9, rendered from
- * the markdown at build time so it cannot drift; only the framing around it is
- * site copy. Audience, not authorship: the page speaks to self-represented
- * readers and never describes who wrote the Standard.
+ * Render the /check page: the Standard's own §9 plain-language summary, rendered
+ * from the markdown at build time so it cannot drift. The page presents the
+ * Standard and its limits. It doesn't instruct readers about their own filings.
  *
  * @param {{version: string, quickStartHtml: string}} opts
  * @returns {string}
  */
 export function renderCheck({ version, quickStartHtml }) {
-  // Each principle in the §9 table links to its section of the Standard, so
-  // "take them one at a time" is one click, not a hunt.
+  // Each principle in the §9 table links to its section of the Standard.
   const linked = stripScripts(quickStartHtml).replace(
     /<td>P([1-8])\. ([^<]+)<\/td>/g,
     '<td><a href="/standard#p$1">P$1.&nbsp;$2</a></td>',
   );
   const body = `${docHeader({
-    title: 'Checking your own motion',
-    subhead: 'For anyone filing without a lawyer.',
+    title: 'Plain-language summary',
+    subhead: `Section 9 of <a href="${editionPath(version)}">LexGrade Standard v${escapeHtml(version)}</a>.`,
   })}
-  <section class="prose" aria-label="How to check a motion">
-    <h2>Before you file</h2>
-    <p>A motion asks the judge to decide or order something in your case.</p>
-    <ol>
-      <li>Follow the court&#39;s filing rules first, such as the notice of motion and proof of service. LexGrade doesn&#39;t cover them.</li>
-      <li>Check your draft against each principle below. Each links to its requirements in the Standard.</li>
-      <li>Look up every case and statute you cite and confirm it says what you claim. AI tools invent cases, and courts have sanctioned people for citing them.</li>
-    </ol>
-    <h2>The eight principles</h2>
+  <section class="prose" aria-label="Plain-language summary of the Standard">
     <div class="quick-start wide-tables">
-    <p>From §9 of LexGrade Standard v${escapeHtml(version)}</p>
+    <p>The eight principles</p>
 ${linked}
     </div>
-    <h2>What it can&#39;t do</h2>
+    <h2>Limits</h2>
     <p>LexGrade is not legal advice and can&#39;t predict a ruling. It was written for New&nbsp;York State Supreme Court; other courts&#39; rules differ.</p>
-    <h2>Something unclear?</h2>
-    <p>Email <a href="mailto:contribute@lexgrade.org?subject=Unclear">contribute@lexgrade.org</a> and say what.</p>
   </section>`;
   return documentShell({
-    title: 'Checking your own motion — LexGrade',
+    title: 'Plain-language summary — LexGrade',
     description:
-      'How to check a motion against the LexGrade Standard, for anyone filing without a lawyer. Not legal advice.',
+      'The LexGrade Standard in plain language: its eight principles, from section 9. Not legal advice.',
     bodyHtml: body,
     canonical: '/check',
     current: 'check',

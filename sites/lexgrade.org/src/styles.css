@@ -142,9 +142,9 @@ main { padding: 2.875rem 4.5rem 5rem; min-width: 0; }
 /* The Contribute CTA — pinned to the right of the top bar (margin-left: auto
    claims the slot the left-grouped nav leaves open). A solid accent button so it
    reads as the primary action, distinct from the plain nav links. */
-.cta { margin-left: auto; font-family: var(--sans); font-size: .92rem; font-weight: 600; text-decoration: none; color: var(--accent); padding: .15rem 0; border-bottom: 2px solid transparent; white-space: nowrap; }
-.cta:hover { color: var(--accent-deep); text-decoration: underline; }
-.cta[aria-current="page"] { border-bottom-color: var(--accent); }
+.cta { margin-left: auto; font-family: var(--sans); font-size: .9rem; font-weight: 600; line-height: 1; text-decoration: none; color: #fff; background: var(--accent); border: 1px solid var(--accent); padding: .5rem 1rem; border-radius: 7px; white-space: nowrap; }
+.cta:hover { background: var(--accent-deep); border-color: var(--accent-deep); color: #fff; text-decoration: none; }
+.cta[aria-current="page"] { background: var(--accent-deep); border-color: var(--accent-deep); }
 
 /* ── Sidebar table of contents ────────────────────────────────────────────── */
 .toc { font-family: var(--sans); }
@@ -204,8 +204,7 @@ main { padding: 2.875rem 4.5rem 5rem; min-width: 0; }
 .home-card__cta { font-family: var(--sans); font-size: .9rem; font-weight: 600; color: var(--accent); margin-top: .4rem; }
 .home-card:hover .home-card__cta { text-decoration: underline; }
 .home-note { font-family: var(--sans); font-size: .95rem; color: var(--muted); margin: var(--space-l) 0 0; max-width: var(--measure); }
-.home-note a { font-weight: 600; color: var(--accent); text-decoration: none; }
-.home-note a:hover { color: var(--accent-deep); text-decoration: underline; }
+.home-note a { white-space: nowrap; }
 /* Contribute teaser — a soft callout that turns the homepage into an on-ramp for
    collaboration, distinct from the two document cards above it. */
 .home-invite { margin: var(--space-s) 0 0; max-width: var(--measure); font-family: var(--sans); font-size: .95rem; color: var(--muted); }
