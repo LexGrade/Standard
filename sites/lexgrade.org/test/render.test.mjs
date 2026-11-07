@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { test } from 'node:test';
 
 import { escapeHtml, LOGO_SVG, previewText, renderAbout, renderCheck, renderContribute, renderHome, renderLlmsFull, renderNotFound, renderRedirect, renderReferences, renderStandard, renderTechnique, renderTechniques, stripScripts } from '../src/render.mjs';
@@ -434,10 +434,19 @@ test('pages carry Open Graph + Twitter social meta with a branded image', () => 
 
 test('loads the spec webfonts and keeps the sidebar shell on the Standard page', () => {
   const std = renderStandard(fixture);
-  // The typographic system: Source Serif 4 + IBM Plex Sans/Mono via <link> (zero-JS).
-  assert.match(std, /fonts\.googleapis\.com\/css2\?family=IBM\+Plex\+Mono/);
-  assert.match(std, /Source\+Serif\+4/);
-  assert.match(std, /rel="preconnect" href="https:\/\/fonts\.gstatic\.com"/);
+  // The typographic system: Source Serif 4 + IBM Plex Sans/Mono, self-hosted.
+  assert.ok(!/fonts\.(googleapis|gstatic)\.com/.test(std), 'no third-party font requests');
+  const fontsDir = new URL('../assets/fonts/web/', import.meta.url);
+  const preloads = [...std.matchAll(/<link rel="preload" href="\/fonts\/([^"]+)" as="font" type="font\/woff2" crossorigin>/g)].map((m) => m[1]);
+  assert.equal(preloads.length, 2, 'preloads the two Latin faces');
+  const css = readFileSync(new URL('../src/styles.css', import.meta.url), 'utf-8');
+  const faces = [...css.matchAll(/url\('\/fonts\/([^']+)'\)/g)].map((m) => m[1]);
+  for (const family of ['Source Serif 4', 'IBM Plex Sans', 'IBM Plex Mono']) {
+    assert.ok(css.includes(`font-family: '${family}'`), `${family} has an @font-face`);
+  }
+  for (const file of [...preloads, ...faces]) {
+    assert.ok(existsSync(new URL(file, fontsDir)), `${file} is vendored`);
+  }
   // The site nav now sits in a top bar (masthead + nav) on the Standard page too,
   // and the sidebar rail holds only the Table of contents.
   assert.match(std, /<header class="topbar">[\s\S]*?class="masthead"[\s\S]*?<nav class="sitenav"/);
