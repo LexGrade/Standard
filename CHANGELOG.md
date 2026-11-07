@@ -40,6 +40,9 @@ Changes accepted for the next edition accumulate here. Propose changes via an
 - **Updates and corrections.** Adds an Atom feed of editions and corrections, and
   a pre-filled correction link on each criterion. The correction form now warns
   that it is public.
+- **A pure standard.** `/check` now presents only the Standard's §9 summary and its
+  limits, under the name "Plain-language summary". Home and About no longer address
+  readers about their own filings.
 - **Stylesheet caching.** The stylesheet is trimmed and named by content hash,
   so browsers can keep it permanently.
 - **`www.lexgrade.org`.** Redirects to `lexgrade.org`, through a small Worker in

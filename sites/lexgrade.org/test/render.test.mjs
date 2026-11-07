@@ -631,22 +631,27 @@ test('structured data parses, stays impersonal, and is escaped for HTML', () => 
   assert.equal(crumbs.itemListElement.length, 2);
 });
 
-test('renderCheck frames the Standard\'s quick start for readers without a lawyer, zero JS', () => {
+test('renderCheck presents the Standard\'s plain-language summary without instructions, zero JS', () => {
   const html = renderCheck({ version: '1.1', quickStartHtml: '<table><tr><td>P4. Factual Foundation</td></tr></table>' });
   // Principle names link to their section of the Standard.
   assert.match(html, /<a href="\/standard#p4">P4\.&nbsp;Factual Foundation<\/a>/);
   assert.match(html, /rel="canonical" href="https:\/\/lexgrade\.org\/check"/);
-  assert.match(html, /From §9 of LexGrade Standard v1\.1/);
+  assert.match(html, /Section 9 of <a href="\/standard\/v1\.1">LexGrade Standard v1\.1<\/a>/);
   // The limits the poster states must hold here too.
   assert.match(html, /not legal advice/);
   assert.match(html, /can&#39;t predict a ruling/);
   assert.match(html, /New(&nbsp;| )York State Supreme Court/);
+  // A pure standard: the page doesn't speak to a reader's own filing or invite questions about it.
+  assert.ok(!/your draft|your own motion|before you file|without a lawyer|mailto:/i.test(html));
+  assert.match(html, /href="\/standard\/v1\.1"/);
   // Audience, not authorship (same guard as /about).
   assert.ok(!/built by a self-represented litigant|the creator of LexGrade/i.test(html));
   assert.ok(!/<script/i.test(html));
 });
 
-test('the homepage links readers without a lawyer to /check', () => {
+test('the homepage links to the plain-language summary', () => {
   const html = renderHome({ standardVersion: '1.1', principleCount: 8, criteriaCount: 47, techniqueVersion: '1.0', techniqueCount: 39 });
-  assert.match(html, /Filing without a lawyer\? <a href="\/check">/);
+  assert.match(html, /<a href="\/check">plain-language summary<\/a>/);
+  assert.ok(!/without a lawyer|your own motion/i.test(html));
+  assert.ok(!/without a lawyer/i.test(renderAbout()), 'About describes the Standard, not who should use it');
 });
