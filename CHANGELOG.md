@@ -26,6 +26,8 @@ Changes accepted for the next edition accumulate here. Propose changes via an
   Cloudflare injects at the edge, measuring aggregate traffic and page
   performance. Built pages don't reference it. `SECURITY.md` and `ROADMAP.md`
   no longer describe the site as zero-JS with no data collection.
+- **Security headers and contact.** The site now sends HSTS and refuses to be
+  framed, and publishes `/.well-known/security.txt` pointing to `SECURITY.md`.
 
 ### Fixed — LexGrade Standard v1.1, in place
 Both found in maintainer review; no correction report was filed.

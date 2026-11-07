@@ -3,8 +3,8 @@
 **What lexgrade.org is.** The institutional home of the open standard: the
 Standard, the Technique Register, the machine-readable catalog, and nothing
 else. It is deliberately vendor-neutral, with no product, no accounts, no
-scoring service, and no data collection. Consumer-facing surfaces built on the
-standard (a pro se on-ramp, a guided draft-scoring walkthrough, printed
+scoring service, and no measurement beyond aggregate Cloudflare Web Analytics.
+Consumer-facing surfaces built on the standard (a pro se on-ramp, a guided draft-scoring walkthrough, printed
 checklists for help centers) are downstream implementations, maintained
 separately and outside this repo's scope, as GOVERNANCE.md already provides
 for hosted services. This roadmap covers only the commons: the standard and

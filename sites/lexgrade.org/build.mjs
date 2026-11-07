@@ -195,6 +195,20 @@ writeFileSync(
 );
 writeFileSync(resolve(OUT, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
 
+// RFC 9116 requires an expiry; a year from each build keeps it current while the
+// site is maintained, and lets it lapse if the site ever isn't.
+mkdirSync(resolve(OUT, '.well-known'), { recursive: true });
+writeFileSync(
+  resolve(OUT, '.well-known', 'security.txt'),
+  [
+    'Contact: mailto:security@lexgrade.org',
+    `Expires: ${new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString()}`,
+    'Policy: https://github.com/LexGrade/Standard/blob/main/SECURITY.md',
+    `Canonical: ${SITE}/.well-known/security.txt`,
+    '',
+  ].join('\n'),
+);
+
 // Cloudflare Pages edge headers. The machine-readable data is meant to be
 // consumed cross-origin (agents, downstream tools), so it carries permissive
 // CORS; static assets cache hard; and a strict CSP limits scripts at the edge to
@@ -209,7 +223,8 @@ writeFileSync(
     '/*',
     '  X-Content-Type-Options: nosniff',
     '  Referrer-Policy: strict-origin-when-cross-origin',
-    `  Content-Security-Policy: default-src 'self'; script-src ${cspScript} https://static.cloudflareinsights.com/beacon.min.js/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; base-uri 'self'; form-action 'none'`,
+    '  Strict-Transport-Security: max-age=31536000',
+    `  Content-Security-Policy: default-src 'self'; script-src ${cspScript} https://static.cloudflareinsights.com/beacon.min.js/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; base-uri 'self'; form-action 'none'; frame-ancestors 'none'`,
     '',
     '/api/*',
     '  Access-Control-Allow-Origin: *',
