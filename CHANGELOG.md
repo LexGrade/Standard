@@ -28,6 +28,10 @@ Changes accepted for the next edition accumulate here. Propose changes via an
   unsourced claim that self-represented litigants are the majority in family
   and housing courts. Home now states the full penalty for a fabricated citation
   and says LexGrade is not legal advice beside the link for people without a lawyer.
+- **Cloudflare Web Analytics.** The CSP allows the beacon that Cloudflare injects
+  at the edge, measuring aggregate traffic and page performance. Built pages
+  don't reference it. `README.md`, `SECURITY.md` and `ROADMAP.md` no longer
+  describe the site as zero-JS with no data collection.
 
 ### Fixed — LexGrade Standard v1.1, in place
 Both found in maintainer review; no correction report was filed.
