@@ -31,6 +31,10 @@ Changes accepted for the next edition accumulate here. Propose changes via an
 - **Self-hosted fonts.** The site serves its fonts from its own domain instead
   of Google Fonts, with the main faces preloaded, and the CSP no longer allows
   Google's font hosts.
+- **Stylesheet caching.** The stylesheet is trimmed and named by content hash,
+  so browsers can keep it permanently.
+- **`www.lexgrade.org`.** Redirects to `lexgrade.org`, through a small Worker in
+  `workers/www-redirect`.
 
 ### Fixed — LexGrade Standard v1.1, in place
 Both found in maintainer review; no correction report was filed.

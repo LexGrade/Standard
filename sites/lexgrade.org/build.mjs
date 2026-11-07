@@ -10,6 +10,7 @@
 // lgs-criteria.yaml via loadStandard) — no network, no external API — so the
 // site is self-contained and reproducible.
 
+import { createHash } from 'node:crypto';
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -77,13 +78,16 @@ writeFileSync(resolve(OUT, '404.html'), renderNotFound());
 // The logo as a standalone file (favicon target + reusable asset).
 writeFileSync(resolve(OUT, 'logo.svg'), LOGO_SVG);
 // The stylesheet: static src/styles.css with the ROLES-derived badge palette
-// substituted at its placeholder (see render.mjs), emitted as one cacheable
-// file shared by every page.
-writeFileSync(
-  resolve(OUT, 'styles.css'),
-  readFileSync(resolve(dirname(fileURLToPath(import.meta.url)), 'src', 'styles.css'), 'utf-8')
-    .replace('/*__BADGE_ROLES__*/', BADGE_ROLES_CSS),
-);
+// substituted at its placeholder (see render.mjs), minus comments and indentation,
+// emitted as one file shared by every page. Named by content hash so it can be
+// cached permanently; pages are pointed at it once they're all written, below.
+const stylesheet = readFileSync(resolve(dirname(fileURLToPath(import.meta.url)), 'src', 'styles.css'), 'utf-8')
+  .replace('/*__BADGE_ROLES__*/', BADGE_ROLES_CSS)
+  .replace(/\/\*[\s\S]*?\*\//g, '')
+  .replace(/^\s+/gm, '');
+const stylesheetHref = `/css/styles.${createHash('sha256').update(stylesheet).digest('hex').slice(0, 10)}.css`;
+mkdirSync(resolve(OUT, 'css'), { recursive: true });
+writeFileSync(resolve(OUT, stylesheetHref.slice(1)), stylesheet);
 // The webfonts and their licenses, served from this origin.
 cpSync(resolve(dirname(fileURLToPath(import.meta.url)), 'assets', 'fonts', 'web'), resolve(OUT, 'fonts'), { recursive: true });
 // Self-contained narrative pages (no markdown source): provenance, the
@@ -232,8 +236,8 @@ writeFileSync(
     '  Access-Control-Allow-Origin: *',
     '  Cache-Control: public, max-age=3600',
     '',
-    '/styles.css',
-    '  Cache-Control: public, max-age=3600',
+    '/css/*',
+    '  Cache-Control: public, max-age=31536000, immutable',
     '',
     '/llms-full.txt',
     // .txt carries no in-band encoding marker (unlike HTML's <meta charset>), and
@@ -264,7 +268,11 @@ writeFileSync(
       else if (e.endsWith('.html')) htmls.push(p);
     }
   })(OUT);
-  const idsOf = (html) => new Set([...html.matchAll(/id="([^"]+)"/g)].map((m) => m[1]));
+  // Point every page at the hashed stylesheet, so the check below covers it too.
+  for (const p of htmls) {
+    writeFileSync(p, readFileSync(p, 'utf-8').replace('href="/styles.css"', `href="${stylesheetHref}"`));
+  }
+  const idsOf =(html) => new Set([...html.matchAll(/id="([^"]+)"/g)].map((m) => m[1]));
   const fileFor = (p) => {
     const clean = p.split('#')[0];
     if (clean === '' || clean === '/') return resolve(OUT, 'index.html');
