@@ -92,7 +92,7 @@ writeFileSync(resolve(OUT, stylesheetHref.slice(1)), stylesheet);
 cpSync(resolve(dirname(fileURLToPath(import.meta.url)), 'assets', 'fonts', 'web'), resolve(OUT, 'fonts'), { recursive: true });
 // Self-contained narrative pages (no markdown source): provenance, the
 // collaboration CTA, and the sources/influences credits.
-writePage('about', renderAbout({ citationsVerified: standard.citationsVerified }));
+writePage('about', renderAbout());
 writePage('contribute', renderContribute());
 // The plain-language entry point: the Standard's own §9 Quick Start, rendered
 // from the current edition's markdown (bundle.documents[0] is the Standard).

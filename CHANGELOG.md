@@ -37,8 +37,9 @@ Changes accepted for the next edition accumulate here. Propose changes via an
   `workers/www-redirect`.
 - **Shorter site pages.** Home, About, Contribute, References, and the Standard's
   status block are cut to what a reader needs: the limits, validation status,
-  and corrections path remain. About no longer says self-represented litigants
-  are the majority in family and housing courts, a claim it gave no source for.
+  and corrections path remain. They drop details that date quickly and an
+  unsourced claim that self-represented litigants are the majority in family
+  and housing courts.
 
 ### Fixed — LexGrade Standard v1.1, in place
 Both found in maintainer review; no correction report was filed.
