@@ -415,7 +415,7 @@ test('the mobile nav is a zero-JS <details> disclosure rendered from the same li
   // The same links render in BOTH the desktop bar and the mobile list (one array,
   // shown one-per-breakpoint), so the active link appears twice — never zero.
   const active = (std.match(/<a href="\/standard" aria-current="page">Standard<\/a>/g) || []).length;
-  assert.equal(active, 2, 'active link present in both the bar and the disclosure list');
+  assert.equal(active, 3, 'active link present in the bar, the disclosure list, and the footer');
   // The nav mechanism is a native <details> (proven above), never a JS toggle — no
   // inline handler rides on it. (The page's lone enhancement script is unrelated.)
   assert.ok(!/<(?:details|summary)[^>]*\son\w+\s*=/i.test(std), 'the disclosure nav uses no inline JS handler');
@@ -649,9 +649,16 @@ test('renderCheck presents the Standard\'s plain-language summary without instru
   assert.ok(!/<script/i.test(html));
 });
 
+test('the footer lists the top menu in the same order, then the secondary pages', () => {
+  const html = renderAbout();
+  const footer = html.match(/<footer class="site-footer">[\s\S]*?<\/footer>/)[0];
+  const labels = [...footer.matchAll(/<a [^>]*>([^<]+)<\/a>/g)].map((m) => m[1]);
+  assert.deepEqual(labels, ['Standard', 'Techniques', 'About', 'Plain-language summary', 'References', 'Contribute', 'GitHub']);
+});
+
 test('the homepage links to the plain-language summary', () => {
   const html = renderHome({ standardVersion: '1.1', principleCount: 8, criteriaCount: 47, techniqueVersion: '1.0', techniqueCount: 39 });
-  assert.match(html, /<a href="\/check">plain-language summary<\/a>/);
+  assert.match(html, /<a href="\/check">Plain-language summary /);
   assert.ok(!/without a lawyer|your own motion/i.test(html));
   assert.ok(!/without a lawyer/i.test(renderAbout()), 'About describes the Standard, not who should use it');
 });

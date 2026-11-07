@@ -117,12 +117,12 @@ function siteMasthead() {
 //            with version/counts for the dynamic pages)
 export const PAGES = [
   { id: 'home', path: '/', label: 'Home', nav: false, footer: false, og: { title: 'An open standard for scoring legal motions.', subtitle: 'Principles, weights, and the ethics gate, published in full' } },
-  { id: 'standard', path: '/standard', label: 'Standard', nav: true, footer: false, og: { title: 'LexGrade Standard', subtitle: 'Open scoring instrument for legal drafting quality' } },
-  { id: 'techniques', path: '/techniques', label: 'Techniques', nav: true, footer: false, og: { title: 'Technique Register', subtitle: 'Named advocacy techniques, the informative companion' } },
+  { id: 'standard', path: '/standard', label: 'Standard', nav: true, footer: true, og: { title: 'LexGrade Standard', subtitle: 'Open scoring instrument for legal drafting quality' } },
+  { id: 'techniques', path: '/techniques', label: 'Techniques', nav: true, footer: true, og: { title: 'Technique Register', subtitle: 'Named advocacy techniques, the informative companion' } },
   { id: 'about', path: '/about', label: 'About', nav: true, footer: true, og: { title: 'About LexGrade', subtitle: 'Grounded in real motion practice' } },
   { id: 'check', path: '/check', label: 'Plain-language summary', nav: true, footer: true, og: { title: 'Plain-language summary', subtitle: 'Section 9 of the LexGrade Standard' } },
-  { id: 'contribute', path: '/contribute', label: 'Contribute', nav: false, footer: true, og: { title: 'Contribute to LexGrade', subtitle: 'An open, collaborative standard — help shape it' } },
   { id: 'references', path: '/references', label: 'References', nav: false, footer: true, og: { title: 'Sources & influences', subtitle: 'What LexGrade builds on, credited in full' } },
+  { id: 'contribute', path: '/contribute', label: 'Contribute', nav: false, footer: true, og: { title: 'Contribute to LexGrade', subtitle: 'An open, collaborative standard — help shape it' } },
 ];
 
 /** One <a> for a PAGES entry, marked aria-current when it's the active page. */
@@ -789,7 +789,7 @@ export function renderHome({ standardVersion, principleCount, criteriaCount, tec
   const body = `  <header class="home-hero">
     <h1 class="home-title">An open standard for scoring legal motions.</h1>
     <p class="subhead">Its principles, weights, and penalties are published in full.</p>
-    <p class="home-check">A <a href="/check">plain-language summary</a> is also available. LexGrade is not legal advice.</p>
+    <p class="home-check"><a href="/check">Plain-language summary <span aria-hidden="true">→</span></a> LexGrade is not legal advice.</p>
     <p class="callout home-evidence">Candor toward the court comes first. A single fabricated citation costs 20 points and makes the motion Deficient, whatever its score.</p>
   </header>
   <nav class="home-cards" aria-label="Standard and Technique Register">
@@ -804,10 +804,10 @@ export function renderHome({ standardVersion, principleCount, criteriaCount, tec
       <span class="home-card__cta">Browse techniques <span aria-hidden="true">→</span></span>
     </a>
   </nav>
-  <p class="home-note">The criteria come from New York State and federal motion practice. <a href="/about">About LexGrade</a></p>
+  <p class="home-note">The criteria come from New York State and federal motion practice. <a href="/about">About LexGrade <span aria-hidden="true">→</span></a></p>
   <aside class="home-invite" aria-label="Contribute">
     <p class="home-invite__lead">If you litigate, help shape the Standard.</p>
-    <a class="home-invite__link" href="/contribute">Contribute to LexGrade</a>
+    <a class="home-invite__link" href="/contribute">Contribute to LexGrade <span aria-hidden="true">→</span></a>
   </aside>`;
   return documentShell({
     title: 'LexGrade: an open standard for scoring legal motions',
