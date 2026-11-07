@@ -117,12 +117,12 @@ function siteMasthead() {
 //            with version/counts for the dynamic pages)
 export const PAGES = [
   { id: 'home', path: '/', label: 'Home', nav: false, footer: false, og: { title: 'An open standard for scoring legal motions.', subtitle: 'Principles, weights, and the ethics gate, published in full' } },
-  { id: 'standard', path: '/standard', label: 'Standard', nav: true, footer: true, og: { title: 'LexGrade Standard', subtitle: 'Open scoring instrument for legal drafting quality' } },
-  { id: 'techniques', path: '/techniques', label: 'Techniques', nav: true, footer: true, og: { title: 'Technique Register', subtitle: 'Named advocacy techniques, the informative companion' } },
+  { id: 'standard', path: '/standard', label: 'Standard', nav: true, footer: false, og: { title: 'LexGrade Standard', subtitle: 'Open scoring instrument for legal drafting quality' } },
+  { id: 'techniques', path: '/techniques', label: 'Techniques', nav: true, footer: false, og: { title: 'Technique Register', subtitle: 'Named advocacy techniques, the informative companion' } },
   { id: 'about', path: '/about', label: 'About', nav: true, footer: true, og: { title: 'About LexGrade', subtitle: 'Grounded in real motion practice' } },
-  { id: 'check', path: '/check', label: 'Plain-language summary', nav: true, footer: true, og: { title: 'Plain-language summary', subtitle: 'Section 9 of the LexGrade Standard' } },
-  { id: 'references', path: '/references', label: 'References', nav: false, footer: true, og: { title: 'Sources & influences', subtitle: 'What LexGrade builds on, credited in full' } },
+  { id: 'check', path: '/check', label: 'Check your own motion', nav: true, footer: true, og: { title: 'Checking your own motion', subtitle: 'For anyone filing without a lawyer' } },
   { id: 'contribute', path: '/contribute', label: 'Contribute', nav: false, footer: true, og: { title: 'Contribute to LexGrade', subtitle: 'An open, collaborative standard — help shape it' } },
+  { id: 'references', path: '/references', label: 'References', nav: false, footer: true, og: { title: 'Sources & influences', subtitle: 'What LexGrade builds on, credited in full' } },
 ];
 
 /** One <a> for a PAGES entry, marked aria-current when it's the active page. */
@@ -199,10 +199,10 @@ function siteFooter(current) {
 </footer>`;
 }
 
-// Social previews show ~125 characters before truncating mid-word, and search
-// results ~155, so descriptions are clipped to whole sentences or words for each.
+// Social previews show ~125 characters before truncating mid-word, so the
+// og/twitter copy is clipped here; <meta name="description"> keeps the full text
+// for search engines, which show more.
 const PREVIEW_MAX = 125;
-const SEARCH_DESCRIPTION_MAX = 155;
 
 /**
  * Clip a description for a social preview: whole sentences while they fit,
@@ -241,7 +241,7 @@ function socialMeta({ title, description, url, image }) {
 <meta name="twitter:image" content="${escapeHtml(imageUrl)}">`
     : '';
   return `<meta property="og:type" content="website">
-<meta property="og:site_name" content="LexGrade">
+<meta property="og:site_name" content="LexGrade Standard">
 <meta property="og:title" content="${escapeHtml(title)}">
 <meta property="og:description" content="${escapeHtml(preview)}">
 <meta property="og:url" content="${escapeHtml(url)}">${imageTags}
@@ -259,13 +259,15 @@ const ROLES = {
   gate: { label: 'Gate', bg: '#F6E7E5', fg: 'var(--accent)', border: '#E8CFC9' },
 };
 
-// Self-hosted fonts for the spec's typography: Source Serif 4 (body/prose/headings),
+// Google Fonts for the spec's typography: Source Serif 4 (body/prose/headings),
 // IBM Plex Sans (UI chrome, nav, labels, section numbers), IBM Plex Mono (ids,
-// code, numerals). The @font-face rules live in src/styles.css and the files in
-// assets/fonts/web. Preloading the two Latin faces most pages paint with first lets
-// them arrive before text renders; font-display: swap keeps text visible if they don't.
-const FONT_LINKS = `<link rel="preload" href="/fonts/source-serif-4-latin-2a24bad466.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/fonts/ibm-plex-sans-latin-056e4e2459.woff2" as="font" type="font/woff2" crossorigin>`;
+// code, numerals). Loaded via <link> markup — zero-JS, and the offline-build
+// litmus is about the BUILD emitting no script, not about runtime asset loading.
+// display=swap keeps text visible while the webfont arrives; the CSS fallbacks
+// (Georgia / system-ui / ui-monospace) render identically offline.
+const FONT_LINKS = `<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&display=swap">`;
 
 // Accent colour for mobile-chrome theming + the OG cards (the deeper maroon).
 const THEME_COLOR = '#7A1626';
@@ -315,12 +317,6 @@ function docHeader({ title, subhead = '' }) {
   return `  <header class="doc-header">
     <h1>${title}</h1>${subhead ? `\n    <p class="subhead">${subhead}</p>` : ''}
   </header>`;
-}
-
-/** A correction form with its "Where" field filled in. */
-function correctionUrl(where) {
-  const q = encodeURIComponent;
-  return `${REPO_URL}/issues/new?template=correction.yml&amp;title=${q(`correction: ${where}`)}&amp;where=${q(where)}`;
 }
 
 function renderCriterion(c) {
@@ -580,20 +576,12 @@ export function renderStandard(standard) {
   <details class="panel sotd" open>
     <summary><span class="sotd-chevron" aria-hidden="true"></span>Status of this document</summary>
     <dl>
-      <dt>This version</dt><dd>v${escapeHtml(version)} (current published edition)</dd>${
-        standard.editions?.length
-          ? `\n      <dt>Full text</dt><dd>${standard.editions
-              .map((e) => `<a href="${editionPath(e.version)}">v${escapeHtml(e.version)}</a>`)
-              .join(' · ')}</dd>`
-          : ''
-      }
-      <dt>Download citation</dt><dd>${citationLinks(version)}</dd>
+      <dt>This version</dt><dd>v${escapeHtml(version)} (current published edition)</dd>
       <dt>Machine-readable</dt><dd><a href="${API_URL}">/api/v1/standard.json</a> · <a href="/llms-full.txt">/llms-full.txt</a></dd>
-      <dt>Updates</dt><dd><a href="/feed.xml">Atom feed</a> of new editions and corrections</dd>
       <dt>Source repository</dt><dd><a href="${REPO_URL}">${escapeHtml(REPO_URL.replace(/^https?:\/\//, ''))}</a></dd>
       <dt>Calibrated to</dt><dd>CPLR &amp; the Uniform Civil Rules (22 NYCRR Part 202)</dd>${
         standard.citationsVerified
-          ? `\n      <dt>Citations verified</dt><dd>${monthTime(standard.citationsVerified)} (confirm provisions remain current)</dd>`
+          ? `\n      <dt>Citations verified</dt><dd>${escapeHtml(standard.citationsVerified)} (confirm provisions remain current)</dd>`
           : ''
       }
       <dt>License</dt><dd>${escapeHtml(license)} (content)</dd>
@@ -611,7 +599,7 @@ ${sections}
 ${appendix}
 
   <footer class="doc-footer">
-    <p class="gh-links">Found an error? <a href="${REPO_URL}/edit/main/commons/standard/lgs-criteria.yaml">Edit this page on GitHub</a> or <a href="${REPO_URL}/issues/new?template=correction.yml">suggest a correction</a>. Substantive changes go through an <code>rfc:</code> issue.</p>
+    <p class="gh-links">Found an error? <a href="${REPO_URL}/edit/main/commons/standard/lgs-criteria.yaml">Edit this page on GitHub</a> or <a href="${REPO_URL}/issues/new">open an issue</a>. Substantive changes go through an <code>rfc:</code> issue.</p>
   </footer>`;
 
   // The Standard shares the same two-column shell as every other TOC page
@@ -654,127 +642,6 @@ export function renderRedirect(to) {
 `;
 }
 
-/** The permanent URL of one edition of the Standard. */
-export function editionPath(version) {
-  return `/standard/v${version}`;
-}
-
-const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
-/** "February 2026" -> a <time> element, or the escaped text if it isn't in that form. */
-function monthTime(value) {
-  const match = /^([A-Z][a-z]+) (\d{4})$/.exec(String(value));
-  const month = match ? MONTHS.indexOf(match[1]) + 1 : 0;
-  return month
-    ? `<time datetime="${match[2]}-${String(month).padStart(2, '0')}">${escapeHtml(value)}</time>`
-    : escapeHtml(value);
-}
-
-/**
- * The Atom feed of editions and corrections, newest first. Timestamps come from
- * methodology.yaml, so rebuilding the site never makes the feed look updated.
- *
- * @param {Array<{version: string, published: string, corrections?: Array<{date: string, summary: string}>}>} editions
- * @returns {string}
- */
-export function renderFeed(editions) {
-  const stamp = (date) => `${String(date).length === 7 ? `${date}-01` : date}T00:00:00Z`;
-  const entries = editions
-    .flatMap((e) => {
-      const url = `${SITE_ORIGIN}${editionPath(e.version)}`;
-      return [
-        { id: url, title: `LexGrade Standard v${e.version} published`, link: url, updated: stamp(e.published), summary: `Full text of LexGrade Standard v${e.version}.` },
-        ...(e.corrections ?? []).map((c) => ({
-          id: `${url}#correction-${c.date}`,
-          title: `Correction to LexGrade Standard v${e.version}`,
-          link: `${url}#corrections`,
-          updated: stamp(c.date),
-          summary: c.summary,
-        })),
-      ];
-    })
-    .sort((a, b) => b.updated.localeCompare(a.updated));
-  return `<?xml version="1.0" encoding="UTF-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
-  <title>LexGrade Standard: editions and corrections</title>
-  <id>${SITE_ORIGIN}/feed.xml</id>
-  <link rel="self" type="application/atom+xml" href="${SITE_ORIGIN}/feed.xml"/>
-  <link rel="alternate" type="text/html" href="${CANONICAL_URL}"/>
-  <updated>${entries[0].updated}</updated>
-  <author><name>LexGrade</name></author>
-${entries
-  .map(
-    (entry) => `  <entry>
-    <id>${escapeHtml(entry.id)}</id>
-    <title>${escapeHtml(entry.title)}</title>
-    <link rel="alternate" type="text/html" href="${escapeHtml(entry.link)}"/>
-    <updated>${entry.updated}</updated>
-    <summary>${escapeHtml(entry.summary)}</summary>
-  </entry>`,
-  )
-  .join('\n')}
-</feed>
-`;
-}
-
-/** "2026-10-19" -> "October 19, 2026"; "2026-02" -> "February 2026". */
-export function formatDate(value) {
-  const [year, month, day] = String(value).split('-');
-  const name = MONTHS[Number(month) - 1];
-  return day ? `${name} ${Number(day)}, ${year}` : `${name} ${year}`;
-}
-
-/** The criteria tables have no headings, so give each criterion's first row its LGS anchor. */
-function anchorCriteria(html) {
-  const seen = new Set();
-  return html.replace(/<td([^>]*)>(LGS \d+\.\d+)<\/td>/g, (cell, attrs, id) => {
-    const a = anchor(id);
-    if (seen.has(a)) return cell;
-    seen.add(a);
-    return `<td${attrs} id="${a}">${id}</td>`;
-  });
-}
-
-/**
- * Render one edition's full text at its permanent URL. The markdown is the Standard's
- * source of truth; its H1 is dropped in favor of the page header.
- *
- * @param {{version: string, path: string, published: string, corrections?: Array<{date: string, summary: string}>, isCurrent: boolean, currentVersion: string, html: string}} opts
- * @returns {string}
- */
-export function renderEdition({ version, path, published, corrections = [], isCurrent, currentVersion, html }) {
-  const notice = isCurrent
-    ? `This is the current edition. <a href="/standard">The Standard</a> presents its criteria for browsing.`
-    : `This edition has been superseded by <a href="${editionPath(currentVersion)}">v${escapeHtml(currentVersion)}</a>. It stays published and citable.`;
-  const correctionNote = corrections.length
-    ? `\n    <dt id="corrections">Corrections</dt>${corrections
-        .map((c) => `<dd><time datetime="${escapeHtml(c.date)}">${escapeHtml(formatDate(c.date))}</time>: ${escapeHtml(c.summary)}</dd>`)
-        .join('')}`
-    : '';
-  const body = `${docHeader({
-    title: `LexGrade Standard <span class="version">v${escapeHtml(version)}</span>`,
-    subhead: `Full text. Published <time datetime="${escapeHtml(published)}">${escapeHtml(formatDate(published))}</time>.`,
-  })}
-  <dl class="edition-cite">
-    <dt>Cite as</dt><dd>LexGrade Standard v${escapeHtml(version)}, LexGrade (lexgrade.org), CC-BY-SA 4.0.</dd>
-    <dt>Cite a criterion</dt><dd>Add its ID, such as LGS 7.1, and link to <code>${escapeHtml(editionPath(version))}#lgs-7.1</code>.</dd>
-    <dt>Download citation</dt><dd>${citationLinks(version)}</dd>${correctionNote}
-  </dl>
-  <section class="prose wide-tables" aria-label="Full text of LexGrade Standard v${escapeHtml(version)}">
-    <p class="note">${notice}</p>
-    ${anchorCriteria(stripScripts(html))}
-  </section>`;
-  return documentShell({
-    title: `LexGrade Standard v${version}: full text`,
-    description: `The full text of LexGrade Standard v${version}, an open standard for scoring legal motions. CC-BY-SA 4.0.`,
-    bodyHtml: body,
-    canonical: editionPath(version),
-    current: 'standard',
-    image: '/og/standard.png',
-    editPath: path,
-  });
-}
-
 /**
  * Render the site homepage (/) — a thin landing that claims the root URL instead
  * of bouncing it to /standard: a one-line value proposition and two entry cards
@@ -789,7 +656,7 @@ export function renderHome({ standardVersion, principleCount, criteriaCount, tec
   const body = `  <header class="home-hero">
     <h1 class="home-title">An open standard for scoring legal motions.</h1>
     <p class="subhead">Its principles, weights, and penalties are published in full.</p>
-    <p class="home-check"><a href="/check">Plain-language summary <span aria-hidden="true">→</span></a> LexGrade is not legal advice.</p>
+    <p class="home-check">Filing without a lawyer? <a href="/check">Check your own motion <span aria-hidden="true">→</span></a> LexGrade is not legal advice.</p>
     <p class="callout home-evidence">Candor toward the court comes first. A single fabricated citation costs 20 points and makes the motion Deficient, whatever its score.</p>
   </header>
   <nav class="home-cards" aria-label="Standard and Technique Register">
@@ -810,7 +677,7 @@ export function renderHome({ standardVersion, principleCount, criteriaCount, tec
     <a class="home-invite__link" href="/contribute">Contribute to LexGrade <span aria-hidden="true">→</span></a>
   </aside>`;
   return documentShell({
-    title: 'LexGrade: an open standard for scoring legal motions',
+    title: 'LexGrade — Open scoring for legal drafting quality',
     description:
       'An open standard for scoring legal motions: the principles, weights, and penalties, published in full. CC-BY-SA 4.0.',
     bodyHtml: body,
@@ -838,8 +705,8 @@ export function renderAbout() {
   })}
   <section class="prose" aria-label="About LexGrade">
     <p>LexGrade&#39;s criteria come from motion practice in the New York State and federal courts. The premise is that a filing&#39;s job is to compel action.</p>
-    <h2>What it covers</h2>
-    <p>The Standard sets out, in a form anyone can check, what separates a motion a court can act on from one it cannot. The Technique Register names what experienced advocates do by instinct. Neither promises to win cases.</p>
+    <h2>Who it&#39;s for</h2>
+    <p>LexGrade is for anyone drafting a motion, including people filing without a lawyer. The Standard sets out, in a form anyone can check, what separates a motion a court can act on from one it cannot. The Technique Register names what experienced advocates do by instinct. Neither promises to win cases.</p>
     <h2>Status</h2>
     <p>The Standard is calibrated to New York State Supreme Court motion practice. Its criteria and weights have not been independently validated. Legal citations are verified against official sources, with the date shown on the Standard. The method builds on the scholarship credited in <a href="/references">References</a>.</p>
     <h2>Limits</h2>
@@ -860,35 +727,49 @@ export function renderAbout() {
 }
 
 /**
- * Render the /check page: the Standard's own §9 plain-language summary, rendered
- * from the markdown at build time so it cannot drift. The page presents the
- * Standard and its limits. It doesn't instruct readers about their own filings.
+ * Render the /check page — the plain-language entry point for people filing
+ * without a lawyer (the printed poster's QR code lands on the homepage, which
+ * links here). The quick-start table is the Standard's own §9, rendered from
+ * the markdown at build time so it cannot drift; only the framing around it is
+ * site copy. Audience, not authorship: the page speaks to self-represented
+ * readers and never describes who wrote the Standard.
  *
  * @param {{version: string, quickStartHtml: string}} opts
  * @returns {string}
  */
 export function renderCheck({ version, quickStartHtml }) {
-  // Each principle in the §9 table links to its section of the Standard.
+  // Each principle in the §9 table links to its section of the Standard, so
+  // "take them one at a time" is one click, not a hunt.
   const linked = stripScripts(quickStartHtml).replace(
     /<td>P([1-8])\. ([^<]+)<\/td>/g,
     '<td><a href="/standard#p$1">P$1.&nbsp;$2</a></td>',
   );
   const body = `${docHeader({
-    title: 'Plain-language summary',
-    subhead: `Section 9 of <a href="${editionPath(version)}">LexGrade Standard v${escapeHtml(version)}</a>.`,
+    title: 'Checking your own motion',
+    subhead: 'For anyone filing without a lawyer.',
   })}
-  <section class="prose" aria-label="Plain-language summary of the Standard">
+  <section class="prose" aria-label="How to check a motion">
+    <h2>Before you file</h2>
+    <p>A motion asks the judge to decide or order something in your case.</p>
+    <ol>
+      <li>Follow the court&#39;s filing rules first, such as the notice of motion and proof of service. LexGrade doesn&#39;t cover them.</li>
+      <li>Check your draft against each principle below. Each links to its requirements in the Standard.</li>
+      <li>Look up every case and statute you cite and confirm it says what you claim. AI tools invent cases, and courts have sanctioned people for citing them.</li>
+    </ol>
+    <h2>The eight principles</h2>
     <div class="quick-start wide-tables">
-    <p>The eight principles</p>
+    <p>From §9 of LexGrade Standard v${escapeHtml(version)}</p>
 ${linked}
     </div>
-    <h2>Limits</h2>
+    <h2>What it can&#39;t do</h2>
     <p>LexGrade is not legal advice and can&#39;t predict a ruling. It was written for New&nbsp;York State Supreme Court; other courts&#39; rules differ.</p>
+    <h2>Something unclear?</h2>
+    <p>Email <a href="mailto:contribute@lexgrade.org?subject=Unclear">contribute@lexgrade.org</a> and say what.</p>
   </section>`;
   return documentShell({
-    title: 'Plain-language summary — LexGrade',
+    title: 'Checking your own motion — LexGrade',
     description:
-      'The LexGrade Standard in plain language: its eight principles, from section 9. Not legal advice.',
+      'How to check a motion against the LexGrade Standard, for anyone filing without a lawyer. Not legal advice.',
     bodyHtml: body,
     canonical: '/check',
     current: 'check',
@@ -1010,16 +891,12 @@ export function renderLlmsFull({ version, documents }) {
  * @param {string} [editPath] repo-relative path to the page's source file
  * @returns {string}
  */
-function githubFooter(editPath, correctionFor) {
+function githubFooter(editPath) {
   if (!editPath) {
     return '';
   }
   return `  <footer class="doc-footer">
-    <p class="gh-links">Found an error? <a href="${REPO_URL}/edit/main/${escapeHtml(editPath)}">Edit this page on GitHub</a> or ${
-      correctionFor
-        ? `<a href="${correctionUrl(correctionFor)}">suggest a correction</a>`
-        : `<a href="${REPO_URL}/issues/new">open an issue</a>`
-    }.</p>
+    <p class="gh-links">Found an error? <a href="${REPO_URL}/edit/main/${escapeHtml(editPath)}">Edit this page on GitHub</a> or <a href="${REPO_URL}/issues/new">open an issue</a>.</p>
   </footer>`;
 }
 
@@ -1031,7 +908,7 @@ function githubFooter(editPath, correctionFor) {
  * @param {{title: string, description: string, bodyHtml: string, editPath?: string}} opts
  * @returns {string}
  */
-function documentShell({ title, description, bodyHtml, canonical = '/standard', current, image, editPath, correctionFor, noindex = false, toc = null }) {
+function documentShell({ title, description, bodyHtml, canonical = '/standard', current, image, editPath, noindex = false, toc = null }) {
   // Each page declares its OWN canonical URL — a shared one would tell search
   // engines every solo page is a duplicate of /standard. Accept a path or a
   // full URL. A noindex page (the 404) carries no canonical.
@@ -1045,12 +922,11 @@ function documentShell({ title, description, bodyHtml, canonical = '/standard', 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${escapeHtml(title)}</title>
-<meta name="description" content="${escapeHtml(previewText(description, SEARCH_DESCRIPTION_MAX))}">
+<meta name="description" content="${escapeHtml(description)}">
 ${indexTag}
 ${socialMeta({ title, description, url: canonicalUrl, image })}
 <link rel="icon" href="/logo.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="alternate" type="application/atom+xml" title="LexGrade Standard: editions and corrections" href="/feed.xml">
 <meta name="theme-color" content="${THEME_COLOR}">
 ${FONT_LINKS}
 <link rel="stylesheet" href="/styles.css">
@@ -1064,14 +940,14 @@ ${
 ${tocSidebar(toc)}
 <main id="main" tabindex="-1">
 ${bodyHtml}
-${githubFooter(editPath, correctionFor)}
+${githubFooter(editPath)}
 </main>
 </div>`
     : `<div class="layout layout--solo">
 ${topbar(current)}
 <main id="main" tabindex="-1">
 ${bodyHtml}
-${githubFooter(editPath, correctionFor)}
+${githubFooter(editPath)}
 </main>
 </div>`
 }
@@ -1204,8 +1080,8 @@ ${groups}
     .map((cat) => `    <li><a href="#${escapeHtml(anchor(cat))}">${escapeHtml(cat)}</a></li>`)
     .join('\n');
   return documentShell({
-    title: `LexGrade Technique Register v${version}`,
-    description: `The LexGrade Technique Register: ${techniques.length} named advocacy techniques, reported alongside the score without changing it. CC-BY-SA 4.0.`,
+    title: `LexGrade Standard v${version} — Technique Register`,
+    description: `The LexGrade Technique Register: ${techniques.length} named advocacy techniques. Informative companion to the Standard. CC-BY-SA 4.0.`,
     bodyHtml: body,
     canonical: '/techniques',
     current: 'techniques',
@@ -1294,176 +1170,9 @@ ${[def, example, anti, reqs, why, distinctions, notes].filter(Boolean).join('\n'
     current: 'techniques',
     image: `/og/technique-${slug}.png`,
     editPath,
-    correctionFor: `Technique #${number}`,
   });
 }
 
-
-const LICENSE_URL = 'https://creativecommons.org/licenses/by-sa/4.0/';
-const ORGANIZATION_ID = `${SITE_ORIGIN}/#organization`;
-const WEBSITE_ID = `${SITE_ORIGIN}/#website`;
-const REGISTER_URL = `${SITE_ORIGIN}/techniques`;
-
-/** A schema.org JSON-LD block. It's data, not code: browsers don't execute it and CSP doesn't apply. */
-export function jsonLdScript(data) {
-  return `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', ...data }).replace(/</g, '\\u003c')}</script>`;
-}
-
-const editionUrl = (version) => `${SITE_ORIGIN}/standard/v${version}`;
-const citeFile = (version, ext) => `/cite/lexgrade-standard-v${version}.${ext}`;
-
-/** Citation downloads for one edition, keyed by file extension. */
-export function citationFiles({ version, published }) {
-  const [year, month, day] = String(published).split('-');
-  const title = `LexGrade Standard v${version}`;
-  const url = editionUrl(version);
-  return {
-    bib: `@misc{lexgrade-standard-${version},
-  title = {${title}},
-  author = {{LexGrade}},
-  year = {${year}},
-  version = {${version}},
-  url = {${url}},
-  note = {CC-BY-SA 4.0}
-}
-`,
-    // RIS lines end in CRLF, and each date part is padded by position (YYYY/MM/DD/).
-    ris: [
-      'TY  - STAND',
-      `TI  - ${title}`,
-      'AU  - LexGrade',
-      `PY  - ${year}`,
-      `DA  - ${[year, month ?? '', day ?? ''].join('/')}/`,
-      `ET  - ${version}`,
-      `UR  - ${url}`,
-      'ER  - ',
-      '',
-    ].join('\r\n'),
-    json: `${JSON.stringify(
-      [
-        {
-          id: `lexgrade-standard-${version}`,
-          type: 'standard',
-          title,
-          author: [{ literal: 'LexGrade' }],
-          issued: { 'date-parts': [[year, month, day].filter(Boolean).map(Number)] },
-          version,
-          URL: url,
-        },
-      ],
-      null,
-      2,
-    )}\n`,
-  };
-}
-
-/** Head tags that let citation managers and catalogs read an edition. */
-export function citationHeadTags({ version, published }) {
-  const url = editionUrl(version);
-  const title = `LexGrade Standard v${version}`;
-  const meta = [
-    ['citation_title', title],
-    ['citation_author', 'LexGrade'],
-    ['citation_publication_date', String(published).replaceAll('-', '/')],
-    ['citation_public_url', url],
-    ['DC.title', title],
-    ['DC.creator', 'LexGrade'],
-    ['DC.date', published],
-    ['DC.type', 'Text'],
-    ['DC.format', 'text/html'],
-    ['DC.language', 'en'],
-    ['DC.identifier', url],
-    ['DC.rights', LICENSE_URL],
-  ];
-  return [
-    '<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">',
-    `<link rel="cite-as" href="${url}">`,
-    `<link rel="license" href="${LICENSE_URL}">`,
-    `<link rel="alternate" type="application/json" href="${API_URL}">`,
-    ...meta.map(([name, content]) => `<meta name="${name}" content="${escapeHtml(content)}">`),
-  ].join('\n');
-}
-
-/** The links to an edition's citation downloads. */
-function citationLinks(version) {
-  return [['bib', 'BibTeX'], ['ris', 'RIS'], ['json', 'CSL-JSON']]
-    .map(([ext, label]) => `<a href="${citeFile(version, ext)}">${label}</a>`)
-    .join(' · ');
-}
-
-/** The site itself and its publisher, for the homepage. */
-export function homeStructuredData() {
-  return {
-    '@graph': [
-      { '@type': 'Organization', '@id': ORGANIZATION_ID, name: 'LexGrade', url: `${SITE_ORIGIN}/`, logo: `${SITE_ORIGIN}/apple-touch-icon.png` },
-      {
-        '@type': 'WebSite',
-        '@id': WEBSITE_ID,
-        name: 'LexGrade',
-        url: `${SITE_ORIGIN}/`,
-        description: 'An open standard for scoring legal motions.',
-        inLanguage: 'en',
-        publisher: { '@id': ORGANIZATION_ID },
-      },
-    ],
-  };
-}
-
-/** The Standard as a versioned, openly licensed work, at /standard or at an edition's own URL. */
-export function standardStructuredData({ version, url = CANONICAL_URL, published }) {
-  return {
-    '@type': 'CreativeWork',
-    name: 'LexGrade Standard',
-    version,
-    url,
-    ...(published ? { datePublished: published } : {}),
-    description: 'An open standard for scoring legal motions.',
-    inLanguage: 'en',
-    isAccessibleForFree: true,
-    license: LICENSE_URL,
-    publisher: { '@type': 'Organization', '@id': ORGANIZATION_ID, name: 'LexGrade' },
-    isPartOf: { '@id': WEBSITE_ID },
-  };
-}
-
-/** The Technique Register as a set of defined terms. */
-export function registerStructuredData({ version }) {
-  return {
-    '@type': 'DefinedTermSet',
-    '@id': REGISTER_URL,
-    name: 'LexGrade Technique Register',
-    version,
-    url: REGISTER_URL,
-    description: 'Named advocacy techniques, reported alongside the score without changing it.',
-    inLanguage: 'en',
-    license: LICENSE_URL,
-    publisher: { '@type': 'Organization', '@id': ORGANIZATION_ID, name: 'LexGrade' },
-  };
-}
-
-/** One technique as a defined term, with its place in the Register. */
-export function techniqueStructuredData({ name, slug, number, definition }) {
-  const url = `${REGISTER_URL}/${slug}`;
-  return {
-    '@graph': [
-      {
-        '@type': 'DefinedTerm',
-        name,
-        termCode: String(number),
-        url,
-        ...(definition ? { description: previewText(definition, SEARCH_DESCRIPTION_MAX) } : {}),
-        inDefinedTermSet: { '@id': REGISTER_URL },
-      },
-      {
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Technique Register', item: REGISTER_URL },
-          { '@type': 'ListItem', position: 2, name, item: url },
-        ],
-      },
-    ],
-  };
-}
 
 // The stylesheet lives in src/styles.css — a real CSS file, so editors get
 // syntax highlighting and there is no template-literal backtick hazard. The

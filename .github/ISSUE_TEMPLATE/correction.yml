@@ -6,8 +6,6 @@ body:
   - type: markdown
     attributes:
       value: |
-        **This form is public.** Don't include names or details from a real case. If you'd rather not post here, email hello@lexgrade.org.
-
         Thanks. Corrections are acknowledged within 14 days. A confirmed error of fact (a rule number, a citation, a date, a quotation) is fixed as a routine change and recorded in the changelog. A correction that changes what a criterion requires goes through an `rfc:` issue and ships in the next minor edition. The full policy is in [GOVERNANCE](../blob/main/commons/GOVERNANCE.md#corrections).
   - type: input
     id: where

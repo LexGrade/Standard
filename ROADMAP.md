@@ -3,8 +3,8 @@
 **What lexgrade.org is.** The institutional home of the open standard: the
 Standard, the Technique Register, the machine-readable catalog, and nothing
 else. It is deliberately vendor-neutral, with no product, no accounts, no
-scoring service, and no measurement beyond aggregate Cloudflare Web Analytics.
-Consumer-facing surfaces built on the standard (a pro se on-ramp, a guided draft-scoring walkthrough, printed
+scoring service, and no data collection. Consumer-facing surfaces built on the
+standard (a pro se on-ramp, a guided draft-scoring walkthrough, printed
 checklists for help centers) are downstream implementations, maintained
 separately and outside this repo's scope, as GOVERNANCE.md already provides
 for hosted services. This roadmap covers only the commons: the standard and
@@ -207,9 +207,9 @@ trigger (all of it lives in git history and returns when earned):
 ## What this roadmap deliberately does not do
 
 - **No consumer surface on the .org.** No scoring service, no accounts, no
-  hosted grader, no "start here" funnels. The institutional posture is the
-  asset: a static site with no backend, measured only by aggregate Cloudflare
-  Web Analytics; downstream implementations carry the consumer experience.
+  hosted grader, no "start here" funnels. The institutional, zero-JS,
+  no-data-collection posture is the asset; downstream implementations carry
+  the consumer experience.
 - **No outcome-tracking push (§8 of the Standard).** Courts are sensitive to
   anything that reads as "scoring judges' responses." Leave it informative.
 - **No endorsement-seeking from courts or grievance committees.** The goal is

@@ -10,16 +10,15 @@
 // lgs-criteria.yaml via loadStandard) — no network, no external API — so the
 // site is self-contained and reproducible.
 
-import { createHash } from 'node:crypto';
-import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { loadBundle, loadEditions, loadStandard, loadTechniqueRegister, parseTechniques, standardSection } from './src/lib/loadStandard.mjs';
+import { loadBundle, loadStandard, loadTechniqueRegister, parseTechniques, standardSection } from './src/lib/loadStandard.mjs';
 import { cspScriptSrc } from './src/lib/csp.mjs';
 import { toHtml } from './src/markdown.mjs';
 import { appIcon, ogCard } from './src/og.mjs';
-import { PAGES, LOGO_SVG, renderFeed, BADGE_ROLES_CSS, citationFiles, citationHeadTags, editionPath, homeStructuredData, jsonLdScript, registerStructuredData, standardStructuredData, techniqueStructuredData, renderAbout, renderCheck, renderEdition, renderContribute, renderHome, renderReferences, renderLlmsFull, renderNotFound, renderStandard, renderTechnique, renderTechniques } from './src/render.mjs';
+import { PAGES, LOGO_SVG, BADGE_ROLES_CSS, renderAbout, renderCheck, renderContribute, renderHome, renderReferences, renderLlmsFull, renderNotFound, renderStandard, renderTechnique, renderTechniques } from './src/render.mjs';
 
 const SITE = 'https://lexgrade.org';
 const OUT = resolve(dirname(fileURLToPath(import.meta.url)), 'dist');
@@ -66,43 +65,25 @@ writeFileSync(
 );
 
 mkdirSync(resolve(OUT, 'standard'), { recursive: true });
-const editions = loadEditions();
-const standardHtml = renderStandard({ ...standard, editions });
+const standardHtml = renderStandard(standard);
 writeFileSync(resolve(OUT, 'standard', 'index.html'), standardHtml);
 // CSP source for the inline progressive-enhancement script(s) on /standard — the
 // only scripted page. Hash the rendered bytes so the strict policy allows exactly
 // those scripts and nothing else (every other page is script-free).
 const cspScript = cspScriptSrc(standardHtml);
-// Each edition's full text at its permanent URL, and its citation downloads.
-mkdirSync(resolve(OUT, 'cite'), { recursive: true });
-for (const edition of editions) {
-  for (const [ext, content] of Object.entries(citationFiles(edition))) {
-    writeFileSync(resolve(OUT, 'cite', `lexgrade-standard-v${edition.version}.${ext}`), content);
-  }
-  writePage(editionPath(edition.version).slice(1), renderEdition({
-    ...edition,
-    currentVersion: standard.version,
-    html: toHtml(edition.markdown.replace(/^# .*\n/, '')),
-  }));
-}
 // The root (/) homepage is written further down, once the technique count is known.
 // Custom 404 — Cloudflare Pages serves dist/404.html for any unmatched route.
 writeFileSync(resolve(OUT, '404.html'), renderNotFound());
 // The logo as a standalone file (favicon target + reusable asset).
 writeFileSync(resolve(OUT, 'logo.svg'), LOGO_SVG);
 // The stylesheet: static src/styles.css with the ROLES-derived badge palette
-// substituted at its placeholder (see render.mjs), minus comments and indentation,
-// emitted as one file shared by every page. Named by content hash so it can be
-// cached permanently; pages are pointed at it once they're all written, below.
-const stylesheet = readFileSync(resolve(dirname(fileURLToPath(import.meta.url)), 'src', 'styles.css'), 'utf-8')
-  .replace('/*__BADGE_ROLES__*/', BADGE_ROLES_CSS)
-  .replace(/\/\*[\s\S]*?\*\//g, '')
-  .replace(/^\s+/gm, '');
-const stylesheetHref = `/css/styles.${createHash('sha256').update(stylesheet).digest('hex').slice(0, 10)}.css`;
-mkdirSync(resolve(OUT, 'css'), { recursive: true });
-writeFileSync(resolve(OUT, stylesheetHref.slice(1)), stylesheet);
-// The webfonts and their licenses, served from this origin.
-cpSync(resolve(dirname(fileURLToPath(import.meta.url)), 'assets', 'fonts', 'web'), resolve(OUT, 'fonts'), { recursive: true });
+// substituted at its placeholder (see render.mjs), emitted as one cacheable
+// file shared by every page.
+writeFileSync(
+  resolve(OUT, 'styles.css'),
+  readFileSync(resolve(dirname(fileURLToPath(import.meta.url)), 'src', 'styles.css'), 'utf-8')
+    .replace('/*__BADGE_ROLES__*/', BADGE_ROLES_CSS),
+);
 // Self-contained narrative pages (no markdown source): provenance, the
 // collaboration CTA, and the sources/influences credits.
 writePage('about', renderAbout());
@@ -110,8 +91,8 @@ writePage('contribute', renderContribute());
 // The plain-language entry point: the Standard's own §9 Quick Start, rendered
 // from the current edition's markdown (bundle.documents[0] is the Standard).
 const quickStart = standardSection(loadBundle().documents[0], 9);
-// §9 opens with its audience line ("For users who are not attorneys."). /check
-// presents the summary without addressing an audience, so the line is dropped there.
+// §9 opens with its audience line ("For users who are not attorneys."), which the
+// /check heading already says; drop it there so the page doesn't repeat itself.
 // A bold-only line that introduces a table ("**Key terms.**") renders on /check
 // as that table's caption, so it drops the sentence period there.
 const quickStartBody = quickStart.body
@@ -203,55 +184,35 @@ writeFileSync(resolve(OUT, 'apple-touch-icon.png'), appIcon(180));
 // The page set derives from PAGES; the per-technique pages are appended.
 const sitemapPaths = [
   ...PAGES.map((p) => p.path),
-  ...editions.map((e) => editionPath(e.version)),
   ...techniqueList.map((t) => `/techniques/${t.slug}`),
 ];
+const lastmod = new Date().toISOString().slice(0, 10);
 writeFileSync(
   resolve(OUT, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapPaths
-    .map((p) => `  <url><loc>${SITE}${p}</loc></url>`)
+    .map((p) => `  <url><loc>${SITE}${p}</loc><lastmod>${lastmod}</lastmod></url>`)
     .join('\n')}\n</urlset>\n`,
 );
-writeFileSync(resolve(OUT, 'feed.xml'), renderFeed(editions));
 writeFileSync(resolve(OUT, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
-
-// RFC 9116 requires an expiry; a year from each build keeps it current while the
-// site is maintained, and lets it lapse if the site ever isn't.
-mkdirSync(resolve(OUT, '.well-known'), { recursive: true });
-writeFileSync(
-  resolve(OUT, '.well-known', 'security.txt'),
-  [
-    'Contact: mailto:security@lexgrade.org',
-    `Expires: ${new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString()}`,
-    'Policy: https://github.com/LexGrade/Standard/blob/main/SECURITY.md',
-    `Canonical: ${SITE}/.well-known/security.txt`,
-    '',
-  ].join('\n'),
-);
 
 // Cloudflare Pages edge headers. The machine-readable data is meant to be
 // consumed cross-origin (agents, downstream tools), so it carries permissive
-// CORS; static assets cache hard; and a strict CSP limits scripts at the edge to
-// the hashed enhancement script and the Cloudflare Web Analytics beacon, which
-// Cloudflare injects when serving (built pages don't reference it). The injected
-// path is versioned (/beacon.min.js/v…), so the source keeps its trailing slash
-// to match by prefix. connect-src falls back to default-src 'self', which covers
-// the beacon's /cdn-cgi/rum POST.
+// CORS; static assets cache hard; and a strict CSP enforces the zero-JS surface
+// at the edge (no scripts can ever load, even if markup regressed).
 writeFileSync(
   resolve(OUT, '_headers'),
   [
     '/*',
     '  X-Content-Type-Options: nosniff',
     '  Referrer-Policy: strict-origin-when-cross-origin',
-    '  Strict-Transport-Security: max-age=31536000',
-    `  Content-Security-Policy: default-src 'self'; script-src ${cspScript} https://static.cloudflareinsights.com/beacon.min.js/; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; base-uri 'self'; form-action 'none'; frame-ancestors 'none'`,
+    `  Content-Security-Policy: default-src 'self'; script-src ${cspScript}; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; base-uri 'self'; form-action 'none'`,
     '',
     '/api/*',
     '  Access-Control-Allow-Origin: *',
     '  Cache-Control: public, max-age=3600',
     '',
-    '/css/*',
-    '  Cache-Control: public, max-age=31536000, immutable',
+    '/styles.css',
+    '  Cache-Control: public, max-age=3600',
     '',
     '/llms-full.txt',
     // .txt carries no in-band encoding marker (unlike HTML's <meta charset>), and
@@ -264,47 +225,8 @@ writeFileSync(
     '/og/*',
     '  Cache-Control: public, max-age=31536000, immutable',
     '',
-    '/feed.xml',
-    '  Content-Type: application/atom+xml; charset=utf-8',
-    '',
-    '/cite/*.bib',
-    '  Content-Type: application/x-bibtex; charset=utf-8',
-    '',
-    '/cite/*.ris',
-    '  Content-Type: application/x-research-info-systems; charset=utf-8',
-    '',
-    '/cite/*.json',
-    '  Content-Type: application/vnd.citationstyles.csl+json; charset=utf-8',
-    '',
-    '/fonts/*',
-    '  Cache-Control: public, max-age=31536000, immutable',
-    '',
   ].join('\n'),
 );
-
-// Structured data for the pages that have a clear schema.org type. Added here rather
-// than by the renderers, whose tests guard the pages against script tags; JSON-LD is
-// data, so the zero-JS guarantee still holds.
-const currentEdition = editions.find((e) => e.isCurrent);
-const structuredPages = [
-  ['index.html', homeStructuredData()],
-  ['standard/index.html', standardStructuredData({ version: standard.version, published: currentEdition.published })],
-  ...editions.map((e) => [
-    `${editionPath(e.version).slice(1)}/index.html`,
-    standardStructuredData({ version: e.version, url: `${SITE}${editionPath(e.version)}`, published: e.published }),
-  ]),
-  ['techniques/index.html', registerStructuredData({ version: techniques.version })],
-  ...techniqueList.map((t) => [`techniques/${t.slug}/index.html`, techniqueStructuredData(t)]),
-];
-const citationHead = new Map([
-  ['standard/index.html', citationHeadTags(currentEdition)],
-  ...editions.map((e) => [`${editionPath(e.version).slice(1)}/index.html`, citationHeadTags(e)]),
-]);
-for (const [file, data] of structuredPages) {
-  const p = resolve(OUT, file);
-  const head = [citationHead.get(file), jsonLdScript(data)].filter(Boolean).join('\n');
-  writeFileSync(p, readFileSync(p, 'utf-8').replace('</head>', `${head}\n</head>`));
-}
 
 // Self-check: every internal link + in-page anchor must resolve. A spec site can't
 // ship dead links; this fails the build (and CI) before a broken reference goes
@@ -318,11 +240,7 @@ for (const [file, data] of structuredPages) {
       else if (e.endsWith('.html')) htmls.push(p);
     }
   })(OUT);
-  // Point every page at the hashed stylesheet, so the check below covers it too.
-  for (const p of htmls) {
-    writeFileSync(p, readFileSync(p, 'utf-8').replace('href="/styles.css"', `href="${stylesheetHref}"`));
-  }
-  const idsOf =(html) => new Set([...html.matchAll(/id="([^"]+)"/g)].map((m) => m[1]));
+  const idsOf = (html) => new Set([...html.matchAll(/id="([^"]+)"/g)].map((m) => m[1]));
   const fileFor = (p) => {
     const clean = p.split('#')[0];
     if (clean === '' || clean === '/') return resolve(OUT, 'index.html');

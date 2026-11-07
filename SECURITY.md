@@ -1,6 +1,6 @@
 # Security Policy
 
-LexGrade is a static website. There is no backend, no database, and no user accounts. Aggregate traffic and page-performance measurement comes from Cloudflare Web Analytics, a browser beacon Cloudflare adds at the edge.
+LexGrade is a static, zero-JavaScript website. There is no backend, no database, no user accounts, and no user data is collected or stored.
 
 ## Reporting a vulnerability
 

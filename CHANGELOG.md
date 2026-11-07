@@ -22,33 +22,6 @@ Changes accepted for the next edition accumulate here. Propose changes via an
   merged in [#6](https://github.com/LexGrade/standard/pull/6).
 
 ### Changed — site
-- **Cloudflare Web Analytics on lexgrade.org.** The CSP now allows the beacon
-  Cloudflare injects at the edge, measuring aggregate traffic and page
-  performance. Built pages don't reference it. `SECURITY.md` and `ROADMAP.md`
-  no longer describe the site as zero-JS with no data collection.
-- **Security headers and contact.** The site now sends HSTS and refuses to be
-  framed, and publishes `/.well-known/security.txt` pointing to `SECURITY.md`.
-- **Self-hosted fonts.** The site serves its fonts from its own domain instead
-  of Google Fonts, with the main faces preloaded, and the CSP no longer allows
-  Google's font hosts.
-- **Search and canonical URLs.** Pages now load directly at their canonical URLs,
-  without a redirect. Adds schema.org structured data, keeps search descriptions
-  within display length, and removes the sitemap's build-date `lastmod`.
-- **Citable editions.** Each edition of the Standard has a permanent URL with its
-  full text, an anchor for each criterion, and any corrections. Adds citation
-  metadata, BibTeX, RIS and CSL-JSON downloads, and `CITATION.cff`.
-- **Updates and corrections.** Adds an Atom feed of editions and corrections, and
-  pre-filled correction links on technique pages. The correction form now warns
-  that it is public.
-- **A pure standard.** `/check` now presents only the Standard's §9 summary and its
-  limits, under the name "Plain-language summary". Home and About no longer address
-  readers about their own filings.
-- **Footer.** Lists the top menu in the same order, then References, Contribute,
-  and GitHub.
-- **Stylesheet caching.** The stylesheet is trimmed and named by content hash,
-  so browsers can keep it permanently.
-- **`www.lexgrade.org`.** Redirects to `lexgrade.org`, through a small Worker in
-  `workers/www-redirect`.
 - **Shorter site pages.** Home, About, Contribute, References, and the Standard's
   status block are cut to what a reader needs: the limits, validation status,
   and corrections path remain. They drop details that date quickly and an

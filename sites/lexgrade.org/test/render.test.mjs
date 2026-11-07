@@ -1,10 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import assert from 'node:assert/strict';
-import { existsSync, readFileSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
-import { parse as parseYaml } from 'yaml';
 
-import { citationFiles, citationHeadTags, editionPath, escapeHtml, formatDate, homeStructuredData, jsonLdScript, LOGO_SVG, previewText, registerStructuredData, standardStructuredData, techniqueStructuredData, renderAbout, renderCheck, renderContribute, renderEdition, renderFeed, renderHome, renderLlmsFull, renderNotFound, renderRedirect, renderReferences, renderStandard, renderTechnique, renderTechniques, stripScripts } from '../src/render.mjs';
+import { escapeHtml, LOGO_SVG, previewText, renderAbout, renderCheck, renderContribute, renderHome, renderLlmsFull, renderNotFound, renderRedirect, renderReferences, renderStandard, renderTechnique, renderTechniques, stripScripts } from '../src/render.mjs';
 import { cspScriptSrc } from '../src/lib/csp.mjs';
 import { toHtml } from '../src/markdown.mjs';
 
@@ -415,7 +414,7 @@ test('the mobile nav is a zero-JS <details> disclosure rendered from the same li
   // The same links render in BOTH the desktop bar and the mobile list (one array,
   // shown one-per-breakpoint), so the active link appears twice — never zero.
   const active = (std.match(/<a href="\/standard" aria-current="page">Standard<\/a>/g) || []).length;
-  assert.equal(active, 3, 'active link present in the bar, the disclosure list, and the footer');
+  assert.equal(active, 2, 'active link present in both the bar and the disclosure list');
   // The nav mechanism is a native <details> (proven above), never a JS toggle — no
   // inline handler rides on it. (The page's lone enhancement script is unrelated.)
   assert.ok(!/<(?:details|summary)[^>]*\son\w+\s*=/i.test(std), 'the disclosure nav uses no inline JS handler');
@@ -435,19 +434,10 @@ test('pages carry Open Graph + Twitter social meta with a branded image', () => 
 
 test('loads the spec webfonts and keeps the sidebar shell on the Standard page', () => {
   const std = renderStandard(fixture);
-  // The typographic system: Source Serif 4 + IBM Plex Sans/Mono, self-hosted.
-  assert.ok(!/fonts\.(googleapis|gstatic)\.com/.test(std), 'no third-party font requests');
-  const fontsDir = new URL('../assets/fonts/web/', import.meta.url);
-  const preloads = [...std.matchAll(/<link rel="preload" href="\/fonts\/([^"]+)" as="font" type="font\/woff2" crossorigin>/g)].map((m) => m[1]);
-  assert.equal(preloads.length, 2, 'preloads the two Latin faces');
-  const css = readFileSync(new URL('../src/styles.css', import.meta.url), 'utf-8');
-  const faces = [...css.matchAll(/url\('\/fonts\/([^']+)'\)/g)].map((m) => m[1]);
-  for (const family of ['Source Serif 4', 'IBM Plex Sans', 'IBM Plex Mono']) {
-    assert.ok(css.includes(`font-family: '${family}'`), `${family} has an @font-face`);
-  }
-  for (const file of [...preloads, ...faces]) {
-    assert.ok(existsSync(new URL(file, fontsDir)), `${file} is vendored`);
-  }
+  // The typographic system: Source Serif 4 + IBM Plex Sans/Mono via <link> (zero-JS).
+  assert.match(std, /fonts\.googleapis\.com\/css2\?family=IBM\+Plex\+Mono/);
+  assert.match(std, /Source\+Serif\+4/);
+  assert.match(std, /rel="preconnect" href="https:\/\/fonts\.gstatic\.com"/);
   // The site nav now sits in a top bar (masthead + nav) on the Standard page too,
   // and the sidebar rail holds only the Table of contents.
   assert.match(std, /<header class="topbar">[\s\S]*?class="masthead"[\s\S]*?<nav class="sitenav"/);
@@ -466,7 +456,7 @@ test('every page footer points to GitHub to edit the source file or open an issu
   const std = renderStandard(fixture);
   assert.match(std, /Edit this page on GitHub/);
   assert.ok(std.includes(`href="${EXPECTED_REPO}/edit/main/commons/standard/lgs-criteria.yaml"`));
-  assert.ok(std.includes(`href="${EXPECTED_REPO}/issues/new?template=correction.yml"`));
+  assert.ok(std.includes(`href="${EXPECTED_REPO}/issues/new"`));
 
   // The techniques source path is threaded in (version-safe, from methodology.yaml).
   const tech = renderTechniques({ version: '1.0', html: '<p>x</p>', techniques: [], editPath: 'commons/standard/Technique_Register_v1.0.md' });
@@ -529,136 +519,30 @@ test('previewText falls back to a whole word plus an ellipsis', () => {
   assert.ok(!/\s…$/.test(out) && !/[,—]…$/.test(out), out);
 });
 
-test('social tags carry the clipped preview; the meta description allows more', () => {
+test('social tags carry the clipped preview; the meta description stays full', () => {
   const html = renderAbout();
   const meta = html.match(/<meta name="description" content="([^"]*)"/)[1];
   const og = html.match(/<meta property="og:description" content="([^"]*)"/)[1];
   assert.ok(og.length <= 126);
   assert.ok(meta.startsWith(og.replace(/…$/, '')));
-  assert.ok(meta.length <= 156);
 });
 
-test('edition pages have permanent URLs, criterion anchors, and correction notes', () => {
-  assert.equal(editionPath('1.1'), '/standard/v1.1');
-  assert.equal(formatDate('2026-10-19'), 'October 19, 2026');
-  assert.equal(formatDate('2026-02'), 'February 2026');
-  const base = { path: 'commons/standard/x.md', html: '<table><tr><td>LGS 7.1</td></tr><tr><td>LGS 7.1</td></tr></table>', currentVersion: '1.1' };
-  const current = renderEdition({ ...base, version: '1.1', published: '2026-10-19', isCurrent: true, corrections: [{ date: '2026-11-05', summary: 'Fixed a pinpoint.' }] });
-  assert.match(current, /rel="canonical" href="https:\/\/lexgrade\.org\/standard\/v1\.1"/);
-  assert.match(current, /This is the current edition/);
-  assert.match(current, /<time datetime="2026-11-05">November 5, 2026<\/time>: Fixed a pinpoint\./);
-  assert.equal((current.match(/id="lgs-7\.1"/g) || []).length, 1, 'each criterion anchor appears once');
-  assert.ok(!/<script/i.test(current), 'edition pages ship zero JS');
-  const old = renderEdition({ ...base, version: '1.0', published: '2026-02', isCurrent: false });
-  assert.match(old, /superseded by <a href="\/standard\/v1\.1">v1\.1<\/a>/);
-  assert.ok(!/id="corrections"/.test(old));
-});
-
-test('citation downloads and head tags describe the edition, with no individual author', () => {
-  const full = citationFiles({ version: '1.1', published: '2026-10-19' });
-  assert.match(full.bib, /@misc\{lexgrade-standard-1\.1,/);
-  assert.match(full.bib, /author = \{\{LexGrade\}\}/);
-  assert.match(full.bib, /year = \{2026\}/);
-  assert.match(full.bib, /url = \{https:\/\/lexgrade\.org\/standard\/v1\.1\}/);
-  assert.match(full.ris, /^TY  - STAND\r\n/);
-  assert.match(full.ris, /DA  - 2026\/10\/19\/\r\n/);
-  assert.match(full.ris, /ER  - \r\n$/);
-  const [csl] = JSON.parse(full.json);
-  assert.deepEqual(csl.issued['date-parts'], [[2026, 10, 19]]);
-  assert.deepEqual(csl.author, [{ literal: 'LexGrade' }]);
-  // A month-only date stays month-only everywhere; none of them invents a day.
-  const monthOnly = citationFiles({ version: '1.0', published: '2026-02' });
-  assert.deepEqual(JSON.parse(monthOnly.json)[0].issued['date-parts'], [[2026, 2]]);
-  assert.match(monthOnly.ris, /DA  - 2026\/02\/\/\r\n/);
-  const head = citationHeadTags({ version: '1.0', published: '2026-02' });
-  assert.match(head, /<meta name="citation_publication_date" content="2026\/02">/);
-  assert.match(head, /<link rel="cite-as" href="https:\/\/lexgrade\.org\/standard\/v1\.0">/);
-  assert.match(head, /<meta name="DC\.creator" content="LexGrade">/);
-});
-
-test('CITATION.cff matches the current edition in methodology.yaml', () => {
-  const read = (p) => readFileSync(new URL(`../../../${p}`, import.meta.url), 'utf-8');
-  const methodology = parseYaml(read('methodology.yaml'));
-  const cff = parseYaml(read('CITATION.cff'));
-  const current = methodology.current.standard;
-  assert.equal(String(cff.version), current);
-  assert.equal(String(cff['date-released']), methodology.artifacts.standard[current].published);
-  assert.equal(cff['preferred-citation'].url, `https://lexgrade.org/standard/v${current}`);
-  assert.deepEqual(cff.authors, [{ name: 'LexGrade' }]);
-});
-
-test('the feed lists editions and corrections, newest first, with fixed dates', () => {
-  const xml = renderFeed([
-    { version: '1.0', published: '2026-02' },
-    { version: '1.1', published: '2026-10-19', corrections: [{ date: '2026-11-05', summary: 'Fixed <a> pinpoint & wording.' }] },
-  ]);
-  assert.match(xml, /<updated>2026-11-05T00:00:00Z<\/updated>\n  <author>/);
-  const ids = [...xml.matchAll(/<entry>\s*<id>([^<]+)</g)].map((m) => m[1]);
-  assert.deepEqual(ids, [
-    'https://lexgrade.org/standard/v1.1#correction-2026-11-05',
-    'https://lexgrade.org/standard/v1.1',
-    'https://lexgrade.org/standard/v1.0',
-  ]);
-  assert.match(xml, /<updated>2026-02-01T00:00:00Z<\/updated>/);
-  assert.match(xml, /Fixed &lt;a&gt; pinpoint &amp; wording\./);
-});
-
-test('correction links stay out of the criteria, and the form warns it is public', () => {
-  const html = renderStandard(fixture);
-  assert.equal((html.match(/suggest a correction<\/a>/gi) || []).length, 1, 'one correction link, in the footer');
-  const technique = renderTechnique({ technique: { number: 38, name: 'X', slug: 'x', definition: 'Y.' }, editPath: 'commons/standard/x.md' });
-  assert.match(technique, /where=Technique%20%2338">suggest a correction<\/a>/);
-  const form = readFileSync(new URL('../../../.github/ISSUE_TEMPLATE/correction.yml', import.meta.url), 'utf-8');
-  assert.match(form, /This form is public/);
-  assert.match(form, /Don't include names or details from a real case/);
-  assert.equal(parseYaml(form).body.find((f) => f.id === 'where').id, 'where');
-});
-
-test('structured data parses, stays impersonal, and is escaped for HTML', () => {
-  const technique = { name: 'Name </script>', slug: 'name', number: 3, definition: 'A definition.' };
-  const blocks = [homeStructuredData(), standardStructuredData({ version: '1.1' }), registerStructuredData({ version: '1.0' }), techniqueStructuredData(technique)];
-  for (const data of blocks) {
-    const html = jsonLdScript(data);
-    assert.match(html, /^<script type="application\/ld\+json">/);
-    const json = html.replace(/^<script[^>]*>/, '').replace(/<\/script>$/, '');
-    assert.ok(!json.includes('<'), 'no raw < that could close the script block');
-    assert.equal(JSON.parse(json)['@context'], 'https://schema.org');
-    assert.ok(!/"Person"|"author"/.test(json), 'names no individual');
-  }
-  assert.equal(standardStructuredData({ version: '1.1' }).version, '1.1');
-  const [term, crumbs] = techniqueStructuredData(technique)['@graph'];
-  assert.equal(term.url, 'https://lexgrade.org/techniques/name');
-  assert.equal(crumbs.itemListElement.length, 2);
-});
-
-test('renderCheck presents the Standard\'s plain-language summary without instructions, zero JS', () => {
+test('renderCheck frames the Standard\'s quick start for readers without a lawyer, zero JS', () => {
   const html = renderCheck({ version: '1.1', quickStartHtml: '<table><tr><td>P4. Factual Foundation</td></tr></table>' });
   // Principle names link to their section of the Standard.
   assert.match(html, /<a href="\/standard#p4">P4\.&nbsp;Factual Foundation<\/a>/);
   assert.match(html, /rel="canonical" href="https:\/\/lexgrade\.org\/check"/);
-  assert.match(html, /Section 9 of <a href="\/standard\/v1\.1">LexGrade Standard v1\.1<\/a>/);
+  assert.match(html, /From §9 of LexGrade Standard v1\.1/);
   // The limits the poster states must hold here too.
   assert.match(html, /not legal advice/);
   assert.match(html, /can&#39;t predict a ruling/);
   assert.match(html, /New(&nbsp;| )York State Supreme Court/);
-  // A pure standard: the page doesn't speak to a reader's own filing or invite questions about it.
-  assert.ok(!/your draft|your own motion|before you file|without a lawyer|mailto:/i.test(html));
-  assert.match(html, /href="\/standard\/v1\.1"/);
   // Audience, not authorship (same guard as /about).
   assert.ok(!/built by a self-represented litigant|the creator of LexGrade/i.test(html));
   assert.ok(!/<script/i.test(html));
 });
 
-test('the footer lists the top menu in the same order, then the secondary pages', () => {
-  const html = renderAbout();
-  const footer = html.match(/<footer class="site-footer">[\s\S]*?<\/footer>/)[0];
-  const labels = [...footer.matchAll(/<a [^>]*>([^<]+)<\/a>/g)].map((m) => m[1]);
-  assert.deepEqual(labels, ['Standard', 'Techniques', 'About', 'Plain-language summary', 'References', 'Contribute', 'GitHub']);
-});
-
-test('the homepage links to the plain-language summary', () => {
+test('the homepage links readers without a lawyer to /check', () => {
   const html = renderHome({ standardVersion: '1.1', principleCount: 8, criteriaCount: 47, techniqueVersion: '1.0', techniqueCount: 39 });
-  assert.match(html, /<a href="\/check">Plain-language summary /);
-  assert.ok(!/without a lawyer|your own motion/i.test(html));
-  assert.ok(!/without a lawyer/i.test(renderAbout()), 'About describes the Standard, not who should use it');
+  assert.match(html, /Filing without a lawyer\? <a href="\/check">/);
 });

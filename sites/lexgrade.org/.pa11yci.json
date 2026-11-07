@@ -17,11 +17,9 @@
     "urls": [
         "http://localhost:8080/",
         "http://localhost:8080/standard",
-        "http://localhost:8080/standard/v1.1/",
         "http://localhost:8080/techniques",
         "http://localhost:8080/techniques/uncharacterized-omission",
         "http://localhost:8080/about",
-        "http://localhost:8080/check",
         "http://localhost:8080/contribute",
         "http://localhost:8080/references",
         "http://localhost:8080/404.html"
