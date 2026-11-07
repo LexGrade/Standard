@@ -35,6 +35,8 @@ Changes accepted for the next edition accumulate here. Propose changes via an
   so browsers can keep it permanently.
 - **`www.lexgrade.org`.** Redirects to `lexgrade.org`, through a small Worker in
   `workers/www-redirect`.
+- **Shorter site pages.** About, Contribute, and References are cut to what a
+  reader needs: the limits, validation status, and corrections path remain.
 
 ### Fixed — LexGrade Standard v1.1, in place
 Both found in maintainer review; no correction report was filed.
