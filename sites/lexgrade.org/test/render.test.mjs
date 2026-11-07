@@ -466,7 +466,7 @@ test('every page footer points to GitHub to edit the source file or open an issu
   const std = renderStandard(fixture);
   assert.match(std, /Edit this page on GitHub/);
   assert.ok(std.includes(`href="${EXPECTED_REPO}/edit/main/commons/standard/lgs-criteria.yaml"`));
-  assert.ok(std.includes(`href="${EXPECTED_REPO}/issues/new"`));
+  assert.ok(std.includes(`href="${EXPECTED_REPO}/issues/new?template=correction.yml"`));
 
   // The techniques source path is threaded in (version-safe, from methodology.yaml).
   const tech = renderTechniques({ version: '1.0', html: '<p>x</p>', techniques: [], editPath: 'commons/standard/Technique_Register_v1.0.md' });
@@ -603,9 +603,9 @@ test('the feed lists editions and corrections, newest first, with fixed dates', 
   assert.match(xml, /Fixed &lt;a&gt; pinpoint &amp; wording\./);
 });
 
-test('each criterion links to a pre-filled correction form, and the form warns it is public', () => {
+test('correction links stay out of the criteria, and the form warns it is public', () => {
   const html = renderStandard(fixture);
-  assert.match(html, /issues\/new\?template=correction\.yml&amp;title=correction%3A%20LGS%20[\d.]+&amp;where=LGS%20[\d.]+" aria-label="Suggest a correction to LGS [\d.]+"/);
+  assert.equal((html.match(/suggest a correction<\/a>/gi) || []).length, 1, 'one correction link, in the footer');
   const technique = renderTechnique({ technique: { number: 38, name: 'X', slug: 'x', definition: 'Y.' }, editPath: 'commons/standard/x.md' });
   assert.match(technique, /where=Technique%20%2338">suggest a correction<\/a>/);
   const form = readFileSync(new URL('../../../.github/ISSUE_TEMPLATE/correction.yml', import.meta.url), 'utf-8');

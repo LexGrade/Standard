@@ -38,7 +38,7 @@ Changes accepted for the next edition accumulate here. Propose changes via an
   full text, an anchor for each criterion, and any corrections. Adds citation
   metadata, BibTeX, RIS and CSL-JSON downloads, and `CITATION.cff`.
 - **Updates and corrections.** Adds an Atom feed of editions and corrections, and
-  a pre-filled correction link on each criterion. The correction form now warns
+  pre-filled correction links on technique pages. The correction form now warns
   that it is public.
 - **A pure standard.** `/check` now presents only the Standard's §9 summary and its
   limits, under the name "Plain-language summary". Home and About no longer address

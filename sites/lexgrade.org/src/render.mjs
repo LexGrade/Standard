@@ -343,7 +343,6 @@ function renderCriterion(c) {
     <p class="requirement">${escapeHtml(String(c.requirement ?? '').trim())}</p>
     ${deduction}
     ${source}
-    <p class="source"><a href="${correctionUrl(c.id)}" aria-label="Suggest a correction to ${escapeHtml(c.id)}">Suggest a correction</a></p>
   </section>`;
 }
 
@@ -612,7 +611,7 @@ ${sections}
 ${appendix}
 
   <footer class="doc-footer">
-    <p class="gh-links">Found an error? <a href="${REPO_URL}/edit/main/commons/standard/lgs-criteria.yaml">Edit this page on GitHub</a> or <a href="${REPO_URL}/issues/new">open an issue</a>. Substantive changes go through an <code>rfc:</code> issue.</p>
+    <p class="gh-links">Found an error? <a href="${REPO_URL}/edit/main/commons/standard/lgs-criteria.yaml">Edit this page on GitHub</a> or <a href="${REPO_URL}/issues/new?template=correction.yml">suggest a correction</a>. Substantive changes go through an <code>rfc:</code> issue.</p>
   </footer>`;
 
   // The Standard shares the same two-column shell as every other TOC page
