@@ -4,7 +4,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import { parse as parseYaml } from 'yaml';
 
-import { citationFiles, citationHeadTags, editionPath, escapeHtml, formatDate, homeStructuredData, jsonLdScript, LOGO_SVG, previewText, registerStructuredData, standardStructuredData, techniqueStructuredData, renderAbout, renderCheck, renderContribute, renderEdition, renderHome, renderLlmsFull, renderNotFound, renderRedirect, renderReferences, renderStandard, renderTechnique, renderTechniques, stripScripts } from '../src/render.mjs';
+import { citationFiles, citationHeadTags, editionPath, escapeHtml, formatDate, homeStructuredData, jsonLdScript, LOGO_SVG, previewText, registerStructuredData, standardStructuredData, techniqueStructuredData, renderAbout, renderCheck, renderContribute, renderEdition, renderFeed, renderHome, renderLlmsFull, renderNotFound, renderRedirect, renderReferences, renderStandard, renderTechnique, renderTechniques, stripScripts } from '../src/render.mjs';
 import { cspScriptSrc } from '../src/lib/csp.mjs';
 import { toHtml } from '../src/markdown.mjs';
 
@@ -585,6 +585,33 @@ test('CITATION.cff matches the current edition in methodology.yaml', () => {
   assert.equal(String(cff['date-released']), methodology.artifacts.standard[current].published);
   assert.equal(cff['preferred-citation'].url, `https://lexgrade.org/standard/v${current}`);
   assert.deepEqual(cff.authors, [{ name: 'LexGrade' }]);
+});
+
+test('the feed lists editions and corrections, newest first, with fixed dates', () => {
+  const xml = renderFeed([
+    { version: '1.0', published: '2026-02' },
+    { version: '1.1', published: '2026-10-19', corrections: [{ date: '2026-11-05', summary: 'Fixed <a> pinpoint & wording.' }] },
+  ]);
+  assert.match(xml, /<updated>2026-11-05T00:00:00Z<\/updated>\n  <author>/);
+  const ids = [...xml.matchAll(/<entry>\s*<id>([^<]+)</g)].map((m) => m[1]);
+  assert.deepEqual(ids, [
+    'https://lexgrade.org/standard/v1.1#correction-2026-11-05',
+    'https://lexgrade.org/standard/v1.1',
+    'https://lexgrade.org/standard/v1.0',
+  ]);
+  assert.match(xml, /<updated>2026-02-01T00:00:00Z<\/updated>/);
+  assert.match(xml, /Fixed &lt;a&gt; pinpoint &amp; wording\./);
+});
+
+test('each criterion links to a pre-filled correction form, and the form warns it is public', () => {
+  const html = renderStandard(fixture);
+  assert.match(html, /issues\/new\?template=correction\.yml&amp;title=correction%3A%20LGS%20[\d.]+&amp;where=LGS%20[\d.]+" aria-label="Suggest a correction to LGS [\d.]+"/);
+  const technique = renderTechnique({ technique: { number: 38, name: 'X', slug: 'x', definition: 'Y.' }, editPath: 'commons/standard/x.md' });
+  assert.match(technique, /where=Technique%20%2338">suggest a correction<\/a>/);
+  const form = readFileSync(new URL('../../../.github/ISSUE_TEMPLATE/correction.yml', import.meta.url), 'utf-8');
+  assert.match(form, /This form is public/);
+  assert.match(form, /Don't include names or details from a real case/);
+  assert.equal(parseYaml(form).body.find((f) => f.id === 'where').id, 'where');
 });
 
 test('structured data parses, stays impersonal, and is escaped for HTML', () => {

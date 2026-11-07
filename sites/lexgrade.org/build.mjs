@@ -19,7 +19,7 @@ import { loadBundle, loadEditions, loadStandard, loadTechniqueRegister, parseTec
 import { cspScriptSrc } from './src/lib/csp.mjs';
 import { toHtml } from './src/markdown.mjs';
 import { appIcon, ogCard } from './src/og.mjs';
-import { PAGES, LOGO_SVG, BADGE_ROLES_CSS, citationFiles, citationHeadTags, editionPath, homeStructuredData, jsonLdScript, registerStructuredData, standardStructuredData, techniqueStructuredData, renderAbout, renderCheck, renderEdition, renderContribute, renderHome, renderReferences, renderLlmsFull, renderNotFound, renderStandard, renderTechnique, renderTechniques } from './src/render.mjs';
+import { PAGES, LOGO_SVG, renderFeed, BADGE_ROLES_CSS, citationFiles, citationHeadTags, editionPath, homeStructuredData, jsonLdScript, registerStructuredData, standardStructuredData, techniqueStructuredData, renderAbout, renderCheck, renderEdition, renderContribute, renderHome, renderReferences, renderLlmsFull, renderNotFound, renderStandard, renderTechnique, renderTechniques } from './src/render.mjs';
 
 const SITE = 'https://lexgrade.org';
 const OUT = resolve(dirname(fileURLToPath(import.meta.url)), 'dist');
@@ -212,6 +212,7 @@ writeFileSync(
     .map((p) => `  <url><loc>${SITE}${p}</loc></url>`)
     .join('\n')}\n</urlset>\n`,
 );
+writeFileSync(resolve(OUT, 'feed.xml'), renderFeed(editions));
 writeFileSync(resolve(OUT, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
 
 // RFC 9116 requires an expiry; a year from each build keeps it current while the
@@ -262,6 +263,9 @@ writeFileSync(
     '',
     '/og/*',
     '  Cache-Control: public, max-age=31536000, immutable',
+    '',
+    '/feed.xml',
+    '  Content-Type: application/atom+xml; charset=utf-8',
     '',
     '/cite/*.bib',
     '  Content-Type: application/x-bibtex; charset=utf-8',

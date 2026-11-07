@@ -317,6 +317,12 @@ function docHeader({ title, subhead = '' }) {
   </header>`;
 }
 
+/** A correction form with its "Where" field filled in. */
+function correctionUrl(where) {
+  const q = encodeURIComponent;
+  return `${REPO_URL}/issues/new?template=correction.yml&amp;title=${q(`correction: ${where}`)}&amp;where=${q(where)}`;
+}
+
 function renderCriterion(c) {
   const a = anchor(c.id);
   const deduction =
@@ -337,6 +343,7 @@ function renderCriterion(c) {
     <p class="requirement">${escapeHtml(String(c.requirement ?? '').trim())}</p>
     ${deduction}
     ${source}
+    <p class="source"><a href="${correctionUrl(c.id)}" aria-label="Suggest a correction to ${escapeHtml(c.id)}">Suggest a correction</a></p>
   </section>`;
 }
 
@@ -583,10 +590,11 @@ export function renderStandard(standard) {
       }
       <dt>Download citation</dt><dd>${citationLinks(version)}</dd>
       <dt>Machine-readable</dt><dd><a href="${API_URL}">/api/v1/standard.json</a> · <a href="/llms-full.txt">/llms-full.txt</a></dd>
+      <dt>Updates</dt><dd><a href="/feed.xml">Atom feed</a> of new editions and corrections</dd>
       <dt>Source repository</dt><dd><a href="${REPO_URL}">${escapeHtml(REPO_URL.replace(/^https?:\/\//, ''))}</a></dd>
       <dt>Calibrated to</dt><dd>CPLR &amp; the Uniform Civil Rules (22 NYCRR Part 202)</dd>${
         standard.citationsVerified
-          ? `\n      <dt>Citations verified</dt><dd>${escapeHtml(standard.citationsVerified)} (confirm provisions remain current)</dd>`
+          ? `\n      <dt>Citations verified</dt><dd>${monthTime(standard.citationsVerified)} (confirm provisions remain current)</dd>`
           : ''
       }
       <dt>License</dt><dd>${escapeHtml(license)} (content)</dd>
@@ -652,10 +660,68 @@ export function editionPath(version) {
   return `/standard/v${version}`;
 }
 
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+/** "February 2026" -> a <time> element, or the escaped text if it isn't in that form. */
+function monthTime(value) {
+  const match = /^([A-Z][a-z]+) (\d{4})$/.exec(String(value));
+  const month = match ? MONTHS.indexOf(match[1]) + 1 : 0;
+  return month
+    ? `<time datetime="${match[2]}-${String(month).padStart(2, '0')}">${escapeHtml(value)}</time>`
+    : escapeHtml(value);
+}
+
+/**
+ * The Atom feed of editions and corrections, newest first. Timestamps come from
+ * methodology.yaml, so rebuilding the site never makes the feed look updated.
+ *
+ * @param {Array<{version: string, published: string, corrections?: Array<{date: string, summary: string}>}>} editions
+ * @returns {string}
+ */
+export function renderFeed(editions) {
+  const stamp = (date) => `${String(date).length === 7 ? `${date}-01` : date}T00:00:00Z`;
+  const entries = editions
+    .flatMap((e) => {
+      const url = `${SITE_ORIGIN}${editionPath(e.version)}`;
+      return [
+        { id: url, title: `LexGrade Standard v${e.version} published`, link: url, updated: stamp(e.published), summary: `Full text of LexGrade Standard v${e.version}.` },
+        ...(e.corrections ?? []).map((c) => ({
+          id: `${url}#correction-${c.date}`,
+          title: `Correction to LexGrade Standard v${e.version}`,
+          link: `${url}#corrections`,
+          updated: stamp(c.date),
+          summary: c.summary,
+        })),
+      ];
+    })
+    .sort((a, b) => b.updated.localeCompare(a.updated));
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>LexGrade Standard: editions and corrections</title>
+  <id>${SITE_ORIGIN}/feed.xml</id>
+  <link rel="self" type="application/atom+xml" href="${SITE_ORIGIN}/feed.xml"/>
+  <link rel="alternate" type="text/html" href="${CANONICAL_URL}"/>
+  <updated>${entries[0].updated}</updated>
+  <author><name>LexGrade</name></author>
+${entries
+  .map(
+    (entry) => `  <entry>
+    <id>${escapeHtml(entry.id)}</id>
+    <title>${escapeHtml(entry.title)}</title>
+    <link rel="alternate" type="text/html" href="${escapeHtml(entry.link)}"/>
+    <updated>${entry.updated}</updated>
+    <summary>${escapeHtml(entry.summary)}</summary>
+  </entry>`,
+  )
+  .join('\n')}
+</feed>
+`;
+}
+
 /** "2026-10-19" -> "October 19, 2026"; "2026-02" -> "February 2026". */
 export function formatDate(value) {
   const [year, month, day] = String(value).split('-');
-  const name = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][Number(month) - 1];
+  const name = MONTHS[Number(month) - 1];
   return day ? `${name} ${Number(day)}, ${year}` : `${name} ${year}`;
 }
 
@@ -682,9 +748,9 @@ export function renderEdition({ version, path, published, corrections = [], isCu
     ? `This is the current edition. <a href="/standard">The Standard</a> presents its criteria for browsing.`
     : `This edition has been superseded by <a href="${editionPath(currentVersion)}">v${escapeHtml(currentVersion)}</a>. It stays published and citable.`;
   const correctionNote = corrections.length
-    ? `\n    <h2 id="corrections">Corrections to this edition</h2>\n    <ul>${corrections
-        .map((c) => `<li><time datetime="${escapeHtml(c.date)}">${escapeHtml(formatDate(c.date))}</time>: ${escapeHtml(c.summary)}</li>`)
-        .join('')}</ul>`
+    ? `\n    <dt id="corrections">Corrections</dt>${corrections
+        .map((c) => `<dd><time datetime="${escapeHtml(c.date)}">${escapeHtml(formatDate(c.date))}</time>: ${escapeHtml(c.summary)}</dd>`)
+        .join('')}`
     : '';
   const body = `${docHeader({
     title: `LexGrade Standard <span class="version">v${escapeHtml(version)}</span>`,
@@ -693,10 +759,10 @@ export function renderEdition({ version, path, published, corrections = [], isCu
   <dl class="edition-cite">
     <dt>Cite as</dt><dd>LexGrade Standard v${escapeHtml(version)}, LexGrade (lexgrade.org), CC-BY-SA 4.0.</dd>
     <dt>Cite a criterion</dt><dd>Add its ID, such as LGS 7.1, and link to <code>${escapeHtml(editionPath(version))}#lgs-7.1</code>.</dd>
-    <dt>Download citation</dt><dd>${citationLinks(version)}</dd>
+    <dt>Download citation</dt><dd>${citationLinks(version)}</dd>${correctionNote}
   </dl>
   <section class="prose wide-tables" aria-label="Full text of LexGrade Standard v${escapeHtml(version)}">
-    <p class="note">${notice}</p>${correctionNote}
+    <p class="note">${notice}</p>
     ${anchorCriteria(stripScripts(html))}
   </section>`;
   return documentShell({
@@ -959,12 +1025,16 @@ export function renderLlmsFull({ version, documents }) {
  * @param {string} [editPath] repo-relative path to the page's source file
  * @returns {string}
  */
-function githubFooter(editPath) {
+function githubFooter(editPath, correctionFor) {
   if (!editPath) {
     return '';
   }
   return `  <footer class="doc-footer">
-    <p class="gh-links">Found an error? <a href="${REPO_URL}/edit/main/${escapeHtml(editPath)}">Edit this page on GitHub</a> or <a href="${REPO_URL}/issues/new">open an issue</a>.</p>
+    <p class="gh-links">Found an error? <a href="${REPO_URL}/edit/main/${escapeHtml(editPath)}">Edit this page on GitHub</a> or ${
+      correctionFor
+        ? `<a href="${correctionUrl(correctionFor)}">suggest a correction</a>`
+        : `<a href="${REPO_URL}/issues/new">open an issue</a>`
+    }.</p>
   </footer>`;
 }
 
@@ -976,7 +1046,7 @@ function githubFooter(editPath) {
  * @param {{title: string, description: string, bodyHtml: string, editPath?: string}} opts
  * @returns {string}
  */
-function documentShell({ title, description, bodyHtml, canonical = '/standard', current, image, editPath, noindex = false, toc = null }) {
+function documentShell({ title, description, bodyHtml, canonical = '/standard', current, image, editPath, correctionFor, noindex = false, toc = null }) {
   // Each page declares its OWN canonical URL — a shared one would tell search
   // engines every solo page is a duplicate of /standard. Accept a path or a
   // full URL. A noindex page (the 404) carries no canonical.
@@ -995,6 +1065,7 @@ ${indexTag}
 ${socialMeta({ title, description, url: canonicalUrl, image })}
 <link rel="icon" href="/logo.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="alternate" type="application/atom+xml" title="LexGrade Standard: editions and corrections" href="/feed.xml">
 <meta name="theme-color" content="${THEME_COLOR}">
 ${FONT_LINKS}
 <link rel="stylesheet" href="/styles.css">
@@ -1008,14 +1079,14 @@ ${
 ${tocSidebar(toc)}
 <main id="main" tabindex="-1">
 ${bodyHtml}
-${githubFooter(editPath)}
+${githubFooter(editPath, correctionFor)}
 </main>
 </div>`
     : `<div class="layout layout--solo">
 ${topbar(current)}
 <main id="main" tabindex="-1">
 ${bodyHtml}
-${githubFooter(editPath)}
+${githubFooter(editPath, correctionFor)}
 </main>
 </div>`
 }
@@ -1238,6 +1309,7 @@ ${[def, example, anti, reqs, why, distinctions, notes].filter(Boolean).join('\n'
     current: 'techniques',
     image: `/og/technique-${slug}.png`,
     editPath,
+    correctionFor: `Technique #${number}`,
   });
 }
 
