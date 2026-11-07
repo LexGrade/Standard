@@ -581,6 +581,7 @@ export function renderStandard(standard) {
               .join(' · ')}</dd>`
           : ''
       }
+      <dt>Download citation</dt><dd>${citationLinks(version)}</dd>
       <dt>Machine-readable</dt><dd><a href="${API_URL}">/api/v1/standard.json</a> · <a href="/llms-full.txt">/llms-full.txt</a></dd>
       <dt>Source repository</dt><dd><a href="${REPO_URL}">${escapeHtml(REPO_URL.replace(/^https?:\/\//, ''))}</a></dd>
       <dt>Calibrated to</dt><dd>CPLR &amp; the Uniform Civil Rules (22 NYCRR Part 202)</dd>${
@@ -689,6 +690,11 @@ export function renderEdition({ version, path, published, corrections = [], isCu
     title: `LexGrade Standard <span class="version">v${escapeHtml(version)}</span>`,
     subhead: `Full text. Published <time datetime="${escapeHtml(published)}">${escapeHtml(formatDate(published))}</time>.`,
   })}
+  <dl class="edition-cite">
+    <dt>Cite as</dt><dd>LexGrade Standard v${escapeHtml(version)}, LexGrade (lexgrade.org), CC-BY-SA 4.0.</dd>
+    <dt>Cite a criterion</dt><dd>Add its ID, such as LGS 7.1, and link to <code>${escapeHtml(editionPath(version))}#lgs-7.1</code>.</dd>
+    <dt>Download citation</dt><dd>${citationLinks(version)}</dd>
+  </dl>
   <section class="prose wide-tables" aria-label="Full text of LexGrade Standard v${escapeHtml(version)}">
     <p class="note">${notice}</p>${correctionNote}
     ${anchorCriteria(stripScripts(html))}
@@ -1246,6 +1252,88 @@ export function jsonLdScript(data) {
   return `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', ...data }).replace(/</g, '\\u003c')}</script>`;
 }
 
+const editionUrl = (version) => `${SITE_ORIGIN}/standard/v${version}`;
+const citeFile = (version, ext) => `/cite/lexgrade-standard-v${version}.${ext}`;
+
+/** Citation downloads for one edition, keyed by file extension. */
+export function citationFiles({ version, published }) {
+  const [year, month, day] = String(published).split('-');
+  const title = `LexGrade Standard v${version}`;
+  const url = editionUrl(version);
+  return {
+    bib: `@misc{lexgrade-standard-${version},
+  title = {${title}},
+  author = {{LexGrade}},
+  year = {${year}},
+  version = {${version}},
+  url = {${url}},
+  note = {CC-BY-SA 4.0}
+}
+`,
+    // RIS lines end in CRLF, and each date part is padded by position (YYYY/MM/DD/).
+    ris: [
+      'TY  - STAND',
+      `TI  - ${title}`,
+      'AU  - LexGrade',
+      `PY  - ${year}`,
+      `DA  - ${[year, month ?? '', day ?? ''].join('/')}/`,
+      `ET  - ${version}`,
+      `UR  - ${url}`,
+      'ER  - ',
+      '',
+    ].join('\r\n'),
+    json: `${JSON.stringify(
+      [
+        {
+          id: `lexgrade-standard-${version}`,
+          type: 'standard',
+          title,
+          author: [{ literal: 'LexGrade' }],
+          issued: { 'date-parts': [[year, month, day].filter(Boolean).map(Number)] },
+          version,
+          URL: url,
+        },
+      ],
+      null,
+      2,
+    )}\n`,
+  };
+}
+
+/** Head tags that let citation managers and catalogs read an edition. */
+export function citationHeadTags({ version, published }) {
+  const url = editionUrl(version);
+  const title = `LexGrade Standard v${version}`;
+  const meta = [
+    ['citation_title', title],
+    ['citation_author', 'LexGrade'],
+    ['citation_publication_date', String(published).replaceAll('-', '/')],
+    ['citation_public_url', url],
+    ['DC.title', title],
+    ['DC.creator', 'LexGrade'],
+    ['DC.date', published],
+    ['DC.type', 'Text'],
+    ['DC.format', 'text/html'],
+    ['DC.language', 'en'],
+    ['DC.identifier', url],
+    ['DC.rights', LICENSE_URL],
+  ];
+  return [
+    '<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">',
+    `<link rel="cite-as" href="${url}">`,
+    `<link rel="license" href="${LICENSE_URL}">`,
+    `<link rel="alternate" type="application/json" href="${API_URL}">`,
+    ...meta.map(([name, content]) => `<meta name="${name}" content="${escapeHtml(content)}">`),
+  ].join('\n');
+}
+
+/** The links to an edition's citation downloads. */
+function citationLinks(version) {
+  return [['bib', 'BibTeX'], ['ris', 'RIS'], ['json', 'CSL-JSON']]
+    .map(([ext, label]) => `<a href="${citeFile(version, ext)}">${label}</a>`)
+    .join(' · ');
+}
+
 /** The site itself and its publisher, for the homepage. */
 export function homeStructuredData() {
   return {
@@ -1264,13 +1352,14 @@ export function homeStructuredData() {
   };
 }
 
-/** The Standard as a versioned, openly licensed work. */
-export function standardStructuredData({ version }) {
+/** The Standard as a versioned, openly licensed work, at /standard or at an edition's own URL. */
+export function standardStructuredData({ version, url = CANONICAL_URL, published }) {
   return {
     '@type': 'CreativeWork',
     name: 'LexGrade Standard',
     version,
-    url: CANONICAL_URL,
+    url,
+    ...(published ? { datePublished: published } : {}),
     description: 'An open standard for scoring legal motions.',
     inLanguage: 'en',
     isAccessibleForFree: true,

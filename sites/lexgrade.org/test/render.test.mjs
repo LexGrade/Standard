@@ -2,8 +2,9 @@
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { test } from 'node:test';
+import { parse as parseYaml } from 'yaml';
 
-import { editionPath, escapeHtml, formatDate, homeStructuredData, jsonLdScript, LOGO_SVG, previewText, registerStructuredData, standardStructuredData, techniqueStructuredData, renderAbout, renderCheck, renderContribute, renderEdition, renderHome, renderLlmsFull, renderNotFound, renderRedirect, renderReferences, renderStandard, renderTechnique, renderTechniques, stripScripts } from '../src/render.mjs';
+import { citationFiles, citationHeadTags, editionPath, escapeHtml, formatDate, homeStructuredData, jsonLdScript, LOGO_SVG, previewText, registerStructuredData, standardStructuredData, techniqueStructuredData, renderAbout, renderCheck, renderContribute, renderEdition, renderHome, renderLlmsFull, renderNotFound, renderRedirect, renderReferences, renderStandard, renderTechnique, renderTechniques, stripScripts } from '../src/render.mjs';
 import { cspScriptSrc } from '../src/lib/csp.mjs';
 import { toHtml } from '../src/markdown.mjs';
 
@@ -551,6 +552,39 @@ test('edition pages have permanent URLs, criterion anchors, and correction notes
   const old = renderEdition({ ...base, version: '1.0', published: '2026-02', isCurrent: false });
   assert.match(old, /superseded by <a href="\/standard\/v1\.1">v1\.1<\/a>/);
   assert.ok(!/id="corrections"/.test(old));
+});
+
+test('citation downloads and head tags describe the edition, with no individual author', () => {
+  const full = citationFiles({ version: '1.1', published: '2026-10-19' });
+  assert.match(full.bib, /@misc\{lexgrade-standard-1\.1,/);
+  assert.match(full.bib, /author = \{\{LexGrade\}\}/);
+  assert.match(full.bib, /year = \{2026\}/);
+  assert.match(full.bib, /url = \{https:\/\/lexgrade\.org\/standard\/v1\.1\}/);
+  assert.match(full.ris, /^TY  - STAND\r\n/);
+  assert.match(full.ris, /DA  - 2026\/10\/19\/\r\n/);
+  assert.match(full.ris, /ER  - \r\n$/);
+  const [csl] = JSON.parse(full.json);
+  assert.deepEqual(csl.issued['date-parts'], [[2026, 10, 19]]);
+  assert.deepEqual(csl.author, [{ literal: 'LexGrade' }]);
+  // A month-only date stays month-only everywhere; none of them invents a day.
+  const monthOnly = citationFiles({ version: '1.0', published: '2026-02' });
+  assert.deepEqual(JSON.parse(monthOnly.json)[0].issued['date-parts'], [[2026, 2]]);
+  assert.match(monthOnly.ris, /DA  - 2026\/02\/\/\r\n/);
+  const head = citationHeadTags({ version: '1.0', published: '2026-02' });
+  assert.match(head, /<meta name="citation_publication_date" content="2026\/02">/);
+  assert.match(head, /<link rel="cite-as" href="https:\/\/lexgrade\.org\/standard\/v1\.0">/);
+  assert.match(head, /<meta name="DC\.creator" content="LexGrade">/);
+});
+
+test('CITATION.cff matches the current edition in methodology.yaml', () => {
+  const read = (p) => readFileSync(new URL(`../../../${p}`, import.meta.url), 'utf-8');
+  const methodology = parseYaml(read('methodology.yaml'));
+  const cff = parseYaml(read('CITATION.cff'));
+  const current = methodology.current.standard;
+  assert.equal(String(cff.version), current);
+  assert.equal(String(cff['date-released']), methodology.artifacts.standard[current].published);
+  assert.equal(cff['preferred-citation'].url, `https://lexgrade.org/standard/v${current}`);
+  assert.deepEqual(cff.authors, [{ name: 'LexGrade' }]);
 });
 
 test('structured data parses, stays impersonal, and is escaped for HTML', () => {

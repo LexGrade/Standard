@@ -19,7 +19,7 @@ import { loadBundle, loadEditions, loadStandard, loadTechniqueRegister, parseTec
 import { cspScriptSrc } from './src/lib/csp.mjs';
 import { toHtml } from './src/markdown.mjs';
 import { appIcon, ogCard } from './src/og.mjs';
-import { PAGES, LOGO_SVG, BADGE_ROLES_CSS, editionPath, homeStructuredData, jsonLdScript, registerStructuredData, standardStructuredData, techniqueStructuredData, renderAbout, renderCheck, renderEdition, renderContribute, renderHome, renderReferences, renderLlmsFull, renderNotFound, renderStandard, renderTechnique, renderTechniques } from './src/render.mjs';
+import { PAGES, LOGO_SVG, BADGE_ROLES_CSS, citationFiles, citationHeadTags, editionPath, homeStructuredData, jsonLdScript, registerStructuredData, standardStructuredData, techniqueStructuredData, renderAbout, renderCheck, renderEdition, renderContribute, renderHome, renderReferences, renderLlmsFull, renderNotFound, renderStandard, renderTechnique, renderTechniques } from './src/render.mjs';
 
 const SITE = 'https://lexgrade.org';
 const OUT = resolve(dirname(fileURLToPath(import.meta.url)), 'dist');
@@ -73,8 +73,12 @@ writeFileSync(resolve(OUT, 'standard', 'index.html'), standardHtml);
 // only scripted page. Hash the rendered bytes so the strict policy allows exactly
 // those scripts and nothing else (every other page is script-free).
 const cspScript = cspScriptSrc(standardHtml);
-// Each edition's full text at its permanent URL.
+// Each edition's full text at its permanent URL, and its citation downloads.
+mkdirSync(resolve(OUT, 'cite'), { recursive: true });
 for (const edition of editions) {
+  for (const [ext, content] of Object.entries(citationFiles(edition))) {
+    writeFileSync(resolve(OUT, 'cite', `lexgrade-standard-v${edition.version}.${ext}`), content);
+  }
   writePage(editionPath(edition.version).slice(1), renderEdition({
     ...edition,
     currentVersion: standard.version,
@@ -259,6 +263,15 @@ writeFileSync(
     '/og/*',
     '  Cache-Control: public, max-age=31536000, immutable',
     '',
+    '/cite/*.bib',
+    '  Content-Type: application/x-bibtex; charset=utf-8',
+    '',
+    '/cite/*.ris',
+    '  Content-Type: application/x-research-info-systems; charset=utf-8',
+    '',
+    '/cite/*.json',
+    '  Content-Type: application/vnd.citationstyles.csl+json; charset=utf-8',
+    '',
     '/fonts/*',
     '  Cache-Control: public, max-age=31536000, immutable',
     '',
@@ -268,15 +281,25 @@ writeFileSync(
 // Structured data for the pages that have a clear schema.org type. Added here rather
 // than by the renderers, whose tests guard the pages against script tags; JSON-LD is
 // data, so the zero-JS guarantee still holds.
+const currentEdition = editions.find((e) => e.isCurrent);
 const structuredPages = [
   ['index.html', homeStructuredData()],
-  ['standard/index.html', standardStructuredData({ version: standard.version })],
+  ['standard/index.html', standardStructuredData({ version: standard.version, published: currentEdition.published })],
+  ...editions.map((e) => [
+    `${editionPath(e.version).slice(1)}/index.html`,
+    standardStructuredData({ version: e.version, url: `${SITE}${editionPath(e.version)}`, published: e.published }),
+  ]),
   ['techniques/index.html', registerStructuredData({ version: techniques.version })],
   ...techniqueList.map((t) => [`techniques/${t.slug}/index.html`, techniqueStructuredData(t)]),
 ];
+const citationHead = new Map([
+  ['standard/index.html', citationHeadTags(currentEdition)],
+  ...editions.map((e) => [`${editionPath(e.version).slice(1)}/index.html`, citationHeadTags(e)]),
+]);
 for (const [file, data] of structuredPages) {
   const p = resolve(OUT, file);
-  writeFileSync(p, readFileSync(p, 'utf-8').replace('</head>', `${jsonLdScript(data)}\n</head>`));
+  const head = [citationHead.get(file), jsonLdScript(data)].filter(Boolean).join('\n');
+  writeFileSync(p, readFileSync(p, 'utf-8').replace('</head>', `${head}\n</head>`));
 }
 
 // Self-check: every internal link + in-page anchor must resolve. A spec site can't

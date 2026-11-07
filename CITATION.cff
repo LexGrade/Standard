@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "To cite the LexGrade Standard, please use this information."
+type: dataset
+title: "LexGrade Standard"
+abstract: "An open standard for scoring legal motions."
+authors:
+  - name: "LexGrade"
+version: "1.1"
+date-released: "2026-10-19"
+license: CC-BY-SA-4.0
+url: "https://lexgrade.org/standard"
+repository-code: "https://github.com/LexGrade/Standard"
+preferred-citation:
+  type: standard
+  title: "LexGrade Standard v1.1"
+  authors:
+    - name: "LexGrade"
+  year: 2026
+  version: "1.1"
+  url: "https://lexgrade.org/standard/v1.1"
