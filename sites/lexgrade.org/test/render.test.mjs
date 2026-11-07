@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { test } from 'node:test';
 
-import { escapeHtml, homeStructuredData, jsonLdScript, LOGO_SVG, previewText, registerStructuredData, standardStructuredData, techniqueStructuredData, renderAbout, renderCheck, renderContribute, renderHome, renderLlmsFull, renderNotFound, renderRedirect, renderReferences, renderStandard, renderTechnique, renderTechniques, stripScripts } from '../src/render.mjs';
+import { editionPath, escapeHtml, formatDate, homeStructuredData, jsonLdScript, LOGO_SVG, previewText, registerStructuredData, standardStructuredData, techniqueStructuredData, renderAbout, renderCheck, renderContribute, renderEdition, renderHome, renderLlmsFull, renderNotFound, renderRedirect, renderReferences, renderStandard, renderTechnique, renderTechniques, stripScripts } from '../src/render.mjs';
 import { cspScriptSrc } from '../src/lib/csp.mjs';
 import { toHtml } from '../src/markdown.mjs';
 
@@ -535,6 +535,22 @@ test('social tags carry the clipped preview; the meta description allows more', 
   assert.ok(og.length <= 126);
   assert.ok(meta.startsWith(og.replace(/…$/, '')));
   assert.ok(meta.length <= 156);
+});
+
+test('edition pages have permanent URLs, criterion anchors, and correction notes', () => {
+  assert.equal(editionPath('1.1'), '/standard/v1.1');
+  assert.equal(formatDate('2026-10-19'), 'October 19, 2026');
+  assert.equal(formatDate('2026-02'), 'February 2026');
+  const base = { path: 'commons/standard/x.md', html: '<table><tr><td>LGS 7.1</td></tr><tr><td>LGS 7.1</td></tr></table>', currentVersion: '1.1' };
+  const current = renderEdition({ ...base, version: '1.1', published: '2026-10-19', isCurrent: true, corrections: [{ date: '2026-11-05', summary: 'Fixed a pinpoint.' }] });
+  assert.match(current, /rel="canonical" href="https:\/\/lexgrade\.org\/standard\/v1\.1"/);
+  assert.match(current, /This is the current edition/);
+  assert.match(current, /<time datetime="2026-11-05">November 5, 2026<\/time>: Fixed a pinpoint\./);
+  assert.equal((current.match(/id="lgs-7\.1"/g) || []).length, 1, 'each criterion anchor appears once');
+  assert.ok(!/<script/i.test(current), 'edition pages ship zero JS');
+  const old = renderEdition({ ...base, version: '1.0', published: '2026-02', isCurrent: false });
+  assert.match(old, /superseded by <a href="\/standard\/v1\.1">v1\.1<\/a>/);
+  assert.ok(!/id="corrections"/.test(old));
 });
 
 test('structured data parses, stays impersonal, and is escaped for HTML', () => {

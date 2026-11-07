@@ -128,6 +128,25 @@ export function loadBundle() {
 }
 
 /**
+ * Load every published edition of the Standard from methodology.yaml, oldest first.
+ *
+ * @returns {Array<{version: string, path: string, license: string, published: string, corrections: Array<{date: string, summary: string}>, isCurrent: boolean, markdown: string}>}
+ */
+export function loadEditions() {
+  const dataRoot = resolveDataRoot(process.cwd(), existsSync, process.env.LEXGRADE_DATA_ROOT);
+  const methodology = parseYaml(readFileSync(resolve(dataRoot, 'methodology.yaml'), 'utf-8'));
+  return Object.entries(methodology.artifacts.standard).map(([version, artifact]) => ({
+    version,
+    path: artifact.path,
+    license: artifact.license,
+    published: artifact.published,
+    corrections: artifact.corrections ?? [],
+    isCurrent: version === methodology.current.standard,
+    markdown: readFileSync(resolveDocPath(dataRoot, artifact.path, existsSync), 'utf-8'),
+  }));
+}
+
+/**
  * Load the Technique Register markdown (the informative companion). Path comes
  * from methodology.yaml (current technique_register version).
  *

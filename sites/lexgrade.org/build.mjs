@@ -15,11 +15,11 @@ import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statS
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { loadBundle, loadStandard, loadTechniqueRegister, parseTechniques, standardSection } from './src/lib/loadStandard.mjs';
+import { loadBundle, loadEditions, loadStandard, loadTechniqueRegister, parseTechniques, standardSection } from './src/lib/loadStandard.mjs';
 import { cspScriptSrc } from './src/lib/csp.mjs';
 import { toHtml } from './src/markdown.mjs';
 import { appIcon, ogCard } from './src/og.mjs';
-import { PAGES, LOGO_SVG, BADGE_ROLES_CSS, homeStructuredData, jsonLdScript, registerStructuredData, standardStructuredData, techniqueStructuredData, renderAbout, renderCheck, renderContribute, renderHome, renderReferences, renderLlmsFull, renderNotFound, renderStandard, renderTechnique, renderTechniques } from './src/render.mjs';
+import { PAGES, LOGO_SVG, BADGE_ROLES_CSS, editionPath, homeStructuredData, jsonLdScript, registerStructuredData, standardStructuredData, techniqueStructuredData, renderAbout, renderCheck, renderEdition, renderContribute, renderHome, renderReferences, renderLlmsFull, renderNotFound, renderStandard, renderTechnique, renderTechniques } from './src/render.mjs';
 
 const SITE = 'https://lexgrade.org';
 const OUT = resolve(dirname(fileURLToPath(import.meta.url)), 'dist');
@@ -66,12 +66,21 @@ writeFileSync(
 );
 
 mkdirSync(resolve(OUT, 'standard'), { recursive: true });
-const standardHtml = renderStandard(standard);
+const editions = loadEditions();
+const standardHtml = renderStandard({ ...standard, editions });
 writeFileSync(resolve(OUT, 'standard', 'index.html'), standardHtml);
 // CSP source for the inline progressive-enhancement script(s) on /standard — the
 // only scripted page. Hash the rendered bytes so the strict policy allows exactly
 // those scripts and nothing else (every other page is script-free).
 const cspScript = cspScriptSrc(standardHtml);
+// Each edition's full text at its permanent URL.
+for (const edition of editions) {
+  writePage(editionPath(edition.version).slice(1), renderEdition({
+    ...edition,
+    currentVersion: standard.version,
+    html: toHtml(edition.markdown.replace(/^# .*\n/, '')),
+  }));
+}
 // The root (/) homepage is written further down, once the technique count is known.
 // Custom 404 — Cloudflare Pages serves dist/404.html for any unmatched route.
 writeFileSync(resolve(OUT, '404.html'), renderNotFound());
@@ -190,6 +199,7 @@ writeFileSync(resolve(OUT, 'apple-touch-icon.png'), appIcon(180));
 // The page set derives from PAGES; the per-technique pages are appended.
 const sitemapPaths = [
   ...PAGES.map((p) => p.path),
+  ...editions.map((e) => editionPath(e.version)),
   ...techniqueList.map((t) => `/techniques/${t.slug}`),
 ];
 writeFileSync(

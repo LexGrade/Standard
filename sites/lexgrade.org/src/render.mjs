@@ -574,7 +574,13 @@ export function renderStandard(standard) {
   <details class="panel sotd" open>
     <summary><span class="sotd-chevron" aria-hidden="true"></span>Status of this document</summary>
     <dl>
-      <dt>This version</dt><dd>v${escapeHtml(version)} (current published edition)</dd>
+      <dt>This version</dt><dd>v${escapeHtml(version)} (current published edition)</dd>${
+        standard.editions?.length
+          ? `\n      <dt>Full text</dt><dd>${standard.editions
+              .map((e) => `<a href="${editionPath(e.version)}">v${escapeHtml(e.version)}</a>`)
+              .join(' · ')}</dd>`
+          : ''
+      }
       <dt>Machine-readable</dt><dd><a href="${API_URL}">/api/v1/standard.json</a> · <a href="/llms-full.txt">/llms-full.txt</a></dd>
       <dt>Source repository</dt><dd><a href="${REPO_URL}">${escapeHtml(REPO_URL.replace(/^https?:\/\//, ''))}</a></dd>
       <dt>Calibrated to</dt><dd>CPLR &amp; the Uniform Civil Rules (22 NYCRR Part 202)</dd>${
@@ -638,6 +644,64 @@ export function renderRedirect(to) {
 </body>
 </html>
 `;
+}
+
+/** The permanent URL of one edition of the Standard. */
+export function editionPath(version) {
+  return `/standard/v${version}`;
+}
+
+/** "2026-10-19" -> "October 19, 2026"; "2026-02" -> "February 2026". */
+export function formatDate(value) {
+  const [year, month, day] = String(value).split('-');
+  const name = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][Number(month) - 1];
+  return day ? `${name} ${Number(day)}, ${year}` : `${name} ${year}`;
+}
+
+/** The criteria tables have no headings, so give each criterion's first row its LGS anchor. */
+function anchorCriteria(html) {
+  const seen = new Set();
+  return html.replace(/<td([^>]*)>(LGS \d+\.\d+)<\/td>/g, (cell, attrs, id) => {
+    const a = anchor(id);
+    if (seen.has(a)) return cell;
+    seen.add(a);
+    return `<td${attrs} id="${a}">${id}</td>`;
+  });
+}
+
+/**
+ * Render one edition's full text at its permanent URL. The markdown is the Standard's
+ * source of truth; its H1 is dropped in favor of the page header.
+ *
+ * @param {{version: string, path: string, published: string, corrections?: Array<{date: string, summary: string}>, isCurrent: boolean, currentVersion: string, html: string}} opts
+ * @returns {string}
+ */
+export function renderEdition({ version, path, published, corrections = [], isCurrent, currentVersion, html }) {
+  const notice = isCurrent
+    ? `This is the current edition. <a href="/standard">The Standard</a> presents its criteria for browsing.`
+    : `This edition has been superseded by <a href="${editionPath(currentVersion)}">v${escapeHtml(currentVersion)}</a>. It stays published and citable.`;
+  const correctionNote = corrections.length
+    ? `\n    <h2 id="corrections">Corrections to this edition</h2>\n    <ul>${corrections
+        .map((c) => `<li><time datetime="${escapeHtml(c.date)}">${escapeHtml(formatDate(c.date))}</time>: ${escapeHtml(c.summary)}</li>`)
+        .join('')}</ul>`
+    : '';
+  const body = `${docHeader({
+    title: `LexGrade Standard <span class="version">v${escapeHtml(version)}</span>`,
+    subhead: `Full text. Published <time datetime="${escapeHtml(published)}">${escapeHtml(formatDate(published))}</time>.`,
+  })}
+  <section class="prose wide-tables" aria-label="Full text of LexGrade Standard v${escapeHtml(version)}">
+    <p class="note">${notice}</p>${correctionNote}
+    ${anchorCriteria(stripScripts(html))}
+  </section>`;
+  return documentShell({
+    title: `LexGrade Standard v${version}: full text`,
+    description: `The full text of LexGrade Standard v${version}, an open standard for scoring legal motions. CC-BY-SA 4.0.`,
+    bodyHtml: body,
+    canonical: editionPath(version),
+    current: 'standard',
+    image: '/og/standard.png',
+    editPath: path,
+  });
 }
 
 /**
