@@ -654,7 +654,7 @@ export function renderHome({ standardVersion, principleCount, criteriaCount, tec
   const body = `  <header class="home-hero">
     <h1 class="home-title">Scoring the quality of legal drafting.</h1>
     <p class="subhead">LexGrade is an open standard for grading legal motions. Its principles, weights, and ethics gate are published in full.</p>
-    <p class="home-check">Filing without a lawyer? <a href="/check">Check your own motion <span aria-hidden="true">→</span></a> LexGrade is not legal advice.</p>
+    <p class="home-check">Filing without a lawyer? <a href="/check">Check your own motion</a>. LexGrade is not legal advice.</p>
     <p class="callout home-evidence">Why an ethics gate? Candor toward the court is where scoring has to start. A single fabricated citation costs 20 points and makes the motion Deficient, whatever its score.</p>
   </header>
   <nav class="home-cards" aria-label="Start here">
@@ -669,10 +669,10 @@ export function renderHome({ standardVersion, principleCount, criteriaCount, tec
       <span class="home-card__cta">Browse techniques <span aria-hidden="true">→</span></span>
     </a>
   </nav>
-  <p class="home-note">The criteria come from real motion practice. <a href="/about">About LexGrade <span aria-hidden="true">→</span></a></p>
+  <p class="home-note">The criteria come from real motion practice. <a href="/about">About LexGrade</a></p>
   <aside class="home-invite" aria-label="Contribute">
     <p class="home-invite__lead">If you litigate, help shape the Standard.</p>
-    <a class="home-invite__link" href="/contribute">Contribute to LexGrade <span aria-hidden="true">→</span></a>
+    <a class="home-invite__link" href="/contribute">Contribute to LexGrade</a>
   </aside>`;
   return documentShell({
     title: 'LexGrade — Open scoring for legal drafting quality',
