@@ -199,15 +199,17 @@ writeFileSync(resolve(OUT, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: $
 // consumed cross-origin (agents, downstream tools), so it carries permissive
 // CORS; static assets cache hard; and a strict CSP limits scripts at the edge to
 // the hashed enhancement script and the Cloudflare Web Analytics beacon, which
-// Cloudflare injects when serving (built pages don't reference it). connect-src
-// falls back to default-src 'self', which covers the beacon's /cdn-cgi/rum POST.
+// Cloudflare injects when serving (built pages don't reference it). The injected
+// path is versioned (/beacon.min.js/v…), so the source keeps its trailing slash
+// to match by prefix. connect-src falls back to default-src 'self', which covers
+// the beacon's /cdn-cgi/rum POST.
 writeFileSync(
   resolve(OUT, '_headers'),
   [
     '/*',
     '  X-Content-Type-Options: nosniff',
     '  Referrer-Policy: strict-origin-when-cross-origin',
-    `  Content-Security-Policy: default-src 'self'; script-src ${cspScript} https://static.cloudflareinsights.com/beacon.min.js; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; base-uri 'self'; form-action 'none'`,
+    `  Content-Security-Policy: default-src 'self'; script-src ${cspScript} https://static.cloudflareinsights.com/beacon.min.js/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; base-uri 'self'; form-action 'none'`,
     '',
     '/api/*',
     '  Access-Control-Allow-Origin: *',
