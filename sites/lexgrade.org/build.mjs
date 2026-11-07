@@ -10,7 +10,7 @@
 // lgs-criteria.yaml via loadStandard) — no network, no external API — so the
 // site is self-contained and reproducible.
 
-import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -84,6 +84,8 @@ writeFileSync(
   readFileSync(resolve(dirname(fileURLToPath(import.meta.url)), 'src', 'styles.css'), 'utf-8')
     .replace('/*__BADGE_ROLES__*/', BADGE_ROLES_CSS),
 );
+// The webfonts and their licenses, served from this origin.
+cpSync(resolve(dirname(fileURLToPath(import.meta.url)), 'assets', 'fonts', 'web'), resolve(OUT, 'fonts'), { recursive: true });
 // Self-contained narrative pages (no markdown source): provenance, the
 // collaboration CTA, and the sources/influences credits.
 writePage('about', renderAbout());
@@ -224,7 +226,7 @@ writeFileSync(
     '  X-Content-Type-Options: nosniff',
     '  Referrer-Policy: strict-origin-when-cross-origin',
     '  Strict-Transport-Security: max-age=31536000',
-    `  Content-Security-Policy: default-src 'self'; script-src ${cspScript} https://static.cloudflareinsights.com/beacon.min.js/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; base-uri 'self'; form-action 'none'; frame-ancestors 'none'`,
+    `  Content-Security-Policy: default-src 'self'; script-src ${cspScript} https://static.cloudflareinsights.com/beacon.min.js/; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; base-uri 'self'; form-action 'none'; frame-ancestors 'none'`,
     '',
     '/api/*',
     '  Access-Control-Allow-Origin: *',
@@ -242,6 +244,9 @@ writeFileSync(
     '  Cache-Control: public, max-age=3600',
     '',
     '/og/*',
+    '  Cache-Control: public, max-age=31536000, immutable',
+    '',
+    '/fonts/*',
     '  Cache-Control: public, max-age=31536000, immutable',
     '',
   ].join('\n'),

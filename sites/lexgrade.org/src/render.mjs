@@ -259,15 +259,13 @@ const ROLES = {
   gate: { label: 'Gate', bg: '#F6E7E5', fg: 'var(--accent)', border: '#E8CFC9' },
 };
 
-// Google Fonts for the spec's typography: Source Serif 4 (body/prose/headings),
+// Self-hosted fonts for the spec's typography: Source Serif 4 (body/prose/headings),
 // IBM Plex Sans (UI chrome, nav, labels, section numbers), IBM Plex Mono (ids,
-// code, numerals). Loaded via <link> markup — zero-JS, and the offline-build
-// litmus is about the BUILD emitting no script, not about runtime asset loading.
-// display=swap keeps text visible while the webfont arrives; the CSS fallbacks
-// (Georgia / system-ui / ui-monospace) render identically offline.
-const FONT_LINKS = `<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&display=swap">`;
+// code, numerals). The @font-face rules live in src/styles.css and the files in
+// assets/fonts/web. Preloading the two Latin faces most pages paint with first lets
+// them arrive before text renders; font-display: swap keeps text visible if they don't.
+const FONT_LINKS = `<link rel="preload" href="/fonts/source-serif-4-latin-2a24bad466.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-sans-latin-056e4e2459.woff2" as="font" type="font/woff2" crossorigin>`;
 
 // Accent colour for mobile-chrome theming + the OG cards (the deeper maroon).
 const THEME_COLOR = '#7A1626';

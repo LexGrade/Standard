@@ -28,6 +28,9 @@ Changes accepted for the next edition accumulate here. Propose changes via an
   no longer describe the site as zero-JS with no data collection.
 - **Security headers and contact.** The site now sends HSTS and refuses to be
   framed, and publishes `/.well-known/security.txt` pointing to `SECURITY.md`.
+- **Self-hosted fonts.** The site serves its fonts from its own domain instead
+  of Google Fonts, with the main faces preloaded, and the CSP no longer allows
+  Google's font hosts.
 
 ### Fixed — LexGrade Standard v1.1, in place
 Both found in maintainer review; no correction report was filed.
