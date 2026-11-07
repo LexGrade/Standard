@@ -116,7 +116,7 @@ function siteMasthead() {
 //   og     — title/subtitle for the page's Open Graph card (build may override
 //            with version/counts for the dynamic pages)
 export const PAGES = [
-  { id: 'home', path: '/', label: 'Home', nav: false, footer: false, og: { title: 'Scoring the quality of legal drafting.', subtitle: 'Principles, weights, and the ethics gate, published in full' } },
+  { id: 'home', path: '/', label: 'Home', nav: false, footer: false, og: { title: 'An open standard for scoring legal motions.', subtitle: 'Principles, weights, and the ethics gate, published in full' } },
   { id: 'standard', path: '/standard', label: 'Standard', nav: true, footer: false, og: { title: 'LexGrade Standard', subtitle: 'Open scoring instrument for legal drafting quality' } },
   { id: 'techniques', path: '/techniques', label: 'Techniques', nav: true, footer: false, og: { title: 'Technique Register', subtitle: 'Named advocacy techniques, the informative companion' } },
   { id: 'about', path: '/about', label: 'About', nav: true, footer: true, og: { title: 'About LexGrade', subtitle: 'Grounded in real motion practice' } },
@@ -652,24 +652,24 @@ export function renderRedirect(to) {
  */
 export function renderHome({ standardVersion, principleCount, criteriaCount, techniqueVersion, techniqueCount }) {
   const body = `  <header class="home-hero">
-    <h1 class="home-title">Scoring the quality of legal drafting.</h1>
-    <p class="subhead">LexGrade is an open standard for grading legal motions. Its principles, weights, and ethics gate are published in full.</p>
+    <h1 class="home-title">An open standard for scoring legal motions.</h1>
+    <p class="subhead">Its principles, weights, and penalties are published in full.</p>
     <p class="home-check">Filing without a lawyer? <a href="/check">Check your own motion</a>. LexGrade is not legal advice.</p>
-    <p class="callout home-evidence">Why an ethics gate? Candor toward the court is where scoring has to start. A single fabricated citation costs 20 points and makes the motion Deficient, whatever its score.</p>
+    <p class="callout home-evidence">Candor toward the court comes first. A single fabricated citation costs 20 points and makes the motion Deficient, whatever its score.</p>
   </header>
-  <nav class="home-cards" aria-label="Start here">
+  <nav class="home-cards" aria-label="Standard and Technique Register">
     <a class="home-card" href="/standard">
       <h2 class="home-card__title">The LexGrade Standard <span class="home-card__v">v${escapeHtml(standardVersion)}</span></h2>
-      <p class="home-card__desc">${escapeHtml(String(principleCount))} principles and ${escapeHtml(String(criteriaCount))} graded criteria, each independently citable.</p>
+      <p class="home-card__desc">${escapeHtml(String(principleCount))} principles and ${escapeHtml(String(criteriaCount))} graded criteria, each citable on its own.</p>
       <span class="home-card__cta">Read the Standard <span aria-hidden="true">→</span></span>
     </a>
     <a class="home-card" href="/techniques">
       <h2 class="home-card__title">Technique Register <span class="home-card__v">v${escapeHtml(techniqueVersion)}</span></h2>
-      <p class="home-card__desc">${escapeHtml(String(techniqueCount))} named advocacy techniques, an informative companion to the Standard.</p>
+      <p class="home-card__desc">${escapeHtml(String(techniqueCount))} named advocacy techniques. Optional: they never change the score.</p>
       <span class="home-card__cta">Browse techniques <span aria-hidden="true">→</span></span>
     </a>
   </nav>
-  <p class="home-note">The criteria come from real motion practice. <a href="/about">About LexGrade</a></p>
+  <p class="home-note">The criteria come from New York State and federal motion practice. <a href="/about">About LexGrade</a></p>
   <aside class="home-invite" aria-label="Contribute">
     <p class="home-invite__lead">If you litigate, help shape the Standard.</p>
     <a class="home-invite__link" href="/contribute">Contribute to LexGrade</a>
@@ -677,7 +677,7 @@ export function renderHome({ standardVersion, principleCount, criteriaCount, tec
   return documentShell({
     title: 'LexGrade — Open scoring for legal drafting quality',
     description:
-      'An open standard for grading legal motions: the principles, weights, and ethics gate, published in full. CC-BY-SA 4.0.',
+      'An open standard for scoring legal motions: the principles, weights, and penalties, published in full. CC-BY-SA 4.0.',
     bodyHtml: body,
     canonical: '/',
     current: 'home',
@@ -1063,7 +1063,7 @@ ${rows}
   // eyebrow above the masthead.
   const body = `${docHeader({
     title: `LexGrade Technique Register <span class="version">v${escapeHtml(version)}</span>`,
-    subhead: `An informative companion to the Standard: ${escapeHtml(String(techniques.length))} named advocacy techniques, reported alongside the composite score without ever modifying it. The complete reference is also available as <a href="/api/v1/techniques.json">JSON</a> and in <a href="/llms-full.txt">llms-full.txt</a>.`,
+    subhead: `${escapeHtml(String(techniques.length))} named advocacy techniques, reported alongside the composite score without ever modifying it. The complete reference is also available as <a href="/api/v1/techniques.json">JSON</a> and in <a href="/llms-full.txt">llms-full.txt</a>.`,
   })}
   <section class="callout tech-ethos" aria-label="How to read this register">
     <p><strong>Read this first.</strong> The Register catalogs craft. Each named technique is a form of clarity, discipline, or preparation that makes the strongest <em>honest</em> version of a case easy for a busy court to act on. If a technique would require bending candor to the tribunal or fairness to the opponent, the Standard treats it as a defect.</p>
