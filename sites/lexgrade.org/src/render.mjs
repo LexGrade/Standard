@@ -120,7 +120,7 @@ export const PAGES = [
   { id: 'standard', path: '/standard', label: 'Standard', nav: true, footer: false, og: { title: 'LexGrade Standard', subtitle: 'Open scoring instrument for legal drafting quality' } },
   { id: 'techniques', path: '/techniques', label: 'Techniques', nav: true, footer: false, og: { title: 'Technique Register', subtitle: 'Named advocacy techniques, the informative companion' } },
   { id: 'about', path: '/about', label: 'About', nav: true, footer: true, og: { title: 'About LexGrade', subtitle: 'Grounded in real motion practice' } },
-  { id: 'check', path: '/check', label: 'Check a motion', nav: true, footer: true, og: { title: 'Checking your own motion', subtitle: 'For anyone filing without a lawyer' } },
+  { id: 'check', path: '/check', label: 'Check your own motion', nav: true, footer: true, og: { title: 'Checking your own motion', subtitle: 'For anyone filing without a lawyer' } },
   { id: 'contribute', path: '/contribute', label: 'Contribute', nav: false, footer: true, og: { title: 'Contribute to LexGrade', subtitle: 'An open, collaborative standard — help shape it' } },
   { id: 'references', path: '/references', label: 'References', nav: false, footer: true, og: { title: 'Sources & influences', subtitle: 'What LexGrade builds on, credited in full' } },
 ];
@@ -654,8 +654,8 @@ export function renderHome({ standardVersion, principleCount, criteriaCount, tec
   const body = `  <header class="home-hero">
     <h1 class="home-title">Scoring the quality of legal drafting.</h1>
     <p class="subhead">LexGrade is an open standard for grading legal motions. Its principles, weights, and ethics gate are published in full.</p>
-    <p class="home-check">Filing without a lawyer? <a href="/check">Start here <span aria-hidden="true">→</span></a></p>
-    <p class="callout home-evidence">Why an ethics gate? Candor toward the court is where grading has to start, so the Standard treats a single fabricated citation as an automatic &minus;20.</p>
+    <p class="home-check">Filing without a lawyer? <a href="/check">Check your own motion <span aria-hidden="true">→</span></a> LexGrade is not legal advice.</p>
+    <p class="callout home-evidence">Why an ethics gate? Candor toward the court is where scoring has to start. A single fabricated citation costs 20 points and makes the motion Deficient, whatever its score.</p>
   </header>
   <nav class="home-cards" aria-label="Start here">
     <a class="home-card" href="/standard">

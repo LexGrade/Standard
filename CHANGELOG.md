@@ -39,7 +39,8 @@ Changes accepted for the next edition accumulate here. Propose changes via an
   status block are cut to what a reader needs: the limits, validation status,
   and corrections path remain. They drop details that date quickly and an
   unsourced claim that self-represented litigants are the majority in family
-  and housing courts.
+  and housing courts. Home now states the full penalty for a fabricated citation
+  and says LexGrade is not legal advice beside the link for people without a lawyer.
 
 ### Fixed — LexGrade Standard v1.1, in place
 Both found in maintainer review; no correction report was filed.
