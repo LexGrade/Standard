@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { test } from 'node:test';
 
-import { escapeHtml, LOGO_SVG, previewText, renderAbout, renderCheck, renderContribute, renderHome, renderLlmsFull, renderNotFound, renderRedirect, renderReferences, renderStandard, renderTechnique, renderTechniques, stripScripts } from '../src/render.mjs';
+import { escapeHtml, homeStructuredData, jsonLdScript, LOGO_SVG, previewText, registerStructuredData, standardStructuredData, techniqueStructuredData, renderAbout, renderCheck, renderContribute, renderHome, renderLlmsFull, renderNotFound, renderRedirect, renderReferences, renderStandard, renderTechnique, renderTechniques, stripScripts } from '../src/render.mjs';
 import { cspScriptSrc } from '../src/lib/csp.mjs';
 import { toHtml } from '../src/markdown.mjs';
 
@@ -528,12 +528,30 @@ test('previewText falls back to a whole word plus an ellipsis', () => {
   assert.ok(!/\s…$/.test(out) && !/[,—]…$/.test(out), out);
 });
 
-test('social tags carry the clipped preview; the meta description stays full', () => {
+test('social tags carry the clipped preview; the meta description allows more', () => {
   const html = renderAbout();
   const meta = html.match(/<meta name="description" content="([^"]*)"/)[1];
   const og = html.match(/<meta property="og:description" content="([^"]*)"/)[1];
   assert.ok(og.length <= 126);
   assert.ok(meta.startsWith(og.replace(/…$/, '')));
+  assert.ok(meta.length <= 156);
+});
+
+test('structured data parses, stays impersonal, and is escaped for HTML', () => {
+  const technique = { name: 'Name </script>', slug: 'name', number: 3, definition: 'A definition.' };
+  const blocks = [homeStructuredData(), standardStructuredData({ version: '1.1' }), registerStructuredData({ version: '1.0' }), techniqueStructuredData(technique)];
+  for (const data of blocks) {
+    const html = jsonLdScript(data);
+    assert.match(html, /^<script type="application\/ld\+json">/);
+    const json = html.replace(/^<script[^>]*>/, '').replace(/<\/script>$/, '');
+    assert.ok(!json.includes('<'), 'no raw < that could close the script block');
+    assert.equal(JSON.parse(json)['@context'], 'https://schema.org');
+    assert.ok(!/"Person"|"author"/.test(json), 'names no individual');
+  }
+  assert.equal(standardStructuredData({ version: '1.1' }).version, '1.1');
+  const [term, crumbs] = techniqueStructuredData(technique)['@graph'];
+  assert.equal(term.url, 'https://lexgrade.org/techniques/name');
+  assert.equal(crumbs.itemListElement.length, 2);
 });
 
 test('renderCheck frames the Standard\'s quick start for readers without a lawyer, zero JS', () => {

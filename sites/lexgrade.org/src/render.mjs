@@ -199,10 +199,10 @@ function siteFooter(current) {
 </footer>`;
 }
 
-// Social previews show ~125 characters before truncating mid-word, so the
-// og/twitter copy is clipped here; <meta name="description"> keeps the full text
-// for search engines, which show more.
+// Social previews show ~125 characters before truncating mid-word, and search
+// results ~155, so descriptions are clipped to whole sentences or words for each.
 const PREVIEW_MAX = 125;
+const SEARCH_DESCRIPTION_MAX = 155;
 
 /**
  * Clip a description for a social preview: whole sentences while they fit,
@@ -241,7 +241,7 @@ function socialMeta({ title, description, url, image }) {
 <meta name="twitter:image" content="${escapeHtml(imageUrl)}">`
     : '';
   return `<meta property="og:type" content="website">
-<meta property="og:site_name" content="LexGrade Standard">
+<meta property="og:site_name" content="LexGrade">
 <meta property="og:title" content="${escapeHtml(title)}">
 <meta property="og:description" content="${escapeHtml(preview)}">
 <meta property="og:url" content="${escapeHtml(url)}">${imageTags}
@@ -675,7 +675,7 @@ export function renderHome({ standardVersion, principleCount, criteriaCount, tec
     <a class="home-invite__link" href="/contribute">Contribute to LexGrade</a>
   </aside>`;
   return documentShell({
-    title: 'LexGrade — Open scoring for legal drafting quality',
+    title: 'LexGrade: an open standard for scoring legal motions',
     description:
       'An open standard for scoring legal motions: the principles, weights, and penalties, published in full. CC-BY-SA 4.0.',
     bodyHtml: body,
@@ -920,7 +920,7 @@ function documentShell({ title, description, bodyHtml, canonical = '/standard', 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${escapeHtml(title)}</title>
-<meta name="description" content="${escapeHtml(description)}">
+<meta name="description" content="${escapeHtml(previewText(description, SEARCH_DESCRIPTION_MAX))}">
 ${indexTag}
 ${socialMeta({ title, description, url: canonicalUrl, image })}
 <link rel="icon" href="/logo.svg" type="image/svg+xml">
@@ -1078,8 +1078,8 @@ ${groups}
     .map((cat) => `    <li><a href="#${escapeHtml(anchor(cat))}">${escapeHtml(cat)}</a></li>`)
     .join('\n');
   return documentShell({
-    title: `LexGrade Standard v${version} — Technique Register`,
-    description: `The LexGrade Technique Register: ${techniques.length} named advocacy techniques. Informative companion to the Standard. CC-BY-SA 4.0.`,
+    title: `LexGrade Technique Register v${version}`,
+    description: `The LexGrade Technique Register: ${techniques.length} named advocacy techniques, reported alongside the score without changing it. CC-BY-SA 4.0.`,
     bodyHtml: body,
     canonical: '/techniques',
     current: 'techniques',
@@ -1171,6 +1171,89 @@ ${[def, example, anti, reqs, why, distinctions, notes].filter(Boolean).join('\n'
   });
 }
 
+
+const LICENSE_URL = 'https://creativecommons.org/licenses/by-sa/4.0/';
+const ORGANIZATION_ID = `${SITE_ORIGIN}/#organization`;
+const WEBSITE_ID = `${SITE_ORIGIN}/#website`;
+const REGISTER_URL = `${SITE_ORIGIN}/techniques`;
+
+/** A schema.org JSON-LD block. It's data, not code: browsers don't execute it and CSP doesn't apply. */
+export function jsonLdScript(data) {
+  return `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', ...data }).replace(/</g, '\\u003c')}</script>`;
+}
+
+/** The site itself and its publisher, for the homepage. */
+export function homeStructuredData() {
+  return {
+    '@graph': [
+      { '@type': 'Organization', '@id': ORGANIZATION_ID, name: 'LexGrade', url: `${SITE_ORIGIN}/`, logo: `${SITE_ORIGIN}/apple-touch-icon.png` },
+      {
+        '@type': 'WebSite',
+        '@id': WEBSITE_ID,
+        name: 'LexGrade',
+        url: `${SITE_ORIGIN}/`,
+        description: 'An open standard for scoring legal motions.',
+        inLanguage: 'en',
+        publisher: { '@id': ORGANIZATION_ID },
+      },
+    ],
+  };
+}
+
+/** The Standard as a versioned, openly licensed work. */
+export function standardStructuredData({ version }) {
+  return {
+    '@type': 'CreativeWork',
+    name: 'LexGrade Standard',
+    version,
+    url: CANONICAL_URL,
+    description: 'An open standard for scoring legal motions.',
+    inLanguage: 'en',
+    isAccessibleForFree: true,
+    license: LICENSE_URL,
+    publisher: { '@type': 'Organization', '@id': ORGANIZATION_ID, name: 'LexGrade' },
+    isPartOf: { '@id': WEBSITE_ID },
+  };
+}
+
+/** The Technique Register as a set of defined terms. */
+export function registerStructuredData({ version }) {
+  return {
+    '@type': 'DefinedTermSet',
+    '@id': REGISTER_URL,
+    name: 'LexGrade Technique Register',
+    version,
+    url: REGISTER_URL,
+    description: 'Named advocacy techniques, reported alongside the score without changing it.',
+    inLanguage: 'en',
+    license: LICENSE_URL,
+    publisher: { '@type': 'Organization', '@id': ORGANIZATION_ID, name: 'LexGrade' },
+  };
+}
+
+/** One technique as a defined term, with its place in the Register. */
+export function techniqueStructuredData({ name, slug, number, definition }) {
+  const url = `${REGISTER_URL}/${slug}`;
+  return {
+    '@graph': [
+      {
+        '@type': 'DefinedTerm',
+        name,
+        termCode: String(number),
+        url,
+        ...(definition ? { description: previewText(definition, SEARCH_DESCRIPTION_MAX) } : {}),
+        inDefinedTermSet: { '@id': REGISTER_URL },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Technique Register', item: REGISTER_URL },
+          { '@type': 'ListItem', position: 2, name, item: url },
+        ],
+      },
+    ],
+  };
+}
 
 // The stylesheet lives in src/styles.css — a real CSS file, so editors get
 // syntax highlighting and there is no template-literal backtick hazard. The
