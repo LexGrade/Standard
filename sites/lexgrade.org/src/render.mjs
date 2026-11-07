@@ -585,7 +585,7 @@ export function renderStandard(standard) {
       <dt>License</dt><dd>${escapeHtml(license)} (content)</dd>
       <dt>Cite as</dt><dd><span id="lg-cite">&ldquo;${escapeHtml(title)}, LexGrade (lexgrade.org), ${escapeHtml(license)}.&rdquo;</span></dd>
     </dl>
-    <p>This is the published LexGrade Standard, openly maintained under ${escapeHtml(license)}. It is not promulgated by any court, bar, or government body. The Standard's markdown text is the source of truth and is what <code>/llms-full.txt</code> serves verbatim; this page and the machine-readable <code>/api/v1/standard.json</code> catalog render from its structured derivative, and a build-blocking test holds every criterion ID, title, and weight in the derivative equal to the text, so the representations cannot drift apart silently. Every legal citation, whether in the Standard itself or in any motion drafted or assessed with it, must be independently verified before filing.</p>
+    <p>This Standard is not promulgated by any court, bar, or government body. Verify every legal citation independently before filing, including those in the Standard. The markdown text, served at <code>/llms-full.txt</code>, is the source of truth. This page and <code>/api/v1/standard.json</code> are built from a structured copy checked against it.</p>
   </details>
 
   <section class="abstract" aria-labelledby="abstract-h">
@@ -653,7 +653,7 @@ export function renderRedirect(to) {
 export function renderHome({ standardVersion, principleCount, criteriaCount, techniqueVersion, techniqueCount }) {
   const body = `  <header class="home-hero">
     <h1 class="home-title">Scoring the quality of legal drafting.</h1>
-    <p class="subhead">LexGrade is an open instrument for grading legal motions. The principles, the weights, and the ethics gate are published in full, in human and machine-readable form.</p>
+    <p class="subhead">LexGrade is an open standard for grading legal motions. Its principles, weights, and ethics gate are published in full.</p>
     <p class="home-check">Filing without a lawyer? <a href="/check">Start here <span aria-hidden="true">→</span></a></p>
     <p class="callout home-evidence">Why an ethics gate? In one 2024 study, leading language models hallucinated in 58&ndash;88% of their answers to verifiable questions about federal court cases (<a href="https://doi.org/10.1093/jla/laae003">Dahl et al., <em>Large Legal Fictions</em></a>). The Standard treats a single fabricated citation as an automatic &minus;20, because candor toward the court is where grading has to start.</p>
   </header>
@@ -669,9 +669,9 @@ export function renderHome({ standardVersion, principleCount, criteriaCount, tec
       <span class="home-card__cta">Browse techniques <span aria-hidden="true">→</span></span>
     </a>
   </nav>
-  <p class="home-note">The criteria come from real motion practice. A well-built motion serves everyone involved, including the court that has to decide it. <a href="/about">Why this exists <span aria-hidden="true">→</span></a></p>
+  <p class="home-note">The criteria come from real motion practice. <a href="/about">About LexGrade <span aria-hidden="true">→</span></a></p>
   <aside class="home-invite" aria-label="Contribute">
-    <p class="home-invite__lead">An open standard gets sharper when practicing lawyers argue with it. If you litigate, help shape the next version.</p>
+    <p class="home-invite__lead">If you litigate, help shape the next version.</p>
     <a class="home-invite__link" href="/contribute">Contribute to LexGrade <span aria-hidden="true">→</span></a>
   </aside>`;
   return documentShell({
@@ -696,20 +696,20 @@ export function renderHome({ standardVersion, principleCount, criteriaCount, tec
  *
  * @returns {string}
  */
-export function renderAbout() {
+export function renderAbout({ citationsVerified } = {}) {
   const body = `${docHeader({
     title: 'About LexGrade',
     subhead: 'An open scoring standard for legal drafting.',
   })}
   <section class="prose" aria-label="About LexGrade">
-    <p>LexGrade scores the quality of legal drafting. Its criteria come from motion practice in the New York State and federal courts, and from what courts did with those motions. One lesson sits at the center: a filing&#39;s job is to compel action.</p>
+    <p>LexGrade&#39;s criteria come from motion practice in the New York State and federal courts, and from what courts did with those motions. One lesson sits at the center: a filing&#39;s job is to compel action.</p>
     <h2>Who it&#39;s for</h2>
-    <p>Self-represented litigants are now the majority of parties in many family and housing courts, and most can&#39;t pay for hours of a lawyer&#39;s time. LexGrade gives them a written, checkable account of what separates a motion a court can act on from one it cannot. It does not promise to win cases.</p>
+    <p>Many people in family and housing courts have no lawyer. LexGrade gives them a written, checkable account of what separates a motion a court can act on from one it cannot, and makes what experienced advocates do by instinct something anyone can check for themselves. It does not promise to win cases.</p>
     <h2>Status</h2>
-    <p>The Standard is calibrated to New York State Supreme Court motion practice. It has a single author, and independent graders have not yet validated its criteria and weights. That reliability study is the next milestone. Its legal citations have been verified against official sources, and its method builds on the scholarship credited on the <a href="/references">references</a> page.</p>
+    <p>The Standard is calibrated to New York State Supreme Court motion practice. It has a single author, and independent graders have not yet validated its criteria and weights. An independent reliability study is next. Its legal citations were ${citationsVerified ? `last verified in ${escapeHtml(citationsVerified)}` : 'verified'} against official sources, and its method builds on the scholarship credited in <a href="/references">References</a>.</p>
     <h2>Limits</h2>
     <p>LexGrade is <strong>not</strong> promulgated by any court, bar, or government body, it confers no authority, and nothing here is legal advice. Verify every legal citation independently before filing, including those in the Standard.</p>
-    <p>The <a href="/standard">Standard</a> and <a href="/techniques">Technique Register</a> are licensed CC-BY-SA 4.0 and governed in the open. Anyone can use, test, and <a href="/contribute">improve</a> them.</p>
+    <p>The <a href="/standard">Standard</a> and <a href="/techniques">Technique Register</a> are licensed CC-BY-SA 4.0 and governed in the open. Anyone can use, test, or <a href="/contribute">improve</a> them.</p>
     <h2>Corrections</h2>
     <p>If a rule has changed, a citation is wrong, or a fact is out of date, <a href="${REPO_URL}/issues/new?template=correction.yml">open a correction</a> or email <a href="mailto:hello@lexgrade.org?subject=Correction">hello@lexgrade.org</a>. Every report is acknowledged within 14 days. Errors of fact are fixed in the current edition and logged in the changelog. Anything that would change what a criterion requires goes through the public RFC process. <a href="${REPO_URL}/blob/main/commons/GOVERNANCE.md#corrections">Full policy</a>.</p>
   </section>`;
