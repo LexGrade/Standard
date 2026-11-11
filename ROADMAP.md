@@ -26,8 +26,10 @@ sits above its category table, and why the homepage leads with the
 hallucination evidence rather than a pitch.)
 
 **The gap.** The artifact is ready and the institution around it is not.
-Everything on an institutional-citation checklist is satisfied except one
-item: nobody is named.
+What an institutional-citation checklist still asks for is independent
+review and a succession story: evidence that people outside the Working Group
+have checked the Standard, and that it will outlive whoever maintains it
+today.
 
 Phases are ordered by dependency, not calendar. Phase 0 blocks external
 outreach (Phase 4); Phases 1–3 can proceed in parallel with it.
@@ -38,10 +40,13 @@ outreach (Phase 4); Phases 1–3 can proceed in parallel with it.
 
 *Nothing external moves until this ships. Small in effort, decisive in effect.*
 
-- [ ] **Name a steward.** List at least one named editor — with bar admission
-      and affiliation — on the About page and in `commons/GOVERNANCE.md`.
-      "LexGrade Working Group" stays as the collective, but it must resolve to
-      at least one accountable human.
+- [x] **Let the record carry the accountability.** The Standard is published
+      by the LexGrade Working Group as a body; no individual is named as its
+      author, editor, or owner. What a reader relies on instead is the public
+      record: the corrections channel and its 14-day acknowledgment, the RFC
+      behind every change of requirement, the changelog, and each edition's
+      history. The About page says who answers (the Working Group, at
+      `hello@lexgrade.org`), by when, and where past corrections are logged.
 - [ ] **Recruit 2–3 advisory reviewers.** A legal-writing professor, a legal
       aid attorney, and/or a retired judge or court attorney. Listed by name on
       the About page. Their job is annual review sign-off, not day-to-day work.
@@ -59,8 +64,8 @@ outreach (Phase 4); Phases 1–3 can proceed in parallel with it.
       commons matters doubly when proprietary services build on the standard —
       the .org must never read as a vendor's marketing surface.
 
-**Done when:** the About page answers "who do I call when this is wrong?" with
-a specific person's name.
+**Done when:** the About page answers "what happens when this is wrong?" with
+a channel, a deadline, and a public record of past corrections.
 
 ## Phase 1 — Credibility with judicial readers
 
@@ -166,8 +171,8 @@ citation. Each rung makes the next easier. Blocked on Phase 0.*
       Force on AI): the LLM-benchmarking sections are ready-made CLE material,
       and the ethics gate is the frame bar groups want for AI-assisted filings.
 - [ ] **The institutional ask, last.** Permanent Commission on Access to
-      Justice / UCS Office for Justice Initiatives — arrive with the named
-      steward, reliability data, an adopted-in-a-classroom rubric, and the LII
+      Justice / UCS Office for Justice Initiatives — arrive with the
+      accountability record, reliability data, an adopted-in-a-classroom rubric, and the LII
       link already in hand.
 
 **Done when:** lexgrade.org is cited by an institution that the project didn't

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "license": "AGPL-3.0-only",
-  "description": "Shared, dependency-free parsing core for the open LexGrade Standard — the single Technique Register parser used by both the site build and the MCP server.",
+  "description": "Shared, dependency-free parsing core for the open LexGrade Standard — the single Technique Register parser used by the site build and downstream implementations.",
   "main": "index.mjs",
   "files": [
     "index.mjs",

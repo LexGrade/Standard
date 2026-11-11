@@ -17,7 +17,7 @@
 # machine-readable derivative — every LGS N.N criterion ID here must match the
 # set in the markdown; they cannot silently diverge.
 #
-# Consumers (the site build, the MCP server, and any downstream implementation)
+# Consumers (the site build and any downstream implementation)
 # read this file as DATA ONLY. It is published under CC-BY-SA 4.0, so anyone may
 # build against it.
 

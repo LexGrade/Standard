@@ -6,7 +6,7 @@ LexGrade is a static website. There is no backend, no database, and no user acco
 
 Email **security@lexgrade.org** (or **hello@lexgrade.org**) with the subject `Security: <short description>`. Please **do not** open a public issue for an unfixed vulnerability.
 
-We aim to acknowledge a report within 7 days and to address confirmed issues promptly. There is no bounty program.
+Reports are acknowledged within 7 days, and confirmed issues are addressed promptly. There is no bounty program.
 
 ## Scope
 

@@ -42,7 +42,7 @@ verified as of February 2026 and were not re-verified for v1.1. The
 legal-education scholarship added in v1.1 (§12) was verified as of October
 2026. The 22 NYCRR is periodically amended; LLM hallucination rates change as
 models improve. Users should confirm cited provisions remain current. Report
-corrections to the maintainer.
+corrections through the channel in GOVERNANCE.md (*Corrections*).
 
 ---
 
@@ -405,8 +405,8 @@ the motion should fill all five categories:
 | (d) Administrative / practice | OCA forms, Uniform Rules, administrative orders, practice guides | Supportive / Background |
 | (e) Adverse authority | Strongest contrary case with planned distinction | Mandatory |
 
-Category (d) is the competitive edge — OCA forms, Uniform Rules, and
-administrative orders are what opposing counsel and other AI tools miss.
+Category (d) is the category most often overlooked: OCA forms, Uniform
+Rules, and administrative orders.
 Category (e) is mandatory under NY RPC 3.3(a)(2): counsel must disclose directly
 adverse controlling authority not disclosed by the opposition.
 
@@ -1158,7 +1158,7 @@ release takes the next unused number in its Principle.
 | Edition | Status | Changes |
 |---------|--------|---------|
 | v1.0 | Published, February 2026 | Initial edition: 8 principles, 45 criteria, composite formula, three conformance levels. Remains published and citable. |
-| v1.1 | Published, October 2026 | Adds LGS 3.10 (Case Synthesis) and LGS 5.6 (Analytical Structure); adds §3 *Validity and its limits* and §6 *Reporting the composite*; adds the legal-education scholarship in §12; corrects the worksheet's Technique Register denominator to 39. No weight, deduction, gate rule, or threshold changed. Corrected in place, November 2026: the Gustafson first-page pinpoint in §12 (59); "LexGrade" for "LGS" in the §9 plain-language table. |
+| v1.1 | Published, October 2026 | Adds LGS 3.10 (Case Synthesis) and LGS 5.6 (Analytical Structure); adds §3 *Validity and its limits* and §6 *Reporting the composite*; adds the legal-education scholarship in §12; corrects the worksheet's Technique Register denominator to 39. No weight, deduction, gate rule, or threshold changed. Corrected in place, November 2026: the Gustafson first-page pinpoint in §12 (59); "LexGrade" for "LGS" in the §9 plain-language table; neutral wording for the category (d) note in §4, Principle 3, and the corrections pointer in the currency note. |
 
 **License.** CC-BY-SA 4.0. © 2026 LexGrade. Cite as: "LexGrade Standard v1.1,
 LexGrade (lexgrade.org), CC-BY-SA 4.0." Renamed forks must update the

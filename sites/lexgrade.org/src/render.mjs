@@ -713,7 +713,7 @@ export function renderAbout() {
     <p>LexGrade is <strong>not</strong> promulgated by any court, bar, or government body, it confers no authority, and nothing here is legal advice. Verify every legal citation independently before filing, including those in the Standard.</p>
     <p>The <a href="/standard">Standard</a> and <a href="/techniques">Technique Register</a> are licensed CC-BY-SA 4.0 and governed in the open. Anyone can use, test, or <a href="/contribute">improve</a> them.</p>
     <h2>Corrections</h2>
-    <p>To report a changed rule, a wrong citation, or an out-of-date fact, <a href="${REPO_URL}/issues/new?template=correction.yml">open a correction</a> or email <a href="mailto:hello@lexgrade.org?subject=Correction">hello@lexgrade.org</a>. Errors of fact are corrected in the current edition and logged in the changelog. Changes to what a criterion requires go through the public RFC process. See the <a href="${REPO_URL}/blob/main/commons/GOVERNANCE.md#corrections">corrections policy</a>.</p>
+    <p>To report a changed rule, a wrong citation, or an out-of-date fact, <a href="${REPO_URL}/issues/new?template=correction.yml">open a correction</a> or email <a href="mailto:hello@lexgrade.org?subject=Correction">hello@lexgrade.org</a>. Reports go to the LexGrade Working Group and are acknowledged within 14 days. Errors of fact are corrected in the current edition and logged in the changelog. Changes to what a criterion requires go through the public RFC process. See the <a href="${REPO_URL}/blob/main/commons/GOVERNANCE.md#corrections">corrections policy</a>.</p>
   </section>`;
   return documentShell({
     title: 'About — LexGrade',
@@ -988,7 +988,7 @@ export function renderNotFound() {
 
 /**
  * Strip anything executable so the production surface stays zero-JS even if a
- * source markdown file ever contains raw HTML. Defensive — our commons markdown
+ * source markdown file ever contains raw HTML. Defensive — the commons markdown
  * has none today, but the guarantee must not depend on that.
  *
  * @param {string} html

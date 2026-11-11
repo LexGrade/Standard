@@ -50,7 +50,7 @@ changes can go straight to a PR.
 
 - **Routine changes** (typos, clarifications) — merged after one review.
 - **Methodology changes** (rubric weights, gate logic, new techniques, criteria) —
-  open an issue tagged `rfc:` first; the maintainer merges after the RFC has been
+  open an issue tagged `rfc:` first; merged by rough consensus after the RFC has been
   open ≥ 7 days. Significant changes get a version bump.
 - **Breaking changes** — tagged `rfc:breaking`, 30 days' notice.
 
