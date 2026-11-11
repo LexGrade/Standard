@@ -26,10 +26,10 @@ sits above its category table, and why the homepage leads with the
 hallucination evidence rather than a pitch.)
 
 **The gap.** The artifact is ready and the institution around it is not.
-Everything on an institutional-citation checklist is satisfied except one
-item: a reader who finds an error has to be able to see that it will be
-received, answered, and fixed on the record, and that the Standard will
-outlive whoever maintains it today.
+What an institutional-citation checklist still asks for is independent
+review and a succession story: evidence that people outside the Working Group
+have checked the Standard, and that it will outlive whoever maintains it
+today.
 
 Phases are ordered by dependency, not calendar. Phase 0 blocks external
 outreach (Phase 4); Phases 1–3 can proceed in parallel with it.
@@ -40,7 +40,7 @@ outreach (Phase 4); Phases 1–3 can proceed in parallel with it.
 
 *Nothing external moves until this ships. Small in effort, decisive in effect.*
 
-- [ ] **Let the record carry the accountability.** The Standard is published
+- [x] **Let the record carry the accountability.** The Standard is published
       by the LexGrade Working Group as a body; no individual is named as its
       author, editor, or owner. What a reader relies on instead is the public
       record: the corrections channel and its 14-day acknowledgment, the RFC

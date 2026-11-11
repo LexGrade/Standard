@@ -20,7 +20,6 @@ Changes accepted for the next edition accumulate here. Propose changes via an
   they implement. Policy text only: what is permitted is unchanged. Item 7 of
   the RFC resolutions on [#4](https://github.com/LexGrade/standard/issues/4);
   merged in [#6](https://github.com/LexGrade/standard/pull/6).
-
 - **Impersonal governance text.** `commons/GOVERNANCE.md` describes LexGrade
   only as an open standard. The fork guide and trademark policy no longer
   refer to a company, a commercial product, or a hosted service, and are
@@ -32,7 +31,9 @@ Changes accepted for the next edition accumulate here. Propose changes via an
   follow the same style. Policy text only: what is permitted is unchanged.
 - **Roadmap Phase 0.** Accountability rests on the public record (the
   corrections channel, RFCs, the changelog, edition histories) and on the
-  Working Group as a body, in place of a named individual.
+  Working Group as a body, in place of a named individual. The About page
+  says that correction reports go to the Working Group and are acknowledged
+  within 14 days.
 
 ### Changed — Technique Register v1.0.14
 - Wording only. "Guidance for Phase 5 Integration" is retitled "Reporting the

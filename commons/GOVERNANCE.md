@@ -7,10 +7,10 @@ contributable — not to build elaborate governance machinery before it is neede
 
 ## Scope
 
-This governs **`commons/`** only — the open methodology (the rubric and Technique
+This governs **`commons/`** only — the open methodology (the Standard and Technique
 Register), licensed CC-BY-SA 4.0. The tooling (`sites/`, `packages/`) is licensed
-AGPL-3.0-only. Any hosted or proprietary service built on the standard is **not**
-governed by this document and is maintained separately.
+AGPL-3.0-only. A service that anyone builds on the standard is **not** governed
+by this document.
 
 ## Stewardship
 
@@ -27,10 +27,10 @@ outside contribution to warrant it; this document will be updated when it happen
 
 1. **Routine changes** (typos, clarifications, new failure-mode examples, new
    Technique Register entries) — merged after one round of review.
-2. **Methodology changes** (rubric weights, gate logic, criteria, version bumps) —
+2. **Methodology changes** (weights, gate logic, criteria, version bumps) —
    open a public issue tagged `rfc:` first; merged by rough consensus after the RFC
    has been open ≥ 7 days. Significant changes get a version bump in `methodology.yaml`.
-3. **Breaking changes** (rubric structure that breaks tooling; license changes) —
+3. **Breaking changes** (a change of structure that breaks tooling; license changes) —
    tagged `rfc:breaking`, with 30 days' notice and broad agreement before merge.
 
 ## Corrections
@@ -75,7 +75,7 @@ as the file you are changing, and nothing more.
 
 A CLA would let the project relicense your contribution under different terms.
 The project does not hold that power and does not want it: AGPL-3.0-only on the
-tooling and CC-BY-SA 4.0 on the rubric exist for **permanence** — the methodology
+tooling and CC-BY-SA 4.0 on the Standard exist for **permanence** — the methodology
 cannot be quietly relicensed or absorbed into a closed product. Inbound = outbound gives the legal hygiene without the
 relicensing escape hatch.
 
@@ -97,8 +97,8 @@ Whatever stewardship structure comes later, these hold:
 1. **`commons/` is never relicensed to a closed license.** The no-CLA,
    inbound = outbound posture is what makes this enforceable: the project never
    acquires the rights a relicense would need.
-2. **Published rubric versions keep their rights.** v1.0 stays under CC-BY-SA forever,
-   even if a later version ships under different terms.
+2. **Published editions keep their rights.** Every published edition stays under
+   CC-BY-SA permanently, even if a later edition ships under different terms.
 3. **The methodology stays forkable.** Renamed, attributed forks that follow the
    [forking guide below](#forking-lexgrade) are welcome; the trademark is never used
    to suppress them.
@@ -114,7 +114,7 @@ See [`/.github/CONTRIBUTING.md`](../.github/CONTRIBUTING.md) for the full workfl
 The LexGrade methodology is open and is meant to be forked. Courts, clinics,
 educators, and tool builders work in different forums and for different
 readers, and one publication cannot serve all of them. Other implementations
-on top of the open rubric are part of the design.
+built on the open Standard are part of the design.
 
 This section says what can be forked and how. Ambiguous fork rights tend to be
 tested exactly when they matter most, so the rights below are stated in full
@@ -124,7 +124,7 @@ and are permanent, whoever stewards the project later.
 
 | Asset | License | What this permits |
 |---|---|---|
-| `commons/standard/` | CC-BY-SA 4.0 | Reproducing the rubric and Technique Register in a product UI, derivative scoring tools, training materials, academic papers, and journalism. Attribution required; derivatives must also be CC-BY-SA. |
+| `commons/standard/` | CC-BY-SA 4.0 | Reproducing the Standard and Technique Register in a product UI, derivative scoring tools, training materials, academic papers, and journalism. Attribution required; derivatives must also be CC-BY-SA. |
 | `sites/`, `packages/` (tooling) | AGPL-3.0 | Self-hosting or modifying the site and tooling, or building a derivative tool. The same AGPL obligations apply to any hosted derivative. |
 
 ### What cannot be forked
@@ -141,10 +141,7 @@ and are permanent, whoever stewards the project later.
    `git sparse-checkout set commons` fetches just the methodology.
 
 2. **Pick a new name.** Anything that doesn't include "LexGrade" is fine, for
-   example:
-   - "MotionVet" / "BriefCheck" / "RubriQ"
-   - "[Firm] Verify" / "[Clinic] Drafting Tool"
-   - "Legal Aid Drafting Assistant — Cook County edition"
+   example "[Clinic] Drafting Tool" or "[County] Legal Aid Motion Checklist".
 
 3. **Add attribution.** A line in the README (or equivalent) such as:
 
@@ -154,10 +151,10 @@ and are permanent, whoever stewards the project later.
 
 4. **Honor the licenses.** AGPL on the code and tools means a hosted service
    built on them is also AGPL, and its source must be made available to its
-   users. CC-BY-SA on the rubric means derivatives stay CC-BY-SA and credit the
+   users. CC-BY-SA on the Standard means derivatives stay CC-BY-SA and credit the
    original. Neither license requires asking permission.
 
-5. **Track upstream, or pin.** The rubric moves from edition to edition, and
+5. **Track upstream, or pin.** The Standard moves from edition to edition, and
    backwards compatibility is not promised between major versions. A fork can
    pull each new edition or stay on the one it was built on.
 
@@ -169,7 +166,7 @@ and are permanent, whoever stewards the project later.
   CC-BY-SA belongs to its makers within those license terms. The project
   retains no veto.
 - **No blocking a fork from later editions.** A fork can keep ingesting every
-  published edition of the rubric. The CC-BY-SA license guarantees this.
+  published edition of the Standard. The CC-BY-SA license guarantees this.
 - **No withdrawal of the open licenses on published editions.** Once an
   edition is out under CC-BY-SA, it stays under CC-BY-SA permanently, whatever
   terms a later edition carries.
@@ -199,8 +196,6 @@ than this publication does. If that happens:
 - The fork will be linked from this repository on request.
 - If the fork becomes the de facto standard, the trademark stops being
   meaningful. That is the open ecosystem working as intended.
-
-The mission is access to justice, not the continuation of a name.
 
 ### Reporting a license violation or asking for clarification
 
@@ -233,12 +228,12 @@ text while leaving the content free to spread.
 | Thing | Status | What it means |
 |---|---|---|
 | **"LexGrade"** — word mark, logo, domain | Service mark | Not available for branding another product, service, or domain without written permission. |
-| **"LexGrade Standard vX.Y"** | Name of the open standard | The phrase, naming the edition implemented, describes an implementation of the open rubric and Technique Register, provided no endorsement is implied. |
-| The rubric and Technique Register | Open content (CC-BY-SA-4.0; tooling AGPL-3.0) | Free to implement, fork, and redistribute under any name except "LexGrade." |
+| **"LexGrade Standard vX.Y"** | Name of the open standard | The phrase, naming the edition implemented, describes an implementation of the Standard and Technique Register, provided no endorsement is implied. |
+| The Standard and Technique Register | Open content (CC-BY-SA 4.0; tooling AGPL-3.0) | Free to implement, fork, and redistribute under any name except "LexGrade." |
 
 ### Permitted without asking
 
-- Implementing the open rubric and Technique Register, and describing the
+- Implementing the Standard and Technique Register, and describing the
   result as "an implementation of the LexGrade Standard v1.1" (or whichever
   edition is implemented).
 - Forking the open tooling under AGPL-3.0 and shipping it under another name
@@ -263,7 +258,7 @@ confusion.
 ### Forks
 
 A fork is renamed (anything without "LexGrade"), acknowledges the source —
-*"Built on the LexGrade Standard v1.1 (lexgrade.org), under CC-BY-SA-4.0 /
+*"Built on the LexGrade Standard v1.1 (lexgrade.org), under CC-BY-SA 4.0 /
 AGPL-3.0"*, naming the edition it was built on — and claims no endorsement.
 The full guide is in the [forking section above](#forking-lexgrade).
 
@@ -271,8 +266,8 @@ The full guide is in the [forking section above](#forking-lexgrade).
 
 - Nominative use is not policed, forks that follow this policy are left
   alone, and the perpetual fork rights above survive any transfer of the mark.
-- Bad-faith confusion (for example, a paid "LexGrade" knockoff) is enforced
-  against, and every enforcement action is published in this repository.
+- Bad-faith confusion (for example, a paid "LexGrade" knockoff) is acted on,
+  and every enforcement action is published in this repository.
 - The mark transfers to a neutral fiscal host once the project reaches the
   scale described in [Stewardship](#stewardship).
 
