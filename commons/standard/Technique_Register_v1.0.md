@@ -925,9 +925,9 @@ LexGrade Standard; reported alongside the composite score but never modifying it
 
 ---
 
-## GUIDANCE FOR PHASE 5 INTEGRATION
+## REPORTING THE REGISTER
 
-After completing the Composite Scorecard in Phase 5 (Verification), complete the Technique Register:
+After completing the scoring worksheet (Standard §10), complete the Technique Register:
 
 > For each of the 39 techniques, assess whether it is present and cite the specific paragraph or section where it appears. Report both instruments. Do not modify the composite score based on Technique Register results.
 >
@@ -1051,7 +1051,7 @@ Most of the register optimizes for winning the motion in the trial court. A few 
 
 The register is written expert-to-expert, but its highest-value use is LLM-assisted drafting for self-represented litigants — the segment where competent lawyering is least affordable. Not every technique is safe in unpracticed hands: some are mechanical and disproportionately valuable for an SRL, some need legal judgment, and a few can draw judicial ire or backfire when a pro se litigant deploys them against represented counsel. This axis marks which is which. It is informative only and never affects the score.
 
-**SRL-safe ✓** — mechanical or low-judgment, hard to misfire, and worth the most to a self-represented litigant (a correct detail from a pro se overperforms the bench's low expectation). Deployable from guidance or a template.
+**SRL-safe ✓** — mechanical or low-judgment, hard to misfire, and worth the most to a self-represented litigant (a correct detail carries particular weight in a self-represented filing). Deployable from guidance or a template.
 - #1 Uncharacterized Omission, #2 Adverse-Party Sourcing, #3 The Documented Floor, #4 Docket Narrative, #6 The Anchor Paragraph, #7 The Defined Term as Argument, #8 Strategic White Space, #30 Competence Signal, #34 Silence After the List, #35 Implied Standard, #36 The Compliance Table, #39 Argumentative Point Headings, #11 Concrete Particularity
 
 **Use with care ◐** — require legal or rhetorical judgment to land; an SRL can attempt them with guidance, but a misjudgment weakens the motion (it does not endanger the litigant).
@@ -1066,7 +1066,7 @@ The register is written expert-to-expert, but its highest-value use is LLM-assis
 
 ## A NOTE TO THE MODEL
 
-This register is consumed by language models as well as lawyers — including through LexGrade's own MCP server and `llms-full.txt`. A model drafting or grading with it must treat the techniques as **descriptive, not as objectives**. They name how expert motions happen to persuade; they are not a checklist to maximize, and a higher technique count is never a better motion (see §7d, technique shoehorning).
+This register is consumed by language models as well as lawyers — including through `llms-full.txt` and the JSON catalog. A model drafting or grading with it must treat the techniques as **descriptive, not as objectives**. They name how expert motions happen to persuade; they are not a checklist to maximize, and a higher technique count is never a better motion (see §7d, technique shoehorning).
 
 - **Techniques are observations, not goals.** Do not deploy a technique where it does not belong, and do not restructure a sound motion to manufacture one. An empty slot beats a forced deployment.
 - **Candor overrides every technique.** Nothing here licenses misleading the tribunal. A technique that requires withholding or shading a material fact is not present in a good motion — it is a defect (see Ethical Boundaries).
@@ -1095,3 +1095,4 @@ The instrument exists to make good motions legible, not to make persuasion an en
 | v1.0.11 | 2026 | Renumbered the register so each category is contiguous and ascending (grouped by category, relative order preserved). Numbers only — no change to definitions, count (39), categories, or score. URLs/slugs unaffected. |
 | v1.0.12 | 2026 | Renamed techniques whose names read as adversarial tactics to neutral craft names (#1, #12, #14, #15, #17, #18, #19, #21, #23, #27, #29, #31, #32) and recast remaining loaded vocabulary throughout toward clarity, candor, and helping the court act on the honest case. No change to definitions' substance, count (39), categories, or score. Slugs regenerate from the new names. |
 | v1.0.13 | 2026 | Added "Standard criterion served" notes to #6, #26, #28, #38, and #39, cross-referencing the Standard v1.1 criteria they serve (LGS 3.10 Case Synthesis and LGS 5.6 Analytical Structure, with 2.2, 3.2, and 5.1). Informative only; no change to definitions, count (39), categories, or score. |
+| v1.0.14 | 2026 | Wording only: retitled "Guidance for Phase 5 Integration" as "Reporting the Register" and pointed it at the Standard's §10 worksheet; neutral wording for the SRL-safe note; "A Note to the Model" names `llms-full.txt` and the JSON catalog as the machine-readable forms. No change to definitions, count (39), categories, or score. |

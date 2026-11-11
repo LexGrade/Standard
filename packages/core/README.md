@@ -3,9 +3,9 @@
 The shared, dependency-free parsing core for the open [LexGrade Standard](https://lexgrade.org).
 
 It holds the **one** Technique Register parser — `parseTechniques`,
-`parseTechniqueFields`, and `slugifyTechnique` — imported by both the
-lexgrade.org site build and the [`@lexgrade/mcp`](../mcp) server, so technique
-slugs, the standardized field model, and the split logic cannot drift between
+`parseTechniqueFields`, and `slugifyTechnique` — imported by the lexgrade.org
+site build and available to downstream implementations, so technique slugs,
+the standardized field model, and the split logic cannot drift between
 surfaces.
 
 Pure functions, no filesystem, no dependencies.

@@ -15,8 +15,8 @@ pinned in the repo-root [`methodology.yaml`](../methodology.yaml).
 
 ## Validation status
 
-The Standard is a single-author instrument, and says so plainly. Its criteria
-and weights have not yet been validated by independent graders. The next
+The Standard's criteria and weights have not yet been validated by independent
+graders, and the Standard says so plainly (§3, *Validity and its limits*). The next
 milestone is an inter-rater reliability round — independent, bar-admitted
 graders scoring shared exemplars blind, with agreement measured by
 Krippendorff's α — and the calibration materials (exemplars, scoring guide,

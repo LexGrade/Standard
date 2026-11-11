@@ -21,6 +21,26 @@ Changes accepted for the next edition accumulate here. Propose changes via an
   the RFC resolutions on [#4](https://github.com/LexGrade/standard/issues/4);
   merged in [#6](https://github.com/LexGrade/standard/pull/6).
 
+- **Impersonal governance text.** `commons/GOVERNANCE.md` describes LexGrade
+  only as an open standard. The fork guide and trademark policy no longer
+  refer to a company, a commercial product, or a hosted service, and are
+  written without "we". The attribution example names the Standard and
+  lexgrade.org in place of a `/methodology` page that does not exist, and a
+  fork is linked from the repository on request in place of a `/forks` page.
+  The perpetual-rights commitment now covers any change of stewardship or of
+  the mark's holder. `SECURITY.md`, `CONTRIBUTING.md`, and `commons/README.md`
+  follow the same style. Policy text only: what is permitted is unchanged.
+- **Roadmap Phase 0.** Accountability rests on the public record (the
+  corrections channel, RFCs, the changelog, edition histories) and on the
+  Working Group as a body, in place of a named individual.
+
+### Changed — Technique Register v1.0.14
+- Wording only. "Guidance for Phase 5 Integration" is retitled "Reporting the
+  Register" and points at the Standard's §10 worksheet; the SRL-safe note is
+  reworded neutrally; "A Note to the Model" names `llms-full.txt` and the JSON
+  catalog in place of the withdrawn MCP server. No change to definitions,
+  count, categories, or score.
+
 ### Changed — site
 - **Shorter site pages.** Home, About, Contribute, References, and the Standard's
   status block are cut to what a reader needs: the limits, validation status,
@@ -34,7 +54,7 @@ Changes accepted for the next edition accumulate here. Propose changes via an
   describe the site as zero-JS with no data collection.
 
 ### Fixed — LexGrade Standard v1.1, in place
-Both found in maintainer review; no correction report was filed.
+All found in editorial review; no correction report was filed.
 - **Gustafson pinpoint (§12).** The citation now gives the first page:
   73 J. Legal Educ. 59 (2024), replacing "no. 1". Source: the author's
   faculty listing at UA Little Rock. A correction of fact under
@@ -42,6 +62,11 @@ Both found in maintainer review; no correction report was filed.
 - **Plain-language table (§9).** The P1 row reads "LexGrade does not" in place
   of "LGS does not", so the section written for non-attorneys doesn't rely on
   the abbreviation. Wording only; no requirement changed.
+- **Category (d) note (§4, Principle 3).** Reads "the category most often
+  overlooked" in place of "the competitive edge … what opposing counsel and
+  other AI tools miss". Wording only; no requirement changed.
+- **Currency note.** Corrections are reported "through the channel in
+  GOVERNANCE.md" in place of "to the maintainer". Wording only.
 
 ## [1.1.0] — 2026-10-19
 

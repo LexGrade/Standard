@@ -988,7 +988,7 @@ export function renderNotFound() {
 
 /**
  * Strip anything executable so the production surface stays zero-JS even if a
- * source markdown file ever contains raw HTML. Defensive — our commons markdown
+ * source markdown file ever contains raw HTML. Defensive — the commons markdown
  * has none today, but the guarantee must not depend on that.
  *
  * @param {string} html
