@@ -14,10 +14,11 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, wri
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { loadBundle, loadStandard, loadTechniqueRegister, parseTechniques, standardSection } from './src/lib/loadStandard.mjs';
+import { REGISTER_LABELS, loadBundle, loadStandard, loadTechniqueRegister, parseTechniques, standardSection } from './src/lib/loadStandard.mjs';
 import { cspScriptSrc } from './src/lib/csp.mjs';
 import { toHtml } from './src/markdown.mjs';
 import { appIcon, ogCard } from './src/og.mjs';
+import { DEFAULT_LANG, LANGS, localPath, strings } from './src/i18n.mjs';
 import { PAGES, LOGO_SVG, BADGE_ROLES_CSS, renderAbout, renderCheck, renderContribute, renderHome, renderReferences, renderLlmsFull, renderNotFound, renderStandard, renderTechnique, renderTechniques } from './src/render.mjs';
 
 const SITE = 'https://lexgrade.org';
@@ -90,14 +91,15 @@ writePage('about', renderAbout());
 writePage('contribute', renderContribute());
 // The plain-language entry point: the Standard's own §9 Quick Start, rendered
 // from the current edition's markdown (bundle.documents[0] is the Standard).
-const quickStart = standardSection(loadBundle().documents[0], 9);
 // §9 opens with its audience line ("For users who are not attorneys."), which the
 // /check heading already says; drop it there so the page doesn't repeat itself.
 // A bold-only line that introduces a table ("**Key terms.**") renders on /check
 // as that table's caption, so it drops the sentence period there.
-const quickStartBody = quickStart.body
-  .replace(/^For users who are not attorneys\.\s*/, '')
-  .replace(/^\*\*([^*\n]+)\.\*\*$/gm, '**$1**');
+const quickStartFor = (markdown, audienceLine) =>
+  standardSection(markdown, 9)
+    .body.replace(audienceLine, '')
+    .replace(/^\*\*([^*\n]+)\.\*\*$/gm, '**$1**');
+const quickStartBody = quickStartFor(loadBundle().documents[0], /^For users who are not attorneys\.\s*/);
 writePage('check', renderCheck({ version: standard.version, quickStartHtml: toHtml(quickStartBody) }));
 writePage('references', renderReferences());
 
@@ -155,6 +157,99 @@ writeFileSync(
 const bundle = loadBundle();
 writeFileSync(resolve(OUT, 'llms-full.txt'), renderLlmsFull(bundle));
 
+// Translations — the whole site again under /<lang>/, from the translated
+// documents methodology.yaml names. English is the source: ids, anchors,
+// numbers, and technique slugs are the English ones, so /es/standard#lgs-3.5
+// and /es/techniques/<slug> point at the same thing as their English pages.
+// The audience line that opens §9, per language (dropped on /check, as above).
+const QUICK_START_AUDIENCE = { es: /^Para quienes no son abogados\.\s*/ };
+const translations = new Map();
+for (const lang of LANGS.filter((l) => l !== DEFAULT_LANG)) {
+  const tStandard = loadStandard(lang);
+  const tRegister = loadTechniqueRegister(lang);
+  const tBundle = loadBundle(lang);
+  // A translated technique keeps its English slug, paired by number.
+  const slugByNumber = new Map(techniqueList.map((t) => [t.number, t.slug]));
+  const tList = parseTechniques(tRegister.markdown, REGISTER_LABELS[lang]).map((t) => ({ ...t, slug: slugByNumber.get(t.number) }));
+  if (tList.length !== techniqueList.length || tList.some((t) => !t.slug)) {
+    console.error(`The "${lang}" Technique Register does not match the English register technique for technique.`);
+    process.exit(1);
+  }
+  translations.set(lang, { standard: tStandard, register: tRegister, techniques: tList });
+
+  writeFileSync(
+    resolve(apiDir, `standard.${lang}.json`),
+    JSON.stringify(
+      {
+        standard: 'LexGrade Standard',
+        language: lang,
+        translation_of: `/api/v1/standard.json`,
+        version: tStandard.version,
+        license: tStandard.license,
+        scope: tStandard.scope,
+        citations_verified: tStandard.citationsVerified,
+        cite_as: `LexGrade Standard v${tStandard.version}, LexGrade (lexgrade.org), ${tStandard.license}.`,
+        principles: tStandard.principles,
+        criteria: tStandard.criteria,
+        conformance_levels: tStandard.conformanceLevels,
+        conformance_claim: tStandard.conformanceClaim,
+        automatic_demotion_rules: tStandard.automaticDemotions,
+        composite: tStandard.composite,
+      },
+      null,
+      2,
+    ) + '\n',
+  );
+  writeFileSync(
+    resolve(apiDir, `techniques.${lang}.json`),
+    JSON.stringify(
+      {
+        technique_register: tRegister.version,
+        language: lang,
+        translation_of: `/api/v1/techniques.json`,
+        license: tStandard.license,
+        cite_as: `LexGrade Technique Register v${tRegister.version}, LexGrade (lexgrade.org), ${tStandard.license}.`,
+        count: tList.length,
+        techniques: tList.map(({ number, name, slug, category, tier, definition, fields }) => ({ number, name, slug, category, tier, definition, ...fields })),
+      },
+      null,
+      2,
+    ) + '\n',
+  );
+
+  const tStandardHtml = renderStandard(tStandard, { lang });
+  // One enhancement script serves every language (its labels are data
+  // attributes), so the CSP allows exactly one hash.
+  if (cspScriptSrc(tStandardHtml) !== cspScript) {
+    console.error(`The "${lang}" Standard page carries a different inline script than /standard.`);
+    process.exit(1);
+  }
+  writePage(`${lang}/standard`, tStandardHtml);
+  writePage(
+    lang,
+    renderHome({
+      standardVersion: tStandard.version,
+      principleCount: tStandard.principles.length,
+      criteriaCount: tStandard.criteria.length,
+      techniqueVersion: tRegister.version,
+      techniqueCount: tList.length,
+      lang,
+    }),
+  );
+  writePage(`${lang}/about`, renderAbout({ lang }));
+  writePage(`${lang}/contribute`, renderContribute({ lang }));
+  writePage(`${lang}/references`, renderReferences({ lang }));
+  writePage(
+    `${lang}/check`,
+    renderCheck({ version: tStandard.version, quickStartHtml: toHtml(quickStartFor(tBundle.documents[0], QUICK_START_AUDIENCE[lang])), lang }),
+  );
+  writePage(`${lang}/techniques`, renderTechniques({ version: tRegister.version, techniques: tList, md: toHtml, editPath: tRegister.path, lang }));
+  for (const technique of tList) {
+    writePage(`${lang}/techniques/${technique.slug}`, renderTechnique({ technique, md: toHtml, editPath: tRegister.path, lang }));
+  }
+  writeFileSync(resolve(OUT, lang, 'llms-full.txt'), renderLlmsFull({ ...tBundle, lang }));
+}
+
 // Open Graph cards — one branded 1200×630 PNG per page (build-time, from vendored
 // fonts) so a shared link unfurls with an image. The card SET derives from PAGES
 // (so a new page can't ship without a card); the two versioned pages get their
@@ -176,15 +271,33 @@ for (const page of PAGES) {
 for (const technique of techniqueList) {
   writeFileSync(resolve(OG, `technique-${technique.slug}.png`), ogCard({ title: technique.name, subtitle: 'LexGrade Technique Register' }));
 }
+// The same card set per translation (/og/<lang>-<id>.png).
+for (const [lang, t] of translations) {
+  const ts = strings(lang);
+  for (const page of PAGES) {
+    let { title, subtitle } = ts.pages[page.id].og;
+    if (page.id === 'standard') {
+      title = `${ts.standard.name} v${t.standard.version}`;
+    } else if (page.id === 'techniques') {
+      title = `${ts.pages.techniques.og.title} v${t.register.version}`;
+      subtitle = ts.techniques.ogIndexSubtitle(t.techniques.length, new Set(t.techniques.map((x) => x.category)).size);
+    }
+    writeFileSync(resolve(OG, `${lang}-${page.id}.png`), ogCard({ title, subtitle }));
+  }
+  for (const technique of t.techniques) {
+    writeFileSync(resolve(OG, `${lang}-technique-${technique.slug}.png`), ogCard({ title: technique.name, subtitle: ts.techniques.ogSubtitle }));
+  }
+}
 
 // The square app/touch icon (the mark on the brand accent).
 writeFileSync(resolve(OUT, 'apple-touch-icon.png'), appIcon(180));
 
 // SEO / discoverability: a sitemap of every canonical page + robots pointing to it.
 // The page set derives from PAGES; the per-technique pages are appended.
+const neutralPaths = [...PAGES.map((p) => p.path), ...techniqueList.map((t) => `/techniques/${t.slug}`)];
 const sitemapPaths = [
-  ...PAGES.map((p) => p.path),
-  ...techniqueList.map((t) => `/techniques/${t.slug}`),
+  ...neutralPaths,
+  ...[...translations.keys()].flatMap((lang) => neutralPaths.map((p) => localPath(lang, p))),
 ];
 const lastmod = new Date().toISOString().slice(0, 10);
 writeFileSync(
@@ -218,6 +331,13 @@ writeFileSync(
     '/styles.css',
     '  Cache-Control: public, max-age=3600',
     '',
+    ...[...translations.keys()].flatMap((lang) => [
+      `/${lang}/llms-full.txt`,
+      '  Content-Type: text/plain; charset=utf-8',
+      '  Access-Control-Allow-Origin: *',
+      '  Cache-Control: public, max-age=3600',
+      '',
+    ]),
     '/llms-full.txt',
     // .txt carries no in-band encoding marker (unlike HTML's <meta charset>), and
     // with nosniff on, the browser obeys the header verbatim — without an explicit
@@ -277,5 +397,6 @@ console.log(
   `Built LexGrade Standard v${standard.version}: ${standard.criteria.length} criteria → dist/standard/index.html` +
     ` + /techniques (+ ${techniqueList.length} technique pages)` +
     ` + llms-full.txt (${bundle.documents.length} documents)` +
-    ` + ${PAGES.length + techniqueList.length} OG cards + sitemap.xml + robots.txt`,
+    ` + ${(PAGES.length + techniqueList.length) * (1 + translations.size)} OG cards + sitemap.xml + robots.txt` +
+    (translations.size ? ` + translations: ${[...translations.keys()].join(', ')}` : ''),
 );

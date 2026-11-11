@@ -129,6 +129,11 @@ main { padding: 2.875rem 4.5rem 5rem; min-width: 0; }
 .cta { margin-left: auto; font-family: var(--sans); font-size: .9rem; font-weight: 600; line-height: 1; text-decoration: none; color: #fff; background: var(--accent); border: 1px solid var(--accent); padding: .5rem 1rem; border-radius: 7px; white-space: nowrap; }
 .cta:hover { background: var(--accent-deep); border-color: var(--accent-deep); color: #fff; text-decoration: none; }
 .cta[aria-current="page"] { background: var(--accent-deep); border-color: var(--accent-deep); }
+/* The language switch sits just left of the CTA; whichever comes first takes
+   the auto margin that pins the pair to the right. */
+.lang-switch { margin-left: auto; font-family: var(--sans); font-size: .9rem; text-decoration: none; white-space: nowrap; }
+.lang-switch:hover { text-decoration: underline; }
+.lang-switch + .cta { margin-left: 0; }
 
 /* ── Sidebar table of contents ────────────────────────────────────────────── */
 .toc { font-family: var(--sans); }
@@ -400,7 +405,7 @@ table.data caption { font-family: var(--sans); text-align: left; color: var(--mu
   .topbar .sitenav { margin-top: .25rem; }
   /* Contribute moves into the "Sections" disclosure on phones (see siteNav), so
      the standalone CTA button is hidden here — one menu holds every destination. */
-  .cta { display: none; }
+  .cta, .lang-switch { display: none; }
   .sitenav-menu { display: block; margin-bottom: .5rem; }
   /* A button-like disclosure with a custom chevron (matching the SOTD), rather
      than the raw default ▶ marker. */

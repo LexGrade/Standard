@@ -67,6 +67,35 @@ authority for the change.
 score band is a proposal, and goes through the `rfc:` path. The corrections
 channel is for the text being wrong about a fact.
 
+## Translations
+
+English is the source text of the Standard and the Technique Register, and it
+is the text that governs. A translation makes that text readable in another
+language; it is never a separate edition and never changes a requirement.
+
+1. **A translation names the edition it translates** and is published only
+   while it matches the current edition. A new edition ships with its
+   translations updated; `methodology.yaml` records which edition each
+   translates, and the build refuses one that trails.
+2. **Where a translation and the English text differ, the English text
+   stands.** The difference is an error in the translation and is reported
+   through the corrections channel above.
+3. **Fixing a translation is a routine change.** It needs no RFC, because it
+   cannot change what a criterion requires. A change of meaning starts in the
+   English text, through the paths in *Decision-making*.
+4. **Numbers and identifiers are not translated.** Weights, deductions,
+   thresholds, criterion IDs, technique numbers, and citations of rules, cases,
+   and scholarship are the English catalog's. The translated catalog holds
+   strings only.
+5. **Review status is stated.** A translation may be published before a
+   human translator has reviewed it, provided it says so on every page. Fluent
+   readers are invited to correct it, and each review is recorded in the
+   changelog. The notice comes off once a translator of legal Spanish (or of
+   the language concerned) has reviewed the whole text.
+
+Translations live in `commons/standard/translations/<language>/` under
+CC-BY-SA 4.0, like the text they translate.
+
 ## No CLA
 
 Contributions are accepted under the repository's existing licenses, inbound =

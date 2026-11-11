@@ -28,3 +28,26 @@ artifacts:
     "1.0":
       path: commons/standard/Technique_Register_v1.0.md
       license: CC-BY-SA-4.0
+
+# Translations. English is the source and the text that governs; a translation
+# is published under /<lang>/ on the site and never replaces an edition. Each
+# entry names the edition it translates. The build refuses a translation that
+# trails the current edition, so a new edition ships with its translations
+# updated (see .github/CONTRIBUTING.md).
+#   standard / technique_register — the full translated documents
+#   criteria — an overlay of translated strings for lgs-criteria.yaml; numbers
+#              and ids always come from the English catalog
+translations:
+  es:
+    standard:
+      translates: "1.1"
+      path: commons/standard/translations/es/LexGrade_Standard_v1.1.es.md
+      license: CC-BY-SA-4.0
+    technique_register:
+      translates: "1.0"
+      path: commons/standard/translations/es/Technique_Register_v1.0.es.md
+      license: CC-BY-SA-4.0
+    criteria:
+      translates: "1.1"
+      path: commons/standard/translations/es/lgs-criteria.es.yaml
+      license: CC-BY-SA-4.0

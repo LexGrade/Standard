@@ -11,8 +11,14 @@
 // no <script>, no inline handlers). A test in test/render.test.mjs guards
 // the no-JS rule so a regression fails CI.
 //
-// Import-free on purpose so `node --test` exercises it without installing
-// dependencies; build.mjs wires it to loadStandard() + the filesystem.
+// Dependency-free on purpose so `node --test` exercises it without installing
+// anything; build.mjs wires it to loadStandard() + the filesystem. Its one
+// import is the sibling string table (src/i18n.mjs), which is as pure as this.
+//
+// Every page renders in a language (`lang`, English by default). English is the
+// source text; a translation is served under /<lang>/ with the same anchors.
+
+import { DEFAULT_LANG, LANGS, LANG_NAMES, PAGES_ES, localPath, strings } from './i18n.mjs';
 
 const SITE_ORIGIN = 'https://lexgrade.org';
 const CANONICAL_URL = `${SITE_ORIGIN}/standard`;
@@ -48,12 +54,13 @@ const ENHANCE_SCRIPT = `<script>
   var cite = document.getElementById('lg-cite');
   if (cite && navigator.clipboard && window.isSecureContext) {
     var btn = document.createElement('button');
-    btn.type = 'button'; btn.className = 'cite-copy'; btn.textContent = 'Copy';
-    btn.setAttribute('aria-label', 'Copy the citation');
+    var copy = cite.getAttribute('data-copy') || 'Copy', copied = cite.getAttribute('data-copied') || 'Copied ✓';
+    btn.type = 'button'; btn.className = 'cite-copy'; btn.textContent = copy;
+    btn.setAttribute('aria-label', cite.getAttribute('data-copy-label') || 'Copy the citation');
     btn.addEventListener('click', function () {
       navigator.clipboard.writeText(cite.textContent.replace(/[“”"]/g, '').trim()).then(function () {
-        btn.textContent = 'Copied ✓'; btn.classList.add('is-copied');
-        setTimeout(function () { btn.textContent = 'Copy'; btn.classList.remove('is-copied'); }, 1600);
+        btn.textContent = copied; btn.classList.add('is-copied');
+        setTimeout(function () { btn.textContent = copy; btn.classList.remove('is-copied'); }, 1600);
       }).catch(function () {});
     });
     cite.insertAdjacentElement('afterend', btn);
@@ -93,10 +100,10 @@ const ENHANCE_SCRIPT = `<script>
  * @param {string} toc rendered `<li>` entries for the `<ol class="toc-list">`
  * @returns {string}
  */
-function tocSidebar(toc) {
+function tocSidebar(toc, lang = DEFAULT_LANG) {
   return `<aside class="sidebar">
 <nav class="toc" aria-labelledby="toc-h">
-  <p class="toc-label" id="toc-h">Table of contents</p>
+  <p class="toc-label" id="toc-h">${strings(lang).tocLabel}</p>
   <ol class="toc-list">
 ${toc}
   </ol>
@@ -104,8 +111,8 @@ ${toc}
 </aside>`;
 }
 
-function siteMasthead() {
-  return `<a class="masthead" href="/" aria-label="LexGrade — home"><svg class="logo" viewBox="0 0 260 260" aria-hidden="true" focusable="false"><g fill="currentColor" transform="translate(40,20)"><path d="M 0,144 L 36,144 L 36,204 L 180,204 L 180,240 L 0,240 Z"/><rect x="48" y="108" width="36" height="84"/><rect x="96" y="72" width="36" height="120"/><path d="M 144,36 L 162,18 L 180,36 L 180,192 L 144,192 Z"/></g></svg><span class="wordmark">LexGrade</span></a>`;
+function siteMasthead(lang = DEFAULT_LANG) {
+  return `<a class="masthead" href="${localPath(lang, '/')}" aria-label="${strings(lang).homeAria}"><svg class="logo" viewBox="0 0 260 260" aria-hidden="true" focusable="false"><g fill="currentColor" transform="translate(40,20)"><path d="M 0,144 L 36,144 L 36,204 L 180,204 L 180,240 L 0,240 Z"/><rect x="48" y="108" width="36" height="84"/><rect x="96" y="72" width="36" height="120"/><path d="M 144,36 L 162,18 L 180,36 L 180,192 L 144,192 Z"/></g></svg><span class="wordmark">LexGrade</span></a>`;
 }
 
 // The single registry of the site's pages — the ONE source for the top nav, the
@@ -113,21 +120,48 @@ function siteMasthead() {
 // a page is a one-line edit here; none of those four surfaces can drift from it.
 //   nav    — appears in the left top-bar nav (Standard/Techniques/About)
 //   footer — appears in the secondary footer link row
-//   og     — title/subtitle for the page's Open Graph card (build may override
-//            with version/counts for the dynamic pages)
+// Each page's label and Open Graph title/subtitle live in src/i18n.mjs, one set
+// per language; the English ones are spread onto the entries here (`label`,
+// `og`), and the build may override og with version/counts for dynamic pages.
 export const PAGES = [
-  { id: 'home', path: '/', label: 'Home', nav: false, footer: false, og: { title: 'An open standard for scoring legal motions.', subtitle: 'Principles, weights, and the ethics gate, published in full' } },
-  { id: 'standard', path: '/standard', label: 'Standard', nav: true, footer: false, og: { title: 'LexGrade Standard', subtitle: 'Open scoring instrument for legal drafting quality' } },
-  { id: 'techniques', path: '/techniques', label: 'Techniques', nav: true, footer: false, og: { title: 'Technique Register', subtitle: 'Named advocacy techniques, the informative companion' } },
-  { id: 'about', path: '/about', label: 'About', nav: true, footer: true, og: { title: 'About LexGrade', subtitle: 'Grounded in real motion practice' } },
-  { id: 'check', path: '/check', label: 'Check your own motion', nav: true, footer: true, og: { title: 'Checking your own motion', subtitle: 'For anyone filing without a lawyer' } },
-  { id: 'contribute', path: '/contribute', label: 'Contribute', nav: false, footer: true, og: { title: 'Contribute to LexGrade', subtitle: 'An open, collaborative standard — help shape it' } },
-  { id: 'references', path: '/references', label: 'References', nav: false, footer: true, og: { title: 'Sources & influences', subtitle: 'What LexGrade builds on, credited in full' } },
-];
+  { id: 'home', path: '/', nav: false, footer: false },
+  { id: 'standard', path: '/standard', nav: true, footer: false },
+  { id: 'techniques', path: '/techniques', nav: true, footer: false },
+  { id: 'about', path: '/about', nav: true, footer: true },
+  { id: 'check', path: '/check', nav: true, footer: true },
+  { id: 'contribute', path: '/contribute', nav: false, footer: true },
+  { id: 'references', path: '/references', nav: false, footer: true },
+].map((page) => ({ ...page, ...strings(DEFAULT_LANG).pages[page.id] }));
+
+/** The Open Graph card for a page id in a language ("/og/check.png", "/og/es-check.png"). */
+export function ogImage(id, lang = DEFAULT_LANG) {
+  return `/og/${lang === DEFAULT_LANG ? '' : `${lang}-`}${id}.png`;
+}
+
+/**
+ * A narrative page in translation: the shared header and prose section around
+ * the translated copy from i18n.mjs, in the same shell as the English page.
+ */
+function translatedPage(id, page, lang) {
+  const body = `${docHeader({ title: page.title, subhead: page.subhead })}
+  <section class="prose" aria-label="${escapeHtml(page.aria)}">
+${page.body}
+  </section>`;
+  return documentShell({
+    title: page.docTitle,
+    description: page.description,
+    bodyHtml: body,
+    canonical: `/${id}`,
+    current: id,
+    image: ogImage(id, lang),
+    lang,
+  });
+}
 
 /** One <a> for a PAGES entry, marked aria-current when it's the active page. */
-function navLink({ id, path, label }, current) {
-  return `<a href="${path}"${id === current ? ' aria-current="page"' : ''}>${escapeHtml(label)}</a>`;
+function navLink({ id, path }, current, lang = DEFAULT_LANG) {
+  const label = strings(lang).pages[id].label;
+  return `<a href="${localPath(lang, path)}"${id === current ? ' aria-current="page"' : ''}>${escapeHtml(label)}</a>`;
 }
 
 /**
@@ -141,16 +175,29 @@ function navLink({ id, path, label }, current) {
  * @param {string} current the active page id
  * @returns {string}
  */
-function siteNav(current) {
+/**
+ * Links to the same page in each other language, named in that language. A
+ * page with no counterpart (the 404) passes no path and gets the home pages.
+ */
+function languageLinks(lang, path, className = '') {
+  return LANGS.filter((l) => l !== lang)
+    .map((l) => `<a${className ? ` class="${className}"` : ''} href="${localPath(l, path ?? '/')}" lang="${l}" hreflang="${l}">${LANG_NAMES[l]}</a>`)
+    .join('');
+}
+
+function siteNav(current, lang = DEFAULT_LANG, path = null) {
+  const t = strings(lang);
   const navItems = PAGES.filter((p) => p.nav);
-  const bar = navItems.map((p) => navLink(p, current)).join('');
-  // The mobile "Sections" disclosure also carries Contribute: the desktop CTA
-  // button is hidden on phones, so every destination lives in one menu there.
+  const bar = navItems.map((p) => navLink(p, current, lang)).join('');
+  // The mobile "Sections" disclosure also carries Contribute and the language
+  // switch: the desktop CTA and language link are hidden on phones, so every
+  // destination lives in one menu there.
   const menu = navItems
     .concat(PAGES.filter((p) => p.id === 'contribute'))
-    .map((p) => navLink(p, current))
-    .join('');
-  return `<nav class="sitenav" aria-label="Standard sections"><div class="sitenav-bar">${bar}</div><details class="sitenav-menu"><summary class="sitenav-summary">Sections</summary><div class="sitenav-list">${menu}</div></details></nav>`;
+    .map((p) => navLink(p, current, lang))
+    .join('')
+    .concat(languageLinks(lang, path));
+  return `<nav class="sitenav" aria-label="${t.navAria}"><div class="sitenav-bar">${bar}</div><details class="sitenav-menu"><summary class="sitenav-summary">${t.sections}</summary><div class="sitenav-list">${menu}</div></details></nav>`;
 }
 
 /**
@@ -161,8 +208,8 @@ function siteNav(current) {
  * @param {string} current the active page id
  * @returns {string}
  */
-function siteCta(current) {
-  return `<a class="cta" href="/contribute"${current === 'contribute' ? ' aria-current="page"' : ''}>Contribute</a>`;
+function siteCta(current, lang = DEFAULT_LANG) {
+  return `<a class="cta" href="${localPath(lang, '/contribute')}"${current === 'contribute' ? ' aria-current="page"' : ''}>${strings(lang).pages.contribute.label}</a>`;
 }
 
 /**
@@ -173,11 +220,12 @@ function siteCta(current) {
  * @param {string} current the active page id
  * @returns {string}
  */
-function topbar(current) {
+function topbar(current, lang = DEFAULT_LANG, path = null) {
   return `<header class="topbar">
-${siteMasthead()}
-${current ? siteNav(current) : ''}
-${siteCta(current)}
+${siteMasthead(lang)}
+${current ? siteNav(current, lang, path) : ''}
+${languageLinks(lang, path, 'lang-switch')}
+${siteCta(current, lang)}
 </header>`;
 }
 
@@ -190,12 +238,14 @@ ${siteCta(current)}
  * @param {string} current the active page id
  * @returns {string}
  */
-function siteFooter(current) {
-  const links = PAGES.filter((p) => p.footer).map((p) => navLink(p, current)).join('');
+function siteFooter(current, lang = DEFAULT_LANG, path = null) {
+  const t = strings(lang);
+  const links = PAGES.filter((p) => p.footer).map((p) => navLink(p, current, lang)).join('');
+  const others = languageLinks(lang, path);
   return `<footer class="site-footer">
-  <nav class="site-footer__nav" aria-label="Secondary">${links}<a href="${REPO_URL}">GitHub</a></nav>
-  <p class="site-footer__meta">LexGrade: open methodology, licensed CC-BY-SA 4.0. &copy; LexGrade.</p>
-  <p class="site-footer__note">Not legal advice. LexGrade confers no authority; verify every citation before filing.</p>
+  <nav class="site-footer__nav" aria-label="${t.secondaryAria}">${links}<a href="${REPO_URL}">GitHub</a>${others}</nav>
+  <p class="site-footer__meta">${t.footerMeta}</p>
+  <p class="site-footer__note">${t.footerNote}</p>${t.translationNote ? `\n  <p class="site-footer__note">${t.translationNote}</p>` : ''}
 </footer>`;
 }
 
@@ -294,9 +344,8 @@ function anchor(id) {
 
 // Spell small counts as words (the spec's prose voice); fall back to the numeral
 // past the table. Lets count-bearing copy derive from source instead of hardcoding.
-const NUMBER_WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
-function spellNumber(n) {
-  return NUMBER_WORDS[n] ?? String(n);
+function spellNumber(n, lang = DEFAULT_LANG) {
+  return strings(lang).numberWords[n] ?? String(n);
 }
 
 /** Capitalize the first letter (for sentence-initial spelled numbers). */
@@ -319,32 +368,34 @@ function docHeader({ title, subhead = '' }) {
   </header>`;
 }
 
-function renderCriterion(c) {
+function renderCriterion(c, lang = DEFAULT_LANG) {
+  const t = strings(lang).standard;
   const a = anchor(c.id);
   const deduction =
     c.deduction !== undefined && c.deduction !== null
-      ? `<p class="deduction"><strong>Deduction:</strong> ${escapeHtml(String(c.deduction))} points per instance${
+      ? `<p class="deduction">${t.deduction(escapeHtml(String(c.deduction)))}${
           c.deduction_note ? ` (${escapeHtml(String(c.deduction_note))})` : ''
         }</p>`
       : '';
-  const addedIn = c.added_in ? ` <span class="added-in">Added in v${escapeHtml(String(c.added_in))}.</span>` : '';
+  const addedIn = c.added_in ? ` <span class="added-in">${t.addedIn(escapeHtml(String(c.added_in)))}</span>` : '';
   const source = c.source
-    ? `<p class="source">Source: ${escapeHtml(String(c.source))}${addedIn}</p>`
+    ? `<p class="source">${t.source}${escapeHtml(String(c.source))}${addedIn}</p>`
     : addedIn
       ? `<p class="source">${addedIn.trim()}</p>`
       : '';
 
   return `<section class="criterion" id="${a}" aria-labelledby="${a}-h">
-    <h3 id="${a}-h"><span class="num">${escapeHtml(sectionNumber(c.id))}</span> ${escapeHtml(c.title)} <a class="self-link" href="#${a}" aria-label="Permalink to ${escapeHtml(c.id)}">${escapeHtml(c.id)}</a></h3>
+    <h3 id="${a}-h"><span class="num">${escapeHtml(sectionNumber(c.id))}</span> ${escapeHtml(c.title)} <a class="self-link" href="#${a}" aria-label="${t.permalinkTo}${escapeHtml(c.id)}">${escapeHtml(c.id)}</a></h3>
     <p class="requirement">${escapeHtml(String(c.requirement ?? '').trim())}</p>
     ${deduction}
     ${source}
   </section>`;
 }
 
-function renderPrinciple(p, criteria) {
+function renderPrinciple(p, criteria, lang = DEFAULT_LANG) {
+  const t = strings(lang).standard;
   const id = String(p.id).toLowerCase();
-  const role = ROLES[p.role]?.label ?? String(p.role);
+  const role = t.roles[p.role] ?? String(p.role);
   // Colour is always paired with the role text — never colour-only (WCAG 1.4.1).
   const badge = `<span class="badge badge--${escapeHtml(p.role)}">${escapeHtml(role)}${
     p.weight > 0 ? ` · ${escapeHtml(String(p.weight))}%` : ''
@@ -359,10 +410,10 @@ function renderPrinciple(p, criteria) {
         ? ''
         : `<p class="precondition">${
           p.id === 'P1'
-            ? 'Procedural Integrity is a precondition the filer satisfies against the court&#39;s rules. LGS does not score it; graded criteria begin at LGS 2.1.'
-            : 'No graded criteria for this principle.'
+            ? t.p1Fallback
+            : t.noCriteria
           }</p>`
-      : `<div class="criteria">\n${criteria.map(renderCriterion).join('\n')}\n</div>`;
+      : `<div class="criteria">\n${criteria.map((c) => renderCriterion(c, lang)).join('\n')}\n</div>`;
 
   return `<section class="principle" id="${id}" aria-labelledby="${id}-h">
   <h2 id="${id}-h"><span class="num">${escapeHtml(sectionNumber(p.id))}.</span> ${escapeHtml(p.title)} ${badge}</h2>
@@ -371,17 +422,18 @@ function renderPrinciple(p, criteria) {
 </section>`;
 }
 
-function renderConformanceLevels(levels) {
+function renderConformanceLevels(levels, lang = DEFAULT_LANG) {
   if (!levels.length) {
     return '';
   }
+  const t = strings(lang).standard;
 
   const cards = levels
     .map((l) => {
       const rows = [
-        l.composite_band ? ['Composite', l.composite_band] : null,
-        l.gate ? ['Gate', l.gate] : null,
-        l.precondition ? ['Precondition', l.precondition] : null,
+        l.composite_band ? [t.levelRows.composite, l.composite_band] : null,
+        l.gate ? [t.levelRows.gate, l.gate] : null,
+        l.precondition ? [t.levelRows.precondition, l.precondition] : null,
       ].filter(Boolean);
       const meta = rows
         .map(([k, v]) => `<p class="meta"><strong>${escapeHtml(k)}:</strong> ${escapeHtml(v)}</p>`)
@@ -398,8 +450,8 @@ function renderConformanceLevels(levels) {
     .join('\n');
 
   return `<section class="principle" id="conformance-levels" aria-labelledby="conformance-levels-h">
-  <h2 id="conformance-levels-h">Conformance levels</h2>
-  <p class="note">A motion conforms at Expert, Competent, or Deficient. A claim is version-specific and does not transfer to revisions — each must be re-graded.</p>
+  <h2 id="conformance-levels-h">${t.levelsHeading}</h2>
+  <p class="note">${t.levelsNote}</p>
   <div class="criteria">
 ${cards}
   </div>
@@ -427,33 +479,34 @@ function dataTable({ caption, headers, rows, id }) {
     </table>`;
 }
 
-function renderComposite(c) {
+function renderComposite(c, lang = DEFAULT_LANG) {
   if (!c || Object.keys(c).length === 0) {
     return '';
   }
+  const t = strings(lang).standard;
 
-  const cap = c.cap !== undefined ? `<p class="meta"><strong>Cap:</strong> ${escapeHtml(String(c.cap))} — no motion scores above this.</p>` : '';
+  const cap = c.cap !== undefined ? `<p class="meta">${t.cap(escapeHtml(String(c.cap)))}</p>` : '';
   const formula = c.formula ? `<pre class="formula">${escapeHtml(String(c.formula).trim())}</pre>` : '';
   const steps = Array.isArray(c.order_of_operations)
     ? `<ol class="steps">${c.order_of_operations.map((s) => `<li>${escapeHtml(s)}</li>`).join('')}</ol>`
     : '';
   const weights = c.weights
     ? dataTable({
-        caption: `Weighted principles (total ${c.weighted_points_total ?? ''} points)`,
-        headers: ['Principle', 'Weight'],
+        caption: t.weightsCaption(c.weighted_points_total ?? ''),
+        headers: t.weightsHeaders,
         rows: Object.entries(c.weights).map(([k, v]) => [k, `${v}%`]),
       })
     : '';
   const grades = Array.isArray(c.grade_scale)
     ? dataTable({
-        caption: 'Grade scale',
-        headers: ['Letter', 'Range', 'Conformance'],
+        caption: t.gradeCaption,
+        headers: t.gradeHeaders,
         rows: c.grade_scale.map((g) => [g.letter, g.range, g.conformance]),
       })
     : '';
 
   return `<section class="principle" id="composite-scoring" aria-labelledby="composite-scoring-h">
-  <h2 id="composite-scoring-h">Composite scoring</h2>
+  <h2 id="composite-scoring-h">${t.compositeHeading}</h2>
   ${cap}
   ${formula}
   ${steps}
@@ -474,37 +527,38 @@ function renderComposite(c) {
  * @param {Array<{condition: string, result: string}>} demotions
  * @returns {string}
  */
-function renderConformanceClaim(claim, demotions = []) {
+function renderConformanceClaim(claim, demotions = [], lang = DEFAULT_LANG) {
   if (!claim && (!demotions || demotions.length === 0)) {
     return '';
   }
+  const t = strings(lang).standard;
 
   const elements = Array.isArray(claim?.required_elements)
-    ? `<p>A well-formed LexGrade conformance claim states all of:</p>
+    ? `<p>${t.wellFormed}</p>
     <ol class="claim-elements">${claim.required_elements.map((e) => `<li>${escapeHtml(e)}</li>`).join('')}</ol>`
     : '';
 
   const asserts = claim?.asserts
-    ? `<p class="claim-asserts"><strong>A claim asserts:</strong> ${escapeHtml(String(claim.asserts).trim())}</p>`
+    ? `<p class="claim-asserts">${t.asserts} ${escapeHtml(String(claim.asserts).trim())}</p>`
     : '';
 
   // The integrity boundary — the disclaimer a judge / ethics reviewer checks first.
   const disclaims = claim?.does_not_assert
-    ? `<p class="claim-disclaims"><strong>A claim does <em>not</em> assert:</strong> ${escapeHtml(String(claim.does_not_assert).trim())}</p>`
+    ? `<p class="claim-disclaims">${t.disclaims} ${escapeHtml(String(claim.does_not_assert).trim())}</p>`
     : '';
 
   const demotionTable = demotions.length
     ? dataTable({
         id: 'automatic-demotions',
-        caption: 'Automatic demotions — applied regardless of composite score',
-        headers: ['Condition', 'Result'],
+        caption: t.demotionCaption,
+        headers: t.demotionHeaders,
         rows: demotions.map((d) => [d.condition, d.result]),
       })
     : '';
 
   return `<section class="principle" id="conformance-claims" aria-labelledby="conformance-claims-h">
-  <h2 id="conformance-claims-h">Conformance claims</h2>
-  <p class="note">A conformance claim is version-specific and is made for one motion as graded; it does not transfer to revisions, which must be re-graded.</p>
+  <h2 id="conformance-claims-h">${t.claimsHeading}</h2>
+  <p class="note">${t.claimsNote}</p>
   ${elements}
   ${asserts}
   ${disclaims}
@@ -518,19 +572,23 @@ function renderConformanceClaim(claim, demotions = []) {
  * @param {{version: string, scope: string, license: string, principles: Array, criteria: Array, byPrinciple: Map, conformanceLevels?: Array, conformanceClaim?: object, automaticDemotions?: Array, composite?: object}} standard
  * @returns {string} a full HTML document
  */
-export function renderStandard(standard) {
+export function renderStandard(standard, { lang = DEFAULT_LANG } = {}) {
+  const t = strings(lang).standard;
   const { version, scope, license, principles, criteria, byPrinciple } = standard;
   const conformanceLevels = standard.conformanceLevels ?? [];
   const conformanceClaim = standard.conformanceClaim ?? null;
   const automaticDemotions = standard.automaticDemotions ?? [];
   const composite = standard.composite ?? {};
-  const title = `LexGrade Standard v${version}`;
+  const title = `${t.name} v${version}`;
+  // The citation names the English edition in every language: that is the text
+  // that governs, and the form the Standard itself prescribes.
+  const citeTitle = `LexGrade Standard v${version}`;
   const critCount = criteria.length;
   // Counts derive from the source data, never hardcoded — the prose can't drift
   // from the catalog. spellNumber keeps the principle count in words (the spec's
   // voice); the larger criteria count stays a numeral.
-  const principleWord = spellNumber(principles.length);
-  const description = `${title} — open scoring instrument for legal drafting. ${capitalize(principleWord)} principles, ${critCount} graded criteria, ${license}.`;
+  const principleWord = spellNumber(principles.length, lang);
+  const description = t.description(title, capitalize(principleWord), critCount, license);
 
   const toc = principles
     .map((p) => {
@@ -549,57 +607,62 @@ export function renderStandard(standard) {
     })
     .join('\n');
 
-  const sections = principles.map((p) => renderPrinciple(p, byPrinciple.get(p.id) ?? [])).join('\n');
+  const sections = principles.map((p) => renderPrinciple(p, byPrinciple.get(p.id) ?? [], lang)).join('\n');
 
   const hasClaim = Boolean(conformanceClaim) || automaticDemotions.length > 0;
   const appendixToc = [
-    conformanceLevels.length ? '    <li><a href="#conformance-levels">Conformance levels</a></li>' : '',
-    hasClaim ? '    <li><a href="#conformance-claims">Conformance claims</a></li>' : '',
-    Object.keys(composite).length ? '    <li><a href="#composite-scoring">Composite scoring</a></li>' : '',
+    conformanceLevels.length ? `    <li><a href="#conformance-levels">${t.levelsHeading}</a></li>` : '',
+    hasClaim ? `    <li><a href="#conformance-claims">${t.claimsHeading}</a></li>` : '',
+    Object.keys(composite).length ? `    <li><a href="#composite-scoring">${t.compositeHeading}</a></li>` : '',
   ]
     .filter(Boolean)
     .join('\n');
 
   const appendix = [
-    renderConformanceLevels(conformanceLevels),
-    renderConformanceClaim(conformanceClaim, automaticDemotions),
-    renderComposite(composite),
+    renderConformanceLevels(conformanceLevels, lang),
+    renderConformanceClaim(conformanceClaim, automaticDemotions, lang),
+    renderComposite(composite, lang),
   ]
     .filter(Boolean)
     .join('\n');
 
+  const apiUrl = lang === DEFAULT_LANG ? API_URL : `/api/v1/standard.${lang}.json`;
+  const llmsUrl = localPath(lang, '/llms-full.txt');
+  const copyAttrs = t.copy
+    ? ` data-copy="${escapeHtml(t.copy.copy)}" data-copied="${escapeHtml(t.copy.copied)}" data-copy-label="${escapeHtml(t.copy.label)}"`
+    : '';
   const body = `${docHeader({
-    title: `LexGrade Standard <span class="version">v${escapeHtml(version)}</span>`,
-    subhead: `An open scoring instrument for ${escapeHtml(scope)}: ${principleWord} principles and ${escapeHtml(String(critCount))} graded criteria, each independently citable.`,
+    title: `${t.name} <span class="version">v${escapeHtml(version)}</span>`,
+    subhead: t.subhead(escapeHtml(scope), principleWord, escapeHtml(String(critCount))),
   })}
 
   <details class="panel sotd" open>
-    <summary><span class="sotd-chevron" aria-hidden="true"></span>Status of this document</summary>
+    <summary><span class="sotd-chevron" aria-hidden="true"></span>${t.sotdSummary}</summary>
     <dl>
-      <dt>This version</dt><dd>v${escapeHtml(version)} (current published edition)</dd>
-      <dt>Machine-readable</dt><dd><a href="${API_URL}">/api/v1/standard.json</a> · <a href="/llms-full.txt">/llms-full.txt</a></dd>
-      <dt>Source repository</dt><dd><a href="${REPO_URL}">${escapeHtml(REPO_URL.replace(/^https?:\/\//, ''))}</a></dd>
-      <dt>Calibrated to</dt><dd>CPLR &amp; the Uniform Civil Rules (22 NYCRR Part 202)</dd>${
+      <dt>${t.thisVersion}</dt><dd>${t.currentEdition(escapeHtml(version))}</dd>
+      <dt>${t.machineReadable}</dt><dd><a href="${apiUrl}">${apiUrl}</a> · <a href="${llmsUrl}">${llmsUrl}</a></dd>
+      <dt>${t.sourceRepo}</dt><dd><a href="${REPO_URL}">${escapeHtml(REPO_URL.replace(/^https?:\/\//, ''))}</a></dd>
+      <dt>${t.calibratedTo}</dt><dd>${t.calibratedToValue}</dd>${
         standard.citationsVerified
-          ? `\n      <dt>Citations verified</dt><dd>${escapeHtml(standard.citationsVerified)} (confirm provisions remain current)</dd>`
+          ? `\n      <dt>${t.citationsVerified}</dt><dd>${escapeHtml(standard.citationsVerified)} ${t.citationsVerifiedNote}</dd>`
           : ''
       }
-      <dt>License</dt><dd>${escapeHtml(license)} (content)</dd>
-      <dt>Cite as</dt><dd><span id="lg-cite">&ldquo;${escapeHtml(title)}, LexGrade (lexgrade.org), ${escapeHtml(license)}.&rdquo;</span></dd>
+      <dt>${t.license}</dt><dd>${escapeHtml(license)} ${t.licenseNote}</dd>
+      <dt>${t.citeAs}</dt><dd><span id="lg-cite"${lang === DEFAULT_LANG ? '' : ' lang="en"'}${copyAttrs}>&ldquo;${escapeHtml(citeTitle)}, LexGrade (lexgrade.org), ${escapeHtml(license)}.&rdquo;</span></dd>
     </dl>
-    <p>This Standard is not promulgated by any court, bar, or government body. Verify every legal citation independently before filing, including those in the Standard. The markdown text, served at <code>/llms-full.txt</code>, is the source of truth. This page and <code>/api/v1/standard.json</code> are built from a structured copy checked against it.</p>
+    <p>${t.sotdNote}</p>
   </details>
 
   <section class="abstract" aria-labelledby="abstract-h">
-    <h2 id="abstract-h">Abstract</h2>
-    <p>The LexGrade Standard (LGS) is an open instrument for scoring the quality of legal drafting. It defines ${principleWord} principles and ${escapeHtml(String(critCount))} graded criteria, calibrated against ${escapeHtml(scope)}. Each criterion is independently citable. The conformance grade is a weighted composite, and an ethics gate forces a deficient grade on any hallucinated citation.</p>
+    <h2 id="abstract-h">${t.abstractHeading}</h2>
+    <p>${t.abstract(principleWord, escapeHtml(String(critCount)), escapeHtml(scope))}</p>
   </section>
 
 ${sections}
 ${appendix}
 
   <footer class="doc-footer">
-    <p class="gh-links">Found an error? <a href="${REPO_URL}/edit/main/commons/standard/lgs-criteria.yaml">Edit this page on GitHub</a> or <a href="${REPO_URL}/issues/new">open an issue</a>. Substantive changes go through an <code>rfc:</code> issue.</p>
+    <p class="gh-links">${t.footer(`${REPO_URL}/edit/main/${escapeHtml(standard.editPath ?? 'commons/standard/lgs-criteria.yaml')}`, `${REPO_URL}/issues/new`)}</p>
   </footer>`;
 
   // The Standard shares the same two-column shell as every other TOC page
@@ -612,8 +675,9 @@ ${appendix}
     bodyHtml: body,
     canonical: '/standard',
     current: 'standard',
-    image: '/og/standard.png',
+    image: ogImage('standard', lang),
     toc: appendixToc ? `${toc}\n${appendixToc}` : toc,
+    lang,
   });
 }
 
@@ -652,7 +716,17 @@ export function renderRedirect(to) {
  * @param {{standardVersion: string, principleCount: number, criteriaCount: number, techniqueVersion: string, techniqueCount: number}} opts
  * @returns {string}
  */
-export function renderHome({ standardVersion, principleCount, criteriaCount, techniqueVersion, techniqueCount }) {
+export function renderHome({ standardVersion, principleCount, criteriaCount, techniqueVersion, techniqueCount, lang = DEFAULT_LANG }) {
+  if (lang === 'es') {
+    const page = PAGES_ES.home({
+      standardVersion: escapeHtml(standardVersion),
+      principleCount: escapeHtml(String(principleCount)),
+      criteriaCount: escapeHtml(String(criteriaCount)),
+      techniqueVersion: escapeHtml(techniqueVersion),
+      techniqueCount: escapeHtml(String(techniqueCount)),
+    });
+    return documentShell({ title: page.docTitle, description: page.description, bodyHtml: page.body, canonical: '/', current: 'home', image: ogImage('home', lang), lang });
+  }
   const body = `  <header class="home-hero">
     <h1 class="home-title">An open standard for scoring legal motions.</h1>
     <p class="subhead">Its principles, weights, and penalties are published in full.</p>
@@ -698,7 +772,8 @@ export function renderHome({ standardVersion, principleCount, criteriaCount, tec
  *
  * @returns {string}
  */
-export function renderAbout() {
+export function renderAbout({ lang = DEFAULT_LANG } = {}) {
+  if (lang === 'es') return translatedPage('about', PAGES_ES.about({ repo: REPO_URL }), lang);
   const body = `${docHeader({
     title: 'About LexGrade',
     subhead: 'An open scoring standard for legal drafting.',
@@ -737,13 +812,14 @@ export function renderAbout() {
  * @param {{version: string, quickStartHtml: string}} opts
  * @returns {string}
  */
-export function renderCheck({ version, quickStartHtml }) {
+export function renderCheck({ version, quickStartHtml, lang = DEFAULT_LANG }) {
   // Each principle in the §9 table links to its section of the Standard, so
   // "take them one at a time" is one click, not a hunt.
   const linked = stripScripts(quickStartHtml).replace(
     /<td>P([1-8])\. ([^<]+)<\/td>/g,
-    '<td><a href="/standard#p$1">P$1.&nbsp;$2</a></td>',
+    `<td><a href="${localPath(lang, '/standard')}#p$1">P$1.&nbsp;$2</a></td>`,
   );
+  if (lang === 'es') return translatedPage('check', PAGES_ES.check({ version: escapeHtml(version), quickStartHtml: linked }), lang);
   const body = `${docHeader({
     title: 'Checking your own motion',
     subhead: 'For anyone filing without a lawyer.',
@@ -786,7 +862,8 @@ ${linked}
  *
  * @returns {string}
  */
-export function renderContribute() {
+export function renderContribute({ lang = DEFAULT_LANG } = {}) {
+  if (lang === 'es') return translatedPage('contribute', PAGES_ES.contribute({ repo: REPO_URL }), lang);
   const body = `${docHeader({
     title: 'Help build the standard',
     subhead: 'How to propose changes to the Standard.',
@@ -825,7 +902,8 @@ export function renderContribute() {
  *
  * @returns {string}
  */
-export function renderReferences() {
+export function renderReferences({ lang = DEFAULT_LANG } = {}) {
+  if (lang === 'es') return translatedPage('references', PAGES_ES.references(), lang);
   const body = `${docHeader({
     title: 'Sources &amp; influences',
     subhead: 'The criteria and weights are LexGrade&#39;s own. The method builds on the work credited here.',
@@ -866,7 +944,21 @@ export function renderReferences() {
  * @param {{version: string, documents: string[]}} bundle
  * @returns {string}
  */
-export function renderLlmsFull({ version, documents }) {
+export function renderLlmsFull({ version, documents, lang = DEFAULT_LANG }) {
+  if (lang === 'es') {
+    const header = [
+      '# LexGrade — Metodología completa (traducción al español)',
+      '',
+      '> La metodología abierta completa de LexGrade, en traducción, concatenada para agentes.',
+      '> Esta es una traducción. El texto en inglés es el que rige: https://lexgrade.org/llms-full.txt',
+      '> Licencia CC-BY-SA 4.0. (C) 2026 LexGrade.',
+      `> Cítese como: "LexGrade Standard v${version}, LexGrade (lexgrade.org), CC-BY-SA 4.0."`,
+      `> Fuente canónica y navegable: ${SITE_ORIGIN}/es/standard`,
+      '',
+      'Documentos a continuación, en orden: el Estándar LexGrade y el Registro de Técnicas.',
+    ].join('\n');
+    return `${header}\n\n---\n\n${documents.join('\n\n---\n\n')}\n`;
+  }
   const header = [
     '# LexGrade — Full Methodology',
     '',
@@ -891,12 +983,12 @@ export function renderLlmsFull({ version, documents }) {
  * @param {string} [editPath] repo-relative path to the page's source file
  * @returns {string}
  */
-function githubFooter(editPath) {
+function githubFooter(editPath, lang = DEFAULT_LANG) {
   if (!editPath) {
     return '';
   }
   return `  <footer class="doc-footer">
-    <p class="gh-links">Found an error? <a href="${REPO_URL}/edit/main/${escapeHtml(editPath)}">Edit this page on GitHub</a> or <a href="${REPO_URL}/issues/new">open an issue</a>.</p>
+    <p class="gh-links">${strings(lang).foundError(`${REPO_URL}/edit/main/${escapeHtml(editPath)}`, `${REPO_URL}/issues/new`)}</p>
   </footer>`;
 }
 
@@ -908,16 +1000,20 @@ function githubFooter(editPath) {
  * @param {{title: string, description: string, bodyHtml: string, editPath?: string}} opts
  * @returns {string}
  */
-function documentShell({ title, description, bodyHtml, canonical = '/standard', current, image, editPath, noindex = false, toc = null }) {
+function documentShell({ title, description, bodyHtml, canonical = '/standard', current, image, editPath, noindex = false, toc = null, lang = DEFAULT_LANG }) {
   // Each page declares its OWN canonical URL — a shared one would tell search
-  // engines every solo page is a duplicate of /standard. Accept a path or a
-  // full URL. A noindex page (the 404) carries no canonical.
-  const canonicalUrl = canonical.startsWith('http') ? canonical : `${SITE_ORIGIN}${canonical}`;
+  // engines every solo page is a duplicate of /standard. `canonical` is the
+  // language-neutral path ("/check"); the page's own URL adds the language
+  // prefix. A noindex page (the 404) carries no canonical and no alternates.
+  const canonicalUrl = `${SITE_ORIGIN}${localPath(lang, canonical)}`;
+  const alternates = LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${escapeHtml(`${SITE_ORIGIN}${localPath(l, canonical)}`)}">`)
+    .concat(`<link rel="alternate" hreflang="x-default" href="${escapeHtml(`${SITE_ORIGIN}${canonical}`)}">`)
+    .join('\n');
   const indexTag = noindex
     ? '<meta name="robots" content="noindex">'
-    : `<link rel="canonical" href="${escapeHtml(canonicalUrl)}">`;
+    : `<link rel="canonical" href="${escapeHtml(canonicalUrl)}">\n${alternates}`;
   return `<!doctype html>
-<html lang="en">
+<html lang="${lang}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -932,26 +1028,26 @@ ${FONT_LINKS}
 <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-<a class="skip-link" href="#main">Skip to main content</a>
+<a class="skip-link" href="#main">${strings(lang).skip}</a>
 ${
   toc
-    ? `${topbar(current)}
+    ? `${topbar(current, lang, noindex ? null : canonical)}
 <div class="layout">
-${tocSidebar(toc)}
+${tocSidebar(toc, lang)}
 <main id="main" tabindex="-1">
 ${bodyHtml}
-${githubFooter(editPath)}
+${githubFooter(editPath, lang)}
 </main>
 </div>`
     : `<div class="layout layout--solo">
-${topbar(current)}
+${topbar(current, lang, noindex ? null : canonical)}
 <main id="main" tabindex="-1">
 ${bodyHtml}
-${githubFooter(editPath)}
+${githubFooter(editPath, lang)}
 </main>
 </div>`
 }
-${siteFooter(current)}
+${siteFooter(current, lang, noindex ? null : canonical)}
 ${toc ? ENHANCE_SCRIPT + '\n' : ''}</body>
 </html>
 `;
@@ -1014,7 +1110,9 @@ export function stripScripts(html) {
  * @param {{version: string, html: string}} opts
  * @returns {string}
  */
-export function renderTechniques({ version, techniques = [], md = (s) => s, editPath }) {
+export function renderTechniques({ version, techniques = [], md = (s) => s, editPath, lang = DEFAULT_LANG }) {
+  const t = strings(lang).techniques;
+  const base = localPath(lang, '/techniques');
   // Render a one-line definition inline (strip the wrapping <p> markdown adds).
   const inline = (raw) => stripScripts(md(raw)).replace(/^\s*<p>([\s\S]*?)<\/p>\s*$/, '$1');
 
@@ -1024,13 +1122,13 @@ export function renderTechniques({ version, techniques = [], md = (s) => s, edit
   // and in /llms-full.txt. This page is a scannable, single-column human index.
   const order = [];
   const byCategory = new Map();
-  for (const t of techniques) {
-    const cat = t.category || 'Uncategorized';
+  for (const tech of techniques) {
+    const cat = tech.category || t.uncategorized;
     if (!byCategory.has(cat)) {
       byCategory.set(cat, []);
       order.push(cat);
     }
-    byCategory.get(cat).push(t);
+    byCategory.get(cat).push(tech);
   }
 
   const groups = order
@@ -1038,11 +1136,11 @@ export function renderTechniques({ version, techniques = [], md = (s) => s, edit
       const rows = byCategory
         .get(cat)
         .map(
-          (t) => `      <li class="tech-row"><a href="/techniques/${escapeHtml(t.slug)}">
-        <span class="tech-row__num">${escapeHtml(String(t.number))}</span>
+          (tech) => `      <li class="tech-row"><a href="${base}/${escapeHtml(tech.slug)}">
+        <span class="tech-row__num">${escapeHtml(String(tech.number))}</span>
         <span class="tech-row__body">
-          <span class="tech-row__name">${escapeHtml(t.name)}</span>${
-            t.definition ? `\n          <span class="tech-row__def">${inline(t.definition)}</span>` : ''
+          <span class="tech-row__name">${escapeHtml(tech.name)}</span>${
+            tech.definition ? `\n          <span class="tech-row__def">${inline(tech.definition)}</span>` : ''
           }
         </span>
       </a></li>`,
@@ -1064,12 +1162,15 @@ ${rows}
   // documents share one title structure and neither needs a brand-repeating
   // eyebrow above the masthead.
   const body = `${docHeader({
-    title: `LexGrade Technique Register <span class="version">v${escapeHtml(version)}</span>`,
-    subhead: `${escapeHtml(String(techniques.length))} named advocacy techniques, reported alongside the composite score without ever modifying it. The complete reference is also available as <a href="/api/v1/techniques.json">JSON</a> and in <a href="/llms-full.txt">llms-full.txt</a>.`,
+    title: `${t.heading} <span class="version">v${escapeHtml(version)}</span>`,
+    subhead: t.subhead(
+      escapeHtml(String(techniques.length)),
+      lang === DEFAULT_LANG ? '/api/v1/techniques.json' : `/api/v1/techniques.${lang}.json`,
+      localPath(lang, '/llms-full.txt'),
+    ),
   })}
-  <section class="callout tech-ethos" aria-label="How to read this register">
-    <p><strong>Read this first.</strong> The Register catalogs craft. Each named technique is a form of clarity, discipline, or preparation that makes the strongest <em>honest</em> version of a case easy for a busy court to act on. If a technique would require bending candor to the tribunal or fairness to the opponent, the Standard treats it as a defect.</p>
-    <p>No technique is required for any grade, and a motion can score A+ with none present. The Register asks a different question: what does expert advocacy do that competent advocacy does not?</p>
+  <section class="callout tech-ethos" aria-label="${t.calloutAria}">
+    ${t.callout}
   </section>
   <div class="technique">
 ${groups}
@@ -1080,14 +1181,15 @@ ${groups}
     .map((cat) => `    <li><a href="#${escapeHtml(anchor(cat))}">${escapeHtml(cat)}</a></li>`)
     .join('\n');
   return documentShell({
-    title: `LexGrade Standard v${version} — Technique Register`,
-    description: `The LexGrade Technique Register: ${techniques.length} named advocacy techniques. Informative companion to the Standard. CC-BY-SA 4.0.`,
+    title: t.docTitle(version),
+    description: t.description(techniques.length),
     bodyHtml: body,
     canonical: '/techniques',
     current: 'techniques',
-    image: '/og/techniques.png',
+    image: ogImage('techniques', lang),
     editPath,
     toc,
+    lang,
   });
 }
 
@@ -1100,7 +1202,8 @@ ${groups}
  * @param {{technique: {number:number, name:string, slug:string, category:?string, tier:?string, definition:?string, fields?:object}, editPath?:string}} opts
  * @returns {string}
  */
-export function renderTechnique({ technique, md = (s) => s, editPath }) {
+export function renderTechnique({ technique, md = (s) => s, editPath, lang = DEFAULT_LANG }) {
+  const t = strings(lang).techniques;
   const { number, name, slug, category, tier, definition, fields = {} } = technique;
 
   // Every field value is raw markdown → HTML (so tables, lists, and emphasis
@@ -1118,8 +1221,8 @@ export function renderTechnique({ technique, md = (s) => s, editPath }) {
   // Definition — the dictionary entry; the category is the "part of speech".
   const def = definition
     ? `  <div class="def">
-    <h2 class="sr-only">Definition</h2>
-${category ? `    <p class="def__pos">${escapeHtml(category)} technique${tier ? ` · Tier ${escapeHtml(tier)}` : ''}</p>\n` : ''}    <div class="field__text def__text">${stripScripts(md(definition))}</div>
+    <h2 class="sr-only">${t.definition}</h2>
+${category ? `    <p class="def__pos">${t.partOfSpeech(escapeHtml(category), tier ? escapeHtml(tier) : '')}</p>\n` : ''}    <div class="field__text def__text">${stripScripts(md(definition))}</div>
   </div>`
     : '';
 
@@ -1127,23 +1230,23 @@ ${category ? `    <p class="def__pos">${escapeHtml(category)} technique${tier ? 
   // quotes, distinguished by the accent (anti-pattern carries the maroon rule).
   const example = fields.example
     ? `  <div class="example">
-    <h2 class="example__label"><span aria-hidden="true">✓</span> Example</h2>
+    <h2 class="example__label"><span aria-hidden="true">✓</span> ${t.example}</h2>
     ${richText(fields.example)}
   </div>`
     : '';
   const anti = fields.antiPattern
     ? `  <div class="antipattern">
-    <h2 class="antipattern__label"><span aria-hidden="true">✗</span> Anti-pattern</h2>
+    <h2 class="antipattern__label"><span aria-hidden="true">✗</span> ${t.antiPattern}</h2>
     ${richText(fields.antiPattern)}
   </div>`
     : '';
 
-  const reqs = fields.requirements ? field('Requirements', richText(fields.requirements)) : '';
+  const reqs = fields.requirements ? field(t.requirements, richText(fields.requirements)) : '';
   const why = fields.why ? field(fields.why.label, richText(fields.why.text), true) : '';
   const distinctions =
     fields.distinctions && fields.distinctions.length
       ? field(
-          'How it differs',
+          t.howItDiffers,
           `<dl class="tech-dl">
 ${fields.distinctions.map((d) => `      <dt>${escapeHtml(d.label)}</dt><dd>${stripScripts(md(d.text))}</dd>`).join('\n')}
     </dl>`,
@@ -1158,18 +1261,17 @@ ${fields.distinctions.map((d) => `      <dt>${escapeHtml(d.label)}</dt><dd>${str
 ${[def, example, anti, reqs, why, distinctions, notes].filter(Boolean).join('\n')}
   </div>
   <hr>
-  <p class="prose"><a href="/techniques">← All techniques</a></p>`;
+  <p class="prose"><a href="${localPath(lang, '/techniques')}">${t.all}</a></p>`;
 
   return documentShell({
-    title: `${name} — LexGrade Technique Register`,
-    description: definition
-      ? `${name}: ${definition}`
-      : `${name} — a named advocacy technique in the LexGrade Technique Register. CC-BY-SA 4.0.`,
+    title: t.pageTitle(name),
+    description: definition ? `${name}: ${definition}` : t.fallbackDescription(name),
     bodyHtml: body,
     canonical: `/techniques/${slug}`,
     current: 'techniques',
-    image: `/og/technique-${slug}.png`,
+    image: ogImage(`technique-${slug}`, lang),
     editPath,
+    lang,
   });
 }
 
