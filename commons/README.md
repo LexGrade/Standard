@@ -8,6 +8,7 @@ criteria, and the Technique Register.
 | Directory | Contents | License |
 |-----------|----------|---------|
 | `standard/` | The LexGrade Standard, the Technique Register, and `lgs-criteria.yaml` (the machine-readable catalog) | CC-BY-SA 4.0 |
+| `standard/translations/es/` | Spanish translations of the current Standard and Technique Register, and the translated strings of the catalog. English governs; see [GOVERNANCE](GOVERNANCE.md#translations) | CC-BY-SA 4.0 |
 
 License texts: [`/LICENSE-AGPL`](../LICENSE-AGPL),
 [`/LICENSE-CC-BY-SA`](../LICENSE-CC-BY-SA). Versions and canonical paths are

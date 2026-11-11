@@ -28,6 +28,7 @@ LexGrade is an open, independently maintained model of effective motion practice
 - **The Technique Register** — a descriptive catalog of named advocacy techniques. It is informative only: reported alongside the composite score, and it never modifies the score.
 - **Live site** — <https://lexgrade.org>
 - **Machine-readable** — `/api/v1/standard.json`, `/api/v1/techniques.json`, and `/llms-full.txt`.
+- **En español** — the whole site, the Standard, and the Technique Register in Spanish at <https://lexgrade.org/es>. The English text governs; translations follow [`commons/GOVERNANCE.md`](commons/GOVERNANCE.md#translations).
 
 The launch scope is deliberately small: the two documents, the site that
 presents them, and nothing that outruns its evidence. Validation materials
@@ -40,6 +41,7 @@ extension templates, and integration tooling are planned — see
 | Path | What |
 |------|------|
 | `commons/standard/` | Source of truth: the Standard, the Technique Register, and `lgs-criteria.yaml` |
+| `commons/standard/translations/` | Translations of the current edition, one directory per language |
 | `sites/lexgrade.org/` | The static site (framework-free Node build → HTML/CSS) |
 | `packages/core/` | Shared register/standard parser |
 | `methodology.yaml` | Version manifest |

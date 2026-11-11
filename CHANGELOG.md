@@ -35,6 +35,28 @@ Changes accepted for the next edition accumulate here. Propose changes via an
   says that correction reports go to the Working Group and are acknowledged
   within 14 days.
 
+### Added — Spanish translation
+- **The whole site in Spanish at `/es`.** Every page has a Spanish counterpart
+  at the same path under `/es` (`/es/standard`, `/es/techniques/…`,
+  `/es/check`, and so on), with the same anchors and technique slugs as the
+  English page, a language link in the top bar, the menu, and the footer, and
+  `hreflang` pairs for search engines.
+- **The Standard and the Technique Register in Spanish**, in
+  `commons/standard/translations/es/`: `LexGrade_Standard_v1.1.es.md`,
+  `Technique_Register_v1.0.es.md`, and `lgs-criteria.es.yaml`, an overlay of
+  translated strings whose numbers and ids always come from the English
+  catalog. Also served as `/es/llms-full.txt`, `/api/v1/standard.es.json`, and
+  `/api/v1/techniques.es.json`.
+- **English governs.** `GOVERNANCE.md` gains a *Translations* section: a
+  translation names the edition it translates, never changes a requirement,
+  and is corrected as a routine change. Rule, case, and scholarship citations
+  are left in their original form, and court terms a filer meets on English
+  forms are given in both languages.
+- **Review status.** The translation was produced by machine and has not yet
+  been reviewed by a qualified translator of legal Spanish, which
+  `GOVERNANCE.md` requires before first publication.
+- No criterion, weight, deduction, or threshold changed.
+
 ### Changed — Technique Register v1.0.14
 - Wording only. "Guidance for Phase 5 Integration" is retitled "Reporting the
   Register" and points at the Standard's §10 worksheet; the SRL-safe note is

@@ -1,0 +1,346 @@
+# Estándar LexGrade (LGS) — catálogo de criterios, traducción al español
+#
+# NO ES ASESORÍA LEGAL; NO TIENE AUTORIDAD. Esta es una traducción. El texto en
+# inglés (lgs-criteria.yaml y la edición del Estándar que nombra) es el que rige.
+#
+# License: CC-BY-SA 4.0. © 2026 LexGrade.
+#
+# This file is an OVERLAY, not a second catalog. It holds only the strings that
+# are translated, keyed by the same ids as commons/standard/lgs-criteria.yaml.
+# Every number (weights, deductions, thresholds, the grade scale) and every id
+# comes from the English catalog at build time, so a translation cannot drift
+# from the Standard's arithmetic. Titles, requirements, and sources mirror the
+# tables in LexGrade_Standard_v1.1.es.md; a test holds the ids complete.
+
+language: es
+translates:
+  standard: "1.1"
+scope: la práctica de mociones en la Corte Suprema del Estado de Nueva York
+citations_verified: febrero de 2026
+principles:
+  P1:
+    title: Integridad procesal
+    source: §I Cumplimiento de los requisitos de umbral
+    note: Condición previa que quien presenta el escrito debe cumplir por su cuenta conforme a las
+      reglas del tribunal donde lo presenta. LGS no la califica. Los ID de los criterios calificados
+      comienzan en LGS 2.1.
+  P2:
+    title: Diagnóstico del problema
+    source: §II-A Diagnóstico del problema
+  P3:
+    title: Autoridad legal
+    source: §II-B Análisis jurídico y autoridad
+  P4:
+    title: Fundamento fáctico
+    source: §III Presentación de los hechos y respaldo probatorio
+  P5:
+    title: Redacción y organización
+    source: §IV Redacción y organización
+  P6:
+    title: Sofisticación estratégica
+    source: §V Sofisticación estratégica
+  P7:
+    title: Ética y franqueza
+    source: §VI Cumplimiento ético
+    note: Filtro de aprobado o reprobado con deducciones graduadas. Las deducciones se restan de la
+      puntuación compuesta. Cualquier cita alucinada impone el nivel Deficiente, sea cual sea la
+      puntuación compuesta.
+  P8:
+    title: Autoevaluación
+    source: §VII Autoevaluación y práctica reflexiva
+criteria:
+  LGS 2.1:
+    title: Caracterización de la cuestión
+    requirement: La moción caracteriza correctamente la disputa como una cuestión de derecho, de hecho o
+      mixta, y explica por qué.
+    source: §II-A, descriptor de A+
+  LGS 2.2:
+    title: Selección de la vía procesal
+    requirement: La vía procesal seleccionada es la que obtiene el remedio solicitado con el expediente
+      disponible; la moción enuncia los elementos de la vía y muestra que los hechos cumplen cada
+      uno.
+    source: §II-A, descriptor de A+
+  LGS 2.3:
+    title: Análisis de vías alternativas
+    requirement: La moción explica por qué se consideraron y se descartaron vías procesales alternativas.
+    source: §II-A, descriptor de A+
+  LGS 2.4:
+    title: Vínculo entre diagnóstico y estrategia
+    requirement: La moción muestra cómo la caracterización del problema determina las decisiones
+      analíticas y estratégicas posteriores.
+    source: §II-A, descriptor de A+
+  LGS 3.1:
+    title: Texto de la ley
+    requirement: Para cada argumento jurídico, se cita la ley aplicable y se transcribe su lenguaje operativo.
+    source: §II-B, Jerarquía de autoridades (a)
+  LGS 3.2:
+    title: Autoridad vinculante
+    requirement: Para cada argumento se cita al menos una decisión vinculante sobre hechos análogos.
+    source: §II-B, Jerarquía de autoridades (b)
+  LGS 3.3:
+    title: Autoridad persuasiva
+    requirement: La autoridad persuasiva (otros departamentos, tribunales federales, tratados)
+      complementa la autoridad vinculante cuando corresponde.
+    source: §II-B, Jerarquía de autoridades (c)
+  LGS 3.4:
+    title: Fuentes administrativas y de práctica
+    requirement: Se identifican las órdenes administrativas, las Reglas Uniformes, los formularios de la
+      OCA o las guías de práctica aplicables.
+    source: §II-B, Jerarquía de autoridades (d)
+  LGS 3.5:
+    title: Autoridad adversa
+    requirement: La autoridad contraria más fuerte se revela y se distingue de manera específica.
+    source: §II-B, Jerarquía de autoridades (e); NY RPC 3.3(a)(2)
+  LGS 3.6:
+    title: Carga de la prueba
+    requirement: La carga de la prueba se identifica correctamente, incluida la parte a la que
+      corresponde en cada etapa.
+    source: §II-B, Criterios específicos de evaluación
+  LGS 3.7:
+    title: Metodología de interpretación de la ley
+    requirement: La interpretación avanza del texto → historia legislativa → propósito de política
+      pública, no por mera afirmación.
+    source: §II-B, Criterios específicos de evaluación; Gluck
+  LGS 3.8:
+    title: Razonamiento analógico
+    requirement: El razonamiento analógico se emplea como destreza afirmativa, distinta de la de
+      distinguir casos adversos.
+    source: §II-B, Criterios específicos de evaluación; Sherwin
+  LGS 3.9:
+    title: Fundamento de política pública
+    requirement: La moción aborda el propósito de política pública de la ley aplicable, no solo su texto.
+    source: §II-B, Criterios específicos de evaluación; Gluck
+  LGS 3.10:
+    title: Síntesis de casos
+    requirement: Cuando la regla aplicable se extrae de más de una autoridad, la moción enuncia la regla
+      que esas autoridades establecen en conjunto, muestra cómo contribuye cada una y aplica la
+      regla sintetizada; una secuencia de descripciones de casos o de paréntesis explicativos sin
+      una regla enunciada no es una síntesis.
+    source: v1.1; Clark & DeSanctis
+  LGS 4.1:
+    title: Conocimiento personal
+    requirement: Las afirmaciones se basan en el conocimiento personal (el estándar que el CPLR fija
+      para las afirmaciones de abogados y las declaraciones juradas de las partes).
+    source: §III, Criterios específicos de evaluación
+  LGS 4.2:
+    title: Fundamento probatorio
+    requirement: Cuando la moción se apoya en registros comerciales u otra prueba documental, se sienta
+      el fundamento que exigen las reglas de prueba.
+    source: §III, Criterios específicos de evaluación
+  LGS 4.3:
+    title: Cita precisa de anexos
+    requirement: Toda afirmación importante está vinculada a un anexo (exhibit) específico, identificado
+      por la letra o el número del anexo y la página o el párrafo.
+    source: §III, Criterios específicos de evaluación
+  LGS 4.4:
+    title: Lista de anexos completa
+    requirement: Todo anexo mencionado en la afirmación aparece en la lista de anexos, y todo elemento
+      de la lista se menciona en la afirmación.
+    source: §III, Criterios específicos de evaluación
+  LGS 4.5:
+    title: Honestidad probatoria
+    requirement: La moción reconoce lo que el expediente muestra y lo que no muestra, sin ceder la
+      posición jurídica.
+    source: §III, descriptor de A+; Sherwin
+  LGS 5.1:
+    title: Encabezados argumentativos
+    requirement: Los encabezados de punto son argumentativos y sustantivos, no descriptivos.
+    source: §IV, Criterios específicos de evaluación; Commercial Division Rule 17
+  LGS 5.2:
+    title: Tono
+    requirement: Contundente por la prueba y no por la retórica; respetuoso con el tribunal y con el
+      abogado de la parte contraria.
+    source: §IV, Criterios específicos de evaluación
+  LGS 5.3:
+    title: Economía
+    requirement: Cada párrafo hace avanzar el argumento; se omite la recitación innecesaria.
+    source: §IV, Criterios específicos de evaluación
+  LGS 5.4:
+    title: Estructura de las citas
+    requirement: "La autoridad se presenta así: la ley antes que la jurisprudencia, lo vinculante antes
+      que lo persuasivo, la aplicación antes que la refutación."
+    source: §IV, Criterios específicos de evaluación
+  LGS 5.5:
+    title: Adecuación al destinatario
+    requirement: La moción está calibrada a la práctica local del tribunal, a los estándares aplicables
+      y a la postura procesal.
+    source: §IV, Criterios específicos de evaluación; Wizner
+  LGS 5.6:
+    title: Estructura analítica
+    requirement: "Cada argumento tiene una estructura analítica visible: la conclusión o la regla
+      enunciada primero, la regla explicada a partir de su autoridad, la regla aplicada a los hechos
+      del expediente y la conclusión reiterada (la familia CREAC / IRAC); el lector puede ubicar
+      cada paso, y ningún paso falta ni se funde con otro."
+    source: v1.1; Clark & DeSanctis
+  LGS 6.1:
+    title: Calidad de la orden propuesta
+    requirement: La orden propuesta (proposed order) enumera los documentos de respaldo (según CPLR
+      2219); cada párrafo de «SE ORDENA» (ORDERED) corresponde a un solo punto del remedio; se
+      incluyen una disposición sobre notificación y una fecha límite de cumplimiento; está lista
+      para la firma sin modificaciones.
+    source: §V, Criterios específicos de evaluación; Clermont
+  LGS 6.2:
+    title: Postura para la apelación
+    requirement: La moción crea un expediente limpio para la apelación, preserva los argumentos y evita
+      concesiones innecesarias.
+    source: §V, Criterios específicos de evaluación; Clermont
+  LGS 6.3:
+    title: Estrategia de mociones múltiples
+    requirement: Cuando la moción forma parte de una secuencia, son evidentes el momento, el orden y la
+      interacción con otras mociones pendientes.
+    source: §V, Criterios específicos de evaluación
+  LGS 6.4:
+    title: Dominio interdisciplinario
+    requirement: Se demuestra el conocimiento no jurídico pertinente (análisis financiero, expedientes
+      médicos, tecnología) cuando corresponde.
+    source: §V, Criterios específicos de evaluación; Rakoff
+  LGS 6.5:
+    title: Consideración del acceso a la justicia
+    requirement: La moción considera el impacto en las partes sin abogado o con pocos recursos cuando es
+      pertinente.
+    source: §V, Criterios específicos de evaluación; Wizner
+  LGS 7.1:
+    title: Sin citas inventadas
+    requirement: Ninguna cita se refiere a un caso que no existe.
+    source: NY RPC 3.3; 22 NYCRR 130-1.1; Mata v. Avianca
+    deduction_note: -20 por cada instancia; además impone el nivel de conformidad Deficiente
+  LGS 7.2:
+    title: Sin fallos inventados
+    requirement: Ningún fallo de un caso se cita de forma incorrecta ni se inventa.
+    source: NY RPC 3.3(a)(1)
+  LGS 7.3:
+    title: Autoridad adversa revelada
+    requirement: Se revela toda la autoridad que rige y que es directamente adversa.
+    source: NY RPC 3.3(a)(2)
+  LGS 7.4:
+    title: Sin declaraciones falsas de hecho
+    requirement: Ninguna declaración de hecho sustancial es falsa.
+    source: NY RPC 3.3(a)(1); 22 NYCRR 130-1.1
+  LGS 7.5:
+    title: Vía procesal correcta
+    requirement: La vía elegida corresponde al remedio solicitado.
+    source: Rakoff; CPLR 3211 vs. 3212
+  LGS 7.6:
+    title: Autoridad que rige citada
+    requirement: La moción cita la autoridad que rige para cada argumento jurídico.
+    source: ABA Standards; NY RPC 1.1
+  LGS 7.7:
+    title: Sin ataques personales
+    requirement: Ningún ataque personal contra el abogado de la parte contraria ni contra una parte.
+    source: 22 NYCRR 130-1.1(c)
+  LGS 7.8:
+    title: Ninguna decisión de primera instancia citada como vinculante
+    requirement: Ninguna decisión de primera instancia se cita como autoridad vinculante.
+    source: Jerarquía de tribunales de NY
+  LGS 7.9:
+    title: Uso de metodología interpretativa
+    requirement: Los argumentos sobre la ley emplean metodología interpretativa, no la mera afirmación.
+    source: Gluck
+  LGS 7.10:
+    title: Cumplimiento de los límites de extensión
+    requirement: El escrito respeta los límites de extensión que imponen las reglas del tribunal ante el
+      que se presenta.
+    source: 22 NYCRR 202.8-b (el cumplimiento lo define el tribunal)
+  LGS 7.11:
+    title: Certificación presentada
+    requirement: Se presenta toda certificación de citas que exijan las reglas del tribunal.
+    source: 22 NYCRR 130-1.1-a (el requisito lo define el tribunal)
+  LGS 7.12:
+    title: Cadenas de citas explicadas
+    requirement: Toda cadena de citas incluye un paréntesis explicativo sobre la pertinencia de cada caso.
+    source: Clermont; estándares profesionales
+  LGS 8.1:
+    title: Motivo más fuerte para denegar
+    requirement: La moción identifica el motivo más fuerte por el cual el tribunal podría denegarla y
+      aborda ese motivo.
+    source: §VII, Pregunta 1
+  LGS 8.2:
+    title: Anticipación del contraargumento
+    requirement: La moción identifica el mejor contraargumento del abogado de la parte contraria y
+      muestra dónde queda anticipado.
+    source: §VII, Pregunta 2
+  LGS 8.3:
+    title: Juicio sobre la presentación
+    requirement: La moción explica por qué es apropiado presentarla y qué alternativas se consideraron y
+      se descartaron.
+    source: §VII, Pregunta 3; Kronman
+  LGS 8.4:
+    title: Impacto en las partes vulnerables
+    requirement: La moción considera el impacto en las partes sin abogado o con pocos recursos.
+    source: §VII, Pregunta 4; Wizner
+  LGS 8.5:
+    title: Solidez en apelación
+    requirement: La moción identifica qué argumentos quedan preservados para la apelación y qué se ha
+      concedido, si algo.
+    source: §VII, Pregunta 5; Clermont
+conformance_levels:
+  expert:
+    label: Experto
+    gate: El filtro de franqueza de P7 se aprueba (sin deducciones automáticas) y no hay ninguna cita
+      alucinada
+    precondition: Quien presenta el escrito ha confirmado el cumplimiento procesal de P1
+    composite_band: 90 o más (escala de calificaciones A−, A, A+)
+    descriptor: "El nivel más alto: redacción completa y disciplinada"
+    note: Las cinco categorías de autoridad utilizadas; autoridad adversa distinguida; orden propuesta
+      lista para la firma; la autoevaluación identifica debilidades reales; cero citas alucinadas.
+  competent:
+    label: Competente
+    gate: El filtro de franqueza de P7 se aprueba y no hay ninguna cita alucinada
+    precondition: Quien presenta el escrito ha confirmado el cumplimiento procesal de P1
+    composite_band: 80 a 89 inclusive (escala de calificaciones B−, B, B+)
+    descriptor: El piso práctico del trabajo profesional
+    note: Estándar y vía procesal correctos; al menos tres categorías de autoridad; vacíos en la
+      autoridad adversa o en la orden propuesta; autoevaluación limitada.
+  deficient:
+    label: Deficiente
+    conditions:
+      - El filtro de franqueza de P7 no se aprueba, O
+      - Puntuación compuesta de 79 o menos (escala de calificaciones C+ e inferiores), O
+      - Hay alguna cita alucinada (sea cual sea la puntuación compuesta)
+    descriptor: Riesgo de responsabilidad profesional
+    note: Vía procesal equivocada, categorías de autoridad faltantes, ninguna autoridad adversa, orden
+      propuesta de plantilla, sin autoevaluación, o citas alucinadas.
+conformance_claim:
+  required_elements:
+    - Nivel declarado (Experto, Competente o Deficiente)
+    - "Versión (LexGrade Standard v1.1): las declaraciones corresponden a una versión específica;
+      las ediciones menores son comparables, pero la declaración nombra la edición exacta que se
+      calificó"
+    - Puntuación compuesta y fecha de la calificación
+    - Perfil jurisdiccional (la calibración base de Nueva York, o un perfil con nombre)
+    - Evaluador (autoevaluación, evaluador o evaluadores humanos con nombre, o modelo y
+      configuración)
+  asserts: Que, en la versión y la fecha indicadas, la puntuación compuesta de la moción quedó dentro
+    de la banda del nivel declarado Y se cumplieron las condiciones de filtro y de condición previa
+    de ese nivel.
+  does_not_assert: Que el escrito sea procesalmente correcto (responsabilidad de quien lo presenta,
+    conforme a P1), que cada cita haya sido verificada (acto de quien hace la declaración, no
+    garantía del Estándar), ni que la moción vaya a ser concedida.
+automatic_demotion_rules:
+  - condition: Cualquier cita alucinada
+    result: Deficiente (sea cual sea la puntuación compuesta)
+  - condition: Vía procesal equivocada
+    result: No puede superar Competente
+  - condition: Falta el memorando de derecho (Memorandum of Law)
+    result: No puede superar Competente
+  - condition: No se aborda ninguna autoridad adversa
+    result: No puede superar Competente
+composite:
+  order_of_operations:
+    - Califique cada principio puntuado de 0 a 100 con las bandas por principio de la §4.
+    - "Puntos ponderados: suma de (calificación/100 × peso) sobre P2, P3, P4, P5, P6 y P8 → /80."
+    - "Escala: subtotal / 0.80 → base de 100 puntos."
+    - Aplique el modificador neto y las deducciones de P7 sobre la base de 100 puntos.
+    - Piso en 0, tope en 98.
+  negative_modifiers:
+    - label: Afirmación desnuda sobre la ley (sin jurisprudencia)
+      note: -1 por cada ocurrencia
+    - label: Tratamiento escaso de la autoridad adversa (sin llegar a una infracción de LGS 7.3)
+  conformance_names:
+    expert: experto
+    competent: competente
+    deficient: deficiente
+  grade_scale:
+    C+ and below:
+      letter: C+ e inferiores
+      range: 79 o menos

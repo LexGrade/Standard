@@ -90,6 +90,19 @@ representations are welded together by CI. Concretely:
   cross-check all of them against the technique blocks and will tell you
   exactly what's inconsistent.
 
+- **Translations** — the site is built in English and in each language under
+  `commons/standard/translations/`. A translation is three files: the Standard,
+  the Technique Register, and an overlay of translated strings for the catalog
+  (`lgs-criteria.<lang>.yaml`, which carries no numbers). Tests hold every
+  criterion and technique present in each translation, and the build refuses a
+  translation that names an older edition than the current one. So a change
+  to a criterion's or technique's text is made in the translations too, and a
+  new edition updates `translations` in `methodology.yaml`. Site copy lives in
+  `sites/lexgrade.org/src/i18n.mjs`. The Technique Register's structural labels
+  (`**Definición:**`, `*Categoría: …*`) are read by the parser; keep them as
+  `REGISTER_LABELS` in `packages/core` spells them. English governs: see
+  [GOVERNANCE](../commons/GOVERNANCE.md#translations).
+
 ## Licensing of contributions
 
 Each file inherits its directory's license — you can't accidentally contribute
