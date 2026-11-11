@@ -2,8 +2,8 @@
 //
 // @lexgrade/core — the ONE Technique Register parser.
 //
-// Both surfaces that turn the register markdown into structured techniques — the
-// lexgrade.org site build and the @lexgrade/mcp server — import this module, so
+// Every surface that turns the register markdown into structured techniques — the
+// lexgrade.org site build and any downstream implementation — imports this module, so
 // slugs, fields, and the split logic cannot drift between them. Pure and
 // dependency-free (no filesystem, no deps) so it is trivially auditable and
 // unit-tested in isolation.
@@ -31,6 +31,37 @@ export function slugifyTechnique(name) {
 }
 
 /**
+ * The structural labels the parser reads, per language of the register. The
+ * English register is the source; a translation keeps the same structure and
+ * translates the labels, so the same parser reads both. `example`, `why`, and
+ * `distinctions` are matched as prefixes ("Example (motion to compel)").
+ */
+export const REGISTER_LABELS = {
+  en: {
+    section: '## TECHNIQUE DEFINITIONS',
+    category: 'Category',
+    tier: 'Tier',
+    definition: 'Definition',
+    example: 'example',
+    antiPattern: 'anti-pattern',
+    requirements: 'requirements',
+    why: "why it's",
+    distinctions: ['distinguished from', 'relationship to'],
+  },
+  es: {
+    section: '## DEFINICIONES DE LAS TÉCNICAS',
+    category: 'Categoría',
+    tier: 'Nivel',
+    definition: 'Definición',
+    example: 'ejemplo',
+    antiPattern: 'antipatrón',
+    requirements: 'requisitos',
+    why: 'por qué es',
+    distinctions: ['se distingue de', 'relación con'],
+  },
+};
+
+/**
  * Split one technique's body markdown into the standardized field model the site
  * renders and /api/v1/techniques.json exposes. Fields are delimited by
  * `**Label:**` markers; the `*Source:*`/`*Category:*`/`*Tier:*` italic meta lines
@@ -43,9 +74,10 @@ export function slugifyTechnique(name) {
  * inter-technique separator) is stripped so it never leaks into the last field.
  *
  * @param {string} body
+ * @param {object} [labels] the register's structural labels (English by default)
  * @returns {{example:?string, antiPattern:?string, requirements:?string, why:?{label:string,text:string}, distinctions:Array<{label:string,text:string}>, notes:Array<{label:string,text:string}>}}
  */
-export function parseTechniqueFields(body) {
+export function parseTechniqueFields(body, labels = REGISTER_LABELS.en) {
   const md = String(body ?? '');
   const fields = { example: null, antiPattern: null, requirements: null, why: null, distinctions: [], notes: [] };
 
@@ -58,12 +90,12 @@ export function parseTechniqueFields(body) {
     if (!value) continue;
 
     const l = label.toLowerCase();
-    if (l === 'definition') continue; // lifted to technique.definition
-    else if (l.startsWith('example')) fields.example = value;
-    else if (l === 'anti-pattern') fields.antiPattern = value;
-    else if (l === 'requirements') fields.requirements = value;
-    else if (l.startsWith("why it's")) fields.why = { label, text: value };
-    else if (l.startsWith('distinguished from') || l.startsWith('relationship to'))
+    if (l === labels.definition.toLowerCase()) continue; // lifted to technique.definition
+    else if (l.startsWith(labels.example)) fields.example = value;
+    else if (l === labels.antiPattern) fields.antiPattern = value;
+    else if (l === labels.requirements) fields.requirements = value;
+    else if (l.startsWith(labels.why)) fields.why = { label, text: value };
+    else if (labels.distinctions.some((d) => l.startsWith(d)))
       fields.distinctions.push({ label, text: value });
     else fields.notes.push({ label, text: value });
   }
@@ -78,11 +110,12 @@ export function parseTechniqueFields(body) {
  * separators (`### — TIER … —`) and preamble fall through.
  *
  * @param {string} markdown
+ * @param {object} [labels] the register's structural labels (English by default)
  * @returns {Array<{number:number, name:string, slug:string, category:?string, tier:?string, definition:?string, fields:object, body:string}>}
  */
-export function parseTechniques(markdown) {
+export function parseTechniques(markdown, labels = REGISTER_LABELS.en) {
   const md = String(markdown ?? '');
-  const start = md.indexOf('## TECHNIQUE DEFINITIONS');
+  const start = md.indexOf(labels.section);
   if (start === -1) return [];
 
   const afterHeading = md.indexOf('\n', start);
@@ -104,9 +137,9 @@ export function parseTechniques(markdown) {
     if (!m) continue;
 
     const name = m[2].trim();
-    const category = chunk.match(/\*Category:\s*([^*\n]+)\*/);
-    const tier = chunk.match(/\*Tier:\s*([^*\n]+)\*/);
-    const definition = chunk.match(/\*\*Definition:\*\*\s*([^\n]+)/);
+    const category = chunk.match(new RegExp(`\\*${labels.category}:\\s*([^*\\n]+)\\*`));
+    const tier = chunk.match(new RegExp(`\\*${labels.tier}:\\s*([^*\\n]+)\\*`));
+    const definition = chunk.match(new RegExp(`\\*\\*${labels.definition}:\\*\\*\\s*([^\\n]+)`));
 
     const body = nl === -1 ? '' : chunk.slice(nl).trim();
     techniques.push({
@@ -116,7 +149,7 @@ export function parseTechniques(markdown) {
       category: category ? category[1].trim() : null,
       tier: tier ? tier[1].trim() : null,
       definition: definition ? definition[1].trim() : null,
-      fields: parseTechniqueFields(body),
+      fields: parseTechniqueFields(body, labels),
       body,
     });
   }

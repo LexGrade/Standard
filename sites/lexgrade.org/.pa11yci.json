@@ -22,6 +22,13 @@
         "http://localhost:8080/about",
         "http://localhost:8080/contribute",
         "http://localhost:8080/references",
+        "http://localhost:8080/check",
+        "http://localhost:8080/es",
+        "http://localhost:8080/es/standard",
+        "http://localhost:8080/es/techniques",
+        "http://localhost:8080/es/techniques/uncharacterized-omission",
+        "http://localhost:8080/es/check",
+        "http://localhost:8080/es/about",
         "http://localhost:8080/404.html"
     ],
     "ignore": [

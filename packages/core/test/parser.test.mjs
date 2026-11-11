@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
-import { parseTechniqueFields, parseTechniques, slugifyTechnique } from '../index.mjs';
+import { REGISTER_LABELS, parseTechniqueFields, parseTechniques, slugifyTechnique } from '../index.mjs';
 
 test('slugifyTechnique produces stable, URL-safe slugs', () => {
   assert.equal(slugifyTechnique('Weaponized Absence'), 'weaponized-absence');
@@ -57,4 +57,37 @@ test('parseTechniqueFields buckets known labels and falls unknown labels through
 
 test('parseTechniques returns [] when the definitions section is absent', () => {
   assert.deepEqual(parseTechniques('# No definitions here'), []);
+});
+
+test('parseTechniques reads a translated register through its own labels', () => {
+  const md = [
+    '## DEFINICIONES DE LAS TÉCNICAS',
+    '### 6. El párrafo ancla',
+    '',
+    '*Fuente: v1.0*',
+    '*Categoría: Redacción*',
+    '*Nivel: Informal*',
+    '',
+    '**Definición:** El primer párrafo contiene el hecho más fuerte.',
+    '',
+    '**Por qué es informal:** La práctica enseña a poner primero el impacto.',
+    '',
+    '**Ejemplo (moción para obligar):** "El memorando comienza…"',
+    '',
+    '**Antipatrón:** "Esta es una acción…"',
+    '',
+    '**Se distingue de la cita normal:** No es lo mismo.',
+    '',
+    '**Nota sobre LLM:** Los LLM recurren al orden cronológico.',
+  ].join('\n');
+  const [t] = parseTechniques(md, REGISTER_LABELS.es);
+  assert.equal(t.number, 6);
+  assert.equal(t.category, 'Redacción');
+  assert.equal(t.tier, 'Informal');
+  assert.equal(t.definition, 'El primer párrafo contiene el hecho más fuerte.');
+  assert.ok(t.fields.example && t.fields.antiPattern && t.fields.why);
+  assert.equal(t.fields.distinctions.length, 1);
+  assert.deepEqual(t.fields.notes.map((n) => n.label), ['Nota sobre LLM']);
+  // The English labels do not match a translated register, and vice versa.
+  assert.deepEqual(parseTechniques(md), []);
 });
