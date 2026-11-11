@@ -1,8 +1,8 @@
 # Estándar LexGrade (LGS) — Versión 1.1
 
-> **Traducción.** Este documento es una traducción al español del LexGrade Standard v1.1. El texto en inglés es el que rige; ante cualquier diferencia, vale el texto en inglés. Las citas de leyes, reglas, casos y obras se dejan en su forma original. En los tribunales de Nueva York los escritos se presentan en inglés, por lo que los términos que aparecen en los formularios se dan también en inglés entre paréntesis. Informe los errores de traducción por el canal de correcciones indicado en GOVERNANCE.md.
+> **Traducción.** Este documento es una traducción al español del LexGrade Standard v1.1. El texto en inglés es el que rige; ante cualquier diferencia, vale el texto en inglés. Las citas de leyes, reglas, casos y obras se dejan en su forma original. En los tribunales de Nueva York los escritos se presentan en inglés, por lo que los términos que aparecen en los formularios se dan también en inglés entre paréntesis. Esta traducción se generó por máquina y todavía no la ha revisado un traductor; las correcciones de lectores que dominen el español son bienvenidas. Informe los errores de traducción por el canal de correcciones indicado en GOVERNANCE.md.
 
-> **No es asesoría legal; no tiene autoridad.** LexGrade es un estándar abierto, mantenido de forma independiente; no ha sido promulgado por ningún tribunal, colegio de abogados ni organismo gubernamental, y no confiere ninguna autoridad. Nada de lo que aquí aparece es asesoría legal. Toda cita legal, ya sea en este documento o en cualquier moción redactada o evaluada con él, debe verificarse de forma independiente en el repertorio oficial antes de presentarla.
+> **No es asesoría legal; no tiene autoridad.** LexGrade es un estándar abierto, mantenido de forma independiente; no ha sido promulgado por ningún tribunal, colegio de abogados ni organismo gubernamental, y no confiere ninguna autoridad. Nada de lo que aquí aparece es asesoría legal. Toda cita legal, ya sea en este documento o en cualquier moción redactada o evaluada con él, debe verificarse de forma independiente en el repertorio oficial antes de presentar el escrito.
 
 > El Estándar LexGrade (LGS) es la forma pública y citable de la metodología
 > de evaluación de mociones de LexGrade: un estándar para puntuar mociones
@@ -41,7 +41,7 @@ conformidad, y no se movió ningún ID de criterio existente. La lista completa 
 
 **Nota de vigencia.** Todas las citas de leyes, reglamentos y estudios empíricos se
 verificaron a febrero de 2026 y no se volvieron a verificar para la v1.1. Los
-estudios académicos sobre educación jurídica añadidos en la v1.1 (§12) se verificaron a octubre de
+estudios académicos sobre enseñanza del derecho añadidos en la v1.1 (§12) se verificaron a octubre de
 2026. El 22 NYCRR se enmienda periódicamente; las tasas de alucinación de los LLM cambian a medida que
 los modelos mejoran. Los usuarios deben confirmar que las disposiciones citadas siguen vigentes. Informe
 las correcciones por el canal indicado en GOVERNANCE.md (*Correcciones*).
@@ -89,7 +89,7 @@ normativo, que se resuelven en Niveles de conformidad.
 - Una base para perfiles jurisdiccionales y ajustes por tipo de moción sin
   alterar los criterios de base.
 
-**Qué es esto.** Un instrumento de evaluación en funcionamiento. Contiene todo el contenido
+**Qué es esto.** Un instrumento de evaluación listo para usarse. Reúne todo el contenido
 operativo necesario para calificar una moción: requisitos por criterio, descriptores
 de las bandas de puntuación, una jerarquía de autoridades, deducciones automáticas, ajustes por tipo de moción,
 una guía de evaluación comparativa, una guía rápida en lenguaje sencillo y una hoja de puntuación.
@@ -107,12 +107,12 @@ autoevaluación de una moción.
 
 *Para la autoevaluación de profesionales.* Redacte su moción y luego puntúela
 principio por principio con la Hoja de puntuación. Si
-algún principio obtiene menos de A− (92), identifique la deficiencia específica y revise
-antes de presentar. Preste atención a las deducciones automáticas:
+algún principio obtiene menos de A− (92), identifique la deficiencia específica y corrija la moción
+antes de presentarla. Preste atención a las deducciones automáticas:
 una sola cita inventada (−20) puede bajar una A a una B.
 
 *Para la evaluación comparativa de LLM.* Dé al modelo un caso hipotético (hechos, remedio solicitado, documentos
-clave) y pídale una moción completa. Puntúe el resultado frente a cada
+clave) y pídale una moción completa. Puntúe el resultado conforme a cada
 principio. **Contexto empírico:** en un estudio de 2024, los LLM de uso general
 alucinaron en el 58–88% de sus respuestas a preguntas verificables sobre casos de
 tribunales federales (Dahl et al., "Large Legal Fictions," 16 J. Legal Analysis 64
@@ -127,7 +127,7 @@ de los abogados.
 
 *Para la enseñanza de la redacción jurídica.* Distribuya el Estándar con antelación para que los estudiantes
 conozcan el nivel exigido. Califique con la misma hoja; las deducciones y los modificadores dan
-comentarios específicos y aplicables. Las preguntas del Principio 8 sirven como ejercicio
+retroalimentación específica y aplicable. Las preguntas del Principio 8 sirven como ejercicio
 de reflexión aparte.
 
 *Ajustes de peso según el destinatario.* Los pesos de base que figuran abajo se aplican a los tres
@@ -174,14 +174,14 @@ que no se apoya en prueba documental. Los criterios cuyo texto ya incluye
 "cuando corresponda", "cuando sea pertinente" o "si corresponde" son los candidatos explícitos
 a N/A.
 
-Un criterio N/A se **excluye del denominador de su principio**, donde
+Un criterio N/A se **excluye del denominador de su principio**, de modo que
 ni ayuda ni perjudica la puntuación. En concreto: califique un principio con los criterios
 que **sí** se aplican y luego asigne a partir de ellos la calificación de 0–100 del principio; el
 **peso del principio en §6 no cambia** (de modo que la puntuación compuesta sigue sumando 80
 puntos ponderados y sigue siendo reproducible). N/A es un juicio sobre la aplicabilidad,
 que se registra con una razón de una línea en la hoja. "El redactor lo omitió" es una
-deficiencia que se puntúa bajo el criterio, nunca un N/A. En caso de duda, el
-criterio **se aplica**; N/A es una excepción estrecha.
+deficiencia que se puntúa conforme al criterio, nunca un N/A. En caso de duda, el
+criterio **se aplica**; N/A es una excepción restringida.
 
 ---
 
@@ -212,7 +212,7 @@ refleja tanto su carácter sancionable como su frecuencia empírica.
 
 ### Validez y sus límites
 
-Una puntuación solo tiene el significado de la inferencia que se quiere sostener con ella. Esta
+Una puntuación vale solo lo que vale la inferencia que se quiere sostener con ella. Esta
 subsección indica qué inferencias puede sostener hoy el Estándar y cuáles
 no, para que nadie lea en un número más de lo que la evidencia permite. Es
 normativa en cuanto a cómo se describen las puntuaciones (véase §6, *Informe de la
@@ -227,7 +227,7 @@ puntuación compuesta*) e informativa en cuanto a la base de evidencia del instr
   ya tratan como los elementos de una moción sólida. Un lector puede auditar esa
   correspondencia línea por línea.
 - *Un vocabulario compartido.* Los criterios dan a evaluadores, estudiantes y redactores
-  los mismos términos con nombre para las mismas cualidades, que es el propósito
+  los mismos nombres para las mismas cualidades, lo cual es el propósito
   primordial de una rúbrica en la enseñanza de la redacción jurídica (Clark & DeSanctis 2013).
   Cuando dos evaluadores que usan el Estándar discrepan, discrepan sobre algo que tiene
   nombre, y eso es lo que hace que la discrepancia pueda resolverse.
@@ -246,7 +246,7 @@ puntuación compuesta*) e informativa en cuanto a la base de evidencia del instr
   los criterios por un solo evaluador, y cabe esperar que las puntuaciones compuestas de dos evaluadores
   para la misma moción difieran.
 - *Validez de criterio y predictiva.* No se ha medido ninguna correlación entre las puntuaciones LGS y
-  los resultados (concesión, denegación, acuerdo, resultado en apelación).
+  los resultados (concesión, denegación, acuerdo entre las partes, resultado en apelación).
   La §8 enuncia la hipótesis y la muestra que haría falta; sigue sin ponerse a prueba.
 - *Validez de los pesos.* Los pesos de esta sección se fijaron con el razonamiento
   expuesto arriba, sin datos. Una ponderación distinta y defendible movería
@@ -261,16 +261,16 @@ puntuación compuesta*) e informativa en cuanto a la base de evidencia del instr
 mide. Redactar *para* los criterios puede producir la forma de una cualidad
 sin su sustancia: una sección de "autoevaluación" que no nombra ninguna debilidad
 real, un párrafo de autoridad adversa que no distingue nada, una
-síntesis que repite una cadena de citas, un argumento reformado para exhibir una
+síntesis que repite una cadena de citas, un argumento rehecho para exhibir una
 técnica del Registro. Los sistemas de evaluación que no se diseñan ni se coordinan
 teniendo en cuenta este efecto pierden validez a medida que se adoptan (Gustafson 2024).
 El Estándar se protege contra ello de tres maneras, y los usuarios deben conservar las
 tres: los descriptores de las bandas de puntuación premian el contenido *específico y con nombre* y limitan
 el cumplimiento genérico al rango de la B; el Registro de Técnicas nunca se puntúa, de modo que
-no se gana nada metiendo una técnica a la fuerza; y la regla de presentación de
+no se gana nada con el encaje forzado de una técnica; y la regla de informe de
 la §6 pone los hallazgos por criterio antes que la puntuación compuesta, de modo que al redactor se le
-dice qué se encontró antes de decirle un número. La evidencia de que los comentarios específicos
-e individualizados mejoran el trabajo jurídico posterior (Sargent & Curcio 2012;
+dice qué se encontró antes de decirle un número. La evidencia de que la retroalimentación específica
+e individualizada mejora el trabajo jurídico posterior (Sargent & Curcio 2012;
 Schwarcz & Farganis 2017) es la razón por la que el instrumento está construido primero como un mecanismo
 de retroalimentación y después como una puntuación.
 
@@ -293,10 +293,10 @@ LGS no lo reproduce, no lo enumera ni lo puntúa. Un escrito que no es procesalm
 correcto no puede prosperar en cuanto al fondo; pero determinar qué exige ser "correcto"
 corresponde a las reglas del tribunal donde se presenta, no a este Estándar.*
 
-**Enunciado del principio.** Los requisitos de una moción correctamente formada —epígrafe,
+**Enunciado del principio.** Los requisitos de una moción correctamente formada —epígrafe (caption),
 notificación de moción, afirmación (affirmation) o declaración jurada (affidavit) de respaldo, memorando de derecho (memorandum of law), prueba
 de notificación (proof of service), reglas individuales de la sala (individual-part rules), límites de extensión y orden propuesta— los fijan
-las reglas del tribunal en el que se presenta la moción. LGS no las reproduce.
+las reglas del tribunal en el que se presenta la moción. LGS no los reproduce.
 Repetir el derecho procesal duplicaría fuentes autorizadas que ya
 rigen, quedaría desactualizado en el momento en que se enmiende una regla o difiera la práctica
 de un condado, y está fuera del alcance propio de un estándar de calidad de redacción.
@@ -309,15 +309,15 @@ Condado (Uniform Civil Rules for the Supreme and County Courts)** (22 NYCRR Part
 identificar y cumplir todos los requisitos que esas fuentes imponen.
 
 > **Qué hace y qué no hace LGS aquí.** LGS **no** comprueba si su
-> epígrafe, notificación de moción, documentos de respaldo, notificación a las partes, extensión u orden propuesta
+> epígrafe (caption), notificación de moción, documentos de respaldo, notificación a las partes, extensión u orden propuesta
 > cumplen; esa determinación corresponde al reglamento del tribunal. Confirme
-> el cumplimiento de forma independiente: los formularios del propio tribunal, una guía de práctica
+> el cumplimiento de forma independiente: consulte los formularios del propio tribunal, una guía de práctica
 > actualizada del CPLR, el centro de autoayuda de su tribunal o un abogado. **Un litigante sin abogado (pro se) no debe
 > interpretar la ausencia de estos elementos en los criterios de LGS como permiso para omitirlos.
 > Significa lo contrario: los exige la ley, que LGS
 > deliberadamente no reproduce.** La única cuestión de integridad que LGS evalúa
 > por sí mismo, si cada cita se refiere a una decisión que realmente existe,
-> se puntúa bajo el Principio 7 (Ética y franqueza), donde corresponde como
+> se puntúa en el Principio 7 (Ética y franqueza), donde corresponde como
 > asunto del deber de franqueza.
 
 Este Principio no contiene criterios LGS puntuados; los ID de criterios puntuados comienzan en
@@ -327,7 +327,7 @@ LGS 2.1.
 certificación y el cumplimiento de las Reglas Individuales de la Sala. En los estudios del Stanford RegLab
 (Dahl et al. 2024; Magesh et al. 2025), los elementos procesales de umbral
 estuvieron entre los componentes que más a menudo faltaban en los textos jurídicos generados por LLM,
-lo que revela si el entrenamiento refleja la práctica real de Nueva York o solo el derecho de los tratados. Un
+lo que revela si el entrenamiento refleja la práctica real de Nueva York o solo el derecho de los tratados doctrinales. Un
 entorno de evaluación comparativa puede registrar las omisiones procesales de forma descriptiva; no forman
 parte de la puntuación compuesta de LGS.
 
@@ -377,7 +377,7 @@ adversa se revela y se distingue.
 |----|-------|-------------|--------|
 | LGS 3.1 | Texto de la ley | Para cada argumento jurídico, se cita la ley aplicable y se transcribe su lenguaje operativo. | §II-B, Jerarquía de autoridades (a) |
 | LGS 3.2 | Autoridad vinculante | Para cada argumento se cita al menos una decisión vinculante sobre hechos análogos. | §II-B, Jerarquía de autoridades (b) |
-| LGS 3.3 | Autoridad persuasiva | La autoridad persuasiva (otros departamentos, tribunales federales, tratados) complementa la autoridad vinculante cuando corresponde. | §II-B, Jerarquía de autoridades (c) |
+| LGS 3.3 | Autoridad persuasiva | La autoridad persuasiva (otros departamentos, tribunales federales, tratados doctrinales) complementa la autoridad vinculante cuando corresponde. | §II-B, Jerarquía de autoridades (c) |
 | LGS 3.4 | Fuentes administrativas y de práctica | Se identifican las órdenes administrativas, las Reglas Uniformes, los formularios de la OCA o las guías de práctica aplicables. | §II-B, Jerarquía de autoridades (d) |
 | LGS 3.5 | Autoridad adversa | La autoridad contraria más fuerte se revela y se distingue de manera específica. | §II-B, Jerarquía de autoridades (e); NY RPC 3.3(a)(2) |
 | LGS 3.6 | Carga de la prueba | La carga de la prueba se identifica correctamente, incluida la parte a la que corresponde en cada etapa. | §II-B, Criterios específicos de evaluación |
@@ -403,7 +403,7 @@ la moción debe completar las cinco categorías:
 |----------|-----------------|-----------------|
 | (a) Texto de la ley | Ley aplicable con su lenguaje operativo transcrito | Obligatoria |
 | (b) Autoridad vinculante | Caso de la Court of Appeals o de la Appellate Division que rige, sobre hechos análogos | Que rige / De apoyo |
-| (c) Autoridad persuasiva | Otros departamentos, tribunales federales, tratados, decisiones de primera instancia | De apoyo / De contexto |
+| (c) Autoridad persuasiva | Otros departamentos, tribunales federales, tratados doctrinales, decisiones de primera instancia | De apoyo / De contexto |
 | (d) Administrativa / de práctica | Formularios de la OCA, Reglas Uniformes, órdenes administrativas, guías de práctica | De apoyo / De contexto |
 | (e) Autoridad adversa | El caso contrario más fuerte con la distinción prevista | Obligatoria |
 
@@ -482,7 +482,7 @@ aseveración.
 
 **Enunciado del principio.** La moción demuestra sabiduría práctica (Kronman): la
 integración de la destreza analítica y el buen juicio, expresada mediante una
-redacción clara y económica, calibrada al contexto institucional (Wizner) — se lee
+redacción clara y económica, calibrada al contexto institucional (Wizner): se lee
 como escrita para este tribunal, este juez, esta postura procesal.
 
 | ID | Título | Requisito | Fuente |
@@ -499,7 +499,7 @@ encontrar la regla, su explicación, su aplicación y la conclusión de cada
 argumento. No exige una sigla en particular ni un párrafo por paso, y el
 único orden que fija es el de la conclusión primero. El párrafo ancla del
 Registro de Técnicas (primero el impacto) es compatible con él: el hecho y
-la autoridad más fuertes van al frente, y la estructura sigue. Una moción que
+la autoridad más fuertes van al frente, y después viene la estructura. Una moción que
 recita reglas sin aplicarlas al expediente, o que aplica hechos a una regla
 que nunca enunció, se queda corta aquí por más pulida que sea la prosa.
 LGS 5.4 y LGS 5.6 se puntúan de manera independiente. 5.4 pregunta en qué
@@ -516,8 +516,8 @@ está completo. Una moción puede cumplir uno sin el otro.
 | B+ (88–91) | Organización adecuada; clara, pero le falta economía o fuerza argumentativa en los encabezados de punto. |
 | B (83–87) | Redacción funcional; desorganizada en algunas partes o dependiente de texto de plantilla. |
 | B− (80–82) | La redacción debilita un fondo que por lo demás es adecuado, por mala organización o mal tono. |
-| C+ (77–79) | Tono desorganizado o incendiario que predispondría al tribunal en contra. |
-| C o inferior | Poco clara, argumentativa en el tono y no en el fondo, o fundamentalmente desorganizada. |
+| C+ (77–79) | Desorganizada o de tono incendiario, lo que predispondría al tribunal en contra. |
+| C o inferior | Poco clara, polémica en el tono más que argumentativa en el fondo, o fundamentalmente desorganizada. |
 
 **Nota de evaluación comparativa.** Los modelos producen con facilidad el
 *vocabulario* de la estructura analítica (un encabezado, un párrafo de regla,
@@ -532,8 +532,8 @@ hecho citado.
 
 **Enunciado del principio.** La moción considera cómo encaja en la postura general
 del litigio, crea un expediente favorable para la revisión en apelación y demuestra
-dominio de los conocimientos no jurídicos pertinentes — incluido el momento oportuno
-entre mociones múltiples.
+dominio de los conocimientos no jurídicos pertinentes, incluida la coordinación de
+tiempos entre mociones múltiples.
 
 | ID | Título | Requisito | Fuente |
 |----|-------|-------------|--------|
@@ -586,7 +586,7 @@ son exactas.
 | LGS 7.12 | Cadenas de citas explicadas | Toda cadena de citas incluye un paréntesis explicativo sobre la pertinencia de cada caso. | −3 | Clermont; estándares profesionales |
 
 > LGS 7.10 y 7.11 deducen por el incumplimiento de los requisitos procesales del
-> **tribunal**; la *definición* de esos requisitos es el reglamento del tribunal,
+> **tribunal**; la *definición* de esos requisitos está en el reglamento del tribunal,
 > no este Estándar (de conformidad con el Principio 1). Aparecen aquí, en el
 > filtro de franqueza, porque las reglas de certificación y de extensión existen
 > para vigilar la franqueza y la carga que se impone al tribunal.
@@ -604,19 +604,19 @@ sea la puntuación compuesta.
 
 ### Principio 8 — Autoevaluación (10%)
 
-**Enunciado del principio.** El producto del trabajo contiene una **autoevaluación
+**Enunciado del principio.** El trabajo entregado contiene una **autoevaluación
 escrita y separada** que nombra las debilidades de la propia moción, enfrenta el
 argumento más fuerte en su contra y explica las decisiones de criterio que la
-sustentan. El Principio 8 puntúa lo que está **en la página** — un registro crítico
-y franco que acompaña a la moción — no una afirmación inobservable sobre el estado
-mental del redactor. Es la contraparte metacognitiva de la defensa: el mismo
+sustentan. El Principio 8 puntúa lo que está **en la página** —un registro crítico
+y franco que acompaña a la moción—, no una afirmación inobservable sobre el estado
+mental del redactor. Es la contrapartida metacognitiva de la defensa de la causa: el mismo
 borrador, examinado por su autor como lo haría un adversario.
 
 *Dónde se ubica.* La autoevaluación es una sección rotulada (un memorando de
-presentación, una nota de "limitaciones" o una tarjeta de puntuación adjunta) que
+portada, una nota de "limitaciones" o una tarjeta de puntuación adjunta) que
 responde las cinco preguntas que siguen. Califíquela por lo que la sección
-realmente dice: cada uno de LGS 8.1–8.5 se cumple solo con una respuesta
-**específica y con nombre** — un genérico "la moción es sólida" no cumple
+realmente dice: cada uno de los criterios LGS 8.1–8.5 se cumple solo con una respuesta
+**específica y con nombre**; un genérico "la moción es sólida" no cumple
 ninguno. Ofrecer corregir las debilidades *después* de la entrega no es
 autoevaluación; la evaluación debe acompañar al borrador que evalúa.
 
@@ -626,7 +626,7 @@ autoevaluación; la evaluación debe acompañar al borrador que evalúa.
 | LGS 8.2 | Anticipación del contraargumento | La moción identifica el mejor contraargumento del abogado de la parte contraria y muestra dónde queda anticipado. | §VII, Pregunta 2 |
 | LGS 8.3 | Juicio sobre la presentación | La moción explica por qué es apropiado presentarla y qué alternativas se consideraron y se descartaron. | §VII, Pregunta 3; Kronman |
 | LGS 8.4 | Impacto en las partes vulnerables | La moción considera el impacto en las partes sin abogado o con pocos recursos. | §VII, Pregunta 4; Wizner |
-| LGS 8.5 | Solidez en apelación | La moción identifica qué argumentos quedan preservados para la apelación y qué se ha concedido, si algo. | §VII, Pregunta 5; Clermont |
+| LGS 8.5 | Solidez en apelación | La moción identifica qué argumentos quedan preservados para la apelación y qué se ha cedido, si es que se cedió algo. | §VII, Pregunta 5; Clermont |
 
 **Preguntas de autoevaluación (responda cada una después de redactar).**
 
@@ -634,12 +634,12 @@ autoevaluación; la evaluación debe acompañar al borrador que evalúa.
    ¿Cómo lo ha abordado?
 2. ¿Cuál es el mejor contraargumento del abogado de la parte contraria? ¿En qué
    parte de la moción queda anticipado?
-3. ¿Debió presentarse esta moción? (Kronman — juicio sobre la presentación.) ¿Qué
+3. ¿Debió presentarse esta moción? (Kronman: juicio sobre la presentación.) ¿Qué
    alternativas se consideraron y se descartaron?
 4. ¿Cómo afecta esta moción a las partes sin abogado o con pocos recursos?
-   (Wizner — impacto en las partes vulnerables.)
+   (Wizner: impacto en las partes vulnerables.)
 5. Si se deniega la moción, ¿qué argumentos quedan preservados para la apelación?
-   ¿Qué se ha concedido? (Clermont — solidez en apelación.)
+   ¿Qué se ha cedido? (Clermont: solidez en apelación.)
 
 **Bandas de puntuación.**
 
@@ -663,7 +663,7 @@ que declara que su trabajo es "completo y bien fundamentado".
 ## 5. Niveles de conformidad
 
 LGS define tres niveles de conformidad, que se derivan directamente de las bandas
-de la puntuación compuesta de §6 — no se introducen umbrales nuevos. Los niveles son
+de la puntuación compuesta de §6; no se introducen umbrales nuevos. Los niveles son
 **mutuamente excluyentes y exhaustivos**: toda moción cae exactamente en uno. Los
 límites de las bandas de la puntuación compuesta que figuran abajo son idénticos a
 los límites de la escala de calificaciones de §6 (90/89 es el límite
@@ -712,16 +712,16 @@ de autoridad; lagunas en la autoridad adversa o en la orden propuesta; autoevalu
 
 ### Nivel: Deficiente
 
-Una moción es **Deficiente** cuando se cumple **cualquiera** de lo siguiente (basta
-con uno):
+Una moción es **Deficiente** cuando se cumple **cualquiera** de las condiciones siguientes (basta
+con una):
 
 1. **El filtro falla.** El filtro de franqueza del Principio 7 falla, O
 2. **Por debajo de la banda.** La puntuación compuesta es de **79 o menos** (escala
    de calificaciones de §6: C+ e inferiores), O
-3. **Anulación por alucinación.** Hay alguna cita alucinada — sea cual sea
+3. **Anulación por alucinación.** Hay alguna cita alucinada, sea cual sea
    la puntuación compuesta.
 
-*No conforme — el escrito presenta un riesgo de responsabilidad profesional y es
+*No conforme: el escrito presenta un riesgo de responsabilidad profesional y es
 poco probable que prospere en cuanto al fondo tal como se presentó.* **Indicadores
 observables:** vía equivocada, categorías de autoridad faltantes, ninguna autoridad
 adversa, orden propuesta de plantilla, ninguna autoevaluación, citas alucinadas.
@@ -741,12 +741,12 @@ de conformidad LGS:
    edición exacta con la que se calificó: una declaración v1.0 no se reformula
    como declaración v1.1 sin volver a calificar.
 3. **Puntuación compuesta** y la fecha de calificación.
-4. **Perfil jurisdiccional** — la calibración base de NY, o un perfil con nombre
+4. **Perfil jurisdiccional** — la calibración base de NY, o un perfil identificado por su nombre
    (véase **Alcance**).
-5. **Evaluador** — autoevaluación, el o los evaluadores humanos con nombre, o el
+5. **Evaluador** — autoevaluación, el o los evaluadores humanos identificados por su nombre, o el
    modelo y la configuración usados para una calificación automatizada.
 
-**Lo que una declaración afirma — y lo que no.** La declaración de un nivel afirma
+**Lo que una declaración afirma y lo que no.** La declaración de un nivel afirma
 solamente que, en la versión indicada y en la fecha indicada, la puntuación compuesta
 de la moción cayó en la banda de ese nivel **y** que se cumplieron las condiciones de
 filtro y de condición previa del nivel. **No** afirma que el escrito sea procesalmente
@@ -769,8 +769,8 @@ moción tal como fue calificada; no se transfiere a las revisiones, que deben vo
    Medido por respuesta a consultas de jurisprudencia: 58–88% (LLM de uso general) / 17–33%
    (IA jurídica especializada).
 2. **Confusión de jurisdicción.** Mezclar el procedimiento federal y el estatal; citar
-   el departamento equivocado como vinculante; aplicar estándares de las FRCP en una moción bajo el CPLR.
-3. **Déficit de defensa.** Producir memorandos neutrales cuando la tarea es la práctica
+   el departamento equivocado como vinculante; aplicar estándares de las FRCP en una moción regida por el CPLR.
+3. **Déficit de defensa de la causa.** Producir memorandos neutrales cuando la tarea es la práctica
    persuasiva de mociones. La moción debe argumentar, no solo informar.
 4. **Ausencia metacognitiva.** Incapacidad de autoevaluarse. La mayoría de los modelos no
    identifica debilidades en su propio resultado si no se le pide.
@@ -780,12 +780,12 @@ moción tal como fue calificada; no se transfiere a las revisiones, que deben vo
    órdenes propuestas de una de las partes, cada una se convierte en el punto de partida de la
    siguiente. Algunos abogados aprovechan esto presentando órdenes propuestas repetidas, cada
    una de las cuales mueve el punto de partida de manera gradual. Las mociones que no tienen
-   esto en cuenta — a la defensiva (obligando al tribunal a reevaluar el expediente completo)
-   o a la ofensiva (redactando órdenes que establecen puntos de partida favorables) — están
+   esto en cuenta —a la defensiva (obligando al tribunal a reevaluar el expediente completo)
+   o a la ofensiva (redactando órdenes que establecen puntos de partida favorables)— están
    estratégicamente incompletas.
 7. **Modos de falla del Registro de Técnicas:** *glosa editorial sobre hechos negativos*
    (añadir lenguaje calificativo a las ausencias de hecho); *escalada del remedio*
-   (calibrar el remedio hacia arriba para igualar la fuerza de la prueba — lo contrario de la
+   (calibrar el remedio hacia arriba para igualar la fuerza de la prueba: lo contrario de la
    práctica experta); *invisibilidad plana* (invisibilidad del redactor por defecto, sin
    tensión controlada); *encaje forzado de técnicas* (forzar técnicas para inflar
    el conteo del Registro).
@@ -795,7 +795,7 @@ moción tal como fue calificada; no se transfiere a las revisiones, que deben vo
 ## 6. Puntuación compuesta
 
 Esta sección es autosuficiente: define por completo la fórmula de la puntuación
-compuesta y es reproducible — un lector que reciba las seis calificaciones de los
+compuesta y es reproducible: un lector que reciba las seis calificaciones de los
 principios, las deducciones de P7 y los modificadores negativos puede recalcular la
 puntuación compuesta hasta el decimal.
 
@@ -852,8 +852,8 @@ LGS tiene dos canales de penalización separados; un mismo defecto se carga a
 | **Deducciones de franqueza de P7** | §4, tabla del Principio 7 | Violaciones del filtro de franqueza — citas o fallos inventados, autoridad adversa no revelada, hechos falsos, vía equivocada, ataques personales, etc. | −20 a −3 según la escala de §4 |
 | **Modificadores negativos** | Esta sección | Ajustes de calidad por deficiencias *ajenas a la franqueza* que no hayan sido ya captadas por una deducción de P7 | −1 a −2, con un tope de −5 en total |
 
-Una cita alucinada se carga **una sola vez**, bajo LGS 7.1 (−20, obliga a
-Deficiente). **No** es además un modificador negativo — el modificador anterior de
+Una cita alucinada se carga **una sola vez**, conforme a LGS 7.1 (−20, impone el nivel
+Deficiente). **No** es además un modificador negativo: el modificador anterior de
 "−10 por cita alucinada" se elimina para poner fin al doble conteo. Un defecto de
 autoridad adversa faltante que ya activa la deducción de LGS 7.3 (−15) tampoco
 recibe además el modificador de −2; el modificador de −2 se aplica solo cuando el
@@ -864,11 +864,11 @@ filtro de franqueza.
 
 | Modificador | Deducción |
 |----------|-----------|
-| Afirmación desnuda sobre la ley (sin jurisprudencia) | −1 cada una |
+| Mera afirmación sobre la ley (sin jurisprudencia) | −1 cada una |
 | Tratamiento escaso de la autoridad adversa (no es una violación de LGS 7.3) | −2 |
 
 El canal de modificadores negativos tiene un tope de **−5** en total, de modo que
-los ajustes de calidad nunca pueden desbordar la puntuación compuesta; las fallas
+los ajustes de calidad nunca pueden dominar la puntuación compuesta; las fallas
 graves de franqueza pasan, en cambio, por la escala de P7.
 
 **Tope de puntuación.** La puntuación compuesta máxima es 98 (A+).
@@ -884,20 +884,20 @@ reglas siguientes rigen la forma de informar una calificación. Son normativas p
 cualquiera que haga una declaración de conformidad (§5) y para cualquier
 herramienta que presente resultados LGS. Para cualquier otro uso son informativas.
 
-1. **Los hallazgos antes que el número.** Una calificación informada comienza con
+1. **Los hallazgos antes que el número.** El informe de una calificación comienza con
    los hallazgos por criterio y la escala del Principio 7 (cada deducción, con
    la cita o la declaración que la activó). La puntuación compuesta, la letra
-   y el nivel de conformidad vienen después. Una puntuación compuesta informada
+   y el nivel de conformidad vienen después. Una puntuación compuesta que se informa
    sin los hallazgos que la respaldan no es un resultado LGS bien formado.
 2. **Nunca el número solo.** La puntuación compuesta nunca se presenta sin los
    cinco elementos de una declaración de conformidad (§5): nivel, versión,
    puntuación y fecha, perfil, evaluador. "LGS 91" sin nada más no es un resultado LGS.
-3. **Enteros.** La fórmula se reproduce hasta el decimal; el instrumento no
+3. **Enteros.** La fórmula es reproducible hasta el decimal; el instrumento no
    tiene resolución hasta el decimal (§3, *Validez y sus límites*). Informe la
    puntuación compuesta como un entero, redondeando la mitad hacia arriba.
 4. **El Registro se mantiene aparte.** El conteo del Registro de Técnicas y las
    técnicas observadas se informan en su propia línea. Nunca se suman a la
-   puntuación compuesta ni se usan para deshacer empates en ella.
+   puntuación compuesta ni se usan para desempatar.
 5. **Las comparaciones muestran perfiles.** Dos mociones, o dos modelos, se comparan
    poniendo lado a lado sus calificaciones por principio y sus hallazgos por criterio.
    Un orden de clasificación basado solo en la puntuación compuesta pretende una
@@ -933,16 +933,16 @@ Competente/Deficiente). Ninguna puntuación corresponde a dos niveles de conform
 califican un **solo principio** y son intencionalmente más finas; la escala de
 calificaciones de la puntuación compuesta que figura arriba hace corresponder la
 **puntuación compuesta final** con una letra y un nivel de conformidad. Comparten las
-letras, pero son instrumentos distintos — un principio puede obtener "B+
+letras, pero son instrumentos distintos: un principio puede obtener "B+
 (88–91)" mientras la puntuación compuesta de la moción cae en una banda diferente.
 
 ### Ajustes por tipo de moción
 
 Los pesos base de LGS se aplican a todos los tipos de moción. Los ajustes que siguen
-modifican los pesos y añaden requisitos mínimos para tipos de moción comunes sin
+modifican los pesos y añaden requisitos de umbral para tipos de moción comunes sin
 alterar los ID de los criterios LGS. Anote en la hoja de puntuación el ajuste aplicable.
 
-| Tipo de moción | Ajustes de peso | Marco requerido | Elementos mínimos adicionales |
+| Tipo de moción | Ajustes de peso | Marco requerido | Elementos de umbral adicionales |
 |-------------|--------------------|--------------------|----------------------------|
 | Sentencia sumaria (summary judgment, CPLR 3212) | P4 →23%; P5 →7% | Alvarez v. Prospect Hosp.; Zuckerman v. City of NY | Declaración de hechos materiales (Statement of Material Facts) (§202.8-g si corresponde) |
 | Desestimación (dismissal, CPLR 3211) | P2 →15%; P4 →13% | Leon v. Martinez; EBCI (§3211(a)(7)) | Identificar la subdivisión específica de §3211(a) |
@@ -956,7 +956,7 @@ alterar los ID de los criterios LGS. Anote en la hoja de puntuación el ajuste a
 El Registro de Técnicas, de 39 técnicas, es un **complemento informativo** del
 Estándar. Las técnicas no son criterios: una moción puede cumplir todos los criterios LGS
 en el nivel Experto sin que haya ninguna técnica presente. El Registro responde a una
-pregunta distinta — no "¿es buena esta moción?" sino "¿cómo persuade esta moción?". Se
+pregunta distinta: no "¿es buena esta moción?", sino "¿cómo persuade esta moción?". Se
 informa junto con la puntuación compuesta, pero no la modifica.
 
 | Categoría | Cantidad | ID de las técnicas |
@@ -979,9 +979,9 @@ Para las mociones presentadas, anote el resultado en la hoja de puntuación: Con
 (Granted), Concedida en parte (Granted in Part) (especifique los puntos), Denegada
 (Denied) (anote el motivo expresado por el tribunal y asócielo con un Principio de LGS),
 Retirada (Withdrawn) o Resuelta por acuerdo (Settled). Correlación objetivo: las
-mociones con puntuación A (95+) deberían concederse o provocar un acuerdo el 80% o más
+mociones con puntuación A (95+) deberían concederse o dar lugar a un acuerdo el 80% o más
 de las veces. Una divergencia indica que los pesos deben recalibrarse. Esta hipótesis
-no ha sido probada y requiere de 50 a 100 mociones calificadas con resultados para validarse.
+no se ha puesto a prueba y requiere de 50 a 100 mociones calificadas con resultados para validarse.
 
 ---
 
@@ -991,7 +991,7 @@ Para quienes no son abogados.
 
 | Principio | Qué verifica | Analogía |
 |-----------|----------------|---------|
-| P1. Integridad procesal | ¿Siguió las reglas de presentación del tribunal? (Las define el tribunal — LexGrade no.) | Como una declaración de impuestos: si falta un formulario obligatorio, se rechaza. Consulte las reglas del tribunal. |
+| P1. Integridad procesal | ¿Siguió las reglas de presentación del tribunal? (Las define el tribunal, no LexGrade.) | Como una declaración de impuestos: si falta un formulario obligatorio, se rechaza. Consulte las reglas del tribunal. |
 | P2. Diagnóstico del problema | ¿Se identificó el tipo correcto de problema legal? | Diagnóstico equivocado = tratamiento equivocado. |
 | P3. Autoridad legal | ¿Las leyes y los casos correctos respaldan su solicitud? | Cinco categorías: ley, vinculante, persuasiva, administrativa, adversa. |
 | P4. Fundamento fáctico | ¿Los hechos están probados con documentos específicos? | Cada afirmación necesita un recibo. |
@@ -1005,7 +1005,7 @@ Para quienes no son abogados.
 | Término | Definición |
 |------|-----------|
 | Autoridad vinculante | Una decisión de un tribunal superior que el juez debe seguir (Court of Appeals, Appellate Division). |
-| Autoridad adversa | El argumento legal más fuerte en contra de su posición. Usted debe abordarlo — ignorarlo es una violación ética. |
+| Autoridad adversa | El argumento legal más fuerte en contra de su posición. Usted debe abordarlo: ignorarlo es una falta ética. |
 | Orden propuesta | Un borrador de la decisión que usted quiere que el juez firme, listo para la firma. |
 | Cita alucinada | Una referencia a un caso que no existe. Las herramientas de IA las inventan con frecuencia. Toda cita debe verificarse. |
 
@@ -1029,7 +1029,7 @@ Complete una hoja por moción (o por modelo, para la evaluación comparativa).
 | Subtotal llevado a base 100 (÷ 0.80) | | | /100 | Subtotal ÷ 0.80 → base de 100 puntos |
 | Modificador neto (con signo) | | | | Positivos − negativos; los negativos tienen un piso de −5 |
 | Deducciones éticas de P7 | | | | De la escala del Principio 7 de §4 |
-| **PUNTUACIÓN COMPUESTA** | | | **/100** | Subtotal en base 100 + modificador neto − deducciones de P7, limitado a [0, 98]; informe como un entero |
+| **PUNTUACIÓN COMPUESTA** | | | **/100** | Subtotal en base 100 + modificador neto − deducciones de P7, limitado a [0, 98]; infórmela como un entero |
 | Hallazgos por criterio adjuntos | Obligatorio | | | Los hallazgos y la escala de P7 preceden a la puntuación compuesta (§6, Informe) |
 | Registro de Técnicas | No puntuado | | __/39 | Informativo; se mantiene aparte de la puntuación |
 
@@ -1052,8 +1052,8 @@ Complete una hoja por moción (o por modelo, para la evaluación comparativa).
 
 Cada criterio LGS puntuado corresponde a su fuente. La v1.0 trasladó la metodología
 de origen sin añadidos ni omisiones. La v1.1 añade dos criterios
-(LGS 3.10, LGS 5.6) cuya fuente es el registro de revisión de la v1.1 y la
-doctrina académica nombrada en §12, marcados "v1.1" abajo; no se eliminó nada. El
+(LGS 3.10, LGS 5.6) cuya fuente es el registro de revisión de la v1.1 y los
+estudios académicos identificados en §12, marcados "v1.1" abajo; no se eliminó nada. El
 Principio 1 es una condición previa y no tiene criterios puntuados.
 
 | ID del criterio LGS | Título | Fuente en la metodología |
@@ -1124,7 +1124,7 @@ escrito; véase el Principio 1).
 3126, 3211, 3212, 4518 (procedimiento, práctica de mociones, prueba); 22 NYCRR §§130-1.1,
 130-1.1-a, 202.1 et seq., 202.7, 202.8-a, 202.8-b (sanciones, certificación, procedimiento
 de mociones); NY RPC Rules 1.1, 3.1, 3.3, 3.4 (competencia,
-reclamaciones con mérito, franqueza, equidad); ABA Standards for Imposing Lawyer
+reclamaciones con mérito, franqueza, trato justo); ABA Standards for Imposing Lawyer
 Sanctions; Commercial Division Rules 17, 19-a.
 
 **Doctrina académica.**
@@ -1137,13 +1137,13 @@ Sanctions; Commercial Division Rules 17, 19-a.
 - Kevin M. Clermont, "[Staying Faithful to the Standards of Proof](https://scholarship.law.cornell.edu/clr/vol104/iss6/2/)," 104 Cornell L. Rev. 1457 (2020) — estándares de decisión y el estándar de revisión.
 - Bryan A. Garner, *[The Elements of Legal Style](https://global.oup.com/academic/product/the-elements-of-legal-style-9780195141627)* (2d ed., Oxford University Press 2002) — estándares de redacción y de citas.
 
-**Doctrina sobre enseñanza del derecho y evaluación (añadida en la v1.1).** Estas
+**Estudios académicos sobre enseñanza del derecho y evaluación (añadidos en la v1.1).** Estas
 fuentes tratan de cómo se evalúa la redacción jurídica. Fundamentan los dos
 criterios de la v1.1 y las disposiciones sobre validez e informe.
 
 - Jessica L. Clark & Christy H. DeSanctis, "[Toward a Unified Grading Vocabulary: Using Rubrics in Legal Writing Courses](https://jle.aals.org/home/vol63/iss1/2)," 63 J. Legal Educ. 3 (2013) — las rúbricas como un vocabulario compartido y con nombre para las cualidades de la redacción jurídica; la base de LGS 3.10 y LGS 5.6 como criterios con nombre propio.
-- Carol Springer Sargent & Andrea A. Curcio, "[Empirical Evidence That Formative Assessments Improve Final Exams](https://jle.aals.org/home/vol61/iss3/4/)," 61 J. Legal Educ. 379 (2012) — la retroalimentación formativa mejoró el desempeño posterior hasta en una calificación de letra; por qué el resultado son los hallazgos y no el número.
-- Daniel Schwarcz & Dion Farganis, "[The Impact of Individualized Feedback on Law Student Performance](https://scholarship.law.umn.edu/faculty_articles/644)," 67 J. Legal Educ. 139 (2017) — un experimento natural: la retroalimentación individualizada elevó el desempeño en cerca de un tercio de un escalón de calificación, controlando por las credenciales de ingreso.
+- Carol Springer Sargent & Andrea A. Curcio, "[Empirical Evidence That Formative Assessments Improve Final Exams](https://jle.aals.org/home/vol61/iss3/4/)," 61 J. Legal Educ. 379 (2012) — la retroalimentación formativa mejoró el desempeño posterior hasta en una letra de calificación; por qué el resultado son los hallazgos y no el número.
+- Daniel Schwarcz & Dion Farganis, "[The Impact of Individualized Feedback on Law Student Performance](https://scholarship.law.umn.edu/faculty_articles/644)," 67 J. Legal Educ. 139 (2017) — un experimento natural: la retroalimentación individualizada elevó el desempeño en cerca de un tercio de un escalón de calificación, una vez controladas las credenciales de ingreso.
 - Lindsey P. Gustafson, "[The Compounding Effects of Assessment: How Our Failure to Coordinate Formative Assessments May Impact Their Validity](https://jle.aals.org/home/vol73/iss1/4)," 73 J. Legal Educ. 59 (2024) — la validez de un sistema de evaluación en su conjunto, y cómo la evaluación sin coordinación la erosiona; la base de la advertencia sobre validez consecuencial de §3.
 
 **Investigación empírica sobre LLM.** Matthew Dahl, Varun Magesh, Mirac Suzgun & Daniel E.
@@ -1165,7 +1165,7 @@ emblemáticas por citas inventadas generadas por IA.
 **Acoplamiento del conjunto.** LGS v1.1 está fijado en `methodology.yaml` junto con el
 Registro de Técnicas en su v1.0, que la v1.1 no cambia.
 
-**Criterio de versiones.** Las revisiones menores que añaden criterios o técnicas, o
+**Política de versiones.** Las revisiones menores que añaden criterios o técnicas, o
 aclaran el texto existente, sin cambiar pesos, deducciones, lógica del filtro ni
 umbrales de conformidad producen una versión menor (1.1, 1.2, …). Un cambio en los
 pesos, la lógica del filtro o los umbrales de conformidad requiere una versión mayor (2.0).
@@ -1177,7 +1177,7 @@ versión menor toma el siguiente número sin usar de su Principio.
 | Edición | Estado | Cambios |
 |---------|--------|---------|
 | v1.0 | Publicada, febrero de 2026 | Edición inicial: 8 principios, 45 criterios, fórmula de la puntuación compuesta, tres niveles de conformidad. Sigue publicada y se puede citar. |
-| v1.1 | Publicada, octubre de 2026 | Añade LGS 3.10 (Síntesis de casos) y LGS 5.6 (Estructura analítica); añade en §3 *Validez y sus límites* y en §6 *Informe de la puntuación compuesta*; añade en §12 la doctrina sobre enseñanza del derecho; corrige a 39 el denominador del Registro de Técnicas en la hoja de puntuación. No cambió ningún peso, deducción, regla del filtro ni umbral. Corregida en el mismo texto, noviembre de 2026: la cita precisa de la primera página de Gustafson en §12 (59); "LexGrade" en lugar de "LGS" en la tabla en lenguaje sencillo de §9; redacción neutral para la nota de la categoría (d) en §4, Principio 3, y la remisión a las correcciones en la nota de vigencia. |
+| v1.1 | Publicada, octubre de 2026 | Añade LGS 3.10 (Síntesis de casos) y LGS 5.6 (Estructura analítica); añade en §3 *Validez y sus límites* y en §6 *Informe de la puntuación compuesta*; añade en §12 los estudios académicos sobre enseñanza del derecho; corrige a 39 el denominador del Registro de Técnicas en la hoja de puntuación. No cambió ningún peso, deducción, regla del filtro ni umbral. Corregida en el mismo texto, noviembre de 2026: la cita precisa de la primera página de Gustafson en §12 (59); "LexGrade" en lugar de "LGS" en la tabla en lenguaje sencillo de §9; redacción neutral para la nota de la categoría (d) en §4, Principio 3, y la remisión a las correcciones en la nota de vigencia. |
 
 **Licencia.** CC-BY-SA 4.0. © 2026 LexGrade. Cítese como: "LexGrade Standard v1.1,
 LexGrade (lexgrade.org), CC-BY-SA 4.0." Las bifurcaciones con otro nombre deben actualizar

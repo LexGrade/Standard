@@ -52,9 +52,10 @@ Changes accepted for the next edition accumulate here. Propose changes via an
   and is corrected as a routine change. Rule, case, and scholarship citations
   are left in their original form, and court terms a filer meets on English
   forms are given in both languages.
-- **Review status.** The translation was produced by machine and has not yet
-  been reviewed by a qualified translator of legal Spanish, which
-  `GOVERNANCE.md` requires before first publication.
+- **Review status.** The translation was produced by machine and then revised
+  by machine against the English text. No human translator has reviewed it
+  yet, and every Spanish page and both documents say so. Corrections from
+  fluent readers are routine changes.
 - No criterion, weight, deduction, or threshold changed.
 
 ### Changed — Technique Register v1.0.14

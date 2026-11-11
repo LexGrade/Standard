@@ -79,8 +79,8 @@ criteria:
     source: §II-B, Jerarquía de autoridades (b)
   LGS 3.3:
     title: Autoridad persuasiva
-    requirement: La autoridad persuasiva (otros departamentos, tribunales federales, tratados)
-      complementa la autoridad vinculante cuando corresponde.
+    requirement: La autoridad persuasiva (otros departamentos, tribunales federales, tratados
+      doctrinales) complementa la autoridad vinculante cuando corresponde.
     source: §II-B, Jerarquía de autoridades (c)
   LGS 3.4:
     title: Fuentes administrativas y de práctica
@@ -271,7 +271,7 @@ criteria:
   LGS 8.5:
     title: Solidez en apelación
     requirement: La moción identifica qué argumentos quedan preservados para la apelación y qué se ha
-      concedido, si algo.
+      cedido, si es que se cedió algo.
     source: §VII, Pregunta 5; Clermont
 conformance_levels:
   expert:

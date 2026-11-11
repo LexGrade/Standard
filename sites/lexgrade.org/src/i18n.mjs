@@ -134,12 +134,12 @@ const es = {
   homeAria: 'LexGrade — inicio',
   navAria: 'Secciones del Estándar',
   sections: 'Secciones',
-  secondaryAria: 'Secundaria',
+  secondaryAria: 'Navegación secundaria',
   footerMeta: 'LexGrade: metodología abierta, con licencia CC-BY-SA 4.0. &copy; LexGrade.',
   footerNote:
     'No es asesoría legal. LexGrade no confiere autoridad alguna; verifique cada cita antes de presentar su escrito.',
   translationNote:
-    'Traducción al español. El texto en inglés es el que rige; si encuentra una diferencia, repórtela a <a href="mailto:hello@lexgrade.org?subject=Correction">hello@lexgrade.org</a>.',
+    'Traducción automática al español, pendiente de revisión por un traductor. El texto en inglés es el que rige; si encuentra un error, repórtelo a <a href="mailto:hello@lexgrade.org?subject=Correction">hello@lexgrade.org</a>.',
   foundError: (editUrl, issuesUrl) =>
     `¿Encontró un error? <a href="${editUrl}">Edite esta página en GitHub</a> o <a href="${issuesUrl}">abra un issue</a>.`,
   numberWords: ['cero', 'un', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve', 'diez', 'once', 'doce'],
@@ -210,7 +210,7 @@ const es = {
     subhead: (count, jsonUrl, llmsUrl) =>
       `${count} técnicas de abogacía con nombre, que se reportan junto a la puntuación compuesta sin modificarla nunca. La referencia completa también está disponible en <a href="${jsonUrl}">JSON</a> y en <a href="${llmsUrl}">llms-full.txt</a>.`,
     calloutAria: 'Cómo leer este registro',
-    callout: `<p><strong>Lea esto primero.</strong> El Registro cataloga el oficio. Cada técnica con nombre es una forma de claridad, disciplina o preparación que hace que la versión <em>honesta</em> más sólida de un caso sea fácil de resolver para un tribunal ocupado. Si una técnica exigiera faltar a la franqueza ante el tribunal o a la lealtad con la parte contraria, el Estándar la trata como un defecto.</p>
+    callout: `<p><strong>Lea esto primero.</strong> El Registro cataloga el oficio. Cada técnica con nombre es una forma de claridad, disciplina o preparación que hace que la versión <em>honesta</em> más sólida de un caso sea fácil de resolver para un tribunal ocupado. Si una técnica exigiera faltar a la franqueza ante el tribunal o al trato justo a la parte contraria, el Estándar la trata como un defecto.</p>
     <p>Ninguna técnica es obligatoria para ninguna calificación, y una moción puede obtener A+ sin que aparezca ninguna. El Registro hace otra pregunta: ¿qué hace la abogacía experta que la abogacía competente no hace?</p>`,
     uncategorized: 'Sin categoría',
     docTitle: (version) => `Estándar LexGrade v${version} — Registro de Técnicas`,

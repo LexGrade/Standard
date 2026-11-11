@@ -87,9 +87,11 @@ language; it is never a separate edition and never changes a requirement.
    thresholds, criterion IDs, technique numbers, and citations of rules, cases,
    and scholarship are the English catalog's. The translated catalog holds
    strings only.
-5. **Review.** Each translation is reviewed by a qualified translator of legal
-   Spanish (or of the language concerned) before it is first published, and the
-   review is recorded in the changelog.
+5. **Review status is stated.** A translation may be published before a
+   human translator has reviewed it, provided it says so on every page. Fluent
+   readers are invited to correct it, and each review is recorded in the
+   changelog. The notice comes off once a translator of legal Spanish (or of
+   the language concerned) has reviewed the whole text.
 
 Translations live in `commons/standard/translations/<language>/` under
 CC-BY-SA 4.0, like the text they translate.
