@@ -10,10 +10,18 @@
 // site had a second language; tests hold them in place.
 
 export const DEFAULT_LANG = 'en';
-export const LANGS = ['en', 'es'];
+export const LANGS = ['en', 'es', 'ar'];
 
 /** The name a language switch link shows for each language, in that language. */
-export const LANG_NAMES = { en: 'English', es: 'Español' };
+export const LANG_NAMES = { en: 'English', es: 'Español', ar: 'العربية' };
+
+/** Languages written right to left. Their pages carry dir="rtl". */
+const RTL_LANGS = new Set(['ar']);
+
+/** The writing direction of a language: "rtl" or "ltr". */
+export function dirOf(lang) {
+  return RTL_LANGS.has(lang) ? 'rtl' : 'ltr';
+}
 
 /**
  * A language-neutral site path ("/check") as served in `lang`: unchanged for
@@ -230,7 +238,110 @@ const es = {
   },
 };
 
-const STRINGS = { en, es };
+const ar = {
+  skip: 'انتقل إلى المحتوى الرئيسي',
+  tocLabel: 'جدول المحتويات',
+  homeAria: 'LexGrade — الصفحة الرئيسية',
+  navAria: 'أقسام المعيار',
+  sections: 'الأقسام',
+  secondaryAria: 'تنقّل ثانوي',
+  footerMeta: 'LexGrade: منهجية مفتوحة، مرخَّصة بموجب CC-BY-SA 4.0. &copy; LexGrade.',
+  footerNote:
+    'ليست استشارة قانونية. LexGrade لا يمنح أي صفة رسمية؛ تحقّق من كل استشهاد قبل إيداع أوراقك.',
+  translationNote:
+    'ترجمة آلية إلى العربية لم يراجعها مترجم بعد. النص الإنجليزي هو المعتمد؛ إذا وجدت خطأ فأبلغ عنه على <a href="mailto:hello@lexgrade.org?subject=Correction">hello@lexgrade.org</a>.',
+  foundError: (editUrl, issuesUrl) =>
+    `هل وجدت خطأ؟ <a href="${editUrl}">حرِّر هذه الصفحة على GitHub</a> أو <a href="${issuesUrl}">افتح بلاغًا (issue)</a>.`,
+  // The form used before a counted masculine plural ("ثمانية مبادئ").
+  numberWords: ['صفر', 'واحد', 'اثنان', 'ثلاثة', 'أربعة', 'خمسة', 'ستة', 'سبعة', 'ثمانية', 'تسعة', 'عشرة', 'أحد عشر', 'اثنا عشر'],
+  pages: {
+    home: { label: 'الرئيسية', og: { title: 'معيار مفتوح لتقييم الطلبات القانونية.', subtitle: 'المبادئ والأوزان وبوابة الأخلاقيات، منشورة كاملة' } },
+    standard: { label: 'المعيار', og: { title: 'معيار LexGrade', subtitle: 'أداة مفتوحة لتقييم جودة الصياغة القانونية' } },
+    techniques: { label: 'الأساليب', og: { title: 'سجل الأساليب', subtitle: 'أساليب مرافعة مسمّاة، المرفق الإرشادي للمعيار' } },
+    about: { label: 'عن LexGrade', og: { title: 'عن LexGrade', subtitle: 'مبني على الممارسة الفعلية لتقديم الطلبات' } },
+    check: { label: 'راجِع طلبك بنفسك', og: { title: 'كيف تراجع طلبك بنفسك', subtitle: 'لمن يقدّم أوراقه إلى المحكمة بلا محامٍ' } },
+    contribute: { label: 'ساهِم', og: { title: 'ساهِم في LexGrade', subtitle: 'معيار مفتوح وتشاركي: ساعد في صياغته' } },
+    references: { label: 'المراجع', og: { title: 'المصادر والمؤثرات', subtitle: 'ما يستند إليه LexGrade، مع نسبته كاملًا إلى أصحابه' } },
+  },
+  standard: {
+    name: 'معيار LexGrade',
+    roles: { precondition: 'شرط مسبق', weighted: 'مرجَّح', gate: 'بوابة' },
+    deduction: (points) => `<strong>الخصم:</strong> ${points} نقاط عن كل حالة`,
+    addedIn: (v) => `أُضيف في الإصدار v${v}.`,
+    source: 'المصدر: ',
+    permalinkTo: 'رابط دائم إلى ',
+    p1Fallback:
+      'السلامة الإجرائية شرط مسبق يستوفيه مقدِّم الطلب وفق قواعد المحكمة. LGS لا يقيّمها؛ بنود التقييم المصنَّفة تبدأ من LGS 2.1.',
+    noCriteria: 'لا توجد بنود تقييم مصنَّفة لهذا المبدأ.',
+    levelRows: { composite: 'الدرجة المركَّبة', gate: 'البوابة', precondition: 'الشرط المسبق' },
+    levelsHeading: 'مستويات المطابقة',
+    levelsNote:
+      'يطابق الطلب المعيار بمستوى خبير أو كفء أو ناقص. الإعلان خاص بنسخة بعينها ولا ينتقل إلى النسخ المنقَّحة: كل نسخة منها تُقيَّم من جديد.',
+    cap: (n) => `<strong>السقف:</strong> ${n}. لا يحصل أي طلب على درجة أعلى.`,
+    weightsCaption: (total) => `المبادئ المرجَّحة (المجموع: ${total} نقطة)`,
+    weightsHeaders: ['المبدأ', 'الوزن'],
+    gradeCaption: 'سلّم التقديرات',
+    gradeHeaders: ['الحرف', 'النطاق', 'المطابقة'],
+    compositeHeading: 'احتساب الدرجة المركَّبة',
+    claimsHeading: 'إعلانات المطابقة',
+    claimsNote:
+      'إعلان المطابقة خاص بنسخة بعينها، ويصدر عن طلب واحد كما قُيِّم؛ ولا ينتقل إلى النسخ المنقَّحة، التي يجب تقييمها من جديد.',
+    wellFormed: 'إعلان مطابقة LexGrade السليم يذكر كل ما يلي:',
+    asserts: '<strong>ما يؤكده الإعلان:</strong>',
+    disclaims: '<strong>ما <em>لا</em> يؤكده الإعلان:</strong>',
+    demotionCaption: 'التخفيضات التلقائية: تُطبَّق أيًّا كانت الدرجة المركَّبة',
+    demotionHeaders: ['الحالة', 'النتيجة'],
+    description: (title, principleWord, critCount, license) =>
+      `${title}: أداة مفتوحة لتقييم الصياغة القانونية. ${principleWord} مبادئ و${critCount} بندًا من بنود التقييم المصنَّفة، ${license}.`,
+    subhead: (scope, principleWord, critCount) =>
+      `أداة تقييم مفتوحة من أجل ${scope}: ${principleWord} مبادئ و${critCount} بندًا من بنود التقييم المصنَّفة، يمكن الاستشهاد بكل بند منها على حدة.`,
+    sotdSummary: 'حالة هذه الوثيقة',
+    thisVersion: 'هذا الإصدار',
+    currentEdition: (v) => `v${v} (الإصدار المنشور الحالي)، مترجَمًا`,
+    machineReadable: 'صيغة مقروءة آليًا',
+    sourceRepo: 'مستودع المصدر',
+    calibratedTo: 'معايَر وفق',
+    calibratedToValue: '<span lang="en" dir="ltr">CPLR &amp; the Uniform Civil Rules (22 NYCRR Part 202)</span>',
+    citationsVerified: 'تاريخ التحقق من الاستشهادات',
+    citationsVerifiedNote: '(تأكّد من أن الأحكام ما زالت سارية)',
+    license: 'الترخيص',
+    licenseNote: '(المحتوى)',
+    citeAs: 'صيغة الاستشهاد',
+    copy: { copy: 'نسخ', copied: 'تم النسخ ✓', label: 'انسخ صيغة الاستشهاد' },
+    sotdNote:
+      'هذا المعيار لم تصدره أي محكمة أو نقابة محامين أو جهة حكومية. تحقّق بنفسك من كل استشهاد قانوني قبل إيداع أوراقك، بما في ذلك الاستشهادات الواردة في المعيار. هذه الصفحة ترجمة: النص الإنجليزي هو المعتمد. نص markdown المتاح على <code>/ar/llms-full.txt</code> هو مصدر هذه الترجمة. تُولَّد هذه الصفحة و<code>/api/v1/standard.ar.json</code> من نسخة منظَّمة البنية.',
+    abstractHeading: 'ملخّص',
+    abstract: (principleWord, critCount, scope) =>
+      `معيار LexGrade (LGS) أداة مفتوحة لتقييم جودة الصياغة القانونية. يحدّد ${principleWord} مبادئ و${critCount} بندًا من بنود التقييم المصنَّفة، معايَرة وفق ${scope}. يمكن الاستشهاد بكل بند على حدة. تقدير المطابقة درجة مركَّبة مرجَّحة، وبوابة الأخلاقيات تفرض تقدير «ناقص» عند أي استشهاد مهلوَس (مختلَق).`,
+    footer: (editUrl, issuesUrl) =>
+      `هل وجدت خطأ؟ <a href="${editUrl}">حرِّر هذه الصفحة على GitHub</a> أو <a href="${issuesUrl}">افتح بلاغًا (issue)</a>. التغييرات الجوهرية تمرّ عبر بلاغ <code>rfc:</code>.`,
+  },
+  techniques: {
+    heading: 'سجل أساليب LexGrade',
+    subhead: (count, jsonUrl, llmsUrl) =>
+      `${count} أسلوبًا مسمّى من أساليب المرافعة، تُذكر إلى جانب الدرجة المركَّبة ولا تغيّرها أبدًا. المرجع الكامل متاح أيضًا بصيغة <a href="${jsonUrl}">JSON</a> وفي <a href="${llmsUrl}">llms-full.txt</a>.`,
+    calloutAria: 'كيف تقرأ هذا السجل',
+    callout: `<p><strong>اقرأ هذا أولًا.</strong> السجل يوثّق الصنعة. كل أسلوب مسمّى هو صورة من صور الوضوح أو الانضباط أو الإعداد، تجعل أقوى صيغة <em>صادقة</em> للقضية سهلة على محكمة مزدحمة كي تبتّ فيها. وإذا كان أسلوب ما يقتضي الإخلال بالمصارحة مع المحكمة أو بالإنصاف تجاه الخصم، فالمعيار يعدّه عيبًا.</p>
+    <p>لا يُشترط أي أسلوب لأي تقدير، وقد ينال الطلب A+ دون أن يظهر فيه أي منها. السجل يطرح سؤالًا آخر: ما الذي تفعله المرافعة الخبيرة ولا تفعله المرافعة الكفؤة؟</p>`,
+    uncategorized: 'بلا فئة',
+    docTitle: (version) => `معيار LexGrade v${version} — سجل الأساليب`,
+    description: (count) =>
+      `سجل أساليب LexGrade: ${count} أسلوبًا مسمّى من أساليب المرافعة. المرفق الإرشادي للمعيار. CC-BY-SA 4.0.`,
+    partOfSpeech: (category, tier) => `أسلوب من فئة ${category}${tier ? ` · المستوى ${tier}` : ''}`,
+    definition: 'التعريف',
+    example: 'مثال',
+    antiPattern: 'نمط مضاد',
+    requirements: 'المتطلبات',
+    howItDiffers: 'بماذا يختلف',
+    all: '→ كل الأساليب',
+    pageTitle: (name) => `${name} — سجل أساليب LexGrade`,
+    fallbackDescription: (name) => `${name}: أسلوب مسمّى من أساليب المرافعة في سجل أساليب LexGrade. CC-BY-SA 4.0.`,
+    ogSubtitle: 'سجل أساليب LexGrade',
+    ogIndexSubtitle: (count, categories) => `${count} أسلوبًا مسمّى من أساليب المرافعة في ${categories} فئات`,
+  },
+};
+
+const STRINGS = { en, es, ar };
 
 /** The string table for a language (English when the language is unknown). */
 export function strings(lang) {
@@ -362,4 +473,158 @@ ${quickStartHtml}
     <p>La calibración se mide contra las <span lang="en">New York Civil Practice Law and Rules</span> (CPLR) y las <span lang="en">Uniform Civil Rules for the Supreme and County Courts</span> (22 NYCRR Part 202).</p>
     <p class="note">Apoyarse en una fuente no implica que esa fuente respalde a LexGrade. LexGrade no confiere autoridad alguna, y nada de lo que aquí aparece es asesoría legal. Para informar de una fuente mal utilizada o sin crédito, consulte <a href="${p('/contribute')}">Contribuir</a>.</p>`,
   }),
+};
+
+// Arabic reads right to left, so "onward" points left. English terms and
+// citations inside Arabic text are marked lang="en" dir="ltr".
+const pa = (path) => localPath('ar', path);
+const ARROW_RTL = '<span aria-hidden="true">←</span>';
+const EN = (text) => `<span lang="en" dir="ltr">${text}</span>`;
+
+export const PAGES_AR = {
+  home: ({ standardVersion, principleCount, criteriaCount, techniqueVersion, techniqueCount }) => ({
+    docTitle: 'LexGrade — تقييم مفتوح لجودة الصياغة القانونية',
+    description:
+      'معيار مفتوح لتقييم الطلبات القانونية (motions): المبادئ والأوزان والخصومات، منشورة كاملة. CC-BY-SA 4.0.',
+    body: `  <header class="home-hero">
+    <h1 class="home-title">معيار مفتوح لتقييم الطلبات القانونية.</h1>
+    <p class="subhead">مبادئه وأوزانه وخصوماته منشورة كاملة.</p>
+    <p class="home-check">هل تقدّم أوراقك إلى المحكمة بلا محامٍ؟ <a href="${pa('/check')}">راجِع طلبك بنفسك ${ARROW_RTL}</a> LexGrade ليس استشارة قانونية.</p>
+    <p class="callout home-evidence">المصارحة مع المحكمة تأتي أولًا. استشهاد مختلَق واحد يكلّف 20 نقطة ويجعل الطلب «ناقصًا» أيًّا كانت درجته.</p>
+  </header>
+  <nav class="home-cards" aria-label="المعيار وسجل الأساليب">
+    <a class="home-card" href="${pa('/standard')}">
+      <h2 class="home-card__title">معيار LexGrade <span class="home-card__v">v${standardVersion}</span></h2>
+      <p class="home-card__desc">${principleCount} مبادئ و${criteriaCount} بندًا من بنود التقييم المصنَّفة، يمكن الاستشهاد بكل بند منها على حدة.</p>
+      <span class="home-card__cta">اقرأ المعيار ${ARROW_RTL}</span>
+    </a>
+    <a class="home-card" href="${pa('/techniques')}">
+      <h2 class="home-card__title">سجل الأساليب <span class="home-card__v">v${techniqueVersion}</span></h2>
+      <p class="home-card__desc">${techniqueCount} أسلوبًا مسمّى من أساليب المرافعة. اختيارية: لا تغيّر الدرجة أبدًا.</p>
+      <span class="home-card__cta">تصفّح الأساليب ${ARROW_RTL}</span>
+    </a>
+  </nav>
+  <p class="home-note">بنود التقييم مستمدّة من ممارسة تقديم الطلبات أمام محاكم ولاية نيويورك والمحاكم الفيدرالية. <a href="${pa('/about')}">عن LexGrade ${ARROW_RTL}</a></p>
+  <aside class="home-invite" aria-label="ساهِم">
+    <p class="home-invite__lead">إذا كنت تترافع أمام المحاكم، فساعد في صياغة المعيار.</p>
+    <a class="home-invite__link" href="${pa('/contribute')}">ساهِم في LexGrade ${ARROW_RTL}</a>
+  </aside>`,
+  }),
+
+  about: ({ repo }) => ({
+    title: 'عن LexGrade',
+    subhead: 'معيار تقييم مفتوح للصياغة القانونية.',
+    docTitle: 'عن LexGrade',
+    description:
+      'LexGrade معيار تقييم مفتوح للصياغة القانونية، مبني على ممارسة تقديم الطلبات أمام محاكم ولاية نيويورك والمحاكم الفيدرالية. CC-BY-SA 4.0.',
+    aria: 'عن LexGrade',
+    body: `    <p>بنود التقييم في LexGrade مستمدّة من ممارسة تقديم الطلبات أمام محاكم ولاية نيويورك والمحاكم الفيدرالية. والمنطلق أن وظيفة المذكرة هي أن تجعل المحكمة تتصرف.</p>
+    <h2>لمن هو</h2>
+    <p>LexGrade لكل من يكتب طلبًا (${EN('motion')})، ومنهم من يقدّمون أوراقهم بلا محامٍ. يبيّن المعيار، بطريقة يستطيع أي شخص التحقق منها، ما الذي يميّز طلبًا تستطيع المحكمة أن تبتّ فيه عن طلب لا تستطيع ذلك فيه. ويسمّي سجل الأساليب ما يفعله المتقاضون المتمرّسون بالسليقة. ولا يعد أي منهما بكسب القضايا.</p>
+    <h2>الحالة</h2>
+    <p>المعيار معايَر وفق ممارسة تقديم الطلبات أمام المحكمة العليا لولاية نيويورك (${EN('New&nbsp;York State Supreme Court')}). لم تُتحقَّق جهة مستقلة من صحة بنوده وأوزانه. تُراجَع الاستشهادات القانونية على المصادر الرسمية، وتاريخ المراجعة مذكور في المعيار. ويستند المنهج إلى الأعمال الأكاديمية المنسوبة إلى أصحابها في <a href="${pa('/references')}">المراجع</a>.</p>
+    <h2>الحدود</h2>
+    <p>LexGrade <strong>لم</strong> تصدره أي محكمة أو نقابة محامين أو جهة حكومية، ولا يمنح أي صفة رسمية، ولا شيء مما يرد هنا استشارة قانونية. تحقّق بنفسك من كل استشهاد قانوني قبل إيداع أوراقك، بما في ذلك الاستشهادات الواردة في المعيار.</p>
+    <p><a href="${pa('/standard')}">المعيار</a> و<a href="${pa('/techniques')}">سجل الأساليب</a> مرخَّصان بموجب CC-BY-SA 4.0 ويُداران إدارة مفتوحة. يستطيع أي شخص استخدامهما أو اختبارهما أو <a href="${pa('/contribute')}">تحسينهما</a>.</p>
+    <h2>التصويبات</h2>
+    <p>للإبلاغ عن قاعدة تغيّرت أو استشهاد خاطئ أو معلومة قديمة، <a href="${repo}/issues/new?template=correction.yml">افتح طلب تصويب</a> أو اكتب إلى <a href="mailto:hello@lexgrade.org?subject=Correction">hello@lexgrade.org</a>. تصل البلاغات إلى مجموعة عمل LexGrade، ويُؤكَّد استلامها خلال 14 يومًا. تُصحَّح الأخطاء الوقائعية في الإصدار الحالي وتُقيَّد في سجل التغييرات. أما تغيير ما يتطلبه أحد البنود فيمرّ عبر إجراء RFC العلني. راجع <a href="${repo}/blob/main/commons/GOVERNANCE.md#corrections" hreflang="en">سياسة التصويبات</a> (بالإنجليزية).</p>`,
+  }),
+
+  check: ({ version, quickStartHtml }) => ({
+    title: 'كيف تراجع طلبك بنفسك',
+    subhead: 'لمن يقدّم أوراقه إلى المحكمة بلا محامٍ.',
+    docTitle: 'كيف تراجع طلبك بنفسك — LexGrade',
+    description:
+      'كيف تراجع طلبًا (motion) وفق معيار LexGrade، لمن يقدّم أوراقه إلى المحكمة بلا محامٍ. ليست استشارة قانونية.',
+    aria: 'كيف تراجع طلبًا',
+    body: `    <h2>قبل أن تقدّمه</h2>
+    <p>الطلب (${EN('motion')}) ورقة تطلب بها من القاضي أن يقرّر شيئًا أو يأمر بشيء في قضيتك. في محاكم نيويورك تُقدَّم الأوراق بالإنجليزية.</p>
+    <ol>
+      <li>استوفِ أولًا قواعد المحكمة لتقديم الأوراق، مثل إشعار الطلب (${EN('notice of motion')}) وإثبات التبليغ (${EN('proof of service')}). LexGrade لا يغطّيها.</li>
+      <li>قارن مسودتك بكل مبدأ في الجدول. كل مبدأ يقود إلى متطلباته في المعيار.</li>
+      <li>ابحث عن كل قضية وكل قانون تستشهد به، وتأكّد من أنه يقول ما تنسبه إليه. أدوات الذكاء الاصطناعي تختلق قضايا، وقد عاقبت المحاكم أشخاصًا استشهدوا بها.</li>
+    </ol>
+    <h2>المبادئ الثمانية</h2>
+    <div class="quick-start wide-tables">
+    <p>من §9 في معيار LexGrade v${version}</p>
+${quickStartHtml}
+    </div>
+    <h2>ما لا يستطيع فعله</h2>
+    <p>LexGrade ليس استشارة قانونية ولا يستطيع التنبؤ بأي قرار. وقد كُتب للمحكمة العليا لولاية نيويورك (${EN('New&nbsp;York State Supreme Court')})؛ وقواعد المحاكم الأخرى مختلفة.</p>
+    <h2>هل هناك شيء غير واضح؟</h2>
+    <p>اكتب إلى <a href="mailto:contribute@lexgrade.org?subject=Unclear">contribute@lexgrade.org</a> واذكر ما هو.</p>`,
+  }),
+
+  contribute: ({ repo }) => ({
+    title: 'ساعد في بناء المعيار',
+    subhead: 'كيف تقترح تغييرات على المعيار.',
+    docTitle: 'ساهِم — LexGrade',
+    description:
+      'ساعد في صياغة LexGrade: اقترح بنود تقييم، وعايِر اختصاصات قضائية جديدة، وسمِّ أساليب. معيار مفتوح، CC-BY-SA 4.0.',
+    aria: 'كيف تساهم',
+    body: `    <h2>أين يمكنك أن تساهم</h2>
+    <ul>
+      <li><strong>اقترح بند تقييم أو اعترض على بند.</strong> إذا كان أحد البنود خاطئًا أو ناقصًا أو وزنه غير مناسب، فقدّم أسبابك.</li>
+      <li><strong>عايِر اختصاصًا قضائيًا.</strong> ساعد في مدّ المعيار إلى ما بعد ممارسة تقديم الطلبات أمام المحكمة العليا لولاية نيويورك.</li>
+      <li><strong>سمِّ أسلوبًا.</strong> إذا كنت تعتمد على أسلوب لا يسمّيه سجل الأساليب، فأضفه.</li>
+    </ul>
+    <h2>كيف تُجرى التغييرات</h2>
+    <p>التغييرات الجوهرية تبدأ اقتراحًا علنيًا <code>rfc:</code>، وتُقبل بتوافق عام، وتُنشر في إصدار مرقَّم ينسب الفضل إلى من ساهموا.</p>
+    <h2>طريقتان للبدء</h2>
+    <p><strong>على GitHub.</strong> افتح <a href="${repo}/issues/new">بلاغ rfc:</a>، أو اقرأ <a href="${repo}/blob/main/.github/CONTRIBUTING.md" hreflang="en">دليل المساهمة</a> (بالإنجليزية).</p>
+    <p><strong>بالبريد الإلكتروني.</strong> أرسل ملاحظة قصيرة إلى <a href="mailto:contribute@lexgrade.org">contribute@lexgrade.org</a>. ستتحوّل إلى اقتراح، مع نسبة الفضل إليك.</p>
+    <p class="note">LexGrade لا يمنح أي صفة رسمية، ولا شيء مما يرد هنا استشارة قانونية. المساهمة لا تنشئ علاقة محامٍ بموكّل ولا أي التزام مهني.</p>`,
+  }),
+
+  references: () => ({
+    title: 'المصادر والمؤثرات',
+    subhead: 'بنود التقييم والأوزان من وضع LexGrade. أما المنهج فيستند إلى الأعمال المنسوبة إلى أصحابها هنا.',
+    docTitle: 'المراجع — LexGrade',
+    description:
+      'الأعمال الأكاديمية التي يستند إليها منهج سلّم التقييم في LexGrade، والسند القانوني الذي يُعايَر وفقه. CC-BY-SA 4.0.',
+    aria: 'المصادر والمؤثرات',
+    body: `    <h2>الأعمال الأكاديمية</h2>
+    <p>منهج سلّم التقييم في LexGrade (مكوّنات مرجَّحة، وقيم نقاط لها سقف، ونطاقات وصفية للأداء) يطبّق على ممارسة تقديم الطلبات ما جاء في دراسات تقييم الكتابة القانونية، وبخاصة:</p>
+    <ul>
+      <li lang="en" dir="ltr">Jessica Clark &amp; Christy DeSanctis, <em>Toward a Unified Grading Vocabulary: Using Rubrics in Legal Writing Courses</em>, 63 J. Legal Educ. 3 (2013).</li>
+    </ul>
+    <p>لا يُنقل هنا أي نص من سلّم التقييم أو ملاحق العمل المذكور؛ LexGrade يعرض بنوده بكلماته هو.</p>
+    <h2>الأساس التجريبي</h2>
+    <p>أرقام الهلوسة الواردة في تسويغ بوابة الأخلاقيات في المعيار مأخوذة من:</p>
+    <ul>
+      <li><span lang="en" dir="ltr">Matthew Dahl, Varun Magesh, Mirac Suzgun &amp; Daniel E. Ho, <em>Large Legal Fictions: Profiling Legal Hallucinations in Large Language Models</em>, 16 J. Legal Analysis 64 (2024)</span>، <a href="https://doi.org/10.1093/jla/laae003">doi:10.1093/jla/laae003</a>. قاست الدراسة معدّلات الهلوسة في إجابات النماذج عن أسئلة يمكن التحقق منها حول قضايا المحاكم الفيدرالية: 58% في ChatGPT-4، وحتى 88% في Llama 2.</li>
+    </ul>
+    <h2>مرجع المعايرة</h2>
+    <p>تُقاس المعايرة على ${EN('New York Civil Practice Law and Rules')} (CPLR) و${EN('Uniform Civil Rules for the Supreme and County Courts')} (${EN('22 NYCRR Part 202')}).</p>
+    <p class="note">الاستناد إلى مصدر لا يعني أن ذلك المصدر يؤيّد LexGrade. LexGrade لا يمنح أي صفة رسمية، ولا شيء مما يرد هنا استشارة قانونية. للإبلاغ عن مصدر أُسيء استخدامه أو لم يُنسب إلى صاحبه، راجع <a href="${pa('/contribute')}">ساهِم</a>.</p>`,
+  }),
+};
+
+/** The narrative pages of each translated language, by language. */
+export const TRANSLATED_PAGES = { es: PAGES_ES, ar: PAGES_AR };
+
+/** The header lines of a translation's /<lang>/llms-full.txt. */
+export const LLMS_HEADERS = {
+  es: (version, origin) => [
+    '# LexGrade — Metodología completa (traducción al español)',
+    '',
+    '> La metodología abierta completa de LexGrade, en traducción, concatenada para agentes.',
+    '> Esta es una traducción. El texto en inglés es el que rige: https://lexgrade.org/llms-full.txt',
+    '> Licencia CC-BY-SA 4.0. (C) 2026 LexGrade.',
+    `> Cítese como: "LexGrade Standard v${version}, LexGrade (lexgrade.org), CC-BY-SA 4.0."`,
+    `> Fuente canónica y navegable: ${origin}/es/standard`,
+    '',
+    'Documentos a continuación, en orden: el Estándar LexGrade y el Registro de Técnicas.',
+  ],
+  ar: (version, origin) => [
+    '# LexGrade — المنهجية الكاملة (ترجمة عربية)',
+    '',
+    '> المنهجية المفتوحة الكاملة لـ LexGrade، مترجَمة ومجموعة في ملف واحد للوكلاء الآليين.',
+    '> هذه ترجمة. النص الإنجليزي هو المعتمد: https://lexgrade.org/llms-full.txt',
+    '> الترخيص: CC-BY-SA 4.0. (C) 2026 LexGrade.',
+    `> صيغة الاستشهاد: "LexGrade Standard v${version}, LexGrade (lexgrade.org), CC-BY-SA 4.0."`,
+    `> المصدر المعتمد القابل للتصفح: ${origin}/ar/standard`,
+    '',
+    'الوثائق التالية، بالترتيب: معيار LexGrade وسجل الأساليب.',
+  ],
 };

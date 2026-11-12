@@ -18,7 +18,7 @@
 // Every page renders in a language (`lang`, English by default). English is the
 // source text; a translation is served under /<lang>/ with the same anchors.
 
-import { DEFAULT_LANG, LANGS, LANG_NAMES, PAGES_ES, localPath, strings } from './i18n.mjs';
+import { DEFAULT_LANG, LANGS, LANG_NAMES, LLMS_HEADERS, TRANSLATED_PAGES, dirOf, localPath, strings } from './i18n.mjs';
 
 const SITE_ORIGIN = 'https://lexgrade.org';
 const CANONICAL_URL = `${SITE_ORIGIN}/standard`;
@@ -318,6 +318,12 @@ const ROLES = {
 const FONT_LINKS = `<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&display=swap">`;
+
+// The faces a language's script needs beyond the Latin ones above, loaded only
+// on that language's pages.
+const EXTRA_FONT_LINKS = {
+  ar: `\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap">`,
+};
 
 // Accent colour for mobile-chrome theming + the OG cards (the deeper maroon).
 const THEME_COLOR = '#7A1626';
@@ -648,7 +654,7 @@ export function renderStandard(standard, { lang = DEFAULT_LANG } = {}) {
           : ''
       }
       <dt>${t.license}</dt><dd>${escapeHtml(license)} ${t.licenseNote}</dd>
-      <dt>${t.citeAs}</dt><dd><span id="lg-cite"${lang === DEFAULT_LANG ? '' : ' lang="en"'}${copyAttrs}>&ldquo;${escapeHtml(citeTitle)}, LexGrade (lexgrade.org), ${escapeHtml(license)}.&rdquo;</span></dd>
+      <dt>${t.citeAs}</dt><dd><span id="lg-cite"${lang === DEFAULT_LANG ? '' : ' lang="en"'}${dirOf(lang) === 'rtl' ? ' dir="ltr"' : ''}${copyAttrs}>&ldquo;${escapeHtml(citeTitle)}, LexGrade (lexgrade.org), ${escapeHtml(license)}.&rdquo;</span></dd>
     </dl>
     <p>${t.sotdNote}</p>
   </details>
@@ -717,8 +723,8 @@ export function renderRedirect(to) {
  * @returns {string}
  */
 export function renderHome({ standardVersion, principleCount, criteriaCount, techniqueVersion, techniqueCount, lang = DEFAULT_LANG }) {
-  if (lang === 'es') {
-    const page = PAGES_ES.home({
+  if (TRANSLATED_PAGES[lang]) {
+    const page = TRANSLATED_PAGES[lang].home({
       standardVersion: escapeHtml(standardVersion),
       principleCount: escapeHtml(String(principleCount)),
       criteriaCount: escapeHtml(String(criteriaCount)),
@@ -773,7 +779,7 @@ export function renderHome({ standardVersion, principleCount, criteriaCount, tec
  * @returns {string}
  */
 export function renderAbout({ lang = DEFAULT_LANG } = {}) {
-  if (lang === 'es') return translatedPage('about', PAGES_ES.about({ repo: REPO_URL }), lang);
+  if (TRANSLATED_PAGES[lang]) return translatedPage('about', TRANSLATED_PAGES[lang].about({ repo: REPO_URL }), lang);
   const body = `${docHeader({
     title: 'About LexGrade',
     subhead: 'An open scoring standard for legal drafting.',
@@ -819,7 +825,7 @@ export function renderCheck({ version, quickStartHtml, lang = DEFAULT_LANG }) {
     /<td>P([1-8])\. ([^<]+)<\/td>/g,
     `<td><a href="${localPath(lang, '/standard')}#p$1">P$1.&nbsp;$2</a></td>`,
   );
-  if (lang === 'es') return translatedPage('check', PAGES_ES.check({ version: escapeHtml(version), quickStartHtml: linked }), lang);
+  if (TRANSLATED_PAGES[lang]) return translatedPage('check', TRANSLATED_PAGES[lang].check({ version: escapeHtml(version), quickStartHtml: linked }), lang);
   const body = `${docHeader({
     title: 'Checking your own motion',
     subhead: 'For anyone filing without a lawyer.',
@@ -863,7 +869,7 @@ ${linked}
  * @returns {string}
  */
 export function renderContribute({ lang = DEFAULT_LANG } = {}) {
-  if (lang === 'es') return translatedPage('contribute', PAGES_ES.contribute({ repo: REPO_URL }), lang);
+  if (TRANSLATED_PAGES[lang]) return translatedPage('contribute', TRANSLATED_PAGES[lang].contribute({ repo: REPO_URL }), lang);
   const body = `${docHeader({
     title: 'Help build the standard',
     subhead: 'How to propose changes to the Standard.',
@@ -903,7 +909,7 @@ export function renderContribute({ lang = DEFAULT_LANG } = {}) {
  * @returns {string}
  */
 export function renderReferences({ lang = DEFAULT_LANG } = {}) {
-  if (lang === 'es') return translatedPage('references', PAGES_ES.references(), lang);
+  if (TRANSLATED_PAGES[lang]) return translatedPage('references', TRANSLATED_PAGES[lang].references(), lang);
   const body = `${docHeader({
     title: 'Sources &amp; influences',
     subhead: 'The criteria and weights are LexGrade&#39;s own. The method builds on the work credited here.',
@@ -945,18 +951,8 @@ export function renderReferences({ lang = DEFAULT_LANG } = {}) {
  * @returns {string}
  */
 export function renderLlmsFull({ version, documents, lang = DEFAULT_LANG }) {
-  if (lang === 'es') {
-    const header = [
-      '# LexGrade — Metodología completa (traducción al español)',
-      '',
-      '> La metodología abierta completa de LexGrade, en traducción, concatenada para agentes.',
-      '> Esta es una traducción. El texto en inglés es el que rige: https://lexgrade.org/llms-full.txt',
-      '> Licencia CC-BY-SA 4.0. (C) 2026 LexGrade.',
-      `> Cítese como: "LexGrade Standard v${version}, LexGrade (lexgrade.org), CC-BY-SA 4.0."`,
-      `> Fuente canónica y navegable: ${SITE_ORIGIN}/es/standard`,
-      '',
-      'Documentos a continuación, en orden: el Estándar LexGrade y el Registro de Técnicas.',
-    ].join('\n');
+  if (LLMS_HEADERS[lang]) {
+    const header = LLMS_HEADERS[lang](version, SITE_ORIGIN).join('\n');
     return `${header}\n\n---\n\n${documents.join('\n\n---\n\n')}\n`;
   }
   const header = [
@@ -1013,7 +1009,7 @@ function documentShell({ title, description, bodyHtml, canonical = '/standard', 
     ? '<meta name="robots" content="noindex">'
     : `<link rel="canonical" href="${escapeHtml(canonicalUrl)}">\n${alternates}`;
   return `<!doctype html>
-<html lang="${lang}">
+<html lang="${lang}"${dirOf(lang) === 'rtl' ? ' dir="rtl"' : ''}>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -1024,7 +1020,7 @@ ${socialMeta({ title, description, url: canonicalUrl, image })}
 <link rel="icon" href="/logo.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="${THEME_COLOR}">
-${FONT_LINKS}
+${FONT_LINKS}${EXTRA_FONT_LINKS[lang] ?? ''}
 <link rel="stylesheet" href="/styles.css">
 </head>
 <body>

@@ -35,6 +35,28 @@ Changes accepted for the next edition accumulate here. Propose changes via an
   says that correction reports go to the Working Group and are acknowledged
   within 14 days.
 
+### Added — Arabic translation
+- **The whole site in Arabic at `/ar`, set right to left.** Every page has an
+  Arabic counterpart at the same path under `/ar`, with the same anchors and
+  technique slugs as the English pages. Arabic pages carry `dir="rtl"`; the
+  stylesheet now uses logical properties throughout, so the layout mirrors
+  without a second stylesheet and the English and Spanish pages render as
+  before. Criterion ids, version tags, citations, formulas, and site paths
+  stay left to right inside Arabic text.
+- **The Standard and the Technique Register in Arabic**, in
+  `commons/standard/translations/ar/`: `LexGrade_Standard_v1.1.ar.md`,
+  `Technique_Register_v1.0.ar.md`, and the string overlay
+  `lgs-criteria.ar.yaml`. Also served as `/ar/llms-full.txt`,
+  `/api/v1/standard.ar.json`, and `/api/v1/techniques.ar.json`. Numbers, ids,
+  and citations are the English catalog's.
+- **Arabic share cards.** Open Graph cards for `/ar` pages are set right to
+  left in Noto Naskh Arabic (SIL OFL 1.1), vendored in
+  `sites/lexgrade.org/assets/fonts/`.
+- **Review status.** The Arabic text is a machine translation that no human
+  translator has reviewed yet, and every Arabic page and both documents say
+  so. The English text governs. Corrections from readers fluent in Arabic are
+  welcome through the corrections channel.
+
 ### Added — Spanish translation
 - **The whole site in Spanish at `/es`.** Every page has a Spanish counterpart
   at the same path under `/es` (`/es/standard`, `/es/techniques/…`,
