@@ -12,7 +12,7 @@ import { test } from 'node:test';
 import { parse as parseYaml } from 'yaml';
 
 import { cspScriptSrc } from '../src/lib/csp.mjs';
-import { DEFAULT_LANG, LANGS, localPath, strings } from '../src/i18n.mjs';
+import { DEFAULT_LANG, LANGS, dirOf, localPath, strings } from '../src/i18n.mjs';
 import {
   REGISTER_LABELS,
   applyCatalogTranslation,
@@ -35,6 +35,7 @@ test('localPath prefixes translated pages and leaves English paths alone', () =>
   assert.equal(localPath('en', '/'), '/');
   assert.equal(localPath('es', '/check'), '/es/check');
   assert.equal(localPath('es', '/'), '/es');
+  assert.equal(localPath('ar', '/check'), '/ar/check');
 });
 
 test('every site language has a translation registered for the current edition', () => {
@@ -43,6 +44,14 @@ test('every site language has a translation registered for the current edition',
       assert.doesNotThrow(() => translationEntry(methodology, lang, artifact), `${lang} ${artifact}`);
     }
   }
+});
+
+test('only right-to-left languages are marked rtl', () => {
+  assert.equal(dirOf('en'), 'ltr');
+  assert.equal(dirOf('es'), 'ltr');
+  assert.equal(dirOf('ar'), 'rtl');
+  assert.ok(!/ dir=/.test(renderAbout().slice(0, 40)));
+  assert.match(renderAbout({ lang: 'ar' }), /^<!doctype html>\n<html lang="ar" dir="rtl">/);
 });
 
 test('a translation of an older edition is refused', () => {
@@ -135,7 +144,8 @@ for (const lang of TRANSLATED) {
 
   test(`[${lang}] translated pages declare their language, their own URL, and their counterpart`, () => {
     const html = renderCheck({ version: '1.1', quickStartHtml: '<table><tr><td>P4. Fundamento fáctico</td></tr></table>', lang });
-    assert.match(html, new RegExp(`<html lang="${lang}">`));
+    // A right-to-left language also declares its direction on the root element.
+    assert.match(html, new RegExp(`<html lang="${lang}"${dirOf(lang) === 'rtl' ? ' dir="rtl"' : ''}>`));
     assert.match(html, new RegExp(`rel="canonical" href="https://lexgrade\\.org/${lang}/check"`));
     assert.match(html, /hreflang="en" href="https:\/\/lexgrade\.org\/check"/);
     assert.match(html, new RegExp(`hreflang="${lang}" href="https://lexgrade\\.org/${lang}/check"`));

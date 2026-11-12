@@ -29,6 +29,12 @@
         "http://localhost:8080/es/techniques/uncharacterized-omission",
         "http://localhost:8080/es/check",
         "http://localhost:8080/es/about",
+        "http://localhost:8080/ar",
+        "http://localhost:8080/ar/standard",
+        "http://localhost:8080/ar/techniques",
+        "http://localhost:8080/ar/techniques/uncharacterized-omission",
+        "http://localhost:8080/ar/check",
+        "http://localhost:8080/ar/about",
         "http://localhost:8080/404.html"
     ],
     "ignore": [

@@ -59,6 +59,17 @@ export const REGISTER_LABELS = {
     why: 'por qué es',
     distinctions: ['se distingue de', 'relación con'],
   },
+  ar: {
+    section: '## تعريفات الأساليب',
+    category: 'الفئة',
+    tier: 'المستوى',
+    definition: 'التعريف',
+    example: 'مثال',
+    antiPattern: 'نمط مضاد',
+    requirements: 'المتطلبات',
+    why: 'لماذا',
+    distinctions: ['يختلف عن', 'العلاقة مع'],
+  },
 };
 
 /**

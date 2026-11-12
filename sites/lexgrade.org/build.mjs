@@ -18,7 +18,7 @@ import { REGISTER_LABELS, loadBundle, loadStandard, loadTechniqueRegister, parse
 import { cspScriptSrc } from './src/lib/csp.mjs';
 import { toHtml } from './src/markdown.mjs';
 import { appIcon, ogCard } from './src/og.mjs';
-import { DEFAULT_LANG, LANGS, localPath, strings } from './src/i18n.mjs';
+import { DEFAULT_LANG, LANGS, dirOf, localPath, strings } from './src/i18n.mjs';
 import { PAGES, LOGO_SVG, BADGE_ROLES_CSS, renderAbout, renderCheck, renderContribute, renderHome, renderReferences, renderLlmsFull, renderNotFound, renderStandard, renderTechnique, renderTechniques } from './src/render.mjs';
 
 const SITE = 'https://lexgrade.org';
@@ -162,7 +162,7 @@ writeFileSync(resolve(OUT, 'llms-full.txt'), renderLlmsFull(bundle));
 // numbers, and technique slugs are the English ones, so /es/standard#lgs-3.5
 // and /es/techniques/<slug> point at the same thing as their English pages.
 // The audience line that opens §9, per language (dropped on /check, as above).
-const QUICK_START_AUDIENCE = { es: /^Para quienes no son abogados\.\s*/ };
+const QUICK_START_AUDIENCE = { es: /^Para quienes no son abogados\.\s*/, ar: /^لغير المحامين\.\s*/ };
 const translations = new Map();
 for (const lang of LANGS.filter((l) => l !== DEFAULT_LANG)) {
   const tStandard = loadStandard(lang);
@@ -282,10 +282,10 @@ for (const [lang, t] of translations) {
       title = `${ts.pages.techniques.og.title} v${t.register.version}`;
       subtitle = ts.techniques.ogIndexSubtitle(t.techniques.length, new Set(t.techniques.map((x) => x.category)).size);
     }
-    writeFileSync(resolve(OG, `${lang}-${page.id}.png`), ogCard({ title, subtitle }));
+    writeFileSync(resolve(OG, `${lang}-${page.id}.png`), ogCard({ title, subtitle, dir: dirOf(lang) }));
   }
   for (const technique of t.techniques) {
-    writeFileSync(resolve(OG, `${lang}-technique-${technique.slug}.png`), ogCard({ title: technique.name, subtitle: ts.techniques.ogSubtitle }));
+    writeFileSync(resolve(OG, `${lang}-technique-${technique.slug}.png`), ogCard({ title: technique.name, subtitle: ts.techniques.ogSubtitle, dir: dirOf(lang) }));
   }
 }
 

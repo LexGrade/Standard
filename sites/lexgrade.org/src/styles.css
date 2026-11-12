@@ -63,8 +63,8 @@ a:focus-visible, summary:focus-visible, [tabindex]:focus-visible {
 }
 :target { scroll-margin-top: 1.5rem; }
 .num, .self-link, .formula, code, table.data td { font-variant-numeric: lining-nums tabular-nums; }
-.skip-link { position: absolute; left: -9999px; top: 0; background: var(--heading); color: #fff; padding: .6rem 1rem; z-index: 10; font-family: var(--sans); }
-.skip-link:focus { left: .5rem; top: .5rem; }
+.skip-link { position: absolute; inset-inline-start: -9999px; top: 0; background: var(--heading); color: #fff; padding: .6rem 1rem; z-index: 10; font-family: var(--sans); }
+.skip-link:focus { inset-inline-start: .5rem; top: .5rem; }
 
 /* ── Notice patterns ──────────────────────────────────────────────────────── */
 /* .panel is the one boxed surface: reference metadata the reader consults (the
@@ -86,7 +86,7 @@ a:focus-visible, summary:focus-visible, [tabindex]:focus-visible {
   position: sticky; top: 0; align-self: start;
   min-height: 100vh; max-height: 100vh; overflow-y: auto;
   background: var(--panel);
-  border-right: 1px solid var(--border);
+  border-inline-end: 1px solid var(--border);
   padding: 1.75rem 1.5rem 2rem;
 }
 
@@ -126,14 +126,14 @@ main { padding: 2.875rem 4.5rem 5rem; min-width: 0; }
 /* The Contribute CTA — pinned to the right of the top bar (margin-left: auto
    claims the slot the left-grouped nav leaves open). A solid accent button so it
    reads as the primary action, distinct from the plain nav links. */
-.cta { margin-left: auto; font-family: var(--sans); font-size: .9rem; font-weight: 600; line-height: 1; text-decoration: none; color: #fff; background: var(--accent); border: 1px solid var(--accent); padding: .5rem 1rem; border-radius: 7px; white-space: nowrap; }
+.cta { margin-inline-start: auto; font-family: var(--sans); font-size: .9rem; font-weight: 600; line-height: 1; text-decoration: none; color: #fff; background: var(--accent); border: 1px solid var(--accent); padding: .5rem 1rem; border-radius: 7px; white-space: nowrap; }
 .cta:hover { background: var(--accent-deep); border-color: var(--accent-deep); color: #fff; text-decoration: none; }
 .cta[aria-current="page"] { background: var(--accent-deep); border-color: var(--accent-deep); }
 /* The language switch sits just left of the CTA; whichever comes first takes
    the auto margin that pins the pair to the right. */
-.lang-switch { margin-left: auto; font-family: var(--sans); font-size: .9rem; text-decoration: none; white-space: nowrap; }
+.lang-switch { margin-inline-start: auto; font-family: var(--sans); font-size: .9rem; text-decoration: none; white-space: nowrap; }
 .lang-switch:hover { text-decoration: underline; }
-.lang-switch + .cta { margin-left: 0; }
+.lang-switch + :is(.cta, .lang-switch) { margin-inline-start: 0; }
 
 /* ── Sidebar table of contents ────────────────────────────────────────────── */
 .toc { font-family: var(--sans); }
@@ -143,22 +143,22 @@ main { padding: 2.875rem 4.5rem 5rem; min-width: 0; }
 .toc-list { font-size: .9rem; }
 .toc-list > li { margin-bottom: .15rem; }
 .toc-list > li > a { font-weight: 500; color: var(--heading); }
-.toc-list ol { margin: .15rem 0 .55rem .9rem; border-left: 1px solid var(--border); padding-left: .7rem; }
+.toc-list ol { margin-block: .15rem .55rem; margin-inline: .9rem 0; border-inline-start: 1px solid var(--border); padding-inline-start: .7rem; }
 .toc-list ol a { font-size: .85rem; color: var(--muted); }
 /* A 2px gutter reserved on every entry (transparent until active) so the active
    accent bar is a straight vertical line, not a curved one, and toggling it never
    shifts the text. Left corners stay square so the bar reads as a rule. */
-.toc a { text-decoration: none; display: flex; gap: .45rem; padding: .22rem .75rem; border-radius: 0 4px 4px 0; border-left: 2px solid transparent; transition: background-color .15s ease, border-color .15s ease, color .15s ease; }
+.toc a { text-decoration: none; display: flex; gap: .45rem; padding: .22rem .75rem; border-start-end-radius: 4px; border-end-end-radius: 4px; border-inline-start: 2px solid transparent; transition: background-color .15s ease, border-color .15s ease, color .15s ease; }
 .toc-list ol a { padding: .18rem .55rem; }
 .toc a:hover { background: var(--border-2); color: var(--accent-deep); }
 .toc .num { color: var(--accent); font-size: .82em; flex: none; }
 /* Scroll-spy active entry — set by the enhancement script (aria-current); absent
    and harmless without JS. Colour pairs with the left accent rule, never colour-only. */
-.toc a[aria-current] { color: var(--accent); background: var(--border-2); border-left-color: var(--accent); }
+.toc a[aria-current] { color: var(--accent); background: var(--border-2); border-inline-start-color: var(--accent); }
 
 /* Copy-cite button — injected by the enhancement script only where the clipboard
    API exists; the citation text is always present and selectable without JS. */
-.cite-copy { font-family: var(--sans); font-weight: 600; font-size: 12px; color: var(--accent); background: none; border: 1px solid var(--border); border-radius: 6px; padding: 3px 11px; margin-left: 12px; cursor: pointer; }
+.cite-copy { font-family: var(--sans); font-weight: 600; font-size: 12px; color: var(--accent); background: none; border: 1px solid var(--border); border-radius: 6px; padding: 3px 11px; margin-inline-start: 12px; cursor: pointer; }
 .cite-copy:hover { background: var(--border-2); }
 .cite-copy.is-copied { color: #156b3a; border-color: #a9d4be; }
 .cite-copy:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
@@ -195,6 +195,8 @@ main { padding: 2.875rem 4.5rem 5rem; min-width: 0; }
 .home-note { font-family: var(--sans); font-size: .95rem; color: var(--muted); margin: var(--space-l) 0 0; max-width: var(--measure); }
 /* Contribute teaser — a soft callout that turns the homepage into an on-ramp for
    collaboration, distinct from the two document cards above it. */
+/* The trailing link stays on one line, arrow included. */
+.home-note a { white-space: nowrap; }
 .home-invite { margin: var(--space-s) 0 0; max-width: var(--measure); font-family: var(--sans); font-size: .95rem; color: var(--muted); }
 .home-invite__lead { display: inline; margin: 0; }
 .home-invite__link { font-weight: 600; color: var(--accent); text-decoration: none; white-space: nowrap; }
@@ -230,7 +232,7 @@ main { padding: 2.875rem 4.5rem 5rem; min-width: 0; }
 .criterion + .criterion { border-top: 1px solid var(--border-2); }
 .criterion h3 { display: flex; flex-wrap: wrap; align-items: baseline; gap: .55rem; font-size: 1.18rem; font-weight: 600; margin: 0 0 .55rem; }
 .criterion h3 .num { font-size: .9rem; color: var(--accent); font-weight: 500; }
-.self-link { font-family: var(--mono); font-size: .75rem; text-decoration: none; color: var(--muted); margin-left: auto; }
+.self-link { font-family: var(--mono); font-size: .75rem; text-decoration: none; color: var(--muted); margin-inline-start: auto; }
 .self-link:hover { color: var(--accent-deep); text-decoration: underline; }
 .requirement { margin: 0; max-width: var(--measure); }
 .source { font-family: var(--sans); font-size: .82rem; color: var(--muted-2); margin: .65rem 0 0; }
@@ -275,11 +277,11 @@ main { padding: 2.875rem 4.5rem 5rem; min-width: 0; }
 .field__text > :first-child { margin-top: 0; }
 .field__text > :last-child { margin-bottom: 0; }
 .field__text p { margin: .7rem 0; }
-.field__text ul, .field__text ol { margin: .7rem 0; padding-left: 0; list-style: none; }
-.field__text li { position: relative; padding-left: 1.4rem; margin: .5rem 0; }
-.field__text ul > li::before { content: "—"; position: absolute; left: 0; color: var(--accent); }
+.field__text ul, .field__text ol { margin: .7rem 0; padding-inline-start: 0; list-style: none; }
+.field__text li { position: relative; padding-inline-start: 1.4rem; margin: .5rem 0; }
+.field__text ul > li::before { content: "—"; position: absolute; inset-inline-start: 0; color: var(--accent); }
 .field__text ol { counter-reset: tech-li; }
-.field__text ol > li::before { content: counter(tech-li) "."; counter-increment: tech-li; position: absolute; left: 0; font-family: var(--mono); font-size: .85em; color: var(--muted-2); }
+.field__text ol > li::before { content: counter(tech-li) "."; counter-increment: tech-li; position: absolute; inset-inline-start: 0; font-family: var(--mono); font-size: .85em; color: var(--muted-2); }
 .tech-dl { margin: 0; }
 .tech-dl dt { font-family: var(--sans); font-size: .82rem; font-weight: 600; color: var(--heading); margin-top: .9rem; }
 .tech-dl dd { margin: .25rem 0 0; line-height: 1.6; }
@@ -301,7 +303,7 @@ main { padding: 2.875rem 4.5rem 5rem; min-width: 0; }
 .tech-row a { display: grid; grid-template-columns: 2.25rem 1fr; gap: var(--space-s); align-items: baseline; padding: .9rem .25rem; border-top: 1px solid var(--border); text-decoration: none; color: inherit; transition: background .15s ease; }
 .tech-row:last-child a { border-bottom: 1px solid var(--border); }
 .tech-row a:hover { background: var(--panel); }
-.tech-row__num { font-family: var(--serif); font-size: 1.5rem; line-height: 1; color: var(--muted-2); font-variant-numeric: oldstyle-nums; text-align: right; }
+.tech-row__num { font-family: var(--serif); font-size: 1.5rem; line-height: 1; color: var(--muted-2); font-variant-numeric: oldstyle-nums; text-align: end; }
 .tech-row__body { min-width: 0; }
 .tech-row__name { display: block; font-family: var(--serif); font-weight: 600; font-size: 1.05rem; color: var(--heading); }
 .tech-row a:hover .tech-row__name { color: var(--accent); }
@@ -320,11 +322,11 @@ main { padding: 2.875rem 4.5rem 5rem; min-width: 0; }
 /* One table recipe for the spec's data tables, prose tables, and technique-field
    tables. */
 table.data, .prose table, .field__text table { border-collapse: collapse; margin: 1.4rem 0; font-size: .94rem; background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-:is(table.data, .prose table, .field__text table) :is(th, td) { border-bottom: 1px solid var(--border-2); padding: .55rem .85rem; text-align: left; }
+:is(table.data, .prose table, .field__text table) :is(th, td) { border-bottom: 1px solid var(--border-2); padding: .55rem .85rem; text-align: start; }
 :is(table.data, .prose table, .field__text table) tr:last-child td { border-bottom: none; }
 :is(table.data, .prose table, .field__text table) th { font-family: var(--sans); font-weight: 600; font-size: .82rem; background: var(--panel); color: var(--heading); }
 .field__text table { width: 100%; margin: .9rem 0; font-size: .92rem; }
-table.data caption { font-family: var(--sans); text-align: left; color: var(--muted-2); font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; margin-bottom: .5rem; }
+table.data caption { font-family: var(--sans); text-align: start; color: var(--muted-2); font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; margin-bottom: .5rem; }
 
 .doc-footer { border-top: 1px solid var(--border); margin-top: 3.5rem; padding-top: 1.4rem; color: var(--muted); font-family: var(--sans); font-size: .85rem; }
 .doc-footer p { margin: .4rem 0; }
@@ -360,18 +362,18 @@ table.data caption { font-family: var(--sans); text-align: left; color: var(--mu
    /standard has a sidebar and no centred column to break out of.
    .wide marks one block; .wide-tables marks a wrapper of rendered markdown
    whose tables break out while its paragraphs stay on the measure. */
-.layout--solo :is(.wide, .wide-tables > table) { width: var(--wide-col); max-width: none; margin-left: calc((var(--solo-col) - var(--wide-col)) / 2); }
+.layout--solo :is(.wide, .wide-tables > table) { width: var(--wide-col); max-width: none; margin-inline-start: calc((var(--solo-col) - var(--wide-col)) / 2); }
 .wide > table { width: 100%; }
 /* /check quick start: principle names and key terms stay on one line; the
    prose columns take the wrapping. (Phones stack the rows; see the media query.) */
 .quick-start td:first-child { white-space: nowrap; }
 /* A short paragraph that introduces a broken-out table ("Key terms.") reads
    as that table's caption: set like table.data caption, on the table's edge. */
-.layout--solo .wide-tables > p:has(+ table) { width: var(--wide-col); margin-left: calc((var(--solo-col) - var(--wide-col)) / 2); margin-bottom: -.6rem; font-family: var(--sans); font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted-2); }
+.layout--solo .wide-tables > p:has(+ table) { width: var(--wide-col); margin-inline-start: calc((var(--solo-col) - var(--wide-col)) / 2); margin-bottom: -.6rem; font-family: var(--sans); font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted-2); }
 .wide-tables > p:has(+ table) strong { font-weight: inherit; }
 
 .prose hr, hr { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
-.prose ul, .prose ol { padding-left: 1.4rem; }
+.prose ul, .prose ol { padding-inline-start: 1.4rem; }
 .prose li + li { margin-top: .4rem; }
 .prose li > ul, .prose li > ol { margin-top: .4rem; }
 
@@ -380,9 +382,9 @@ table.data caption { font-family: var(--sans); text-align: left; color: var(--mu
    accent + underline on hover/focus (state never rides on font-weight). */
 /* The § permalink floats in the left gutter, outside the text column. */
 .prose :is(h1, h2, h3, h4, h5, h6) { position: relative; }
-.heading-anchor { position: absolute; left: -1.5em; top: 50%; transform: translateY(-50%); font-family: var(--sans); font-size: .85em; line-height: 1; text-decoration: none; color: var(--muted-2); transition: color .15s ease; }
+.heading-anchor { position: absolute; inset-inline-start: -1.5em; top: 50%; transform: translateY(-50%); font-family: var(--sans); font-size: .85em; line-height: 1; text-decoration: none; color: var(--muted-2); transition: color .15s ease; }
 .prose :is(h1, h2, h3, h4, h5, h6):hover .heading-anchor, .heading-anchor:focus-visible { color: var(--accent); }
-@media (max-width: 60rem) { .heading-anchor { left: -1.1em; } }
+@media (max-width: 60rem) { .heading-anchor { inset-inline-start: -1.1em; } }
 
 @media (max-width: 60rem) {
   /* The top bar (brand + "Sections" disclosure) leads, the document follows, and
@@ -414,14 +416,14 @@ table.data caption { font-family: var(--sans); text-align: left; color: var(--mu
   .sitenav-summary::before { content: ""; width: .5rem; height: .5rem; border-right: 2px solid var(--accent); border-bottom: 2px solid var(--accent); transform: rotate(-45deg); transition: transform .15s ease; flex: none; }
   .sitenav-menu[open] .sitenav-summary::before { transform: rotate(45deg); }
   .sitenav-list { display: flex; flex-direction: column; padding-top: .35rem; }
-  .sitenav-list a { padding: .6rem 0 .6rem .65rem; border-left: 3px solid transparent; }
-  .sitenav-list a[aria-current="page"] { border-left-color: var(--accent); color: var(--heading); }
+  .sitenav-list a { padding-block: .6rem; padding-inline: .65rem 0; border-inline-start: 3px solid transparent; }
+  .sitenav-list a[aria-current="page"] { border-inline-start-color: var(--accent); color: var(--heading); }
 
   /* Compact TOC: top-level sections only; nested per-criterion links collapse.
      Keep a left inset so the active item's accent border doesn't crowd its
      label (matches the desktop rail's .75rem gutter). */
-  .toc-label { padding-left: .75rem; }
-  .toc a { padding-left: .75rem; }
+  .toc-label { padding-inline-start: .75rem; }
+  .toc a { padding-inline-start: .75rem; }
   .toc-list ol { display: none; }
 
   /* Tables fill the column on a phone so the caption spans full width and a
@@ -450,7 +452,7 @@ table.data caption { font-family: var(--sans); text-align: left; color: var(--mu
 
   .principle { margin-bottom: 2.5rem; }
   .abstract { margin-bottom: 2.25rem; }
-  .self-link { margin-left: 0; }
+  .self-link { margin-inline-start: 0; }
 
   /* Touch targets ≥44px on phones — satisfies the WCAG 2.5.5 (AAA) target size
      the site claims, and makes the nav, TOC, and CTA comfortable to thumb-tap.
@@ -459,6 +461,33 @@ table.data caption { font-family: var(--sans); text-align: left; color: var(--mu
   .sitenav-list a { min-height: 2.75rem; display: flex; align-items: center; }
   .toc a { min-height: 2.75rem; align-items: center; }
 }
+/* ── Right-to-left languages (Arabic) ───────────────────────────────────────
+   The layout mirrors by itself: every side-specific rule above is written with
+   logical properties (inline-start/end). What remains is type. Latin faces come
+   first in each stack so ids, citations, and English terms keep the site's
+   faces; Arabic falls through to the Arabic face. */
+:lang(ar) {
+  --serif: 'Source Serif 4', 'Noto Naskh Arabic', 'Geeza Pro', 'Traditional Arabic', serif;
+  --sans: 'IBM Plex Sans', 'IBM Plex Sans Arabic', 'Geeza Pro', 'Segoe UI', Tahoma, sans-serif;
+}
+/* Arabic letters join: tracking pulls a word apart, there is no upper case, and
+   there is no italic (emphasis rides on weight instead). Arabic also sits
+   taller on the line than Latin at the same size. */
+:lang(ar) { letter-spacing: 0 !important; }
+:lang(ar):is(em, i, cite, .note) { font-style: normal; }
+:lang(ar):is(em, i) { font-weight: 600; }
+body:lang(ar) { line-height: 1.85; }
+:lang(ar):is(h1, h2, h3, .home-title) { line-height: 1.4; }
+/* Disclosure chevrons point toward the text's start side when closed. */
+[dir="rtl"] .sotd-chevron, [dir="rtl"] .sitenav-summary::before { transform: rotate(135deg); }
+[dir="rtl"] .sotd[open] .sotd-chevron, [dir="rtl"] .sitenav-menu[open] .sitenav-summary::before { transform: rotate(45deg); }
+/* Version tags, ids, and site paths are Latin and read left to right; isolated
+   so a leading "#" or "/" stays in front of them. */
+[dir="rtl"] :is(.version, .num, .self-link, .tech-row__num, .home-card__v, .sotd dd a) { direction: ltr; unicode-bidi: isolate; }
+/* Formulas and code are left-to-right in every language. */
+[dir="rtl"] :is(.formula, pre, code) { direction: ltr; unicode-bidi: isolate; text-align: left; }
+.prose .quick-start td:nth-child(3):lang(ar) { font-style: normal; }
+
 /* Print: librarians and clinics hand people paper. Drop the site chrome and
    the paper tint, let breakout blocks return to the column, and keep table
    rows, list items, and headings from splitting across pages. */
@@ -466,7 +495,7 @@ table.data caption { font-family: var(--sans); text-align: left; color: var(--mu
   .topbar, .sidebar, .site-footer, .skip-link { display: none; }
   body { background: #fff; color: #000; }
   .layout--solo main { max-width: none; padding: 0; }
-  .layout--solo :is(.wide, .wide-tables > table) { width: 100%; margin-left: 0; }
+  .layout--solo :is(.wide, .wide-tables > table) { width: 100%; margin-inline-start: 0; }
   tr, li { break-inside: avoid; }
   h2, h3 { break-after: avoid; }
   a { color: inherit; }
